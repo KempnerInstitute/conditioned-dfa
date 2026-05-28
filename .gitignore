@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+data/
+*.aux
+*.log
+*.out
+*.toc
+drafts/
+.slurm_home/
+logs/
+external/
+results/
+unit_test_opt_results/
