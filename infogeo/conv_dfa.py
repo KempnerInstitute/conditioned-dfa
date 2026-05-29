@@ -589,6 +589,34 @@ def natural_precondition_conv_gradients(
     return ConvGradients(conv_weights, gradients.conv_biases, fc_weights, gradients.fc_biases, gradients.deltas, gradients.loss)
 
 
+def norm_match_conv_gradients(
+    model: ManualConvNet,
+    gradients: ConvGradients,
+    x: torch.Tensor,
+    y: torch.Tensor,
+) -> ConvGradients:
+    """Rescale each hidden DFA weight gradient to the BP gradient norm.
+
+    Controls for per-layer gradient *scale* without whitening the *direction*.
+    Comparing this against nDFA isolates the contribution of covariance whitening
+    beyond simple per-layer norm matching (the reviewer's novelty crux).
+    """
+    bp = model.bp_gradients(x, y)
+
+    def matched(dfa_list, bp_list, n):
+        out = [g.clone() for g in dfa_list]
+        for i in range(n):
+            gn = out[i].norm().clamp_min(1e-12)
+            out[i] = out[i] * (bp_list[i].norm() / gn)
+        return out
+
+    conv_w = matched(gradients.conv_weights, bp.conv_weights, model.n_hidden_layers)
+    fc_w = matched(gradients.fc_weights, bp.fc_weights, model.n_fc_hidden_layers)
+    return ConvGradients(
+        conv_w, gradients.conv_biases, fc_w, gradients.fc_biases, gradients.deltas, gradients.loss
+    )
+
+
 def channel_covariance(values: torch.Tensor) -> torch.Tensor:
     if values.ndim != 4:
         raise ValueError("channel covariance expects BCHW tensor")

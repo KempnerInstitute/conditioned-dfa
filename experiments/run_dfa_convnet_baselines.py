@@ -28,6 +28,7 @@ from infogeo.conv_dfa import (  # noqa: E402
     init_conv_feedback,
     init_conv_local_heads,
     natural_precondition_conv_gradients,
+    norm_match_conv_gradients,
 )
 
 
@@ -314,6 +315,8 @@ def compute_gradients(model: ManualConvNet, x: torch.Tensor, y: torch.Tensor, *,
         gradients = natural_precondition_conv_gradients(model, gradients, x, damping=args.natural_damping, mode="activity")
     elif method == "ndfa_random_kronecker":
         gradients = natural_precondition_conv_gradients(model, gradients, x, damping=args.natural_damping, mode="kronecker")
+    elif method == "dfa_random_normmatch":
+        gradients = norm_match_conv_gradients(model, gradients, x, y)
     elif method not in {"dfa_random", "drtp_random"}:
         raise ValueError(f"Unknown method: {method}")
     return gradients, None
