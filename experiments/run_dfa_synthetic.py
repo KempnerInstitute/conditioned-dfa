@@ -388,12 +388,19 @@ def natural_precondition_gradients(
     *,
     damping: float,
     mode: str = "activity",
+    error_deltas: "Sequence[torch.Tensor] | None" = None,
 ) -> Gradients:
-    """Local natural-DFA proxies using Kronecker-style preconditioning."""
+    """Local natural-DFA proxies using Kronecker-style preconditioning.
+
+    ``error_deltas`` overrides the deltas used for the error-side (left) factor.
+    Passing the BP deltas gives a true-KFAC-DFA control: the K-nDFA rule but with
+    the left factor built from the BP error covariance rather than DFA's own.
+    """
 
     _, activations, _ = model.forward(x)
     new_weights = [grad.clone() for grad in gradients.weights]
     new_biases = [grad.clone() for grad in gradients.biases]
+    left_deltas = gradients.deltas if error_deltas is None else error_deltas
     for layer_idx in range(model.n_hidden_layers):
         grad = gradients.weights[layer_idx]
         if mode in {"activity", "kronecker"}:
@@ -401,7 +408,7 @@ def natural_precondition_gradients(
             cov = activity.T @ activity / max(activity.shape[0], 1)
             grad = damped_solve(cov, grad.T, damping=damping).T
         if mode in {"error", "kronecker"}:
-            delta = gradients.deltas[layer_idx].detach()
+            delta = left_deltas[layer_idx].detach()
             cov = delta.T @ delta / max(delta.shape[0], 1)
             grad = damped_solve(cov, grad, damping=damping)
         new_weights[layer_idx] = grad
@@ -447,7 +454,9 @@ def feedback_mode_from_method(method: str) -> str:
             break
     if mode.endswith("_dynamic"):
         mode = mode[: -len("_dynamic")]
-    if mode.endswith("_activity") or mode.endswith("_error") or mode.endswith("_kronecker"):
+    if mode.endswith("_kronecker_bp"):
+        mode = mode[: -len("_kronecker_bp")]
+    elif mode.endswith("_activity") or mode.endswith("_error") or mode.endswith("_kronecker"):
         mode = mode.rsplit("_", maxsplit=1)[0]
     return mode
 

@@ -379,12 +379,20 @@ def compute_gradients(model: ManualMLP, x: torch.Tensor, y: torch.Tensor, *, met
     else:
         gradients = model.dfa_gradients(x, y, feedback)
     if method.startswith("ndfa_"):
+        error_deltas = None
+        mode = natural_mode_from_method(method)
+        if method == "ndfa_random_kronecker_bp":
+            # True-KFAC-DFA control: K-nDFA but the left (error-side) factor uses
+            # the BP error covariance instead of DFA's own broadcast-error deltas.
+            mode = "kronecker"
+            error_deltas = model.bp_gradients(x, y).deltas
         gradients = natural_precondition_gradients(
             model,
             gradients,
             x,
             damping=args.natural_damping,
-            mode=natural_mode_from_method(method),
+            mode=mode,
+            error_deltas=error_deltas,
         )
     return gradients
 
