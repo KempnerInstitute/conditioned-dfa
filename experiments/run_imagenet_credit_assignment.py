@@ -79,6 +79,7 @@ def main() -> None:
             spatial_mode=args.feedback_spatial_mode,
             norm_mode=args.dfa_norm,
             damping=args.natural_damping,
+            whiten_mode=args.whiten_mode,
             device=args.device,
         )
     elif args.method == "local_aux":
@@ -217,6 +218,19 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--dfa-norm", choices=["bp", "unit", "none"], default="bp")
     parser.add_argument("--natural-damping", type=float, default=0.1)
+    parser.add_argument(
+        "--whiten-mode",
+        choices=["diag", "full"],
+        default="diag",
+        help="nDFA channel conditioning: 'diag' = per-channel variance (weak form); "
+        "'full' = damped inverse-sqrt of the C x C channel covariance (strong form).",
+    )
+    parser.add_argument(
+        "--pretrained",
+        action="store_true",
+        help="Initialize the backbone from torchvision/timm ImageNet-pretrained weights "
+        "and replace the classifier head (matches the paper's fine-tuning design).",
+    )
     parser.add_argument("--aux-weight", type=float, default=0.3)
     parser.add_argument("--grad-clip-norm", type=float, default=0.0)
     parser.add_argument("--stop-on-nonfinite", action="store_true")
@@ -453,12 +467,39 @@ def balanced_indices(dataset, n_samples: int, n_classes: int, *, seed: int) -> l
     return [int(i) for i in selected]
 
 
+def _replace_classifier(model: nn.Module, n_classes: int) -> nn.Module:
+    """Swap the final classifier of a pretrained (1000-class) model for n_classes."""
+    if hasattr(model, "fc") and isinstance(model.fc, nn.Linear):  # ResNet family
+        model.fc = nn.Linear(model.fc.in_features, n_classes)
+    elif hasattr(model, "classifier"):
+        clf = model.classifier
+        if isinstance(clf, nn.Linear):
+            model.classifier = nn.Linear(clf.in_features, n_classes)
+        elif isinstance(clf, nn.Sequential) and isinstance(clf[-1], nn.Linear):
+            clf[-1] = nn.Linear(clf[-1].in_features, n_classes)
+        else:
+            raise ValueError("Unsupported classifier structure for --pretrained head replacement")
+    else:
+        raise ValueError("Could not locate classifier head for --pretrained head replacement")
+    return model
+
+
 def make_model(arch: str, *, n_classes: int, args: argparse.Namespace) -> nn.Module:
+    pretrained = bool(getattr(args, "pretrained", False))
     if args.model_source in {"auto", "timm"} and (args.model_source == "timm" or arch.startswith("timm:")):
         if timm is None:
             raise ImportError("timm is not installed; install timm or use --model-source torchvision")
         timm_arch = arch.removeprefix("timm:")
-        return timm.create_model(timm_arch, pretrained=False, num_classes=n_classes, drop_path_rate=args.drop_path_rate)
+        # timm replaces the head for num_classes automatically, including when pretrained.
+        return timm.create_model(timm_arch, pretrained=pretrained, num_classes=n_classes, drop_path_rate=args.drop_path_rate)
+    if pretrained:
+        # Load ImageNet-1k pretrained weights, then replace the head for n_classes.
+        try:
+            model = torchvision.models.get_model(arch, weights="DEFAULT")
+        except Exception:
+            builder = getattr(torchvision.models, arch)
+            model = builder(weights="DEFAULT")
+        return _replace_classifier(model, n_classes)
     try:
         return torchvision.models.get_model(arch, weights=None, num_classes=n_classes)
     except Exception:
@@ -591,10 +632,12 @@ class BlockDFAController:
         norm_mode: str,
         damping: float,
         device: torch.device,
+        whiten_mode: str = "diag",
     ) -> None:
         self.model = model
         self.n_classes = int(n_classes)
         self.mode = mode
+        self.whiten_mode = whiten_mode
         self.feedback_scale = float(feedback_scale)
         self.blend_gamma = float(blend_gamma)
         if not 0.0 <= self.blend_gamma <= 1.0:
@@ -607,6 +650,7 @@ class BlockDFAController:
         self.output_error: torch.Tensor | None = None
         self.feedback: dict[str, torch.Tensor] = {}
         self.whiten_scales: dict[str, torch.Tensor] = {}
+        self.whiten_mats: dict[str, torch.Tensor] = {}
         self.spatial_maps: dict[str, torch.Tensor] = {}
         self.handles = []
         self.stats: dict[str, list[float]] = defaultdict(list)
@@ -634,7 +678,10 @@ class BlockDFAController:
                 fb = fb / fb.norm(dim=0, keepdim=True).clamp_min(1e-6)
                 self.feedback[name] = fb
             if self.mode == "ndfa":
-                self.whiten_scales[name] = self._diag_whiten_scale(name, output.detach())
+                if self.whiten_mode == "full":
+                    self.whiten_mats[name] = self._full_whiten_mat(name, output.detach())
+                else:
+                    self.whiten_scales[name] = self._diag_whiten_scale(name, output.detach())
             if self.spatial_mode == "activation" and output.ndim == 4:
                 self.spatial_maps[name] = self._activation_spatial_map(output.detach())
             if output.requires_grad:
@@ -660,9 +707,15 @@ class BlockDFAController:
         fb = self.feedback[name].to(device=grad.device, dtype=grad.dtype)
         channel_grad = err @ fb
         if self.mode == "ndfa":
-            scale = self.whiten_scales.get(name)
-            if scale is not None:
-                channel_grad = channel_grad * scale.to(device=grad.device, dtype=grad.dtype)
+            if self.whiten_mode == "full":
+                mat = self.whiten_mats.get(name)
+                if mat is not None:
+                    mat = mat.to(device=grad.device)
+                    channel_grad = (channel_grad.float() @ mat).to(dtype=grad.dtype)
+            else:
+                scale = self.whiten_scales.get(name)
+                if scale is not None:
+                    channel_grad = channel_grad * scale.to(device=grad.device, dtype=grad.dtype)
         module_scale = self.feedback_scale * self.module_scales.get(name, 1.0)
         if grad.ndim == 4:
             dfa_grad, stat_cosine, stat_ratio, stat_projection = self._spatial_grad(
@@ -780,6 +833,29 @@ class BlockDFAController:
         scale = torch.rsqrt(var + self.damping)
         self._append_stat(name, "whiten_scale", float(scale.mean().item()))
         return scale.detach()
+
+    def _full_whiten_mat(self, name: str, activation: torch.Tensor) -> torch.Tensor:
+        """Damped inverse-sqrt of the C x C channel covariance (strong-form nDFA).
+
+        Reduces to the diagonal scale when the channel covariance is diagonal, but
+        also removes cross-channel correlations -- the input-side factor of the
+        natural-gradient preconditioner that the diagonal form ignores.
+        """
+        if activation.ndim == 4:
+            feat = activation.mean(dim=(2, 3))  # (B, C) channel activity, pooled over space
+        else:
+            feat = activation
+        feat = feat.float()
+        feat = feat - feat.mean(dim=0, keepdim=True)
+        n = max(int(feat.shape[0]), 1)
+        cov = (feat.t() @ feat) / n  # (C, C)
+        c = cov.shape[0]
+        cov = cov + self.damping * torch.eye(c, device=cov.device, dtype=cov.dtype)
+        evals, evecs = torch.linalg.eigh(cov)
+        evals = evals.clamp_min(1e-12)
+        inv_sqrt = (evecs * evals.rsqrt()) @ evecs.t()  # V diag(1/sqrt(lambda)) V^T
+        self._append_stat(name, "whiten_cond", float((evals.max() / evals.min()).item()))
+        return inv_sqrt.detach()
 
     def _normalize(self, dfa_grad: torch.Tensor, bp_grad: torch.Tensor) -> torch.Tensor:
         if self.norm_mode == "none":
