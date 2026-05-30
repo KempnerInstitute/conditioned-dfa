@@ -347,7 +347,7 @@ def initialize_feedback(
     feedback_rank: int,
     args: argparse.Namespace,
 ) -> list[torch.Tensor] | None:
-    if method == "bp":
+    if method in ("bp", "bp_whitened"):
         return None
     if method in NOISE_CORR_METHODS and args.nc_init == "zero":
         return zero_feedback(model)
@@ -370,6 +370,11 @@ def initialize_feedback(
 def compute_gradients(model: ManualMLP, x: torch.Tensor, y: torch.Tensor, *, method: str, feedback, args: argparse.Namespace):
     if method == "bp":
         return model.bp_gradients(x, y)
+    if method == "bp_whitened":
+        # BP gradient with the SAME input-side whitening as nDFA. If nDFA ~ this,
+        # the gain is the natural-gradient reconditioning of \S3.1, not the DFA pathway.
+        g = model.bp_gradients(x, y)
+        return natural_precondition_gradients(model, g, x, damping=args.natural_damping, mode="activity")
     if method == "fa_sign":
         # Sign-symmetry baseline: layerwise feedback whose weights share the sign
         # of the forward weights (magnitude 1), recomputed each step from the
