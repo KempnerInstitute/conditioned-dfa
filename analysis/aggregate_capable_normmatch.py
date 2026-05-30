@@ -12,7 +12,8 @@ from pathlib import Path
 
 import pandas as pd
 
-SRC = Path("results/infodfa_capable_normmatch_v2")
+import sys
+SRC = Path(sys.argv[1] if len(sys.argv) > 1 else "results/infodfa_capable_normmatch_v2")
 ORDER = ["bp", "local_loss", "ndfa_random", "ndfa_random_kronecker", "dfa_random_normmatch", "dfa_random"]
 
 
