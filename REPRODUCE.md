@@ -54,6 +54,25 @@ command, grid, and aggregator for each result.
   feedback-scale 0.3; 5 seeds x 5 feedback-seeds).
 - Aggregate: `analysis/aggregate_capable_normmatch.py` (nDFA 23.6 vs DFA+norm-match 13.1).
 
+## Spatial-Kronecker conv conditioning (§convnet failure)
+- Rule: `infogeo/conv_dfa.py:spatial_kronecker_conv_gradients` (method
+  `ndfa_spatial_kron`) = channel-only nDFA plus a kernel-patch spatial covariance
+  factor (`kernel_spatial_covariance` over the kH*kW receptive-field positions,
+  `solve_kernel_spatial`). The channel factor is identical to nDFA, so the
+  difference isolates the spatial term.
+- Clean test (drops into the capable CIFAR-10 dir): `sbatch
+  slurm/infodfa_capable_cifar10_spatialkron.sbatch`; aggregate with
+  `analysis/aggregate_spatial_kron.py` (spatial-Kron 64.6 vs channel-only nDFA 65.4
+  = -0.78pp, paired Wilcoxon p=0.0025, 95% CI [-1.18,-0.38]; clean-regime over-
+  conditioning, as the theory predicts).
+- Both-directions nuisance sweep: `sbatch slurm/infodfa_spatialkron_nuisance.sbatch`
+  (adds a class-independent low-frequency spatial nuisance via `--spatial-nuisance`
+  alpha {0.5,1.0,2.0}, scale k=4, seeded by image index; methods bp/dfa_random/
+  ndfa_random/ndfa_spatial_kron; same 40-epoch capable recipe). Aggregate with
+  `analysis/aggregate_spatialkron_sweep.py`, which reports D(alpha)=spatial-Kron
+  minus channel-nDFA (paired Wilcoxon + bootstrap CI) and the channel-nDFA-minus-DFA
+  confound control (flat in alpha => the gain is the spatial factor, not denoising).
+
 ## CIFAR-100 convnet (Table 8)
 - Run: `sbatch slurm/infodfa_hard_cifar100_confirm.sbatch`.
 
