@@ -370,6 +370,12 @@ def initialize_feedback(
 def compute_gradients(model: ManualMLP, x: torch.Tensor, y: torch.Tensor, *, method: str, feedback, args: argparse.Namespace):
     if method == "bp":
         return model.bp_gradients(x, y)
+    if method == "fa_sign":
+        # Sign-symmetry baseline: layerwise feedback whose weights share the sign
+        # of the forward weights (magnitude 1), recomputed each step from the
+        # current weights (Liao et al. 2016; Xiao et al. 2018).
+        sign_fb = [torch.sign(model.weights[i + 1]) for i in range(model.n_hidden_layers)]
+        return model.fa_gradients(x, y, sign_fb)
     if feedback is None:
         raise ValueError(f"{method} requires feedback")
     if method.startswith("drtp_"):
