@@ -589,6 +589,81 @@ def natural_precondition_conv_gradients(
     return ConvGradients(conv_weights, gradients.conv_biases, fc_weights, gradients.fc_biases, gradients.deltas, gradients.loss)
 
 
+def kernel_spatial_covariance(
+    activation: torch.Tensor,
+    kernel_size: tuple[int, int],
+    stride: int,
+    padding: int,
+) -> torch.Tensor:
+    """Covariance of the input over the kH*kW kernel-spatial positions.
+
+    Unfolds the layer input into im2col patches and forms the (kH*kW)x(kH*kW)
+    covariance across batch, input channels, and output positions. This is the
+    spatial block of the Kronecker factorization C^ch (x) C^sp of the conv input
+    covariance: the dimension that actually multiplies the kernel gradient (a
+    feature-map HW x HW factor would mix spatial positions and break the
+    convolution's locality).
+    """
+    k_h, k_w = kernel_size
+    in_ch = activation.shape[1]
+    patches = F.unfold(activation, (k_h, k_w), stride=stride, padding=padding)
+    batch, _, positions = patches.shape
+    patches = patches.reshape(batch, in_ch, k_h * k_w, positions)
+    samples = patches.permute(0, 1, 3, 2).reshape(-1, k_h * k_w)
+    return samples.T @ samples / max(samples.shape[0], 1)
+
+
+def solve_kernel_spatial(cov: torch.Tensor, grad: torch.Tensor, *, damping: float) -> torch.Tensor:
+    """Condition the kH*kW kernel-spatial axis of a conv kernel gradient."""
+    out_ch, in_ch, k_h, k_w = grad.shape
+    rhs = grad.reshape(out_ch * in_ch, k_h * k_w).T
+    solved = damped_solve(cov, rhs, damping=damping)
+    return solved.T.reshape(out_ch, in_ch, k_h, k_w).contiguous()
+
+
+def spatial_kronecker_conv_gradients(
+    model: ManualConvNet,
+    gradients: ConvGradients,
+    x: torch.Tensor,
+    *,
+    damping: float,
+) -> ConvGradients:
+    """Spatial-Kronecker conditioning of the conv update (Eq. spatial_kron).
+
+    Extends channel-only nDFA by adding a kernel-spatial covariance factor: the
+    DFA kernel gradient is conditioned by the damped inverse input-channel
+    covariance (as in nDFA) *and* by the damped inverse kernel-spatial
+    covariance, approximating C_in^{-1} for the Kronecker-factored conv input
+    covariance C^ch (x) C^sp. Cost is in_ch^2 + (kH kW)^2 rather than
+    (in_ch kH kW)^2. The channel factor matches nDFA exactly, so the comparison
+    isolates the spatial term identified by the spatial-routing diagnostics.
+    """
+    full = model.forward_full(x)
+    activations = full.conv_activations
+    conv_weights = [grad.clone() for grad in gradients.conv_weights]
+    for layer_idx in range(model.n_hidden_layers):
+        grad = conv_weights[layer_idx]
+        channel_cov = channel_covariance(activations[layer_idx].detach())
+        grad = solve_input_channel(channel_cov, grad, damping=damping)
+        k_h, k_w = model.conv_weights[layer_idx].shape[2:]
+        spatial_cov = kernel_spatial_covariance(
+            activations[layer_idx].detach(),
+            (k_h, k_w),
+            model.strides[layer_idx],
+            model.paddings[layer_idx],
+        )
+        grad = solve_kernel_spatial(spatial_cov, grad, damping=damping)
+        conv_weights[layer_idx] = grad
+    # FC layers keep the channel-only (activity) feature conditioning of nDFA.
+    fc_weights = [grad.clone() for grad in gradients.fc_weights]
+    for fc_idx in range(model.n_fc_hidden_layers):
+        cov = feature_covariance(full.fc_activations[fc_idx].detach())
+        fc_weights[fc_idx] = solve_linear_input(cov, fc_weights[fc_idx], damping=damping)
+    return ConvGradients(
+        conv_weights, gradients.conv_biases, fc_weights, gradients.fc_biases, gradients.deltas, gradients.loss
+    )
+
+
 def norm_match_conv_gradients(
     model: ManualConvNet,
     gradients: ConvGradients,
