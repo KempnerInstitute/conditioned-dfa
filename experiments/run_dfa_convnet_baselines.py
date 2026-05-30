@@ -99,6 +99,9 @@ def load_image_dataset(args: argparse.Namespace):
     test = cls(root=str(root), train=False, download=args.download, transform=transform)
     train_x, train_y = dataset_to_tensors(train, args.n_train, seed=args.seed)
     test_x, test_y = dataset_to_tensors(test, args.n_test, seed=args.seed + 1)
+    if getattr(args, "spatial_nuisance", 0.0) > 0:
+        train_x = add_spatial_nuisance(train_x, amp=args.spatial_nuisance, k=args.spatial_nuisance_scale, base_seed=args.seed + 777, index_offset=0)
+        test_x = add_spatial_nuisance(test_x, amp=args.spatial_nuisance, k=args.spatial_nuisance_scale, base_seed=args.seed + 777, index_offset=10_000_000)
     train_x, test_x = normalize_by_channel(train_x, test_x)
     return train_x, train_y, test_x, test_y, tuple(train_x.shape[1:]), n_classes
 
@@ -234,6 +237,33 @@ def normalize_by_channel(train_x: torch.Tensor, test_x: torch.Tensor) -> tuple[t
     mean = train_x.mean(dim=(0, 2, 3), keepdim=True)
     std = train_x.std(dim=(0, 2, 3), keepdim=True).clamp_min(1e-6)
     return (train_x - mean) / std, (test_x - mean) / std
+
+
+def add_spatial_nuisance(x: torch.Tensor, *, amp: float, k: int, base_seed: int, index_offset: int) -> torch.Tensor:
+    """Add a per-image low-spatial-frequency nuisance field, class-independent.
+
+    Each image gets a smooth random field (coarse k x k Gaussian grid upsampled
+    bicubically to H x W, per-image zero-mean/unit-std, shared across channels)
+    scaled to ``amp`` times the per-channel image std and added to the raw [0,1]
+    image. The field is seeded by image index (never by label), so it is pure
+    spatial nuisance: it loads the within-receptive-field "all positions move
+    together" direction of the kernel-patch covariance with large variance while
+    leaving the higher-frequency, class-relevant within-patch contrasts intact.
+    Applied before per-channel normalization so there is no scale confound and all
+    methods see identical corrupted inputs (the field is seeded by index only).
+    """
+    import torch.nn.functional as F
+
+    n, c, h, w = x.shape
+    std = x.std(dim=(0, 2, 3), keepdim=True)  # per-channel raw std, shape (1, C, 1, 1)
+    coarse = torch.empty(n, 1, k, k)
+    for i in range(n):
+        g = torch.Generator().manual_seed(int(base_seed + index_offset + i))
+        coarse[i] = torch.randn(1, k, k, generator=g)
+    field = F.interpolate(coarse, size=(h, w), mode="bicubic", align_corners=False)  # (n,1,h,w)
+    field = field - field.mean(dim=(2, 3), keepdim=True)
+    field = field / field.std(dim=(2, 3), keepdim=True).clamp_min(1e-6)  # per-image zero-mean unit-std
+    return x + amp * std * field  # broadcast: (1,C,1,1) * (n,1,h,w) -> (n,C,h,w)
 
 
 def run_one(
@@ -609,6 +639,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--feedback-normalization", choices=["none", "sqrt_target", "sqrt_flat"], default="none")
     parser.add_argument("--feedback-rank", type=int, default=0)
     parser.add_argument("--natural-damping", type=float, default=0.3)
+    parser.add_argument("--spatial-nuisance", type=float, default=0.0,
+                        help="Amplitude of an additive low-frequency spatial nuisance field, relative to per-channel image std (0=off).")
+    parser.add_argument("--spatial-nuisance-scale", type=int, default=4,
+                        help="Coarse-grid size k for the smooth nuisance field (smaller=lower spatial frequency).")
     parser.add_argument("--eval-size", type=int, default=512)
     parser.add_argument("--eval-batch-size", type=int, default=256)
     parser.add_argument("--seed", type=int, default=0)
