@@ -35,12 +35,22 @@ esac
 OUT_DIR="results/infodfa_spatialkron_nuisance/alpha${ALPHA}/${METHOD}"
 mkdir -p "${OUT_DIR}"
 
-python experiments/run_dfa_convnet_baselines.py \
-  --output-dir "${OUT_DIR}" --dataset cifar10 --download --methods "${METHOD}" \
-  --spatial-nuisance "${ALPHA}" --spatial-nuisance-scale 4 \
-  --n-seeds 5 --n-feedback-seeds 5 --n-train 50000 --n-test 10000 \
-  --channels 64 128 256 --strides 1 2 2 --fc-hidden 512 \
-  --epochs 40 --batch-size 128 --optimizer adam --lr "${LR}" \
-  --weight-decay 1e-4 --feedback-scale 0.3 --feedback-mode channel \
-  --feedback-normalization sqrt_flat --feedback-rank 0 --natural-damping 0.3 \
-  --eval-size 1024 --eval-batch-size 512 --n-classes 10 --cuda --skip-analysis
+# Retry on the transient launch-time CUDA "device busy/unavailable" error seen on
+# contended nodes: the device usually frees within a minute, and the code itself
+# is verified (most tasks complete on the first try).
+run_once() {
+  python experiments/run_dfa_convnet_baselines.py \
+    --output-dir "${OUT_DIR}" --dataset cifar10 --download --methods "${METHOD}" \
+    --spatial-nuisance "${ALPHA}" --spatial-nuisance-scale 4 \
+    --n-seeds 5 --n-feedback-seeds 5 --n-train 50000 --n-test 10000 \
+    --channels 64 128 256 --strides 1 2 2 --fc-hidden 512 \
+    --epochs 40 --batch-size 128 --optimizer adam --lr "${LR}" \
+    --weight-decay 1e-4 --feedback-scale 0.3 --feedback-mode channel \
+    --feedback-normalization sqrt_flat --feedback-rank 0 --natural-damping 0.3 \
+    --eval-size 1024 --eval-batch-size 512 --n-classes 10 --cuda --skip-analysis
+}
+for attempt in 1 2 3 4 5 6; do
+  if run_once; then echo "succeeded on attempt ${attempt}"; break; fi
+  echo "attempt ${attempt} failed (likely CUDA device-busy); sleeping before retry"
+  sleep 90
+done
