@@ -72,6 +72,13 @@ command, grid, and aggregator for each result.
   `analysis/aggregate_spatialkron_sweep.py`, which reports D(alpha)=spatial-Kron
   minus channel-nDFA (paired Wilcoxon + bootstrap CI) and the channel-nDFA-minus-DFA
   confound control (flat in alpha => the gain is the spatial factor, not denoising).
+- Robustness controls (damping + spatial scale) at alpha=1.0: `sbatch
+  slurm/infodfa_spatialkron_controls.sbatch` (lambda in {0.1,1.0}; k=8); aggregate
+  with `analysis/aggregate_spatialkron_controls.py`. Result: D is +1.4/+7.4pp at
+  lambda 0.3/1.0 but reverses to -1.4pp at the under-damped 0.1 (the case-iii
+  over-whitening the theory predicts), and persists at k=8 (+2.0pp). sign(D) is
+  jointly controlled by nuisance amplitude and damping; the both-directions sweep is
+  the fixed-lambda=0.3 slice.
 
 ## CIFAR-100 convnet (Table 8)
 - Run: `sbatch slurm/infodfa_hard_cifar100_confirm.sbatch`.

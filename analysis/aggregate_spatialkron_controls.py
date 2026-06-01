@@ -2,9 +2,13 @@
 
 For each (damping, k) config, reports D = acc(spatial-Kron) - acc(channel-nDFA)
 with paired Wilcoxon + bootstrap CI. The headline run is (damping=0.3, k=4) with
-D=+1.38pp. If D stays clearly positive across damping {0.1,0.3,1.0} the gain is
-not a mis-damping artifact; if it persists at k=8 the effect tracks within-patch
-correlation rather than one nuisance frequency.
+D=+1.38pp. sign(D) is jointly controlled by nuisance amplitude and damping: D is
+positive at the paper's standard damping 0.3 and at 1.0 but REVERSES to -1.38pp at
+the under-damped 0.1 -- the over-whitening (case iii) failure the linearized
+analysis predicts, not blanket damping-robustness. Absolute accuracies are needed
+because part of the lambda=1.0 gap is channel-nDFA degrading under heavy damping,
+not the spatial factor improving. The k=8 config shows the effect persists at a
+coarser nuisance scale.
 """
 
 from __future__ import annotations
