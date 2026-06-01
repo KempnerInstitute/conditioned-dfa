@@ -58,9 +58,12 @@ def main() -> None:
             lines.append(f"{damp:<8} {k:<3} {diff_row(spk, nd)}")
     lines += [
         "",
-        "Reading: D stays positive across damping {0.1,0.3,1.0} => the gain is not a",
-        "mis-damping artifact; D persists at k=8 => the effect tracks within-patch",
-        "spatial correlation, not one nuisance frequency.",
+        "Reading: the gain is damping-dependent in the direction the linearized analysis",
+        "predicts (case iii, over-whitening). At the paper's standard damping (0.3) and",
+        "at 1.0 the spatial factor helps under nuisance (D=+1.4, +7.4pp); at the",
+        "under-damped 0.1 it over-whitens the small task-relevant within-patch directions",
+        "and reverses (D=-1.4pp). The effect persists at a coarser nuisance scale (k=8,",
+        "D=+2.0pp), so it tracks within-patch correlation rather than one frequency.",
     ]
     out = "\n".join(lines) + "\n"
     ROOT.mkdir(parents=True, exist_ok=True)
