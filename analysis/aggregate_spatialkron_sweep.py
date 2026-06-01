@@ -17,11 +17,22 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-CLEAN_DIR = Path("results/infodfa_capable_cifar10_v1")          # alpha = 0 anchor
-SWEEP_ROOT = Path("results/infodfa_spatialkron_nuisance")        # alpha{0.5,1.0,2.0}
-ALPHAS = [("0.0", CLEAN_DIR)] + [
-    (a, SWEEP_ROOT / f"alpha{a}") for a in ("0.5", "1.0", "2.0")
-]
+import sys
+
+# Two layouts are supported:
+#  (a) CIFAR-10 (default): alpha=0 anchor is the separate capable run, nonzero alphas
+#      live under results/infodfa_spatialkron_nuisance/alpha{0.5,1.0,2.0}.
+#  (b) Self-contained sweep root (e.g. CIFAR-100): all alphas (incl. 0.0) under one root,
+#      passed as argv[1]. alpha=0 is alpha0.0/ inside that root.
+if len(sys.argv) > 1:
+    SWEEP_ROOT = Path(sys.argv[1])
+    ALPHAS = [(a, SWEEP_ROOT / f"alpha{a}") for a in ("0.0", "0.5", "1.0", "2.0")]
+else:
+    CLEAN_DIR = Path("results/infodfa_capable_cifar10_v1")          # alpha = 0 anchor
+    SWEEP_ROOT = Path("results/infodfa_spatialkron_nuisance")        # alpha{0.5,1.0,2.0}
+    ALPHAS = [("0.0", CLEAN_DIR)] + [
+        (a, SWEEP_ROOT / f"alpha{a}") for a in ("0.5", "1.0", "2.0")
+    ]
 KEYS = ["seed", "feedback_seed"]
 
 
