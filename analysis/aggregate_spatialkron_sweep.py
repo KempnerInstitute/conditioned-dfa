@@ -68,7 +68,8 @@ def diff_stats(a: np.ndarray, b: np.ndarray) -> dict:
 
 
 def main() -> None:
-    lines = ["# Spatial-Kronecker spatial-nuisance sweep (capable CIFAR-10)\n"]
+    dataset = "CIFAR-100" if "cifar100" in str(SWEEP_ROOT).lower() else "CIFAR-10"
+    lines = [f"# Spatial-Kronecker spatial-nuisance sweep (capable {dataset})\n"]
     table = []
     for alpha, d in ALPHAS:
         m = {name: per_seed_final(d / name) for name in
