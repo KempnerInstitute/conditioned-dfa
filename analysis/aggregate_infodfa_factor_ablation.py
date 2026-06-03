@@ -55,14 +55,17 @@ def main() -> None:
 
     curves = summarize_curves(all_rows)
     endpoints = final_endpoints(all_rows)
+    effect_curves = factor_effects(curves)
     effects = factor_effects(endpoints)
     curves.to_csv(output_dir / "infodfa_factor_ablation_curves.csv", index=False)
     endpoints.to_csv(output_dir / "infodfa_factor_ablation_endpoints.csv", index=False)
+    effect_curves.to_csv(output_dir / "infodfa_factor_ablation_effect_curves.csv", index=False)
     effects.to_csv(output_dir / "infodfa_factor_ablation_effects.csv", index=False)
 
     write_report(endpoints, effects, output_dir)
     make_family_curves(curves, "synthetic", output_dir)
     make_family_curves(curves, "vision", output_dir)
+    make_effect_curves_figure(effect_curves, output_dir)
     make_endpoint_figure(endpoints, output_dir)
     make_effects_figure(effects, output_dir)
 
@@ -117,7 +120,23 @@ def infer_cell(path: Path, frame: pd.DataFrame, family: str) -> str:
 def summarize_curves(df: pd.DataFrame) -> pd.DataFrame:
     if df.empty:
         return pd.DataFrame()
-    group_cols = [c for c in ["family", "cell", "condition", "dataset", "n_train", "input_noise", "train_label_noise", "label_noise", "method", "epoch"] if c in df.columns]
+    group_cols = [
+        c
+        for c in [
+            "family",
+            "cell",
+            "condition",
+            "dataset",
+            "n_train",
+            "input_noise",
+            "train_label_noise",
+            "label_noise",
+            "feedback_rank",
+            "method",
+            "epoch",
+        ]
+        if c in df.columns
+    ]
     return (
         df.groupby(group_cols, dropna=False, as_index=False)
         .agg(
@@ -179,6 +198,8 @@ def factor_effects(endpoints: pd.DataFrame) -> pd.DataFrame:
             "train_label_noise",
             "label_noise",
             "feedback_rank",
+            "epoch",
+            "final_epoch",
         ]
         if c in endpoints.columns
     ]
@@ -307,6 +328,39 @@ def make_family_curves(curves: pd.DataFrame, family: str, output_dir: Path) -> N
     axes.ravel()[0].legend(frameon=False, fontsize=6.8)
     for ext in ("png", "pdf", "svg"):
         fig.savefig(output_dir / f"infodfa_factor_ablation_{family}_curves.{ext}", dpi=300, bbox_inches="tight")
+    plt.close(fig)
+
+
+def make_effect_curves_figure(effect_curves: pd.DataFrame, output_dir: Path) -> None:
+    sub = effect_curves[effect_curves["family"] == "synthetic"].copy() if not effect_curves.empty else pd.DataFrame()
+    if sub.empty or "epoch" not in sub.columns:
+        return
+    setup_style()
+    order = ["nuisance_hard", "low_sample_noisy", "mixed_hard", "clean_aligned"]
+    cells = [cell for cell in order if cell in set(sub["cell"].astype(str))]
+    cells += [cell for cell in dict.fromkeys(sub["cell"].astype(str)) if cell not in set(cells)]
+    ncols = 2
+    nrows = int(np.ceil(len(cells) / ncols))
+    fig, axes = plt.subplots(nrows, ncols, figsize=(7.2, 2.65 * nrows), constrained_layout=True, squeeze=False)
+    series = [
+        ("activity_gain", "activity gain", METHOD_COLOR["ndfa_random"], "-"),
+        ("error_only_gain", "error alone", METHOD_COLOR["ndfa_random_error"], "-"),
+        ("error_after_activity_gain", "error after activity", METHOD_COLOR["ndfa_random_kronecker"], "-"),
+    ]
+    for ax, cell in zip(axes.ravel(), cells):
+        cell_df = sub[sub["cell"].astype(str).eq(cell)].sort_values("epoch")
+        for col, label, color, linestyle in series:
+            ax.plot(cell_df["epoch"], 100.0 * cell_df[col], color=color, linestyle=linestyle, lw=1.6, label=label)
+        ax.axhline(0, color="#444444", lw=0.8)
+        ax.set_title(cell.replace("_", " "))
+        ax.set_xlabel("epoch")
+        ax.set_ylabel("effect vs reference (pp)")
+        ax.grid(axis="y", color="#E8EAE6", lw=0.6)
+    for ax in axes.ravel()[len(cells) :]:
+        ax.axis("off")
+    axes.ravel()[0].legend(frameon=False, fontsize=6.8, loc="best")
+    for ext in ("png", "pdf", "svg"):
+        fig.savefig(output_dir / f"infodfa_factor_ablation_effect_curves.{ext}", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 

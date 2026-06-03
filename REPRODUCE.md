@@ -45,9 +45,25 @@ manifest is `drafts/Info-DFA/FIGURE_INPUTS.md`.
   results/infodfa_factor_ablation_vision_v1 --output-dir
   results/infodfa_factor_ablation_aggregate_v1`.
 - Main outputs: `infodfa_factor_ablation_curves.csv`,
-  `infodfa_factor_ablation_endpoints.csv`, `infodfa_factor_ablation_effects.csv`,
-  `infodfa_factor_ablation_summary.md`, and publication-ready curve/endpoint/factor
-  decomposition figures in png/pdf/svg.
+  `infodfa_factor_ablation_endpoints.csv`,
+  `infodfa_factor_ablation_effect_curves.csv`,
+  `infodfa_factor_ablation_effects.csv`, `infodfa_factor_ablation_summary.md`,
+  and publication-ready curve/endpoint/factor-decomposition figures in png/pdf/svg.
+
+## Norm-matched activity/error factor controls
+- Purpose: test whether activity/error/K-nDFA effects are merely scalar
+  learning-rate or per-layer gradient-norm changes. The `+norm_match` variants
+  rescale each local hidden gradient to a matched BP layer norm after applying
+  the indicated conditioner.
+- Run: `sbatch slurm/infodfa_normmatch_factor_controls.sbatch` (same four focused
+  synthetic cells as the activity/error factor ablation; methods BP, DFA,
+  DFA+norm, activity/error/K-nDFA, and activity/error/K-nDFA+norm; 5 seeds; 100
+  epochs by default).
+- Aggregate after the array finishes: `sbatch slurm/infodfa_normmatch_factor_controls_aggregate.sbatch`,
+  or directly:
+  `python analysis/aggregate_infodfa_normmatch_factor_controls.py --input-root
+  results/infodfa_normmatch_factor_controls_v1 --output-dir
+  results/infodfa_normmatch_factor_controls_aggregate_v1`.
 
 ## Tuned-BP control (§5.4)
 - Run: `sbatch slurm/infodfa_bp_tuning_synthetic.sbatch` (BP only, lr grid
