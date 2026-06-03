@@ -9,7 +9,14 @@ data/
 drafts/
 .slurm_home/
 logs/
-# External reference repos cloned for diagnostics.
-external/
+# External reference repos. Track the vendored DFA-Stall reference project, but
+# keep other ad hoc external clones ignored.
+external/*
+!external/DFA-Stall/
+!external/DFA-Stall/**
+external/DFA-Stall/data/
+external/DFA-Stall/logs/
+external/DFA-Stall/__pycache__/
+external/DFA-Stall/**/*.pyc
 results/
 unit_test_opt_results/
