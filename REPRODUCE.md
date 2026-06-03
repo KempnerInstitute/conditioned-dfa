@@ -45,8 +45,9 @@ manifest is `drafts/Info-DFA/FIGURE_INPUTS.md`.
   results/infodfa_factor_ablation_vision_v1 --output-dir
   results/infodfa_factor_ablation_aggregate_v1`.
 - Main outputs: `infodfa_factor_ablation_curves.csv`,
-  `infodfa_factor_ablation_endpoints.csv`, `infodfa_factor_ablation_summary.md`,
-  and publication-ready curve/endpoint figures in png/pdf/svg.
+  `infodfa_factor_ablation_endpoints.csv`, `infodfa_factor_ablation_effects.csv`,
+  `infodfa_factor_ablation_summary.md`, and publication-ready curve/endpoint/factor
+  decomposition figures in png/pdf/svg.
 
 ## Tuned-BP control (§5.4)
 - Run: `sbatch slurm/infodfa_bp_tuning_synthetic.sbatch` (BP only, lr grid

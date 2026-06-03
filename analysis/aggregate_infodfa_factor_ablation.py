@@ -55,15 +55,21 @@ def main() -> None:
 
     curves = summarize_curves(all_rows)
     endpoints = final_endpoints(all_rows)
+    effects = factor_effects(endpoints)
     curves.to_csv(output_dir / "infodfa_factor_ablation_curves.csv", index=False)
     endpoints.to_csv(output_dir / "infodfa_factor_ablation_endpoints.csv", index=False)
+    effects.to_csv(output_dir / "infodfa_factor_ablation_effects.csv", index=False)
 
-    write_report(endpoints, output_dir)
+    write_report(endpoints, effects, output_dir)
     make_family_curves(curves, "synthetic", output_dir)
     make_family_curves(curves, "vision", output_dir)
     make_endpoint_figure(endpoints, output_dir)
+    make_effects_figure(effects, output_dir)
 
     print(endpoints.to_string(index=False))
+    if not effects.empty:
+        print("\nFactor effects:")
+        print(effects.to_string(index=False))
     print(f"\nwrote {output_dir}")
 
 
@@ -149,6 +155,65 @@ def final_endpoints(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def factor_effects(endpoints: pd.DataFrame) -> pd.DataFrame:
+    """Compute the two-factor decomposition of activity/error conditioning.
+
+    The four local-feedback corners form a small factorial design:
+    DFA = no conditioning, activity nDFA = right/input factor only, error nDFA =
+    left/error factor only, and K-nDFA = both factors. The most important
+    quantity for the paper is not only the error-only effect, but the conditional
+    error-side gain after activity conditioning is already present.
+    """
+
+    if endpoints.empty:
+        return pd.DataFrame()
+    id_cols = [
+        c
+        for c in [
+            "family",
+            "cell",
+            "condition",
+            "dataset",
+            "n_train",
+            "input_noise",
+            "train_label_noise",
+            "label_noise",
+            "feedback_rank",
+        ]
+        if c in endpoints.columns
+    ]
+    needed = ["dfa_random", "ndfa_random", "ndfa_random_error", "ndfa_random_kronecker"]
+    rows: list[dict[str, object]] = []
+    for keys, group in endpoints.groupby(id_cols, dropna=False):
+        if not isinstance(keys, tuple):
+            keys = (keys,)
+        vals = group.set_index("method")["test_mean"].to_dict()
+        if not all(method in vals for method in needed):
+            continue
+        row = dict(zip(id_cols, keys))
+        dfa = float(vals["dfa_random"])
+        activity = float(vals["ndfa_random"])
+        error = float(vals["ndfa_random_error"])
+        kron = float(vals["ndfa_random_kronecker"])
+        row.update(
+            dfa=dfa,
+            activity_ndfa=activity,
+            error_ndfa=error,
+            k_ndfa=kron,
+            activity_gain=activity - dfa,
+            error_only_gain=error - dfa,
+            k_gain=kron - dfa,
+            error_after_activity_gain=kron - activity,
+            activity_after_error_gain=kron - error,
+            interaction_gain=kron - activity - error + dfa,
+            k_gain_over_best_single=kron - max(activity, error),
+        )
+        denom = kron - dfa
+        row["activity_share_of_k_gain"] = (activity - dfa) / denom if abs(denom) > 1e-12 else np.nan
+        rows.append(row)
+    return pd.DataFrame(rows).sort_values([c for c in ["family", "cell"] if c in id_cols])
+
+
 def sem(values) -> float:
     arr = np.asarray(list(values), dtype=float)
     arr = arr[np.isfinite(arr)]
@@ -157,12 +222,30 @@ def sem(values) -> float:
     return float(arr.std(ddof=1) / np.sqrt(arr.size))
 
 
-def write_report(endpoints: pd.DataFrame, output_dir: Path) -> None:
+def write_report(endpoints: pd.DataFrame, effects: pd.DataFrame, output_dir: Path) -> None:
     if endpoints.empty:
         body = "_No rows found._"
     else:
         view_cols = [c for c in ["family", "cell", "method_label", "final_epoch", "test_mean", "test_sem", "delta_vs_dfa", "n"] if c in endpoints]
         body = endpoints[view_cols].to_markdown(index=False, floatfmt=".4f")
+    if effects.empty:
+        effect_body = "_No complete DFA/activity/error/K-nDFA cells found._"
+    else:
+        effect_cols = [
+            c
+            for c in [
+                "family",
+                "cell",
+                "activity_gain",
+                "error_only_gain",
+                "error_after_activity_gain",
+                "k_gain",
+                "interaction_gain",
+                "activity_share_of_k_gain",
+            ]
+            if c in effects
+        ]
+        effect_body = effects[effect_cols].to_markdown(index=False, floatfmt=".4f")
     lines = [
         "# Info-DFA Activity/Error Factor Ablation",
         "",
@@ -172,6 +255,18 @@ def write_report(endpoints: pd.DataFrame, output_dir: Path) -> None:
         "(`ndfa_random_kronecker`). The runs use longer training than the main",
         "paper sweep so the curves show whether methods saturate or merely differ",
         "at an early stopping point.",
+        "",
+        "The factorial decomposition should be read as follows: `activity_gain` is",
+        "activity nDFA minus DFA; `error_only_gain` is error nDFA minus DFA; and",
+        "`error_after_activity_gain` is K-nDFA minus activity nDFA. Thus a negative",
+        "error-only effect can coexist with a positive conditional error-side effect",
+        "once the activity side has already corrected the dominant input geometry.",
+        "",
+        "## Factor effects",
+        "",
+        effect_body,
+        "",
+        "## Endpoints",
         "",
         body,
     ]
@@ -243,6 +338,32 @@ def make_endpoint_figure(endpoints: pd.DataFrame, output_dir: Path) -> None:
         ax.axis("off")
     for ext in ("png", "pdf", "svg"):
         fig.savefig(output_dir / f"infodfa_factor_ablation_endpoints.{ext}", dpi=300, bbox_inches="tight")
+    plt.close(fig)
+
+
+def make_effects_figure(effects: pd.DataFrame, output_dir: Path) -> None:
+    if effects.empty:
+        return
+    setup_style()
+    effects = effects.copy()
+    effects["label"] = effects["cell"].astype(str).str.replace("_", " ", regex=False)
+    y = np.arange(effects.shape[0])
+    width = 0.24
+    fig, ax = plt.subplots(figsize=(7.2, max(2.8, 0.48 * effects.shape[0] + 1.1)), constrained_layout=True)
+    bars = [
+        ("activity_gain", "activity gain (nDFA - DFA)", METHOD_COLOR["ndfa_random"], -width),
+        ("error_only_gain", "error alone (error nDFA - DFA)", METHOD_COLOR["ndfa_random_error"], 0.0),
+        ("error_after_activity_gain", "error after activity (K-nDFA - nDFA)", METHOD_COLOR["ndfa_random_kronecker"], width),
+    ]
+    for col, label, color, offset in bars:
+        ax.barh(y + offset, 100.0 * effects[col], height=width * 0.9, color=color, label=label)
+    ax.axvline(0, color="#444444", lw=0.8)
+    ax.set_yticks(y, effects["label"])
+    ax.set_xlabel("accuracy effect (percentage points)")
+    ax.set_title("Activity/error factor decomposition")
+    ax.legend(frameon=False, loc="lower left", bbox_to_anchor=(0.0, 1.01), fontsize=6.8, ncol=1)
+    for ext in ("png", "pdf", "svg"):
+        fig.savefig(output_dir / f"infodfa_factor_ablation_effects.{ext}", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 
