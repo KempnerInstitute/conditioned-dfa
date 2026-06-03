@@ -27,6 +27,44 @@ manifest is `drafts/Info-DFA/FIGURE_INPUTS.md`.
   <0.1pp (full-rank feedback is essentially always best).
 - Stat tests (Table 7): `analysis/compute_infodfa_statistical_tests.py`.
 
+## Activity/error factor ablation and long-horizon curves
+- Purpose: isolate which Kronecker side drives the first-paper gains. The comparison
+  is BP, DFA, activity-only nDFA (`ndfa_random`), error-only nDFA
+  (`ndfa_random_error`), and full K-nDFA (`ndfa_random_kronecker`).
+- Synthetic focused cells: `sbatch slurm/infodfa_factor_ablation_synthetic.sbatch`
+  (nuisance-dominant, mixed-context, low-sample noisy, and clean task-aligned cells;
+  5 data seeds x 3 feedback seeds; feedback rank 0; hidden 256-128; 100 epochs by
+  default for saturation curves).
+- Vision focused cells: `sbatch slurm/infodfa_factor_ablation_vision.sbatch`
+  (Fashion-MNIST and CIFAR-10 with n_train {1000,3000}, label-noise 0.4; same
+  method set and 100-epoch default).
+- Aggregate after both arrays finish: `sbatch slurm/infodfa_factor_ablation_aggregate.sbatch`,
+  or directly:
+  `python analysis/aggregate_infodfa_factor_ablation.py --synthetic-root
+  results/infodfa_factor_ablation_synthetic_v1 --vision-root
+  results/infodfa_factor_ablation_vision_v1 --output-dir
+  results/infodfa_factor_ablation_aggregate_v1`.
+- Main outputs: `infodfa_factor_ablation_curves.csv`,
+  `infodfa_factor_ablation_endpoints.csv`,
+  `infodfa_factor_ablation_effect_curves.csv`,
+  `infodfa_factor_ablation_effects.csv`, `infodfa_factor_ablation_summary.md`,
+  and publication-ready curve/endpoint/factor-decomposition figures in png/pdf/svg.
+
+## Norm-matched activity/error factor controls
+- Purpose: test whether activity/error/K-nDFA effects are merely scalar
+  learning-rate or per-layer gradient-norm changes. The `+norm_match` variants
+  rescale each local hidden gradient to a matched BP layer norm after applying
+  the indicated conditioner.
+- Run: `sbatch slurm/infodfa_normmatch_factor_controls.sbatch` (same four focused
+  synthetic cells as the activity/error factor ablation; methods BP, DFA,
+  DFA+norm, activity/error/K-nDFA, and activity/error/K-nDFA+norm; 5 seeds; 100
+  epochs by default).
+- Aggregate after the array finishes: `sbatch slurm/infodfa_normmatch_factor_controls_aggregate.sbatch`,
+  or directly:
+  `python analysis/aggregate_infodfa_normmatch_factor_controls.py --input-root
+  results/infodfa_normmatch_factor_controls_v1 --output-dir
+  results/infodfa_normmatch_factor_controls_aggregate_v1`.
+
 ## Tuned-BP control (§5.4)
 - Run: `sbatch slurm/infodfa_bp_tuning_synthetic.sbatch` (BP only, lr grid
   {0.02,0.04,0.08,0.16,0.32} at every cell).
