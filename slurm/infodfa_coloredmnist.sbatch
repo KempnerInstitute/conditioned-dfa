@@ -9,7 +9,7 @@
 #SBATCH --error=logs/slurm/%x_%j.err
 
 set -euo pipefail
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-Geo}"
+cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
 mkdir -p logs/slurm results
 
 python experiments/run_dfa_coloredmnist.py \

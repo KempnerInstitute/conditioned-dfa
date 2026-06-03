@@ -1,1 +1,1 @@
-"""Runnable experiment scripts for Info-Geo."""
+"""Runnable experiment scripts for Info-DFA."""

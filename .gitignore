@@ -9,7 +9,7 @@ data/
 drafts/
 .slurm_home/
 logs/
+# External reference repos cloned for diagnostics.
 external/
 results/
 unit_test_opt_results/
-

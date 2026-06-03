@@ -11,7 +11,7 @@
 
 set -euo pipefail
 
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-Geo}"
+cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
 mkdir -p logs/slurm
 
 DATASETS=(${DATASETS:-cifar10})

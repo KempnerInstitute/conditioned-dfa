@@ -10,7 +10,7 @@
 
 set -euo pipefail
 
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-Geo}"
+cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
 mkdir -p logs/slurm
 
 python experiments/evaluate_imagenet_torchvision_weights.py \
