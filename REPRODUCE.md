@@ -65,11 +65,39 @@ manifest is `drafts/Info-DFA/FIGURE_INPUTS.md`.
   results/infodfa_normmatch_factor_controls_v1 --output-dir
   results/infodfa_normmatch_factor_controls_aggregate_v1`.
 
+## Adam / diagonal-K approximation control
+- Purpose: test whether conditioned-DFA gains reduce to an Adam-like diagonal
+  second-moment learning-rate effect. The comparison is BP, DFA, hidden-weight
+  Adam-DFA, diagonal square-root activity/error/K conditioning, activity/error
+  nDFA, and full K-nDFA on the four focused synthetic cells.
+- Run: `sbatch slurm/infodfa_adam_diagk_approx.sbatch` (Kempner H100 array;
+  5 data seeds x 2 feedback seeds; damping grid {0.03,0.1,0.3,1.0}; Adam hidden
+  lr grid {0.001,0.003}; hidden 256-128; 100 epochs).
+- Aggregate: `sbatch slurm/infodfa_adam_diagk_approx_aggregate.sbatch`, or
+  directly:
+  `python analysis/aggregate_infodfa_adam_diagk_approx.py --inputs
+  'results/infodfa_adam_diagk_approx_v1/shards/*/infodfa_adam_diagk_results.csv'
+  --output-dir results/infodfa_adam_diagk_aggregate_v1`.
+- Main outputs: `infodfa_adam_diagk_best_endpoints.csv`,
+  `infodfa_adam_diagk_approximation.csv`, `infodfa_adam_diagk_curves.csv`,
+  `infodfa_adam_diagk_learning_best.{pdf,png,svg}`, and
+  `infodfa_adam_diagk_diagnostics.{pdf,png,svg}`.
+
 ## Tuned-BP control (§5.4)
 - Run: `sbatch slurm/infodfa_bp_tuning_synthetic.sbatch` (BP only, lr grid
   {0.02,0.04,0.08,0.16,0.32} at every cell).
 - Aggregate: `analysis/aggregate_bp_tuning.py` (tuned BP per cell via LOSO over lr;
   seed-level paired test vs best conditioned).
+
+## BP-preconditioning control, matched learning rate (§5.4, Table tab:infodfa_bpwhiten)
+- BP+precond data: `results/infodfa_bpwhiten_synthetic_v1` (same lr grid as Tuned-BP).
+- The fair comparison reports BOTH BP and BP+precond at their best-of-grid lr per
+  regime (NOT best-of-grid BP+precond vs fixed-lr BP). Per-regime best-lr means
+  (x100): tuned BP = {nuisance 27.9, mixed 43.8, low-sample 53.3, task-aligned 92.0};
+  BP+precond = {46.2, 44.6, 60.4, 91.9}; matched delta = {+18.3, +0.8, +7.1, -0.1}.
+  On nuisance, plain BP cannot exceed 27.9% at any lr (peaks at 0.08, falls higher),
+  so the +18.3 is a regime lr-tuning cannot reach; on mixed the gain is mostly an
+  lr effect tuned BP recovers.
 
 ## KFAC-DFA control (related work)
 - Run: `sbatch slurm/infodfa_kfac_control_synthetic.sbatch` (adds
