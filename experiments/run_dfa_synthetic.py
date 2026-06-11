@@ -403,6 +403,19 @@ def natural_precondition_gradients(
     left_deltas = gradients.deltas if error_deltas is None else error_deltas
     for layer_idx in range(model.n_hidden_layers):
         grad = gradients.weights[layer_idx]
+        if mode == "activity_sqrt":
+            # Decorrelation baseline: ZCA-whiten the presynaptic activity,
+            # i.e. precondition by (C+lambda I)^{-1/2} (power 1/2) instead of nDFA's
+            # full inverse (C+lambda I)^{-1} (power 1). Tests whether the gain needs
+            # the natural-gradient power or only generic activation decorrelation.
+            activity = activations[layer_idx].detach()
+            cov = activity.T @ activity / max(activity.shape[0], 1)
+            eye = torch.eye(cov.shape[0], dtype=cov.dtype, device=cov.device)
+            inv_sqrt = torch.as_tensor(
+                inv_sqrtm_psd((cov + damping * eye).cpu().numpy()),
+                dtype=cov.dtype, device=cov.device,
+            )
+            grad = grad @ inv_sqrt
         if mode in {"activity", "kronecker"}:
             activity = activations[layer_idx].detach()
             cov = activity.T @ activity / max(activity.shape[0], 1)

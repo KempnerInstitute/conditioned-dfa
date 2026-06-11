@@ -405,6 +405,12 @@ def compute_gradients(model: ManualMLP, x: torch.Tensor, y: torch.Tensor, *, met
             mode=mode,
             error_deltas=error_deltas,
         )
+    if method == "dfa_actwhiten":
+        # Decorrelation baseline: DFA with ZCA-whitened presynaptic activity,
+        # i.e. preconditioning by (C+lambda I)^{-1/2} instead of nDFA's full inverse.
+        gradients = natural_precondition_gradients(
+            model, gradients, x, damping=args.natural_damping, mode="activity_sqrt",
+        )
     return gradients
 
 
