@@ -83,6 +83,15 @@ manifest is `drafts/Info-DFA/FIGURE_INPUTS.md`.
   `infodfa_adam_diagk_learning_best.{pdf,png,svg}`, and
   `infodfa_adam_diagk_diagnostics.{pdf,png,svg}`.
 
+## Decorrelation baseline (§5.4, "more than activation decorrelation")
+- Run: `sbatch slurm/infodfa_actwhiten_synthetic.sbatch` (128-cell grid, same recipe
+  as the main sweep; methods dfa_random/dfa_actwhiten/ndfa_random/ndfa_random_kronecker).
+  `dfa_actwhiten` preconditions the DFA update by (C+lambda I)^{-1/2} (ZCA decorrelation,
+  power 1/2) vs nDFA's full inverse (C+lambda I)^{-1} (power 1).
+- Aggregate: `analysis/aggregate_actwhiten.py`. Result: decorrelation recovers most of
+  the input-side gain (+16..+34pp over DFA); the full inverse adds +5.8/+3.7/+0.8pp on
+  nuisance/low-sample/mixed and over-conditions the clean control (-0.7pp).
+
 ## Tuned-BP control (§5.4)
 - Run: `sbatch slurm/infodfa_bp_tuning_synthetic.sbatch` (BP only, lr grid
   {0.02,0.04,0.08,0.16,0.32} at every cell).
