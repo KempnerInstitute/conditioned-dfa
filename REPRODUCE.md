@@ -174,6 +174,10 @@ manifest is `drafts/Info-DFA/FIGURE_INPUTS.md`.
   BP + {raw block-DFA, diagonal nDFA, full channel second-moment nDFA} x 4 depths
   {layer4, layer3+4, layer2+3+4, all}; pretrained ResNet-18; `--dfa-norm unit`
   (no BP-norm oracle); `--whiten-mode {diag,full}`; 90 epochs; lr 0.1; image 176).
+- Multi-seed extension (error bars on the cliff): `sbatch
+  slurm/infodfa_imagenet_strongform_seeds.sbatch` (seeds 1-2 for all 13 configs;
+  seed 0 is the original run; full-cov at layer2+3+4/all uses lr 0.01 to match the
+  headline table). Outputs land in `results/imagenet100_strongform_v1/<tag>_seed<S>`.
 - Deep-depth lr check for full-cov: `sbatch slurm/infodfa_imagenet_sf_lrcheck.sbatch`
   (full-cov at layer2+3+4 and all, lr {0.01,0.03}).
 - Aggregate: `analysis/aggregate_imagenet_strongform.py`.
