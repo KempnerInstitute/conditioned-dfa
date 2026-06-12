@@ -180,7 +180,11 @@ manifest is `drafts/Info-DFA/FIGURE_INPUTS.md`.
   headline table). Outputs land in `results/imagenet100_strongform_v1/<tag>_seed<S>`.
 - Deep-depth lr check for full-cov: `sbatch slurm/infodfa_imagenet_sf_lrcheck.sbatch`
   (full-cov at layer2+3+4 and all, lr {0.01,0.03}).
-- Aggregate: `analysis/aggregate_imagenet_strongform.py`.
+- Aggregate: `analysis/aggregate_imagenet_strongform.py` (also writes the
+  three-seed mean±sem table the paper cites to
+  `results/imagenet100_strongform_v1/strongform_multiseed_summary.csv`; for the
+  two deep full-cov configs seed 0 is the lr-0.01 lr-check run, since the
+  lr-0.1 originals collapse).
 
 ## Theory figure (Fig for §3.1)
 - Self-contained (no external data): the `_theory_sim` / `make_theory_conditioning`

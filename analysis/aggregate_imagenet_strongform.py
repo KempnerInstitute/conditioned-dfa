@@ -16,6 +16,17 @@ MAIN = Path("results/imagenet100_strongform_v1")
 LRCHK = Path("results/imagenet100_strongform_lrcheck_v1")
 DEPTHS = ["layer4", "l34", "l234", "all"]
 COND = {"dfa": "raw DFA", "ndfaDiag": "nDFA-diag", "ndfaFull": "nDFA-full"}
+SEEDS = [0, 1, 2]  # seed 0 lives in the unsuffixed dir, others in <tag>_seed<N>
+
+
+def seed_dir(tag: str, seed: int) -> Path:
+    if seed == 0:
+        # Deep full-covariance configs collapsed at lr=0.1; the headline (and
+        # seeds 1-2) use the eta=0.01 lr-check runs, so those are seed 0 here.
+        if tag in ("ndfaFull_l234", "ndfaFull_all"):
+            return LRCHK / f"{tag}_lr01"
+        return MAIN / tag
+    return MAIN / f"{tag}_seed{seed}"
 
 
 def final_best(csv: Path):
@@ -45,6 +56,26 @@ def main() -> None:
         for d in sorted(LRCHK.glob("*/imagenet_credit_assignment.csv")):
             last, best = final_best(d)
             print(f"  {d.parent.name:24} final={last:5.1f}  best={best:5.1f}")
+
+    print("\nMulti-seed final top-1 (mean +/- sem over available seeds):")
+    rows = []
+    for tag in ["bp"] + [f"{k}_{d}" for k in COND for d in DEPTHS]:
+        finals = []
+        for s in SEEDS:
+            csv = seed_dir(tag, s) / "imagenet_credit_assignment.csv"
+            if csv.exists():
+                finals.append(final_best(csv)[0])
+        if not finals:
+            continue
+        ser = pd.Series(finals)
+        sem = ser.sem() if len(finals) > 1 else float("nan")
+        rows.append({"tag": tag, "n_seeds": len(finals), "mean": ser.mean(),
+                     "sem": sem, "finals": [round(f, 2) for f in finals]})
+        print(f"  {tag:18} n={len(finals)}  {ser.mean():5.2f} +/- {sem:4.2f}"
+              f"   {rows[-1]['finals']}")
+    out = MAIN / "strongform_multiseed_summary.csv"
+    pd.DataFrame(rows).to_csv(out, index=False)
+    print(f"\nwrote {out}")
 
 
 if __name__ == "__main__":
