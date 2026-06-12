@@ -25,6 +25,10 @@ targeted improvement rather than a universal replacement for backpropagation.
     `run_dfa_nmnc_comparison.py`, `run_dfa_coloredmnist.py`,
     `run_dfa_controls.py`: Fashion-MNIST / CIFAR / convnet / ColoredMNIST /
     control studies.
+  - `run_infodfa_adam_diagk_approx.py`: Adam-versus-diagonal-Kronecker
+    approximation tests (is conditioning reducible to an adaptive optimizer?);
+    the decorrelation baseline (`dfa_actwhiten`, inverse-square-root
+    preconditioning) runs through the multioutput synthetic driver.
   - `run_imagenet_credit_assignment.py`,
     `evaluate_imagenet_torchvision_weights.py`: ImageNet-100 ResNet-18
     diagnostics.
