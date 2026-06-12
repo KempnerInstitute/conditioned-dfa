@@ -46,13 +46,13 @@ METHOD_LABEL = {
     "kndfa": "K-nDFA",
 }
 METHOD_COLOR = {
-    "bp_sgd": "#222222",
-    "dfa_sgd": "#0072B2",
-    "dfa_adam_hidden": "#CC79A7",
+    "bp_sgd": "#0072B2",
+    "dfa_sgd": "#999999",
+    "dfa_adam_hidden": "#E69F00",
     "dfa_rmsprop_hidden": "#8E6BBE",
-    "dfa_diag_activity_sqrt": "#56B4E9",
+    "dfa_diag_activity_sqrt": "#8FC9E8",
     "dfa_diag_error_sqrt": "#D55E00",
-    "dfa_diag_k_sqrt": "#E69F00",
+    "dfa_diag_k_sqrt": "#56B4E9",
     "ndfa_activity": "#009E73",
     "ndfa_error": "#B45F06",
     "kndfa": "#6A3D9A",
