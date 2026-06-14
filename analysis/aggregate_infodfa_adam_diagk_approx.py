@@ -241,6 +241,7 @@ def make_learning_figure(curves: pd.DataFrame, output_dir: Path, *, preferred_da
     if not cells:
         return
     fig, axes = plt.subplots(2, 2, figsize=(7.4, 5.3), constrained_layout=True, squeeze=False)
+    fig.get_layout_engine().set(h_pad=0.12)
     for ax, cell in zip(axes.ravel(), cells):
         cell_df = sub[sub["cell"] == cell]
         for method in methods:
@@ -271,6 +272,7 @@ def make_best_learning_figure(curves: pd.DataFrame, best: pd.DataFrame, output_d
     if not cells or best.empty:
         return
     fig, axes = plt.subplots(2, 2, figsize=(7.4, 5.3), constrained_layout=True, squeeze=False)
+    fig.get_layout_engine().set(h_pad=0.12)
     for ax, cell in zip(axes.ravel(), cells):
         for method in methods:
             setting = best[(best["cell"] == cell) & (best["method"] == method)]
@@ -321,12 +323,13 @@ def make_diagnostic_figure(df: pd.DataFrame, output_dir: Path, *, preferred_damp
         width = 0.24
         axes[0].bar(x - width, approx["factorization_corr"], width=width, color="#56B4E9", label=r"$E[\delta^2 h^2]$ vs factor")
         axes[0].bar(x, approx["adam_factor_corr"], width=width, color=METHOD_COLOR["dfa_adam_hidden"], label="Adam v vs factor")
-        axes[0].bar(x + width, approx["adam_diagk_cosine"], width=width, color=METHOD_COLOR["dfa_diag_k_sqrt"], label="Adam step vs diag K")
+        axes[0].bar(x + width, approx["adam_diagk_cosine"], width=width, color="#CC79A7", label="Adam step vs diag K")
         axes[0].set_xticks(x, [pretty_cell(c) for c in approx["cell"]], rotation=25, ha="right")
         axes[0].set_ylabel("correlation / cosine")
         axes[0].set_title("A  Approximation quality")
-        axes[0].set_ylim(-0.05, 1.02)
-        axes[0].legend(frameon=False, fontsize=5.8)
+        axes[0].set_ylim(-0.05, 1.32)
+        axes[0].set_yticks([0.0, 0.5, 1.0])
+        axes[0].legend(frameon=False, fontsize=5.8, ncol=1, loc="upper left")
 
     # B: does approximation quality predict Adam's gain over DFA?
     adam = preferred[preferred["method"] == "dfa_adam_hidden"].copy()
