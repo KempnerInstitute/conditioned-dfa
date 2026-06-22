@@ -314,7 +314,7 @@ def make_diagnostic_figure(df: pd.DataFrame, output_dir: Path, *, preferred_damp
     final = df.sort_values("epoch").groupby(run_columns(df), dropna=False, as_index=False).tail(1)
     preferred = select_preferred(final, preferred_damping=preferred_damping, preferred_adaptive_lr=preferred_adaptive_lr)
     approx = summarize_approximation(df, preferred_adaptive_lr=preferred_adaptive_lr)
-    fig, axes = plt.subplots(1, 3, figsize=(9.4, 2.85), constrained_layout=True)
+    fig, axes = plt.subplots(1, 3, figsize=(6.9, 3.25), constrained_layout=True)
 
     # A: direct approximation quality for Adam runs.
     if not approx.empty:
@@ -329,7 +329,7 @@ def make_diagnostic_figure(df: pd.DataFrame, output_dir: Path, *, preferred_damp
         axes[0].set_title("A  Approximation quality")
         axes[0].set_ylim(-0.05, 1.32)
         axes[0].set_yticks([0.0, 0.5, 1.0])
-        axes[0].legend(frameon=False, fontsize=5.8, ncol=1, loc="upper left")
+        axes[0].legend(frameon=False, fontsize=6.4, ncol=1, loc="upper left")
 
     # B: does approximation quality predict Adam's gain over DFA?
     adam = preferred[preferred["method"] == "dfa_adam_hidden"].copy()
@@ -354,7 +354,7 @@ def make_diagnostic_figure(df: pd.DataFrame, output_dir: Path, *, preferred_damp
         axes[1].set_xlabel("Adam-step/diag-K cosine")
         axes[1].set_ylabel("Adam gain over DFA (pp)")
         axes[1].set_title("B  Does the approximation explain gain?")
-        axes[1].legend(frameon=False, fontsize=5.8)
+        axes[1].legend(frameon=False, fontsize=6.4)
 
     # C: damping dependence for full and diagonal variants, measured as a gain
     # over raw DFA so task difficulty does not dominate the y-axis.
@@ -387,7 +387,7 @@ def make_diagnostic_figure(df: pd.DataFrame, output_dir: Path, *, preferred_damp
         axes[2].set_ylabel("gain over DFA (pp)")
         axes[2].set_title("C  Damping matters in hard cells")
         axes[2].axhline(0.0, color="#444444", lw=0.8)
-        axes[2].legend(frameon=False, fontsize=5.8)
+        axes[2].legend(frameon=False, fontsize=6.4)
 
     for ax in axes:
         ax.grid(axis="y", color="#E8EAE6", lw=0.6)
@@ -485,12 +485,12 @@ def setup_style() -> None:
         {
             "font.family": "sans-serif",
             "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans"],
-            "font.size": 7.2,
-            "axes.labelsize": 7.4,
-            "axes.titlesize": 8.0,
-            "xtick.labelsize": 6.5,
-            "ytick.labelsize": 6.5,
-            "legend.fontsize": 6.0,
+            "font.size": 8.0,
+            "axes.labelsize": 8.2,
+            "axes.titlesize": 8.6,
+            "xtick.labelsize": 7.3,
+            "ytick.labelsize": 7.3,
+            "legend.fontsize": 6.8,
             "axes.spines.top": False,
             "axes.spines.right": False,
             "axes.linewidth": 0.8,
