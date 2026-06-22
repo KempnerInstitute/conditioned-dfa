@@ -12,6 +12,34 @@ import torch.nn.functional as F
 from infogeo.dfa import Gradients, _torch_cosine
 
 
+SOLVE_STATS = {
+    "solve_damping_escalations": 0,
+    "solve_lstsq_fallbacks": 0,
+    "solve_max_damping_multiplier": 1.0,
+}
+
+
+def reset_solve_stats() -> None:
+    SOLVE_STATS["solve_damping_escalations"] = 0
+    SOLVE_STATS["solve_lstsq_fallbacks"] = 0
+    SOLVE_STATS["solve_max_damping_multiplier"] = 1.0
+
+
+def solve_stats_dict() -> dict[str, float]:
+    return {key: float(value) for key, value in SOLVE_STATS.items()}
+
+
+def _record_solve(multiplier: float, *, used_lstsq: bool = False) -> None:
+    if multiplier > 1.0:
+        SOLVE_STATS["solve_damping_escalations"] += 1
+    if used_lstsq:
+        SOLVE_STATS["solve_lstsq_fallbacks"] += 1
+    SOLVE_STATS["solve_max_damping_multiplier"] = max(
+        float(SOLVE_STATS["solve_max_damping_multiplier"]),
+        float(multiplier),
+    )
+
+
 @dataclass(frozen=True)
 class ConvGradients:
     conv_weights: list[torch.Tensor]
@@ -744,7 +772,9 @@ def damped_solve(cov: torch.Tensor, rhs: torch.Tensor, *, damping: float) -> tor
         except RuntimeError:
             continue
         if torch.isfinite(solution).all():
+            _record_solve(multiplier)
             return solution
+    _record_solve(10000.0, used_lstsq=True)
     return torch.linalg.lstsq(cov + (base * 10000.0) * eye, rhs).solution
 
 

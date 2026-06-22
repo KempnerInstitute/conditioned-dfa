@@ -341,7 +341,8 @@ def make_diagnostic_figure(df: pd.DataFrame, output_dir: Path, *, preferred_damp
     adam = adam.merge(dfa, on=["cell", "feedback_rank"], how="left")
     if not adam.empty:
         adam["gain"] = 100.0 * (adam["test_acc"] - adam["dfa_acc"])
-        for cell, group in adam.groupby("cell"):
+        for cell in [c for c in CELL_ORDER if c in set(adam["cell"].astype(str))]:
+            group = adam[adam["cell"].astype(str) == cell]
             axes[1].scatter(
                 group["adam_diagk_update_cosine_mean"],
                 group["gain"],
@@ -510,10 +511,10 @@ def ordered_cells(df: pd.DataFrame) -> list[str]:
 
 def pretty_cell(cell: str) -> str:
     return {
-        "nuisance_hard": "Nuisance hard",
+        "nuisance_hard": "Nuisance-dominant",
         "low_sample_noisy": "Low-sample/noisy",
-        "mixed_hard": "Mixed hard",
-        "clean_aligned": "Clean aligned",
+        "mixed_hard": "Mixed-context",
+        "clean_aligned": "Clean/task-aligned",
     }.get(cell, cell.replace("_", " ").title())
 
 

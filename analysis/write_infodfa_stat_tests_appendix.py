@@ -99,7 +99,7 @@ def main() -> None:
             "Conditioning gains over raw DFA are highly significant in every regime (Holm $p<10^{-7}$). "
             "Conditioning gains over BP are significant in nuisance-dominant, mixed-context, and "
             "low-sample/noisy regimes ($p<10^{-13}$), but conditioning \\emph{loses} to BP in the "
-            "task-aligned synthetic control and is statistically tied with BP on Fashion-MNIST and CIFAR-10.}",
+            "task-aligned synthetic control and shows no significant difference from BP on Fashion-MNIST and CIFAR-10.}",
             "    \\label{tab:infodfa_stat_tests}",
             "\\end{table}",
         ]

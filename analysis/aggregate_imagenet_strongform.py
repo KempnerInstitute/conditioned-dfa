@@ -1,9 +1,9 @@
-"""Aggregate the strong-form ImageNet-100 substitution-depth sweep.
+"""Aggregate the full-covariance ZCA ImageNet-100 substitution-depth diagnostic.
 
 Builds a depth x conditioner table of ImageNet-100 top-1 for raw block-DFA,
-diagonal nDFA, and full-covariance nDFA (the strong form), all with the BP-norm
-oracle dropped and a pretrained backbone. Includes the deep-substitution LR
-check for full-covariance nDFA when present.
+diagonal nDFA, and full-covariance inverse-square-root/ZCA conditioning, all with the
+BP-norm oracle dropped and a pretrained backbone. Includes the
+deep-substitution LR check for full-covariance ZCA when present.
 """
 
 from __future__ import annotations
@@ -15,7 +15,7 @@ import pandas as pd
 MAIN = Path("results/imagenet100_strongform_v1")
 LRCHK = Path("results/imagenet100_strongform_lrcheck_v1")
 DEPTHS = ["layer4", "l34", "l234", "all"]
-COND = {"dfa": "raw DFA", "ndfaDiag": "nDFA-diag", "ndfaFull": "nDFA-full"}
+COND = {"dfa": "raw DFA", "ndfaDiag": "nDFA-diag", "ndfaFull": "full-cov ZCA"}
 SEEDS = [0, 1, 2]  # seed 0 lives in the unsuffixed dir, others in <tag>_seed<N>
 
 
@@ -52,7 +52,7 @@ def main() -> None:
         print(f"{depth:>8} | " + " | ".join(f"{c:>22}" for c in cells))
 
     if LRCHK.exists():
-        print("\nFull-cov nDFA deep-substitution LR check:")
+        print("\nFull-cov ZCA deep-substitution LR check:")
         for d in sorted(LRCHK.glob("*/imagenet_credit_assignment.csv")):
             last, best = final_best(d)
             print(f"  {d.parent.name:24} final={last:5.1f}  best={best:5.1f}")

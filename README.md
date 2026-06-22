@@ -1,7 +1,7 @@
 # Info-DFA: Conditioned Direct Feedback Alignment
 
 Code, experiments, and figures for the paper *Conditioned Direct Feedback
-Alignment for Noisy and Nuisance-Dominated Learning*.
+Alignment for Noisy and Nuisance-Dominant Learning*.
 
 Direct Feedback Alignment (DFA) trains deep networks with fixed random feedback
 instead of the transposed forward weights used by backpropagation (BP), but it
@@ -9,7 +9,7 @@ degrades sharply when the learning signal is dominated by noise, nuisance
 variation, or limited samples. This project studies **covariance-conditioned
 direct feedback** (nDFA / K-nDFA): feedback that is whitened against the
 noise/nuisance covariance of the signal. The central finding is that
-conditioning rescues DFA in noisy, low-sample, nuisance-dominated, and
+conditioning rescues DFA in noisy, low-sample, nuisance-dominant, and
 mixed-context regimes — often matching or beating BP there — while remaining a
 targeted improvement rather than a universal replacement for backpropagation.
 

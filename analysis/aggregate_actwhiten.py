@@ -3,7 +3,7 @@
 Compares raw DFA, dfa_actwhiten (ZCA activation decorrelation, precondition by
 (C+lambda I)^{-1/2}), activity nDFA, and K-nDFA (full inverse, (C+lambda I)^{-1})
 on the same 128-cell synthetic grid as the main sweep. The question is whether the
-gain needs nDFA's full natural-gradient power or only generic decorrelation.
+gain needs nDFA's full inverse-second-moment power or only generic decorrelation.
 """
 
 from __future__ import annotations
@@ -32,9 +32,9 @@ def main() -> None:
         piv.round(2).to_string(),
         "",
         "decorr-DFA  = ZCA decorrelation (C^-1/2) gain over raw DFA.",
-        "nDFA-decorr = extra gain from the full inverse (C^-1, natural gradient) over decorrelation.",
-        "Reading: if nDFA-decorr is consistently positive, the gain needs the natural-gradient",
-        "power, not just generic activation decorrelation; if ~0, decorrelation suffices.",
+        "nDFA-decorr = extra gain from the full inverse (C^-1) over decorrelation.",
+        "Reading: if nDFA-decorr is consistently positive, the gain needs the full",
+        "inverse-second-moment power, not just generic activation decorrelation; if ~0, decorrelation suffices.",
     ]
     text = "\n".join(out) + "\n"
     (ROOT / "actwhiten_summary.md").write_text(text)

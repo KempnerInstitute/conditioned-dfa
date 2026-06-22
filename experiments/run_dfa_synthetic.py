@@ -30,6 +30,34 @@ from infogeo.geometry import class_dprime2, effective_dimension, inv_sqrtm_psd, 
 from infogeo.synthetic import make_manifold_split, manifold_features, task_boundary_weights
 
 
+SOLVE_STATS = {
+    "solve_damping_escalations": 0,
+    "solve_lstsq_fallbacks": 0,
+    "solve_max_damping_multiplier": 1.0,
+}
+
+
+def reset_solve_stats() -> None:
+    SOLVE_STATS["solve_damping_escalations"] = 0
+    SOLVE_STATS["solve_lstsq_fallbacks"] = 0
+    SOLVE_STATS["solve_max_damping_multiplier"] = 1.0
+
+
+def solve_stats_dict() -> dict[str, float]:
+    return {key: float(value) for key, value in SOLVE_STATS.items()}
+
+
+def _record_solve(multiplier: float, *, used_lstsq: bool = False) -> None:
+    if multiplier > 1.0:
+        SOLVE_STATS["solve_damping_escalations"] += 1
+    if used_lstsq:
+        SOLVE_STATS["solve_lstsq_fallbacks"] += 1
+    SOLVE_STATS["solve_max_damping_multiplier"] = max(
+        float(SOLVE_STATS["solve_max_damping_multiplier"]),
+        float(multiplier),
+    )
+
+
 def main() -> None:
     args = parse_args()
     if args.quick:
@@ -161,6 +189,7 @@ def run_one_method(
     args: argparse.Namespace,
 ) -> list[dict[str, float | str]]:
     device = "cuda" if args.cuda and torch.cuda.is_available() else "cpu"
+    reset_solve_stats()
     torch.manual_seed(seed)
     model = ManualMLP(
         input_dim=dataset.x_train.shape[1],
@@ -356,6 +385,7 @@ def evaluate_model(
                 "weight_rayleigh": float(np.mean(rq)),
                 "class_dprime2": class_dprime2(h, y_eval_np),
                 "effective_dim": effective_dimension(h),
+                **solve_stats_dict(),
             }
         )
     return rows
@@ -407,7 +437,7 @@ def natural_precondition_gradients(
             # Decorrelation baseline: ZCA-whiten the presynaptic activity,
             # i.e. precondition by (C+lambda I)^{-1/2} (power 1/2) instead of nDFA's
             # full inverse (C+lambda I)^{-1} (power 1). Tests whether the gain needs
-            # the natural-gradient power or only generic activation decorrelation.
+            # the inverse-second-moment power or only generic activation decorrelation.
             activity = activations[layer_idx].detach()
             cov = activity.T @ activity / max(activity.shape[0], 1)
             eye = torch.eye(cov.shape[0], dtype=cov.dtype, device=cov.device)
@@ -441,8 +471,10 @@ def damped_solve(cov: torch.Tensor, rhs: torch.Tensor, *, damping: float) -> tor
             last_error = exc
             continue
         if torch.isfinite(solution).all():
+            _record_solve(multiplier)
             return solution
     try:
+        _record_solve(10000.0, used_lstsq=True)
         return torch.linalg.lstsq(cov + (base * 10000.0) * eye, rhs).solution
     except RuntimeError:
         if last_error is not None:

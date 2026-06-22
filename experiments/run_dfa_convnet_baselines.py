@@ -29,6 +29,8 @@ from infogeo.conv_dfa import (  # noqa: E402
     init_conv_local_heads,
     natural_precondition_conv_gradients,
     norm_match_conv_gradients,
+    reset_solve_stats as reset_conv_solve_stats,
+    solve_stats_dict as conv_solve_stats_dict,
     spatial_kronecker_conv_gradients,
 )
 
@@ -279,6 +281,7 @@ def run_one(
     args: argparse.Namespace,
 ) -> list[dict[str, float | str]]:
     device = "cuda" if args.cuda and torch.cuda.is_available() else "cpu"
+    reset_conv_solve_stats()
     model = ManualConvNet(
         input_shape=input_shape,
         output_dim=args.n_classes,
@@ -417,6 +420,7 @@ def evaluate(
         "train_eval_acc": model.accuracy(x_eval, y_eval, batch_size=args.eval_batch_size),
         "test_acc": model.accuracy(x_test, y_test, batch_size=args.eval_batch_size),
         **diagnostics,
+        **conv_solve_stats_dict(),
     }
 
 

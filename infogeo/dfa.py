@@ -10,6 +10,34 @@ import torch
 import torch.nn.functional as F
 
 
+STABLE_SOLVE_STATS = {
+    "stable_solve_damping_escalations": 0,
+    "stable_solve_lstsq_fallbacks": 0,
+    "stable_solve_max_damping_multiplier": 1.0,
+}
+
+
+def reset_stable_solve_stats() -> None:
+    STABLE_SOLVE_STATS["stable_solve_damping_escalations"] = 0
+    STABLE_SOLVE_STATS["stable_solve_lstsq_fallbacks"] = 0
+    STABLE_SOLVE_STATS["stable_solve_max_damping_multiplier"] = 1.0
+
+
+def stable_solve_stats_dict() -> dict[str, float]:
+    return {key: float(value) for key, value in STABLE_SOLVE_STATS.items()}
+
+
+def _record_stable_solve(multiplier: float, *, used_lstsq: bool = False) -> None:
+    if multiplier > 1.0:
+        STABLE_SOLVE_STATS["stable_solve_damping_escalations"] += 1
+    if used_lstsq:
+        STABLE_SOLVE_STATS["stable_solve_lstsq_fallbacks"] += 1
+    STABLE_SOLVE_STATS["stable_solve_max_damping_multiplier"] = max(
+        float(STABLE_SOLVE_STATS["stable_solve_max_damping_multiplier"]),
+        float(multiplier),
+    )
+
+
 @dataclass
 class Gradients:
     weights: list[torch.Tensor]
@@ -529,8 +557,10 @@ def _stable_solve(gram: torch.Tensor, rhs: torch.Tensor, eye: torch.Tensor, *, e
             last_error = exc
             continue
         if torch.isfinite(coeff).all():
+            _record_stable_solve(multiplier)
             return coeff
     try:
+        _record_stable_solve(10000.0, used_lstsq=True)
         return torch.linalg.lstsq(gram + (base * 10000.0) * eye, rhs).solution
     except RuntimeError:
         if last_error is not None:
