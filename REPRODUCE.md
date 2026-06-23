@@ -68,7 +68,7 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   {0.05,0.15}; methods bp/dfa_random/fa_random/ndfa_random/ndfa_random_kronecker/
   drtp_random/vnc/nmnc; 5 data seeds; 3 feedback seeds for local-feedback methods;
   feedback ranks {0,1,2,4,8}; hidden 256-128; 14 training epochs plus epoch-0
-  evaluation; lr 0.08; natural-damping 0.3).
+  evaluation; lr 0.08; damping `lambda=0.3`).
 - Honest model selection: `analysis/reanalyze_synthetic_honest_selection.py` reports
   per-regime accuracy under test-selected vs fixed-full-rank vs leave-one-seed-out
   (LOSO) rank selection, plus matched cell-by-seed paired robustness tests. These
@@ -146,7 +146,7 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
 - Run: `sbatch slurm/infodfa_bp_tuning_synthetic.sbatch` (BP only, lr grid
   {0.02,0.04,0.08,0.16,0.32} at every cell).
 - Aggregate: `analysis/aggregate_bp_tuning.py` (tuned BP per cell via LOSO over lr;
-  matched cell-by-seed LOSO robustness test vs best conditioned).
+  matched cell-by-seed LOSO robustness test vs the selected conditioned rule).
 
 ## BP-preconditioning control, matched learning rate (§4.2, Table 11)
 - BP+precond data: `results/infodfa_bpwhiten_synthetic_v1` (same lr grid as Tuned-BP).
