@@ -104,6 +104,7 @@ def run_one(
         output_dim=args.n_classes,
         seed=10_000 + seed,
         device=device,
+        batchnorm=args.batchnorm,
     )
     train_x = train_x.to(device)
     train_y = train_y.to(device)
@@ -111,6 +112,7 @@ def run_one(
     test_y = test_y.to(device)
 
     feedback = initialize_feedback(model, method=method, seed=seed, feedback_seed=feedback_seed, args=args)
+    precond_cache = {} if args.cov_refresh_interval > 1 else None
     rng = np.random.default_rng(30_000 + 100 * seed + feedback_seed)
     rows = []
     eval_n = min(args.eval_size, train_x.shape[0])
@@ -161,7 +163,18 @@ def run_one(
                         antithetic=not args.nc_no_antithetic,
                         normalize_by_variance=not args.nc_covariance_scaled,
                     )
-            gradients = compute_gradients(model, xb, yb, method=method, feedback=feedback, args=args)
+            model.training = True  # batch-stats BatchNorm during updates (no-op without --batchnorm)
+            gradients = compute_gradients(
+                model,
+                xb,
+                yb,
+                method=method,
+                feedback=feedback,
+                args=args,
+                precond_cache=precond_cache,
+                refresh_precond=step % max(args.cov_refresh_interval, 1) == 0,
+            )
+            model.training = False
             model.apply_gradients(gradients, lr=args.lr)
             step += 1
     return rows
@@ -203,6 +216,8 @@ def compute_gradients(
     method: str,
     feedback,
     args: argparse.Namespace,
+    precond_cache: dict | None = None,
+    refresh_precond: bool = True,
 ):
     if method == "bp":
         return model.bp_gradients(x, y)
@@ -221,6 +236,8 @@ def compute_gradients(
             x,
             damping=args.natural_damping,
             mode=natural_mode_from_method(method),
+            cache=precond_cache,
+            refresh=refresh_precond,
         )
     return gradients
 
@@ -495,6 +512,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--nc-init", choices=["zero", "random"], default="zero")
     parser.add_argument("--nc-no-antithetic", action="store_true")
     parser.add_argument("--nc-covariance-scaled", action="store_true")
+    parser.add_argument("--batchnorm", action="store_true", help="Insert BatchNorm1d after each hidden linear layer (pre-activation); default off.")
+    parser.add_argument("--cov-refresh-interval", type=int, default=1, help="Recompute the damped covariance inverse for ndfa preconditioning every k training batches (1 = every batch, the default behavior).")
     parser.add_argument("--covariance-diagnostics", action="store_true")
     return parser.parse_args()
 

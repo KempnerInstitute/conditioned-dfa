@@ -419,15 +419,25 @@ def natural_precondition_gradients(
     damping: float,
     mode: str = "activity",
     error_deltas: "Sequence[torch.Tensor] | None" = None,
+    cache: "dict | None" = None,
+    refresh: bool = True,
 ) -> Gradients:
     """Local natural-DFA proxies using Kronecker-style preconditioning.
 
     ``error_deltas`` overrides the deltas used for the error-side (left) factor.
     Passing the BP deltas gives a true-KFAC-DFA control: the K-nDFA rule but with
     the left factor built from the BP error covariance rather than DFA's own.
+
+    ``cache``/``refresh`` implement amortized covariance refresh: with a dict
+    ``cache``, the damped inverses are recomputed from the current batch only
+    when ``refresh`` is True and reused otherwise. ``cache=None`` (the default)
+    keeps the original every-batch behavior exactly.
     """
 
-    _, activations, _ = model.forward(x)
+    if cache is not None and not cache:
+        refresh = True  # never apply an uninitialized cache
+    need_forward = cache is None or refresh or mode == "activity_sqrt"
+    activations = model.forward(x)[1] if need_forward else None
     new_weights = [grad.clone() for grad in gradients.weights]
     new_biases = [grad.clone() for grad in gradients.biases]
     left_deltas = gradients.deltas if error_deltas is None else error_deltas
@@ -447,13 +457,31 @@ def natural_precondition_gradients(
             )
             grad = grad @ inv_sqrt
         if mode in {"activity", "kronecker"}:
-            activity = activations[layer_idx].detach()
-            cov = activity.T @ activity / max(activity.shape[0], 1)
-            grad = damped_solve(cov, grad.T, damping=damping).T
+            if cache is None:
+                activity = activations[layer_idx].detach()
+                cov = activity.T @ activity / max(activity.shape[0], 1)
+                grad = damped_solve(cov, grad.T, damping=damping).T
+            else:
+                key = ("activity", layer_idx)
+                if refresh:
+                    activity = activations[layer_idx].detach()
+                    cov = activity.T @ activity / max(activity.shape[0], 1)
+                    eye = torch.eye(cov.shape[0], dtype=cov.dtype, device=cov.device)
+                    cache[key] = damped_solve(cov, eye, damping=damping)
+                grad = (cache[key] @ grad.T).T
         if mode in {"error", "kronecker"}:
-            delta = left_deltas[layer_idx].detach()
-            cov = delta.T @ delta / max(delta.shape[0], 1)
-            grad = damped_solve(cov, grad, damping=damping)
+            if cache is None:
+                delta = left_deltas[layer_idx].detach()
+                cov = delta.T @ delta / max(delta.shape[0], 1)
+                grad = damped_solve(cov, grad, damping=damping)
+            else:
+                key = ("error", layer_idx)
+                if refresh:
+                    delta = left_deltas[layer_idx].detach()
+                    cov = delta.T @ delta / max(delta.shape[0], 1)
+                    eye = torch.eye(cov.shape[0], dtype=cov.dtype, device=cov.device)
+                    cache[key] = damped_solve(cov, eye, damping=damping)
+                grad = cache[key] @ grad
         new_weights[layer_idx] = grad
     return Gradients(new_weights, new_biases, gradients.deltas, gradients.loss)
 

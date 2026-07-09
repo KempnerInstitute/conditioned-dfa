@@ -58,6 +58,13 @@ METHOD_COLOR = {
     "kndfa": "#6A3D9A",
 }
 CELL_ORDER = ["nuisance_hard", "low_sample_noisy", "mixed_hard", "clean_aligned"]
+# Regime colors matching the paper's house palette (scripts/make_iclr_figures.py).
+CELL_COLOR = {
+    "nuisance_hard": "#D55E00",
+    "low_sample_noisy": "#009E73",
+    "mixed_hard": "#56B4E9",
+    "clean_aligned": "#0072B2",
+}
 
 
 def main() -> None:
@@ -240,7 +247,7 @@ def make_learning_figure(curves: pd.DataFrame, output_dir: Path, *, preferred_da
     cells = ordered_cells(sub)
     if not cells:
         return
-    fig, axes = plt.subplots(2, 2, figsize=(7.4, 5.3), constrained_layout=True, squeeze=False)
+    fig, axes = plt.subplots(2, 2, figsize=(6.4, 4.6), constrained_layout=True, squeeze=False)
     fig.get_layout_engine().set(h_pad=0.12)
     for ax, cell in zip(axes.ravel(), cells):
         cell_df = sub[sub["cell"] == cell]
@@ -257,9 +264,11 @@ def make_learning_figure(curves: pd.DataFrame, output_dir: Path, *, preferred_da
         ax.set_xlabel("epoch")
         ax.set_ylabel("test accuracy (%)")
         ax.grid(axis="y", color="#E8EAE6", lw=0.6)
+        ax.set_axisbelow(True)
     for ax in axes.ravel()[len(cells) :]:
         ax.axis("off")
-    axes.ravel()[0].legend(frameon=False, fontsize=6.5, ncol=2)
+    axes.ravel()[0].legend(frameon=False, fontsize=6.0, ncol=2)
+    label_axes(axes.ravel()[: len(cells)])
     for ext in ("pdf", "png", "svg"):
         fig.savefig(output_dir / f"infodfa_adam_diagk_learning.{ext}", dpi=320, bbox_inches="tight")
     plt.close(fig)
@@ -271,7 +280,7 @@ def make_best_learning_figure(curves: pd.DataFrame, best: pd.DataFrame, output_d
     cells = ordered_cells(curves)
     if not cells or best.empty:
         return
-    fig, axes = plt.subplots(2, 2, figsize=(7.4, 5.3), constrained_layout=True, squeeze=False)
+    fig, axes = plt.subplots(2, 2, figsize=(6.4, 4.6), constrained_layout=True, squeeze=False)
     fig.get_layout_engine().set(h_pad=0.12)
     for ax, cell in zip(axes.ravel(), cells):
         for method in methods:
@@ -301,9 +310,11 @@ def make_best_learning_figure(curves: pd.DataFrame, best: pd.DataFrame, output_d
         ax.set_xlabel("epoch")
         ax.set_ylabel("test accuracy (%)")
         ax.grid(axis="y", color="#E8EAE6", lw=0.6)
+        ax.set_axisbelow(True)
     for ax in axes.ravel()[len(cells) :]:
         ax.axis("off")
     axes.ravel()[0].legend(frameon=False, fontsize=5.8, ncol=1)
+    label_axes(axes.ravel()[: len(cells)])
     for ext in ("pdf", "png", "svg"):
         fig.savefig(output_dir / f"infodfa_adam_diagk_learning_best.{ext}", dpi=320, bbox_inches="tight")
     plt.close(fig)
@@ -314,7 +325,7 @@ def make_diagnostic_figure(df: pd.DataFrame, output_dir: Path, *, preferred_damp
     final = df.sort_values("epoch").groupby(run_columns(df), dropna=False, as_index=False).tail(1)
     preferred = select_preferred(final, preferred_damping=preferred_damping, preferred_adaptive_lr=preferred_adaptive_lr)
     approx = summarize_approximation(df, preferred_adaptive_lr=preferred_adaptive_lr)
-    fig, axes = plt.subplots(1, 3, figsize=(6.9, 3.25), constrained_layout=True)
+    fig, axes = plt.subplots(1, 3, figsize=(6.4, 2.6), constrained_layout=True)
 
     # A: direct approximation quality for Adam runs.
     if not approx.empty:
@@ -324,12 +335,12 @@ def make_diagnostic_figure(df: pd.DataFrame, output_dir: Path, *, preferred_damp
         axes[0].bar(x - width, approx["factorization_corr"], width=width, color="#56B4E9", label=r"$E[\delta^2 h^2]$ vs factor")
         axes[0].bar(x, approx["adam_factor_corr"], width=width, color=METHOD_COLOR["dfa_adam_hidden"], label="Adam v vs factor")
         axes[0].bar(x + width, approx["adam_diagk_cosine"], width=width, color="#CC79A7", label="Adam step vs diag K")
-        axes[0].set_xticks(x, [pretty_cell(c) for c in approx["cell"]], rotation=25, ha="right")
+        axes[0].set_xticks(x, [pretty_cell(c) for c in approx["cell"]], rotation=30, ha="right", fontsize=6.4)
         axes[0].set_ylabel("correlation / cosine")
-        axes[0].set_title("A  Approximation quality")
+        axes[0].set_title("Approximation quality")
         axes[0].set_ylim(-0.05, 1.32)
         axes[0].set_yticks([0.0, 0.5, 1.0])
-        axes[0].legend(frameon=False, fontsize=6.4, ncol=1, loc="upper left")
+        axes[0].legend(frameon=False, fontsize=6.0, ncol=1, loc="upper left")
 
     # B: does approximation quality predict Adam's gain over DFA?
     adam = preferred[preferred["method"] == "dfa_adam_hidden"].copy()
@@ -348,13 +359,14 @@ def make_diagnostic_figure(df: pd.DataFrame, output_dir: Path, *, preferred_damp
                 group["gain"],
                 s=22,
                 alpha=0.72,
+                color=CELL_COLOR.get(cell, "#777777"),
                 label=pretty_cell(cell),
             )
         axes[1].axhline(0, color="#444444", lw=0.8)
         axes[1].set_xlabel("Adam-step/diag-K cosine")
         axes[1].set_ylabel("Adam gain over DFA (pp)")
-        axes[1].set_title("B  Does the approximation explain gain?")
-        axes[1].legend(frameon=False, fontsize=6.4)
+        axes[1].set_title("Approximation vs. gain")
+        axes[1].legend(frameon=False, fontsize=6.0)
 
     # C: damping dependence for full and diagonal variants, measured as a gain
     # over raw DFA so task difficulty does not dominate the y-axis.
@@ -385,12 +397,14 @@ def make_diagnostic_figure(df: pd.DataFrame, output_dir: Path, *, preferred_damp
         axes[2].set_xscale("log")
         axes[2].set_xlabel("damping")
         axes[2].set_ylabel("gain over DFA (pp)")
-        axes[2].set_title("C  Damping matters in hard cells")
+        axes[2].set_title("Damping in hard cells")
         axes[2].axhline(0.0, color="#444444", lw=0.8)
-        axes[2].legend(frameon=False, fontsize=6.4)
+        axes[2].legend(frameon=False, fontsize=6.0)
 
     for ax in axes:
         ax.grid(axis="y", color="#E8EAE6", lw=0.6)
+        ax.set_axisbelow(True)
+    label_axes(axes)
     for ext in ("pdf", "png", "svg"):
         fig.savefig(output_dir / f"infodfa_adam_diagk_diagnostics.{ext}", dpi=320, bbox_inches="tight")
     plt.close(fig)
@@ -481,25 +495,76 @@ def write_report(best: pd.DataFrame, approx: pd.DataFrame, output_dir: Path) -> 
 
 
 def setup_style() -> None:
+    # House style shared with drafts/Info-DFA/scripts/make_iclr_figures.py:
+    # figures drawn at ~6.4in and rendered at \textwidth (~5.5in).
     plt.rcParams.update(
         {
             "font.family": "sans-serif",
-            "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans"],
-            "font.size": 8.0,
-            "axes.labelsize": 8.2,
-            "axes.titlesize": 8.6,
-            "xtick.labelsize": 7.3,
-            "ytick.labelsize": 7.3,
-            "legend.fontsize": 6.8,
-            "axes.spines.top": False,
-            "axes.spines.right": False,
+            "font.sans-serif": ["DejaVu Sans", "Arial", "Helvetica"],
+            "font.size": 9.0,
+            "axes.titlesize": 9.5,
+            "axes.labelsize": 9.0,
+            "xtick.labelsize": 8.0,
+            "ytick.labelsize": 8.0,
+            "legend.fontsize": 8.0,
+            "mathtext.fontset": "dejavusans",
             "axes.linewidth": 0.8,
-            "lines.linewidth": 1.4,
+            "lines.linewidth": 2.2,
+            "lines.markersize": 4.5,
+            "xtick.major.width": 0.8,
+            "ytick.major.width": 0.8,
+            "xtick.major.size": 3.0,
+            "ytick.major.size": 3.0,
+            "legend.handlelength": 1.7,
+            "legend.columnspacing": 1.3,
+            "legend.borderaxespad": 0.3,
             "pdf.fonttype": 42,
             "ps.fonttype": 42,
             "svg.fonttype": "none",
+            "axes.spines.top": False,
+            "axes.spines.right": False,
+            "axes.axisbelow": True,
+            "figure.dpi": 150,
+            "savefig.dpi": 400,
         }
     )
+
+
+def label_axes(axes, fontsize=10, pad_x_pt=1.0, pad_y_pt=2.5) -> None:
+    """Bold panel letters just outside each panel's rendered extent (house style).
+
+    Letters sit above the tight bounding box of everything the panel draws, so
+    they cannot collide with panel content; letters in the same subplot row
+    share a common baseline. Call after all panel content is final.
+    """
+    axes = list(np.ravel(axes))
+    fig = axes[0].figure
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    inv = fig.transFigure.inverted()
+    corners = [inv.transform((ax.get_tightbbox(renderer).x0, ax.get_tightbbox(renderer).y1)) for ax in axes]
+    y1s = [ax.get_position().y1 for ax in axes]
+    row_key = list(y1s)
+    for i, yi in enumerate(y1s):
+        for yj in y1s:
+            if abs(yi - yj) < 0.15:
+                row_key[i] = max(row_key[i], yj)
+    row_top: dict[float, float] = {}
+    for key, (_, cy) in zip(row_key, corners):
+        row_top[key] = max(row_top.get(key, 0.0), cy)
+    fig_w, fig_h = fig.get_size_inches()
+    dx = pad_x_pt / 72.0 / fig_w
+    dy = pad_y_pt / 72.0 / fig_h
+    for letter, (cx, _), key in zip("ABCDEFGHIJKLMNOPQRSTUVWXYZ", corners, row_key):
+        fig.text(
+            max(cx - dx, 0.0),
+            row_top[key] + dy,
+            letter,
+            fontsize=fontsize,
+            fontweight="bold",
+            ha="left",
+            va="bottom",
+        )
 
 
 def ordered_cells(df: pd.DataFrame) -> list[str]:

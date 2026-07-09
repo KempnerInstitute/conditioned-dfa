@@ -104,9 +104,12 @@ def synthetic_summary() -> pd.DataFrame:
     rows = []
     for condition in ["nuisance_dominant", "low_sample_noisy", "mixed_context", "task_aligned"]:
         sub = wide[wide["condition"] == condition]
-        best_ndfa_method = sub[["ndfa_random", "ndfa_random_kronecker"]].mean().idxmax()
+        # DEPRECATED post-hoc envelope: picks the better of nDFA / K-nDFA per
+        # regime after seeing results. Kept only for the diagnostic markdown
+        # report; no headline (tex) table uses these columns.
+        best_conditioned_method = sub[["ndfa_random", "ndfa_random_kronecker"]].mean().idxmax()
         best_nc_method = sub[["vnc", "nmnc"]].mean().idxmax()
-        best_ndfa_series = sub[best_ndfa_method]
+        best_conditioned_series = sub[best_conditioned_method]
         best_nc_series = sub[best_nc_method]
         rows.append(
             {
@@ -115,15 +118,15 @@ def synthetic_summary() -> pd.DataFrame:
                 "dfa": sub["dfa_random"].mean(),
                 "ndfa": sub["ndfa_random"].mean(),
                 "kndfa": sub["ndfa_random_kronecker"].mean(),
-                "best_ndfa": best_ndfa_series.mean(),
+                "best_conditioned_posthoc": best_conditioned_series.mean(),
                 "best_nc": best_nc_series.mean(),
                 "delta_ndfa_dfa": (sub["ndfa_random"] - sub["dfa_random"]).mean(),
                 "delta_kndfa_dfa": (sub["ndfa_random_kronecker"] - sub["dfa_random"]).mean(),
-                "delta_ndfa_bp": (best_ndfa_series - sub["bp"]).mean(),
+                "delta_best_conditioned_bp": (best_conditioned_series - sub["bp"]).mean(),
                 "wins_ndfa_over_dfa": int((sub["ndfa_random"] > sub["dfa_random"]).sum()),
                 "wins_kndfa_over_dfa": int((sub["ndfa_random_kronecker"] > sub["dfa_random"]).sum()),
-                "wins_dfa": int((best_ndfa_series > sub["dfa_random"]).sum()),
-                "wins_bp": int((best_ndfa_series > sub["bp"]).sum()),
+                "wins_best_conditioned_dfa": int((best_conditioned_series > sub["dfa_random"]).sum()),
+                "wins_best_conditioned_bp": int((best_conditioned_series > sub["bp"]).sum()),
                 "n_cells": int(sub.shape[0]),
             }
         )
@@ -139,9 +142,10 @@ def vision_summary() -> pd.DataFrame:
     rows = []
     for dataset in ["fashion_mnist", "cifar10"]:
         sub = wide[wide["dataset"] == dataset]
-        best_ndfa_method = sub[["ndfa_random", "ndfa_random_kronecker"]].mean().idxmax()
+        # DEPRECATED post-hoc envelope: see synthetic_summary.
+        best_conditioned_method = sub[["ndfa_random", "ndfa_random_kronecker"]].mean().idxmax()
         best_nc_method = sub[["vnc", "nmnc"]].mean().idxmax()
-        best_ndfa_series = sub[best_ndfa_method]
+        best_conditioned_series = sub[best_conditioned_method]
         best_nc_series = sub[best_nc_method]
         rows.append(
             {
@@ -150,15 +154,15 @@ def vision_summary() -> pd.DataFrame:
                 "dfa": sub["dfa_random"].mean(),
                 "ndfa": sub["ndfa_random"].mean(),
                 "kndfa": sub["ndfa_random_kronecker"].mean(),
-                "best_ndfa": best_ndfa_series.mean(),
+                "best_conditioned_posthoc": best_conditioned_series.mean(),
                 "best_nc": best_nc_series.mean(),
                 "delta_ndfa_dfa": (sub["ndfa_random"] - sub["dfa_random"]).mean(),
                 "delta_kndfa_dfa": (sub["ndfa_random_kronecker"] - sub["dfa_random"]).mean(),
-                "delta_ndfa_bp": (best_ndfa_series - sub["bp"]).mean(),
+                "delta_best_conditioned_bp": (best_conditioned_series - sub["bp"]).mean(),
                 "wins_ndfa_over_dfa": int((sub["ndfa_random"] > sub["dfa_random"]).sum()),
                 "wins_kndfa_over_dfa": int((sub["ndfa_random_kronecker"] > sub["dfa_random"]).sum()),
-                "wins_dfa": int((best_ndfa_series > sub["dfa_random"]).sum()),
-                "wins_bp": int((best_ndfa_series > sub["bp"]).sum()),
+                "wins_best_conditioned_dfa": int((best_conditioned_series > sub["dfa_random"]).sum()),
+                "wins_best_conditioned_bp": int((best_conditioned_series > sub["bp"]).sum()),
                 "n_cells": int(sub.shape[0]),
             }
         )
@@ -507,30 +511,39 @@ def write_summary_report(
             "",
             "## Synthetic stress suite",
             "",
-            "| regime | BP | DFA | best nDFA/K | best NC | gain vs DFA | gain vs BP | wins over DFA/BP |",
+            "The `best-cond` columns use the DEPRECATED post-hoc envelope (better of",
+            "nDFA / K-nDFA selected after seeing results); they are diagnostic only and",
+            "must not be quoted as headline numbers. Headline tables report nDFA and",
+            "K-nDFA separately.",
+            "",
+            "| regime | BP | DFA | best-cond (post-hoc) | best NC | nDFA gain vs DFA | best-cond gain vs BP (post-hoc) | best-cond wins over DFA/BP (post-hoc) |",
             "|---|---:|---:|---:|---:|---:|---:|---:|",
         ]
     )
     for _, row in synthetic.iterrows():
         lines.append(
             f"| {CONDITION_LABELS[row['condition']]} | {pct(row['bp'])} | {pct(row['dfa'])} | "
-            f"{pct(row['best_ndfa'])} | {pct(row['best_nc'])} | {pp(row['delta_ndfa_dfa'])} | "
-            f"{pp(row['delta_ndfa_bp'])} | {int(row['wins_dfa'])}/{int(row['n_cells'])}, {int(row['wins_bp'])}/{int(row['n_cells'])} |"
+            f"{pct(row['best_conditioned_posthoc'])} | {pct(row['best_nc'])} | {pp(row['delta_ndfa_dfa'])} | "
+            f"{pp(row['delta_best_conditioned_bp'])} | {int(row['wins_best_conditioned_dfa'])}/{int(row['n_cells'])}, "
+            f"{int(row['wins_best_conditioned_bp'])}/{int(row['n_cells'])} |"
         )
     lines.extend(
         [
             "",
             "## Vision MLP sweep",
             "",
-            "| dataset | BP | DFA | best nDFA/K | best NC | gain vs DFA | gain vs BP | wins over DFA/BP |",
+            "`best-cond` columns: same DEPRECATED post-hoc envelope caveat as above.",
+            "",
+            "| dataset | BP | DFA | best-cond (post-hoc) | best NC | nDFA gain vs DFA | best-cond gain vs BP (post-hoc) | best-cond wins over DFA/BP (post-hoc) |",
             "|---|---:|---:|---:|---:|---:|---:|---:|",
         ]
     )
     for _, row in vision.iterrows():
         lines.append(
             f"| {DATASET_LABELS[row['dataset']]} | {pct(row['bp'])} | {pct(row['dfa'])} | "
-            f"{pct(row['best_ndfa'])} | {pct(row['best_nc'])} | {pp(row['delta_ndfa_dfa'])} | "
-            f"{pp(row['delta_ndfa_bp'])} | {int(row['wins_dfa'])}/{int(row['n_cells'])}, {int(row['wins_bp'])}/{int(row['n_cells'])} |"
+            f"{pct(row['best_conditioned_posthoc'])} | {pct(row['best_nc'])} | {pp(row['delta_ndfa_dfa'])} | "
+            f"{pp(row['delta_best_conditioned_bp'])} | {int(row['wins_best_conditioned_dfa'])}/{int(row['n_cells'])}, "
+            f"{int(row['wins_best_conditioned_bp'])}/{int(row['n_cells'])} |"
         )
     lines.extend(
         [
