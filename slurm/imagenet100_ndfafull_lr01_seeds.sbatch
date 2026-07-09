@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=infodfa_in100_ndfafull_lr01
-#SBATCH --partition=kempner_h100_priority
+#SBATCH --partition=kempner_h100
 #SBATCH --account=kempner_bsabatini_lab
 #SBATCH --gres=gpu:1
 #SBATCH --time=24:00:00
