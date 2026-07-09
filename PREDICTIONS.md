@@ -72,3 +72,23 @@ Activity second moments drift slowly under stationary inputs, so:
 These predictions were derived from the linearized analysis and the
 existing controls only; no result files from the five runs above were
 read before this commit.
+
+## P5. MLP-Mixer with token-level conditioning (planned: `infodfa_mixer_v1`)
+
+Registered before the Mixer runner exists. A small MLP-Mixer on noisy-label
+CIFAR-10, with DFA feedback to token-mixing and channel-mixing layers and
+nDFA conditioning by the corresponding presynaptic second moments
+(token-level factor = the direct analogue of the channel factor):
+
+- **P5a:** conditioned DFA beats raw DFA on noisy-label CIFAR-10 in the
+  Mixer, i.e. the mechanism survives the token/channel factorization of
+  mixer-family architectures.
+- **P5b:** with LayerNorm enabled (standard Mixer), the relative gain is
+  SMALLER than in the un-normalized MLP tier — LayerNorm partially
+  standardizes per-token statistics — but remains positive, because
+  cross-feature covariance is untouched by LayerNorm.
+- **P5c:** with LayerNorm ablated, the gain grows toward MLP-tier size.
+- **If P5b fails with zero/negative gain**, the law implies LayerNorm
+  already provides the usable share of conditioning in normalized
+  architectures, and the method's practical scope narrows to
+  non-normalized (e.g. neuromorphic) settings; we commit to reporting it.
