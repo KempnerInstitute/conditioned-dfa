@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=infodfa_in100_noisy_deconf
-#SBATCH --partition=kempner_dev
+#SBATCH --partition=kempner_h100_priority
+#SBATCH --account=kempner_bsabatini_lab
 #SBATCH --gres=gpu:1
 #SBATCH --time=24:00:00
-#SBATCH --array=0-20%4
+#SBATCH --array=0-20%8
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=80G
 #SBATCH --output=logs/slurm/%x_%A_%a.out

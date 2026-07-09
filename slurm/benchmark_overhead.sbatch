@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=infodfa_bench
-#SBATCH --partition=kempner_dev
+#SBATCH --partition=kempner_eng
+#SBATCH --account=kempner_bsabatini_lab
 #SBATCH --gres=gpu:1
 #SBATCH --time=01:00:00
 #SBATCH --cpus-per-task=8

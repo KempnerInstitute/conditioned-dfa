@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=infodfa_amort_refresh
-#SBATCH --partition=serial_requeue
+#SBATCH --partition=kempner_eng
+#SBATCH --account=kempner_bsabatini_lab
 #SBATCH --time=10:00:00
 #SBATCH --array=0-5%6
 #SBATCH --cpus-per-task=4
@@ -20,6 +21,9 @@
 # k in {1,10,50}; 5 data seeds x 3 feedback seeds; otherwise the paper's
 # sweep protocol.
 set -euo pipefail
+
+source /n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh
+conda activate /n/holylabs/LABS/kempner_dev/Users/hsafaai/conda_envs/vdc_paper_v2
 
 cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
 mkdir -p logs/slurm

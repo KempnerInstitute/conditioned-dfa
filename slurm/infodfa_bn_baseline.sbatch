@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=infodfa_bn_base
-#SBATCH --partition=serial_requeue
+#SBATCH --partition=kempner_eng
+#SBATCH --account=kempner_bsabatini_lab
 #SBATCH --time=10:00:00
 #SBATCH --array=0-139%32
 #SBATCH --cpus-per-task=4
@@ -23,6 +24,9 @@
 # comparison partner columns (BP/DFA/nDFA without BN) already exist in the
 # main sweeps. Override METHODS/FEEDBACK_RANKS to widen.
 set -euo pipefail
+
+source /n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh
+conda activate /n/holylabs/LABS/kempner_dev/Users/hsafaai/conda_envs/vdc_paper_v2
 
 cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
 mkdir -p logs/slurm
