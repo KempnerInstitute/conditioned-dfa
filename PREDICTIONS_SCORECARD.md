@@ -63,7 +63,7 @@ new runs, others from the paper sweeps at matched cells.)
 - **P2d — REFUTED.** DFA+BN also improves the task-aligned control by
   +13 pp (BN rescues DFA's label-noise degradation there); BN is broadly
   helpful to DFA, not nuisance-specific. (BP+BN barely changes BP —
-  +0.5 pp mean — so BN's large effect is specific to the local rule's
+  +0.4 pp mean — so BN's large effect is specific to the local rule's
   activity statistics, itself consistent with the mechanism.)
 
 ## P3 — Amortized covariance refresh (final acc delta vs k=1)
