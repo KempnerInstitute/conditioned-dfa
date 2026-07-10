@@ -76,19 +76,24 @@ LOGIT_EPS = 1e-3
 CHANCE = {"synthetic": 1.0 / 8.0, "vision": 1.0 / 10.0, "mixer": 1.0 / 10.0}
 FLOOR_TOL = 0.01  # a method is "at the chance floor" if mean_acc <= chance + 1pp
 
+# Methods follow the house scheme (DFA grey-dashed, nDFA green, K-nDFA purple);
+# regimes use a distinct palette deliberately disjoint from the method colours
+# so a regime marker can never be misread as a training rule.
 COLORS = {
-    "dfa_random": "#2E7D32",
-    "ndfa_random": "#2563EB",
-    "ndfa_random_kronecker": "#D55E00",
-    "task_aligned": "#2563EB",
-    "nuisance_dominant": "#D55E00",
-    "mixed_context": "#CC79A7",
-    "low_sample_noisy": "#009E73",
-    "vision_mnist": "#6B7280",
-    "vision_fashion_mnist": "#8B5CF6",
-    "vision_cifar10": "#1F2937",
-    "mixer_cifar10": "#B45309",
+    "dfa_random": "#999999",             # house grey
+    "ndfa_random": "#009E73",            # house green
+    "ndfa_random_kronecker": "#6A3D9A",  # house purple
+    "task_aligned": "#332288",           # indigo
+    "nuisance_dominant": "#882255",      # wine
+    "mixed_context": "#CC6677",          # rose
+    "low_sample_noisy": "#DDCC77",       # sand
+    "vision_mnist": "#88CCEE",           # cyan
+    "vision_fashion_mnist": "#661100",   # dark brown-red
+    "vision_cifar10": "#000000",         # black
+    "mixer_cifar10": "#999933",          # olive
 }
+# House line styles for the panel-B method fits (grayscale-legible identity).
+METHOD_LS = {"dfa_random": (0, (4, 2)), "ndfa_random": "-", "ndfa_random_kronecker": (0, (5, 1.5))}
 MARKERS = {"synthetic": "o", "vision": "D", "mixer": "^"}
 PRETTY = {
     "nuisance_dominant": "nuisance-dominant",
@@ -445,7 +450,7 @@ def make_figure(cells: pd.DataFrame, ratios: pd.DataFrame, ceiling: dict) -> Non
         slope, intercept = np.polyfit(acc, np.log10(sd), 1)
         xs = np.linspace(acc.min(), acc.max(), 50)
         ax.plot(xs, 10 ** (intercept + slope * xs), color=COLORS[method], lw=1.6,
-                label=method_labels[method], zorder=4)
+                ls=METHOD_LS[method], label=method_labels[method], zorder=4)
     ax.set_yscale("log")
     ax.set_xlabel("mean final test accuracy (%)")
     ax.set_ylabel("feedback-seed std (pp)")
