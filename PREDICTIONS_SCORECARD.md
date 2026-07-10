@@ -95,4 +95,27 @@ ndfaFull lr 0.1 is now 3-seed: layer2+3+4 = 50.61 ± 0.26 (was single-seed
 values were representative; the paper's n=1 disclosures can be replaced
 with 3-seed mean ± sem.
 
-## P5 — Mixer: pending (runner implemented, run not yet executed).
+## P5 — MLP-Mixer, token/channel conditioning (CIFAR-10, final test acc, 5×3 seeds)
+
+| cell | BP | DFA | nDFA | K-nDFA | Δ(nDFA−DFA) |
+|---|---|---|---|---|---|
+| clean, LayerNorm | 60.5 | 14.4 | 42.7 | 30.5 | +28.4 |
+| noise 0.4, LayerNorm | 45.3 | 11.7 | 36.7 | 25.3 | **+25.0** |
+| clean, no LN | 61.4 | 9.5 | 26.3 | 22.8 | +16.8 |
+| noise 0.4, no LN | 44.7 | 9.5 | 16.6 | 15.8 | +7.1 |
+
+- **P5a — CONFIRMED.** Conditioning survives the token/channel
+  factorization: +25.0 pp over raw DFA under 40% noise in the standard
+  (LayerNorm) Mixer.
+- **P5b — CONFIRMED on sign, wrong on magnitude direction.** The gain with
+  LayerNorm is positive and in fact LARGER than the CIFAR-10 MLP-tier gain
+  (+14.9 pp), not smaller as registered.
+- **P5c — REFUTED, informatively.** Ablating LayerNorm SHRINKS the gain
+  (+25.0 → +7.1 pp under noise) instead of growing it: without LN the
+  local rules barely train (raw DFA at chance), so LN is a trainability
+  prerequisite that conditioning complements rather than a substitute
+  that absorbs it. The registered failure mode ("LN provides the usable
+  share") is excluded by the data: LN alone leaves DFA at 11.7% where
+  LN+conditioning reaches 36.7%.
+- K-nDFA trails nDFA in all four cells — the error-side factor again
+  fails to earn its complexity.
