@@ -22,6 +22,9 @@ mkdir -p logs/slurm
 
 TASK_ID="${SLURM_ARRAY_TASK_ID:-${TASK_ID:-0}}"
 DAMPINGS=(0.03 0.1 0.3 1 3 10 30 100)
+# Frozen from the two independent validation-only sweeps (job 30989996).
+SELECTED_ACTIVITY_DAMPING=0.03
+SELECTED_ERROR_DAMPING=30
 COMMON=(
   --dataset fashion_mnist
   --total-steps 1000
@@ -55,21 +58,15 @@ elif (( TASK_ID < 16 )); then
     --methods endfa --seeds 60 61 62 --feedback-seeds 0 \
     --damping 0.3 --error-damping "${DAMPING}" "${COMMON[@]}"
 elif (( TASK_ID == 16 )); then
-  # The values below are placeholders until the two independent development
-  # sweeps are analyzed; freeze them before launching tasks 16--19.
-  : "${ACTIVITY_DAMPING:?set ACTIVITY_DAMPING from the activity-only validation sweep}"
-  : "${ERROR_DAMPING:?set ERROR_DAMPING from the error-only validation sweep}"
   python experiments/run_dfa_stall_comparison.py \
     --output-dir results/dfa_stall_fashion_threefactor_dev_v1/selected_joint \
     --methods dfa kndfa kndfa_bp --seeds 60 61 62 --feedback-seeds 0 \
-    --damping "${ACTIVITY_DAMPING}" --error-damping "${ERROR_DAMPING}" "${COMMON[@]}"
+    --damping "${SELECTED_ACTIVITY_DAMPING}" --error-damping "${SELECTED_ERROR_DAMPING}" "${COMMON[@]}"
 else
-  : "${ACTIVITY_DAMPING:?set ACTIVITY_DAMPING from the activity-only validation sweep}"
-  : "${ERROR_DAMPING:?set ERROR_DAMPING from the error-only validation sweep}"
   FEEDBACK_SEED=$((TASK_ID - 17))
   python experiments/run_dfa_stall_comparison.py \
     --output-dir "results/dfa_stall_fashion_threefactor_confirmation_v1/fb${FEEDBACK_SEED}" \
     --methods dfa ndfa endfa kndfa kndfa_bp --seeds 70 71 72 73 74 \
     --feedback-seeds "${FEEDBACK_SEED}" \
-    --damping "${ACTIVITY_DAMPING}" --error-damping "${ERROR_DAMPING}" "${COMMON[@]}"
+    --damping "${SELECTED_ACTIVITY_DAMPING}" --error-damping "${SELECTED_ERROR_DAMPING}" "${COMMON[@]}"
 fi
