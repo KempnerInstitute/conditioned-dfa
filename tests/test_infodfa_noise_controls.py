@@ -1,5 +1,6 @@
 import numpy as np
 import torch
+import torch.nn as nn
 
 from experiments.run_dfa_multioutput_synthetic import (
     corrupt_labels,
@@ -7,6 +8,7 @@ from experiments.run_dfa_multioutput_synthetic import (
     make_multioutput_dataset,
 )
 from experiments.run_dfa_synthetic import natural_precondition_gradients
+from experiments.run_dfa_stall_comparison import exact_bp_hidden_deltas
 from infogeo.dfa import ManualMLP, error_second_moment, init_feedback
 
 
@@ -53,6 +55,35 @@ def test_error_damping_is_independent_of_activity_damping():
 
     assert torch.allclose(activity_low.weights[0], activity_high.weights[0])
     assert not torch.allclose(error_low.weights[0], error_high.weights[0])
+
+
+def test_stall_bp_error_source_matches_per_example_autograd():
+    class TinyTanhMLP(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.layers = nn.ModuleList([nn.Linear(4, 5), nn.Linear(5, 3)])
+            self.preacts = []
+
+        def forward(self, x):
+            preact = self.layers[0](x)
+            self.preacts = [preact]
+            return torch.sigmoid(self.layers[1](torch.tanh(preact)))
+
+    torch.manual_seed(7)
+    model = TinyTanhMLP()
+    x = torch.randn(6, 4)
+    labels = torch.arange(6) % 3
+    targets = torch.nn.functional.one_hot(labels, num_classes=3).float()
+    predictions = model(x)
+    expected_rows = []
+    for idx in range(x.shape[0]):
+        loss = torch.nn.functional.binary_cross_entropy(predictions[idx], targets[idx], reduction="sum")
+        full_delta = torch.autograd.grad(loss, model.preacts[0], retain_graph=True)[0]
+        expected_rows.append(full_delta[idx])
+
+    actual = exact_bp_hidden_deltas(model, predictions.detach() - targets)[0]
+
+    assert torch.allclose(actual, torch.stack(expected_rows), atol=1e-6, rtol=1e-5)
 
 
 def test_multioutput_label_noise_and_scale_overrides():

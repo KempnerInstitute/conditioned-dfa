@@ -1,13 +1,14 @@
 """Compare DFA-Stall dynamics under raw DFA, nDFA, and K-nDFA.
 
 This script keeps the experimental setup from the external DFA-Stall repository:
-a three-hidden-layer tanh MLP trained on one-hot MNIST with direct feedback.
+a three-hidden-layer tanh MLP trained on one-hot MNIST-family data with direct feedback.
 It then applies the Info-DFA preconditioners to the same hidden gradients:
 
 * ``dfa``: raw direct feedback alignment.
 * ``ndfa``: input/activity-side second-moment preconditioning.
 * ``endfa``: error/local-delta-side second-moment preconditioning.
 * ``kndfa``: activity-side plus local-error-side Kronecker preconditioning.
+* ``kndfa_bp``: the K-nDFA update with a nonlocal BP-error covariance source.
 
 The external repo is intentionally kept under ``external/DFA-Stall`` and ignored
 by git. Clone it before running:
@@ -42,6 +43,7 @@ METHOD_LABEL = {
     "ndfa": "nDFA",
     "endfa": "error-nDFA",
     "kndfa": "K-nDFA",
+    "kndfa_bp": "K-nDFA (BP-error source)",
 }
 METHOD_COLOR = {
     "bp": "#222222",
@@ -49,6 +51,7 @@ METHOD_COLOR = {
     "ndfa": "#009E73",
     "endfa": "#D55E00",
     "kndfa": "#6A3D9A",
+    "kndfa_bp": "#CC79A7",
 }
 
 
@@ -71,6 +74,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", default="results/dfa_stall_comparison_v1")
     parser.add_argument("--data-dir", default=str(ROOT / "data"))
+    parser.add_argument("--dataset", choices=["mnist", "fashion_mnist"], default="mnist")
     parser.add_argument("--methods", nargs="+", default=["bp", "dfa", "ndfa", "kndfa"])
     parser.add_argument("--seeds", type=int, nargs="+", default=[42])
     parser.add_argument("--feedback-seeds", type=int, nargs="+", default=[0])
@@ -130,7 +134,7 @@ def main() -> None:
     if device.type == "cuda":
         torch.cuda.manual_seed_all(0)
 
-    x_train, y_train, x_test, y_test = stall.load_mnist(Path(args.data_dir))
+    x_train, y_train, x_test, y_test = load_dataset(stall, args.dataset, Path(args.data_dir))
     if args.validation_size > 0:
         n_val = min(int(args.validation_size), int(x_train.shape[0]) - 1)
         split_gen = torch.Generator(device="cpu").manual_seed(int(args.validation_seed))
@@ -180,6 +184,27 @@ def main() -> None:
     print(f"\nwrote {output_dir}")
 
 
+def load_dataset(stall, dataset: str, data_dir: Path) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+    if dataset == "mnist":
+        return stall.load_mnist(data_dir)
+    if dataset != "fashion_mnist":
+        raise ValueError(f"unsupported dataset: {dataset}")
+    from torchvision import datasets
+
+    train = datasets.FashionMNIST(root=str(data_dir), train=True, download=True)
+    test = datasets.FashionMNIST(root=str(data_dir), train=False, download=True)
+
+    def flatten(data) -> torch.Tensor:
+        return data.data.float().div(255.0).view(-1, 784)
+
+    return (
+        flatten(train),
+        torch.as_tensor(train.targets, dtype=torch.long),
+        flatten(test),
+        torch.as_tensor(test.targets, dtype=torch.long),
+    )
+
+
 def run_one(
     stall,
     args: argparse.Namespace,
@@ -195,9 +220,9 @@ def run_one(
     y_test: torch.Tensor,
     probe_split: str,
 ) -> list[dict]:
-    n_classes = 10
+    n_classes = int(max(y_train.max().item(), y_test.max().item())) + 1
     torch.manual_seed(seed)
-    model = stall.TanhMLP(784, args.hidden, n_classes, seed).to(device)
+    model = stall.TanhMLP(int(x_train.shape[1]), args.hidden, n_classes, seed).to(device)
     opt = torch.optim.SGD(model.parameters(), lr=args.lr)
     feedback = init_feedback(args, n_classes, device, seed=seed, feedback_seed=feedback_seed) if method != "bp" else None
 
@@ -262,6 +287,7 @@ def run_one(
             if bp_grads is None:
                 bp_grads, _ = bp_gradients(stall, model, xb, targets)
             row = base_metrics(stall, model, method, seed, feedback_seed, step, loss, method_grads, bp_grads)
+            row["dataset"] = args.dataset
             row["probe_split"] = probe_split
             row["activity_damping"] = float(args.damping)
             row["error_damping"] = float(args.damping if args.error_damping is None else args.error_damping)
@@ -322,6 +348,7 @@ def dfa_family_gradients(
     preds = model(xb)
     error = preds - targets
     loss = float(stall.binary_log_loss(targets, preds).item())
+    bp_hidden_deltas = exact_bp_hidden_deltas(model, error) if method == "kndfa_bp" else []
     grads: list[tuple[torch.Tensor, torch.Tensor]] = []
     teachings: list[torch.Tensor] = []
     g_primes: list[torch.Tensor] = []
@@ -334,13 +361,14 @@ def dfa_family_gradients(
         gw = delta.t() @ h_prev_l / xb.shape[0]
         gb = delta.mean(0)
         raw_norm = gw.norm().clamp_min(1e-12)
-        if method in {"ndfa", "kndfa"}:
+        if method in {"ndfa", "kndfa", "kndfa_bp"}:
             cov_activity = h_prev_l.t() @ h_prev_l / max(int(h_prev_l.shape[0]), 1)
             gw = damped_solve(cov_activity, gw.t(), damping=activity_damping).t()
-        if method in {"endfa", "kndfa"}:
-            cov_error = delta.t() @ delta / max(int(delta.shape[0]), 1)
+        if method in {"endfa", "kndfa", "kndfa_bp"}:
+            error_source = bp_hidden_deltas[li] if method == "kndfa_bp" else delta
+            cov_error = error_source.t() @ error_source / max(int(error_source.shape[0]), 1)
             gw = damped_solve(cov_error, gw, damping=error_damping)
-        if norm_match_hidden and method in {"ndfa", "endfa", "kndfa"}:
+        if norm_match_hidden and method in {"ndfa", "endfa", "kndfa", "kndfa_bp"}:
             gw = gw * (raw_norm / gw.norm().clamp_min(1e-12))
         grads.append((gw, gb))
         teachings.append(delta)
@@ -349,6 +377,18 @@ def dfa_family_gradients(
     h_last = model.acts[-1]
     grads.append((error.t() @ h_last / xb.shape[0], error.mean(0)))
     return grads, teachings, g_primes, loss
+
+
+@torch.no_grad()
+def exact_bp_hidden_deltas(model, output_error: torch.Tensor) -> list[torch.Tensor]:
+    """Per-example BP hidden deltas, used only as a nonlocal covariance-source control."""
+
+    hidden_deltas: list[torch.Tensor] = [torch.empty(0, device=output_error.device) for _ in model.layers[:-1]]
+    delta_next = output_error
+    for li in range(len(model.layers) - 2, -1, -1):
+        delta_next = (delta_next @ model.layers[li + 1].weight) * (1.0 - model.preacts[li].tanh().pow(2))
+        hidden_deltas[li] = delta_next
+    return hidden_deltas
 
 
 def damped_solve(cov: torch.Tensor, rhs: torch.Tensor, *, damping: float) -> torch.Tensor:
@@ -522,6 +562,7 @@ def write_report(df: pd.DataFrame, summary: pd.DataFrame, output_dir: Path, args
         "# DFA-Stall comparison",
         "",
         f"- External reference repo: `{EXTERNAL}`",
+        f"- Dataset: {args.dataset} (no injected input or label noise).",
         f"- Steps: {args.total_steps}; hidden units: {args.hidden}; batch size: {args.batch_size}; "
         f"lr: {args.lr:g}; activity damping: {args.damping:g}; error damping: "
         f"{args.damping if args.error_damping is None else args.error_damping:g}.",

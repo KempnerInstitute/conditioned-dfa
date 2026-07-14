@@ -92,3 +92,34 @@ nDFA conditioning by the corresponding presynaptic second moments
   already provides the usable share of conditioning in normalized
   architectures, and the method's practical scope narrows to
   non-normalized (e.g. neuromorphic) settings; we commit to reporting it.
+
+## P6. Clean Fashion-MNIST error-factor replication (`dfa_stall_fashion_threefactor_*_v1`)
+
+Registered 2026-07-14 before any development or confirmation endpoint was
+read. This is a dataset replication of the clean MNIST DFA-stall experiment,
+not an input-noise manipulation. The architecture, optimizer, one-vs-rest
+binary log loss, 1,000-step budget, layerwise gradient-norm matching, and
+train/validation/test discipline are unchanged. A fixed 5,000-example split
+(split seed 24680) selects the activity and error dampings independently from
+`{0.03, 0.1, 0.3, 1, 3, 10, 30, 100}` on model/data-order seeds 60--62 and one
+feedback seed. K-nDFA combines those two values without joint tuning.
+Confirmation freezes them on model/data-order seeds 70--74 crossed with three
+feedback seeds; feedback seeds are averaged within model seed before paired
+comparisons, and the Fashion-MNIST test set is evaluated only after the final
+update.
+
+- **P6a (primary):** error nDFA improves mean clean test accuracy over raw DFA,
+  with the paired difference positive for at least four of five model seeds.
+- **P6b (complementarity):** K-nDFA improves mean test accuracy over activity
+  nDFA. Test cross-entropy is a prespecified secondary endpoint and must be
+  reported whether or not accuracy improves.
+- **P6c (source swap):** K-nDFA using its local DFA-error covariance is within
+  0.5 percentage points of the otherwise matched nonlocal BP-error-source
+  control in mean accuracy, with no deficit of the same sign in all five model
+  seeds. This tests the covariance source, not whether K-nDFA beats BP.
+- **Failure interpretation:** if P6a fails, the paper will retain the MNIST
+  result as a single-setting proof of concept rather than claim dataset-level
+  error-side replication. If P6b fails, the two-sided extension will be framed
+  as a formal symmetry whose incremental empirical value remains unresolved.
+  If P6c fails, the source-swap control will be reported as evidence that local
+  DFA errors are an inferior covariance source in this setting.
