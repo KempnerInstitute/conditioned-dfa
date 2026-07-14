@@ -61,13 +61,14 @@ def test_stall_bp_error_source_matches_per_example_autograd():
     class TinyTanhMLP(nn.Module):
         def __init__(self):
             super().__init__()
-            self.layers = nn.ModuleList([nn.Linear(4, 5), nn.Linear(5, 3)])
+            self.layers = nn.ModuleList([nn.Linear(4, 5), nn.Linear(5, 6), nn.Linear(6, 3)])
             self.preacts = []
 
         def forward(self, x):
-            preact = self.layers[0](x)
-            self.preacts = [preact]
-            return torch.sigmoid(self.layers[1](torch.tanh(preact)))
+            preact_1 = self.layers[0](x)
+            preact_2 = self.layers[1](torch.tanh(preact_1))
+            self.preacts = [preact_1, preact_2]
+            return torch.sigmoid(self.layers[2](torch.tanh(preact_2)))
 
     torch.manual_seed(7)
     model = TinyTanhMLP()
@@ -75,15 +76,17 @@ def test_stall_bp_error_source_matches_per_example_autograd():
     labels = torch.arange(6) % 3
     targets = torch.nn.functional.one_hot(labels, num_classes=3).float()
     predictions = model(x)
-    expected_rows = []
+    expected_by_layer = [[] for _ in model.preacts]
     for idx in range(x.shape[0]):
         loss = torch.nn.functional.binary_cross_entropy(predictions[idx], targets[idx], reduction="sum")
-        full_delta = torch.autograd.grad(loss, model.preacts[0], retain_graph=True)[0]
-        expected_rows.append(full_delta[idx])
+        full_deltas = torch.autograd.grad(loss, model.preacts, retain_graph=True)
+        for layer_idx, full_delta in enumerate(full_deltas):
+            expected_by_layer[layer_idx].append(full_delta[idx])
 
-    actual = exact_bp_hidden_deltas(model, predictions.detach() - targets)[0]
+    actual = exact_bp_hidden_deltas(model, predictions.detach() - targets)
 
-    assert torch.allclose(actual, torch.stack(expected_rows), atol=1e-6, rtol=1e-5)
+    for actual_layer, expected_rows in zip(actual, expected_by_layer):
+        assert torch.allclose(actual_layer, torch.stack(expected_rows), atol=1e-6, rtol=1e-5)
 
 
 def test_multioutput_label_noise_and_scale_overrides():

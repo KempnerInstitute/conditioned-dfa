@@ -33,6 +33,8 @@ DEV = RESULTS / "dfa_stall_threefactor_dev_v1"
 CONFIRM = RESULTS / "dfa_stall_threefactor_confirmation_v1"
 OUT = RESULTS / "dfa_stall_threefactor_analysis_v1"
 PAPER_FIGURES = ROOT / "drafts" / "Info-DFA" / "figures"
+DATASET_LABEL = "MNIST"
+FIGURE_STEM = "iclr_fig_threefactor_conditioning"
 
 METHOD_ORDER = ["dfa", "ndfa", "endfa", "kndfa"]
 METHOD_LABEL = {
@@ -40,6 +42,12 @@ METHOD_LABEL = {
     "ndfa": "activity nDFA",
     "endfa": "error nDFA",
     "kndfa": "K-nDFA (both)",
+}
+METHOD_TICK = {
+    "dfa": "DFA",
+    "ndfa": "activity",
+    "endfa": "error",
+    "kndfa": "both",
 }
 COLORS = {
     "dfa": "#7F7F7F",
@@ -189,7 +197,7 @@ def make_figure(selection: pd.DataFrame, seed_means: pd.DataFrame, lambda_a: flo
         zorder=3,
     )
     ax.scatter(xs, means.to_numpy(), c=[COLORS[m] for m in METHOD_ORDER], s=34, edgecolor="white", lw=0.6, zorder=4)
-    ax.set_xticks(xs, ["DFA", "activity", "error", "both"], rotation=18)
+    ax.set_xticks(xs, [METHOD_TICK[m] for m in METHOD_ORDER], rotation=18)
     ax.set_ylabel("test accuracy (%)")
     ax.set_title("C  frozen confirmation", loc="left", fontweight="bold")
     ax.grid(axis="y", alpha=0.2, lw=0.5)
@@ -198,7 +206,7 @@ def make_figure(selection: pd.DataFrame, seed_means: pd.DataFrame, lambda_a: flo
     PAPER_FIGURES.mkdir(parents=True, exist_ok=True)
     for directory in (OUT, PAPER_FIGURES):
         for ext in ("pdf", "png", "svg"):
-            fig.savefig(directory / f"iclr_fig_threefactor_conditioning.{ext}", dpi=300, bbox_inches="tight")
+            fig.savefig(directory / f"{FIGURE_STEM}.{ext}", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -222,13 +230,13 @@ def write_report(
     method_summary["method"] = pd.Categorical(method_summary["method"], METHOD_ORDER, ordered=True)
     method_summary = method_summary.sort_values("method")
     lines = [
-        "# DFA-Stall three-factor confirmation",
+        f"# {DATASET_LABEL} DFA-Stall three-factor confirmation",
         "",
         f"Development selected activity damping lambda_A={lambda_a:g} and error damping lambda_E={lambda_e:g}.",
         "K-nDFA combines those independently selected single-factor values without extra joint tuning.",
         "Confirmation uses five fresh model/data-order seeds and three feedback seeds; feedback seeds are",
         "averaged within each model seed before paired comparisons. Damping selection uses a fixed",
-        "5,000-example training-validation split; the MNIST test set is evaluated only at the final step.",
+        f"5,000-example training-validation split; the {DATASET_LABEL} test set is evaluated only at the final step.",
         "All conditioned hidden gradients are norm-matched to the raw-DFA layer norm.",
         "",
         "## Confirmation endpoints",

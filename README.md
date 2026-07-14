@@ -1,7 +1,7 @@
 # Info-DFA: Conditioned Direct Feedback Alignment
 
 Code, experiments, and figures for the paper *Conditioned Direct Feedback
-Alignment for Noisy and Nuisance-Dominant Learning*.
+Alignment via Activity and Error Geometry*.
 
 Direct Feedback Alignment (DFA) trains deep networks with fixed random feedback
 instead of the transposed forward weights used by backpropagation (BP), but it
@@ -11,17 +11,19 @@ family: **activity nDFA** right-preconditions the local update by a presynaptic
 second moment, **error nDFA** left-preconditions by a local-error second moment,
 and **K-nDFA** applies both factors. The fixed random feedback path is unchanged.
 Activity conditioning has the broadest evidence in nuisance-stressed settings;
-a validation-selected MNIST DFA-stall experiment separately supports the error
-factor and a further two-sided gain. BatchNorm remains a strong activity-side
+validation-selected clean MNIST and preregistered Fashion-MNIST confirmations
+provide replicated proof-of-concept support for the error factor and a further
+two-sided gain. BatchNorm remains a strong activity-side
 alternative, vision rank sweeps are exploratory, and the separate ImageNet-100
 block-output diagnostic is not the proposed weight-update operator.
 
 Historical error-side and two-sided (`K-nDFA`) experiments used
 mean-loss-normalized deltas when estimating the error second moment. Their
 reported factor was therefore nearly scalar at the chosen damping and remains
-excluded. The corrected DFA-stall experiment uses per-example errors, separate
-activity/error damping selected on validation data, norm matching, and a frozen
-five-seed by three-feedback-seed confirmation.
+excluded. The corrected DFA-stall experiments use per-example errors, separate
+activity/error damping selected on validation data, norm matching, and frozen
+five-seed by three-feedback-seed confirmations. Fashion-MNIST additionally
+compares local K-nDFA with a nonlocal BP-error covariance source.
 
 ## Layout
 
@@ -41,6 +43,9 @@ five-seed by three-feedback-seed confirmation.
     preconditioning) runs through the multioutput synthetic driver.
   - `run_dfa_stall_comparison.py`: corrected activity/error/K-nDFA comparison
     with separate damping and train/validation/test separation.
+  - `analyze_dfa_stall_threefactor.py`,
+    `analyze_dfa_stall_fashion_threefactor.py`: MNIST and preregistered clean
+    Fashion-MNIST factor confirmations, including the corrected source swap.
   - `run_imagenet_credit_assignment.py`,
     `evaluate_imagenet_torchvision_weights.py`: ImageNet-100 ResNet-18
     diagnostics.
@@ -69,7 +74,7 @@ python experiments/run_dfa_coloredmnist.py --n-seeds 1 --epochs 3
 | Control studies | `run_dfa_controls.py` + `write_infodfa_controls_table.py` |
 | ColoredMNIST DFA rescue | `run_dfa_coloredmnist.py` + `write_infodfa_coloredmnist_table.py` |
 | Hard CIFAR-100 convnet | `run_dfa_convnet_baselines.py` |
-| Activity/error/K-nDFA confirmation | `run_dfa_stall_comparison.py` + `analyze_dfa_stall_threefactor.py` |
+| Activity/error/K-nDFA confirmations | `run_dfa_stall_comparison.py` + both `analyze_dfa_stall_*threefactor.py` scripts |
 | ImageNet-100 substitution depth | `run_imagenet_credit_assignment.py` |
 | Descriptive and seed-level sensitivity tests | `compute_infodfa_statistical_tests.py` + `compute_infodfa_seedlevel_stats.py` |
 

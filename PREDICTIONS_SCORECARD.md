@@ -7,6 +7,11 @@ results/infodfa_bn_baseline_v1 (128 synthetic cells + 12 Fashion cells),
 results/infodfa_amortized_refresh_v1, results/benchmark_overhead_v1,
 results/imagenet100_strongform_v1/ndfaFull_*_lr01_seed{1,2}.
 
+Historical K-nDFA rows in P2--P5 predate the per-example error-moment
+normalization correction. They remain part of the timestamped scorecard but
+are not evidence for the corrected error-side or two-sided claims; P6 is the
+first preregistered corrected two-sided entry.
+
 ## P1 — Noisy ImageNet-100 deconfound (40% label noise, final val top-1, n=3)
 
 | config | layer4 | all-block |
@@ -117,5 +122,38 @@ with 3-seed mean ± sem.
   that absorbs it. The registered failure mode ("LN provides the usable
   share") is excluded by the data: LN alone leaves DFA at 11.7% where
   LN+conditioning reaches 36.7%.
-- K-nDFA trails nDFA in all four cells — the error-side factor again
-  fails to earn its complexity.
+- The archived K-nDFA row trails nDFA in all four cells. Because it predates
+  the error-moment correction, this is retained as a historical outcome rather
+  than evidence against the corrected error factor.
+
+## P6 — Clean Fashion-MNIST error-factor replication (final test, 5×3 seeds)
+
+Protocol and pass/fail criteria were registered in `PREDICTIONS.md` at commit
+`ef795e1`, before job 30989996 selected damping and before confirmation job
+30991467 ran. Development independently selected $\lambda_A=0.03$ and
+$\lambda_E=30$ on a fixed 5,000-example training-validation split. The error
+optimum is interior to the eight-value grid; the activity optimum is at the
+lower boundary. Confirmation froze the pair on five fresh model/data-order
+seeds crossed with three feedback seeds, averaged feedback seeds within model
+seed, and evaluated clean Fashion-MNIST test data only after the final update.
+
+| method | test accuracy | test loss |
+|---|---:|---:|
+| DFA | 61.98 ± 0.17 | 1.938 ± 0.012 |
+| activity nDFA | 80.29 ± 0.10 | 1.575 ± 0.007 |
+| error nDFA | 63.74 ± 0.41 | 1.842 ± 0.010 |
+| K-nDFA | **80.79 ± 0.09** | **1.500 ± 0.007** |
+| K-nDFA, BP-error source | 80.29 ± 0.11 | 1.576 ± 0.007 |
+
+- **P6a — CONFIRMED.** Error nDFA improves raw DFA by +1.767 pp, positive
+  in all 5/5 model-seed units; test loss improves by 0.096.
+- **P6b — CONFIRMED.** K-nDFA improves activity nDFA by +0.501 pp, positive
+  in 5/5 units, and lowers test loss by 0.075.
+- **P6c — CONFIRMED at the preregistered margin.** Local K-nDFA is +0.499 pp
+  above the nonlocal BP-error-source comparator, positive in 5/5 units. This is
+  just inside the specified absolute 0.5-pp matching margin. It is evidence
+  against a locality penalty, not a powered statistical equivalence claim.
+
+Consequence: the error-side and incremental two-sided signs now replicate on
+two clean datasets, but both use the same architecture and one-vs-rest loss.
+Architecture-level replication remains open.

@@ -17,8 +17,10 @@ root for each result. The current figure-generation manifest is
   Historical error-side/two-sided results used deltas already divided by the
   mean-loss batch factor and remain excluded. The corrected DFA-stall evidence
   uses per-example errors, independently validation-selected activity/error
-  damping, norm matching, and a frozen confirmation on five model/data-order
-  seeds crossed with three feedback seeds.
+  damping, norm matching, and frozen confirmations on clean MNIST and
+  Fashion-MNIST, each with five model/data-order seeds crossed with three
+  feedback seeds. The Fashion-MNIST run was preregistered and includes a
+  corrected nonlocal BP-error covariance-source control.
 - The ImageNet-100 experiment applies diagonal/full inverse-square-root
   conditioning to pooled block outputs. It is a separate credit-assignment
   diagnostic, not Eq. (3)'s activity-side nDFA update.
@@ -41,6 +43,7 @@ root for each result. The current figure-generation manifest is
 | Table 1 fixed-full synthetic rows and seed sensitivity | `analysis/reanalyze_synthetic_honest_selection.py`, embedded revised TeX table | `results/infodfa_multioutput_noise_sweep_aggregate_v2/dfa_multioutput_all.csv` |
 | Table 1 exploratory noisy-vision rows | `analysis/write_infodfa_paper_tables.py` | `results/infodfa_vision_noise_sweep_aggregate_v2/dfa_nmnc_best_by_method.csv` |
 | Table 1 and Appendix activity/error/K-nDFA confirmation | `experiments/run_dfa_stall_comparison.py`, `analysis/analyze_dfa_stall_threefactor.py` | `results/dfa_stall_threefactor_dev_v1`, `results/dfa_stall_threefactor_confirmation_v1` |
+| Table 1 and Appendix clean Fashion-MNIST replication/source swap | `slurm/infodfa_dfa_stall_fashion_threefactor.sbatch`, `analysis/analyze_dfa_stall_fashion_threefactor.py` | `results/dfa_stall_fashion_threefactor_{dev,confirmation,analysis}_v1` |
 | Main figures | `drafts/Info-DFA/scripts/make_iclr_figures.py` | roots listed in `drafts/Info-DFA/FIGURE_INPUTS.md` |
 | Activity norm-match, Adam/diagonal, decorrelation, BatchNorm, and BP-precondition controls | corresponding `analysis/aggregate_*.py` scripts below | control-specific roots listed below |
 | ImageNet-100 boundary table | `analysis/aggregate_imagenet_strongform.py` plus the hand-curated table snapshot | `results/imagenet100_strongform_v1/strongform_multiseed_summary.csv` |
@@ -115,6 +118,27 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   `lambda_A=0.3` and `lambda_E=10`, averages feedback seeds within model seed,
   writes seed-level contrasts under `results/dfa_stall_threefactor_analysis_v1`,
   and regenerates `figures/iclr_fig_threefactor_conditioning.{pdf,png,svg}`.
+
+### Preregistered clean Fashion-MNIST replication and corrected source swap
+
+- The protocol and pass/fail criteria are recorded in `PREDICTIONS.md` at
+  commit `ef795e1`, before development job 30989996 and confirmation job
+  30991467. Run tasks 0--15 of
+  `slurm/infodfa_dfa_stall_fashion_threefactor.sbatch` for the independent
+  activity/error development sweeps. They freeze `lambda_A=0.03` and
+  `lambda_E=30` in commit `f2eaf3a`; run tasks 16--19 only from that frozen
+  version.
+- The clean Fashion-MNIST protocol uses the same width-300 tanh MLP, 1,000
+  steps, norm matching, and final-only test evaluation. Development uses split
+  seed 24680, model/data-order seeds 60--62, one feedback seed, and damping grid
+  `{0.03,0.1,0.3,1,3,10,30,100}`. Confirmation uses seeds 70--74 crossed with
+  feedback seeds 0--2. `kndfa_bp` changes only the K-nDFA error covariance from
+  local DFA hidden errors to exact BP hidden errors; it is a nonlocal
+  source-swap comparator, not BP training.
+- Run `python analysis/analyze_dfa_stall_fashion_threefactor.py`. It writes the
+  endpoint table, paired contrasts, preregistration scorecard, and
+  `iclr_fig_fashion_threefactor_conditioning.{pdf,png,svg}` under
+  `results/dfa_stall_fashion_threefactor_analysis_v1` and the paper figure root.
 
 ## Historical activity/error factor ablation (two-sided rows are not evidence)
 - Purpose: isolate which Kronecker side drives the first-paper gains. The comparison
@@ -202,6 +226,8 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
 - Run: `sbatch slurm/infodfa_kfac_control_synthetic.sbatch` (adds
   `ndfa_random_kronecker_bp`: K-nDFA with a BP-error left factor instead of DFA-error).
 - Aggregate: `analysis/aggregate_kfac_control.py` (K-nDFA minus KFAC-DFA(bp) = +0.01pp mean).
+- These archived values remain excluded. The corrected Fashion-MNIST
+  `kndfa_bp` source swap above supersedes them for the paper's locality check.
 
 ## Local-rule baselines (sign-symmetry, §5)
 - Run: `sbatch slurm/infodfa_localrule_baselines_synthetic.sbatch` (adds `fa_sign`).
