@@ -19,6 +19,7 @@ from infogeo.analysis import dataframe_to_markdown, predictor_scores, write_mark
 from infogeo.dfa import (
     Gradients,
     ManualMLP,
+    error_second_moment,
     finite_difference_hidden_tangents,
     gradient_cosines,
     init_fa_feedback,
@@ -280,6 +281,7 @@ def run_one_method(
                         gradients,
                         xb,
                         damping=args.natural_damping,
+                        error_damping=args.natural_error_damping,
                         mode=natural_mode_from_method(method),
                     )
             model.apply_gradients(gradients, lr=args.lr)
@@ -417,6 +419,7 @@ def natural_precondition_gradients(
     x: torch.Tensor,
     *,
     damping: float,
+    error_damping: float | None = None,
     mode: str = "activity",
     error_deltas: "Sequence[torch.Tensor] | None" = None,
     cache: "dict | None" = None,
@@ -424,7 +427,9 @@ def natural_precondition_gradients(
 ) -> Gradients:
     """Local natural-DFA proxies using Kronecker-style preconditioning.
 
-    ``error_deltas`` overrides the deltas used for the error-side (left) factor.
+    ``error_damping`` controls the left factor independently; by default it
+    reuses ``damping`` for backward compatibility. ``error_deltas`` overrides
+    the deltas used for the error-side (left) factor.
     Passing the BP deltas gives a true-KFAC-DFA control: the K-nDFA rule but with
     the left factor built from the BP error covariance rather than DFA's own.
 
@@ -441,6 +446,7 @@ def natural_precondition_gradients(
     new_weights = [grad.clone() for grad in gradients.weights]
     new_biases = [grad.clone() for grad in gradients.biases]
     left_deltas = gradients.deltas if error_deltas is None else error_deltas
+    left_damping = damping if error_damping is None else float(error_damping)
     for layer_idx in range(model.n_hidden_layers):
         grad = gradients.weights[layer_idx]
         if mode == "activity_sqrt":
@@ -472,15 +478,15 @@ def natural_precondition_gradients(
         if mode in {"error", "kronecker"}:
             if cache is None:
                 delta = left_deltas[layer_idx].detach()
-                cov = delta.T @ delta / max(delta.shape[0], 1)
-                grad = damped_solve(cov, grad, damping=damping)
+                cov = error_second_moment(delta, normalization_count=delta.shape[0])
+                grad = damped_solve(cov, grad, damping=left_damping)
             else:
                 key = ("error", layer_idx)
                 if refresh:
                     delta = left_deltas[layer_idx].detach()
-                    cov = delta.T @ delta / max(delta.shape[0], 1)
+                    cov = error_second_moment(delta, normalization_count=delta.shape[0])
                     eye = torch.eye(cov.shape[0], dtype=cov.dtype, device=cov.device)
-                    cache[key] = damped_solve(cov, eye, damping=damping)
+                    cache[key] = damped_solve(cov, eye, damping=left_damping)
                 grad = cache[key] @ grad
         new_weights[layer_idx] = grad
     return Gradients(new_weights, new_biases, gradients.deltas, gradients.loss)
@@ -742,6 +748,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--eval-size", type=int, default=256)
     parser.add_argument("--tangent-rank", type=int, default=1)
     parser.add_argument("--natural-damping", type=float, default=1e-2)
+    parser.add_argument("--natural-error-damping", type=float, default=None)
     parser.add_argument("--cuda", action="store_true")
     parser.add_argument("--shard-index", type=int, default=None, help="Zero-based shard index for Slurm array runs.")
     parser.add_argument("--n-shards", type=int, default=None, help="Total number of run-spec shards.")

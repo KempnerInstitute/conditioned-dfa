@@ -586,8 +586,10 @@ def natural_precondition_conv_gradients(
     x: torch.Tensor,
     *,
     damping: float,
+    error_damping: float | None = None,
     mode: str = "activity",
 ) -> ConvGradients:
+    left_damping = damping if error_damping is None else float(error_damping)
     full = model.forward_full(x)
     activations = full.conv_activations
     conv_weights = [grad.clone() for grad in gradients.conv_weights]
@@ -597,8 +599,12 @@ def natural_precondition_conv_gradients(
             cov = channel_covariance(activations[layer_idx].detach())
             grad = solve_input_channel(cov, grad, damping=damping)
         if mode in {"error", "kronecker"}:
-            cov = channel_covariance(gradients.deltas[layer_idx].detach())
-            grad = solve_output_channel(cov, grad, damping=damping)
+            # Cross-entropy deltas are divided by minibatch size for the mean
+            # loss. Undo that scaling before estimating the per-location error
+            # moment used by the left Kronecker factor.
+            delta = gradients.deltas[layer_idx].detach() * max(int(x.shape[0]), 1)
+            cov = channel_covariance(delta)
+            grad = solve_output_channel(cov, grad, damping=left_damping)
         conv_weights[layer_idx] = grad
     fc_weights = [grad.clone() for grad in gradients.fc_weights]
     for fc_idx in range(model.n_fc_hidden_layers):
@@ -607,8 +613,9 @@ def natural_precondition_conv_gradients(
             cov = feature_covariance(full.fc_activations[fc_idx].detach())
             grad = solve_linear_input(cov, grad, damping=damping)
         if mode in {"error", "kronecker"}:
-            cov = feature_covariance(gradients.deltas[model.n_hidden_layers + fc_idx].detach())
-            grad = solve_linear_output(cov, grad, damping=damping)
+            delta = gradients.deltas[model.n_hidden_layers + fc_idx].detach() * max(int(x.shape[0]), 1)
+            cov = feature_covariance(delta)
+            grad = solve_linear_output(cov, grad, damping=left_damping)
         fc_weights[fc_idx] = grad
     # The classifier is trained with the exact output error. Full Kronecker
     # preconditioning of the flattened conv representation would require an

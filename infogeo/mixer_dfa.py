@@ -26,7 +26,7 @@ import torch
 import torch.nn.functional as F
 
 from infogeo.conv_dfa import damped_solve, output_delta_from_logits, truncate_rank
-from infogeo.dfa import _torch_cosine
+from infogeo.dfa import _torch_cosine, error_second_moment
 
 
 @dataclass
@@ -277,6 +277,7 @@ def natural_precondition_mixer_gradients(
     x: torch.Tensor,
     *,
     damping: float,
+    error_damping: float | None = None,
     mode: str = "activity",
     cache: dict | None = None,
     refresh: bool = True,
@@ -293,6 +294,7 @@ def natural_precondition_mixer_gradients(
     ``experiments.run_dfa_synthetic.natural_precondition_gradients``.
     """
 
+    left_damping = damping if error_damping is None else float(error_damping)
     if cache is not None and not cache:
         refresh = True  # never apply an uninitialized cache
     need_forward = cache is None or refresh
@@ -320,15 +322,15 @@ def natural_precondition_mixer_gradients(
         if mode in {"error", "kronecker"}:
             if cache is None:
                 delta = gradients.deltas[layer_idx].detach()
-                cov = delta.T @ delta / max(delta.shape[0], 1)
-                grad = damped_solve(cov, grad, damping=damping)
+                cov = error_second_moment(delta, normalization_count=delta.shape[0])
+                grad = damped_solve(cov, grad, damping=left_damping)
             else:
                 key = ("error", layer_idx)
                 if refresh:
                     delta = gradients.deltas[layer_idx].detach()
-                    cov = delta.T @ delta / max(delta.shape[0], 1)
+                    cov = error_second_moment(delta, normalization_count=delta.shape[0])
                     eye = torch.eye(cov.shape[0], dtype=cov.dtype, device=cov.device)
-                    cache[key] = damped_solve(cov, eye, damping=damping)
+                    cache[key] = damped_solve(cov, eye, damping=left_damping)
                 grad = cache[key] @ grad
         new_weights[layer_idx] = grad
     return MixerGradients(new_weights, new_biases, gradients.deltas, gradients.loss)

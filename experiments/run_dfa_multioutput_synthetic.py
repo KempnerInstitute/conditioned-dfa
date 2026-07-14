@@ -425,6 +425,7 @@ def compute_gradients(
             gradients,
             x,
             damping=args.natural_damping,
+            error_damping=args.natural_error_damping,
             mode=mode,
             error_deltas=error_deltas,
             cache=precond_cache,
@@ -523,8 +524,10 @@ def covariance_diagnostics(
     bp_delta_stats = []
     for layer_idx in range(model.n_hidden_layers):
         presynaptic_stats.append(spectrum_stats(activations[layer_idx], damping=damping))
-        local_delta_stats.append(spectrum_stats(local.deltas[layer_idx], damping=damping))
-        bp_delta_stats.append(spectrum_stats(bp.deltas[layer_idx], damping=damping))
+        # Deltas store the mean-loss 1/B factor; diagnostics of the actual
+        # error-side moment must use per-example errors.
+        local_delta_stats.append(spectrum_stats(local.deltas[layer_idx] * x.shape[0], damping=damping))
+        bp_delta_stats.append(spectrum_stats(bp.deltas[layer_idx] * x.shape[0], damping=damping))
     return {
         **prefix_mean_stats("pre_activity", presynaptic_stats),
         **prefix_mean_stats("local_error", local_delta_stats),
@@ -703,6 +706,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--lr", type=float, default=0.08)
     parser.add_argument("--feedback-scale", type=float, default=1.0)
     parser.add_argument("--natural-damping", type=float, default=0.3)
+    parser.add_argument("--natural-error-damping", type=float, default=None)
     parser.add_argument("--eval-size", type=int, default=512)
     parser.add_argument("--pca-size", type=int, default=1024)
     parser.add_argument("--nc-update-intervals", type=int, nargs="+", default=[10])

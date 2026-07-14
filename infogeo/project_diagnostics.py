@@ -16,6 +16,7 @@ import torch
 from .dfa import (
     Gradients,
     ManualMLP,
+    error_second_moment,
     finite_difference_hidden_tangents,
     gradient_cosines,
     init_feedback,
@@ -235,7 +236,7 @@ def _natural_precondition_gradients(
             grad = _damped_solve(cov, grad.T, damping=damping).T
         if mode in {"error", "kronecker"}:
             delta = gradients.deltas[layer_idx].detach()
-            cov = delta.T @ delta / max(delta.shape[0], 1)
+            cov = error_second_moment(delta, normalization_count=delta.shape[0])
             grad = _damped_solve(cov, grad, damping=damping)
         weights[layer_idx] = grad
     return Gradients(weights, biases, gradients.deltas, gradients.loss)

@@ -345,8 +345,10 @@ def covariance_diagnostics(
     bp_delta_stats = []
     for layer_idx in range(model.n_hidden_layers):
         presynaptic_stats.append(spectrum_stats(activations[layer_idx], damping=damping))
-        local_delta_stats.append(spectrum_stats(local.deltas[layer_idx], damping=damping))
-        bp_delta_stats.append(spectrum_stats(bp.deltas[layer_idx], damping=damping))
+        # Deltas store the mean-loss 1/B factor; diagnostics of the actual
+        # error-side moment must use per-example errors.
+        local_delta_stats.append(spectrum_stats(local.deltas[layer_idx] * x.shape[0], damping=damping))
+        bp_delta_stats.append(spectrum_stats(bp.deltas[layer_idx] * x.shape[0], damping=damping))
     return {
         **prefix_mean_stats("pre_activity", presynaptic_stats),
         **prefix_mean_stats("local_error", local_delta_stats),

@@ -9,6 +9,23 @@ scripts can be rerun. This file lists the command, grid, aggregator, and artifac
 root for each result. The current figure-generation manifest is
 `drafts/Info-DFA/FIGURE_INPUTS.md`.
 
+## Current claim boundary
+
+- The primary synthetic comparison fixes full-rank feedback. Test-selected rank
+  summaries are retained only as historical sensitivity analyses.
+- The method family contains activity nDFA, error nDFA, and two-sided K-nDFA.
+  Historical error-side/two-sided results used deltas already divided by the
+  mean-loss batch factor and remain excluded. The corrected DFA-stall evidence
+  uses per-example errors, independently validation-selected activity/error
+  damping, norm matching, and a frozen confirmation on five model/data-order
+  seeds crossed with three feedback seeds.
+- The ImageNet-100 experiment applies diagonal/full inverse-square-root
+  conditioning to pooled block outputs. It is a separate credit-assignment
+  diagnostic, not Eq. (3)'s activity-side nDFA update.
+- Cell-level and crossed-seed intervals are descriptive. The five global data
+  seeds are the replication unit for the conservative synthetic sensitivity
+  analysis.
+
 ## Environment
 - Python 3.10. Install dependencies with `pip install -r requirements.txt` (torch 2.9,
   torchvision 0.24, timm 1.0, numpy, pandas, scipy, matplotlib), then activate that
@@ -21,10 +38,11 @@ root for each result. The current figure-generation manifest is
 
 | Claim/table/figure | Script or table source | Required artifact root |
 | --- | --- | --- |
-| Table 1 synthetic rows and Appendix statistical tests | `analysis/write_infodfa_paper_tables.py`, `analysis/compute_infodfa_statistical_tests.py` | `results/infodfa_multioutput_noise_sweep_aggregate_v2/dfa_multioutput_best_by_method.csv` |
-| Table 1 noisy-vision rows and Appendix statistical tests | `analysis/write_infodfa_paper_tables.py`, `analysis/compute_infodfa_statistical_tests.py` | `results/infodfa_vision_noise_sweep_aggregate_v2/dfa_nmnc_best_by_method.csv` |
+| Table 1 fixed-full synthetic rows and seed sensitivity | `analysis/reanalyze_synthetic_honest_selection.py`, embedded revised TeX table | `results/infodfa_multioutput_noise_sweep_aggregate_v2/dfa_multioutput_all.csv` |
+| Table 1 exploratory noisy-vision rows | `analysis/write_infodfa_paper_tables.py` | `results/infodfa_vision_noise_sweep_aggregate_v2/dfa_nmnc_best_by_method.csv` |
+| Table 1 and Appendix activity/error/K-nDFA confirmation | `experiments/run_dfa_stall_comparison.py`, `analysis/analyze_dfa_stall_threefactor.py` | `results/dfa_stall_threefactor_dev_v1`, `results/dfa_stall_threefactor_confirmation_v1` |
 | Main figures | `drafts/Info-DFA/scripts/make_iclr_figures.py` | roots listed in `drafts/Info-DFA/FIGURE_INPUTS.md` |
-| Factor, norm-match, Adam/diagonal, BP-precondition, and KFAC controls | corresponding `analysis/aggregate_*.py` scripts below | control-specific roots listed in the sections below |
+| Activity norm-match, Adam/diagonal, decorrelation, BatchNorm, and BP-precondition controls | corresponding `analysis/aggregate_*.py` scripts below | control-specific roots listed below |
 | ImageNet-100 boundary table | `analysis/aggregate_imagenet_strongform.py` plus the hand-curated table snapshot | `results/imagenet100_strongform_v1/strongform_multiseed_summary.csv` |
 
 At the time of this revision, the ImageNet aggregate CSV is present locally, but
@@ -59,7 +77,8 @@ writes regenerable TeX snapshots under
 `INFODFA_TABLE_TEX_DIR` is set.
 `drafts/Info-DFA/scripts/make_iclr_figures.py` records every plotted artifact in
 `drafts/Info-DFA/FIGURE_INPUTS.md`. The paper draft keeps a single root TeX file,
-`paper_main.tex`, which is self-contained and uses the ICLR style directly.
+`paper_main.tex`. The TeX build uses committed figures, but clean figure
+regeneration is not self-contained without the bundle in `FIGURE_INPUTS.md`.
 Generated PDFs and LaTeX build auxiliaries are not source files.
 
 ## Synthetic stress suite (Tables 1, 7; Figs 1, 2)
@@ -75,9 +94,29 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   tests retain held-out seed identity but are not five independent seed-level
   inference. The three selection schemes agree to <0.1pp (full-rank feedback is
   essentially always best).
-- Stat tests (Table 4): `analysis/compute_infodfa_statistical_tests.py`.
+- Conservative sensitivity analysis: `analysis/compute_infodfa_seedlevel_stats.py`
+  averages the fixed-full-rank nDFA--DFA difference within each of the five
+  global data seeds. Its bootstrap intervals are descriptive because the
+  experimental grid is fixed rather than sampled from a population of tasks.
 
-## Activity/error factor ablation and long-horizon curves
+## Corrected activity/error/K-nDFA confirmation
+
+- Run `sbatch slurm/infodfa_dfa_stall_threefactor.sbatch`. Tasks 0--5 select
+  activity damping for activity nDFA; tasks 6--11 independently select error
+  damping for error nDFA; task 12 checks raw DFA and the combined rule on the
+  development seeds; tasks 13--15 run the frozen four-method confirmation, one
+  task per feedback seed.
+- The fixed protocol uses a width-300, three-hidden-layer tanh MNIST MLP, 1,000
+  steps, layerwise norm matching, a 5,000-example training-validation split,
+  development seeds 42--44, and confirmation seeds 50--54 crossed with feedback
+  seeds 0--2. The test set is evaluated only after the last update.
+- After the array completes, run
+  `python analysis/analyze_dfa_stall_threefactor.py`. It verifies
+  `lambda_A=0.3` and `lambda_E=10`, averages feedback seeds within model seed,
+  writes seed-level contrasts under `results/dfa_stall_threefactor_analysis_v1`,
+  and regenerates `figures/iclr_fig_threefactor_conditioning.{pdf,png,svg}`.
+
+## Historical activity/error factor ablation (two-sided rows are not evidence)
 - Purpose: isolate which Kronecker side drives the first-paper gains. The comparison
   is BP, DFA, activity-only nDFA (`ndfa_random`), error-only nDFA
   (`ndfa_random_error`), and full K-nDFA (`ndfa_random_kronecker`).
@@ -100,7 +139,7 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   `infodfa_factor_ablation_effects.csv`, `infodfa_factor_ablation_summary.md`,
   and publication-ready curve/endpoint/factor-decomposition figures in png/pdf/svg.
 
-## Norm-matched activity/error factor controls
+## Norm-matched controls (paper uses activity-side rows only)
 - Purpose: test whether activity/error/K-nDFA effects are merely scalar
   learning-rate or per-layer gradient-norm changes. The `+norm_match` variants
   rescale each local hidden gradient to a matched BP layer norm after applying
@@ -115,7 +154,7 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   results/infodfa_normmatch_factor_controls_v1 --output-dir
   results/infodfa_normmatch_factor_controls_aggregate_v1`.
 
-## Adam / diagonal-K approximation control
+## Adam / diagonal approximation control (paper uses activity-side rows only)
 - Purpose: test whether conditioned-DFA gains reduce to an Adam-like diagonal
   second-moment learning-rate effect. The comparison is BP, DFA, hidden-weight
   Adam-DFA, diagonal square-root activity/error/K conditioning, activity/error
@@ -159,7 +198,7 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   so the +18.3 is a regime lr-tuning cannot reach; on mixed the gain is mostly an
   lr effect tuned BP recovers.
 
-## KFAC-DFA control (related work)
+## Historical KFAC-DFA control (invalid for a corrected two-sided claim)
 - Run: `sbatch slurm/infodfa_kfac_control_synthetic.sbatch` (adds
   `ndfa_random_kronecker_bp`: K-nDFA with a BP-error left factor instead of DFA-error).
 - Aggregate: `analysis/aggregate_kfac_control.py` (K-nDFA minus KFAC-DFA(bp) = +0.01pp mean).
@@ -171,9 +210,10 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
 - Vision noisy-label sweep: `run_dfa_nmnc_comparison.py` (slurm `infodfa_nmnc_comparison.sbatch`).
 - ColoredMNIST: `run_dfa_coloredmnist.py` (slurm `infodfa_coloredmnist.sbatch`).
 
-## Reviewer controls (Table 9)
+## Reviewer controls (activity-side rows support the revised paper)
 - Run: `sbatch slurm/infodfa_controls.sbatch` (BP/BP+L2/BP+label-smoothing/BP+early-stop/
-  DFA/DFA+norm-match/nDFA/K-nDFA at one nuisance cell and one Fashion-MNIST cell, 5 seeds).
+  DFA/DFA+norm-match/nDFA plus a historical two-sided row at one nuisance cell
+  and one Fashion-MNIST cell, 5 seeds).
 
 ## Capable-model preconditioning vs norm-match (§4.2)
 - Run: `sbatch slurm/infodfa_capable_normmatch.sbatch` (CIFAR-100 convnet, methods
@@ -191,29 +231,31 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
 - Clean test (drops into the capable CIFAR-10 dir): `sbatch
   slurm/infodfa_capable_cifar10_spatialkron.sbatch`; aggregate with
   `analysis/aggregate_spatial_kron.py` (spatial-Kron 64.6 vs channel-only nDFA 65.4
-  = -0.78pp, paired Wilcoxon p=0.0025, 95% CI [-1.18,-0.38]; clean-regime over-
-  conditioning, as the theory predicts).
+  = -0.78pp; the crossed-seed interval and Wilcoxon value are descriptive and
+  do not establish a signed theoretical prediction).
 - Both-directions nuisance sweep: `sbatch slurm/infodfa_spatialkron_nuisance.sbatch`
   (adds a class-independent low-frequency spatial nuisance via `--spatial-nuisance`
   alpha {0.5,1.0,2.0}, scale k=4, seeded by image index; methods bp/dfa_random/
   ndfa_random/ndfa_spatial_kron; same 40-epoch capable recipe). Aggregate with
   `analysis/aggregate_spatialkron_sweep.py`, which reports D(alpha)=spatial-Kron
   minus channel-nDFA (paired Wilcoxon + bootstrap CI) and the channel-nDFA-minus-DFA
-  confound control (flat in alpha => the gain is the spatial factor, not denoising).
+  confound control. Because a channel-shared field still changes uncentered
+  channel moments, the comparison does not fully isolate the spatial factor.
 - Generality check on a second dataset (CIFAR-100 convnet): `sbatch
   slurm/infodfa_spatialkron_nuisance_cifar100.sbatch` (self-contained matched sweep,
   alpha {0,0.5,1.0,2.0} x {bp,dfa_random,ndfa_random,ndfa_spatial_kron}, same capable
   recipe, n-classes 100). Aggregate with `python analysis/aggregate_spatialkron_sweep.py
   results/infodfa_spatialkron_nuisance_cifar100`. Result: D rises monotonically with
-  alpha as on CIFAR-10 (+2.3 -> +5.8pp), confirming the directional law on a second
-  dataset; the clean-data sign differs (positive on CIFAR-100, where channel-nDFA is
+  alpha as on CIFAR-10 (+2.3 -> +5.8pp), a descriptive replication of the trend;
+  the clean-data sign differs (positive on CIFAR-100, where channel-nDFA is
   7.9pp below BP and within-patch anisotropy is still exploitable, vs the small clean
   loss on CIFAR-10 where channel-nDFA already ties BP).
 - Robustness controls (damping + spatial scale) at alpha=1.0: `sbatch
   slurm/infodfa_spatialkron_controls.sbatch` (lambda in {0.1,1.0}; k=8); aggregate
   with `analysis/aggregate_spatialkron_controls.py`. Result: D is +1.4/+7.4pp at
-  lambda 0.3/1.0 but reverses to -1.4pp at the under-damped 0.1 (the case-iii
-  over-preconditioning the theory predicts), and persists at k=8 (+2.0pp). sign(D) is
+  lambda 0.3/1.0 but reverses to -1.4pp at damping 0.1, and persists at k=8
+  (+2.0pp). This sensitivity is compatible with small-direction amplification
+  but does not identify it. sign(D) is
   jointly controlled by nuisance amplitude and damping; the both-directions sweep is
   the fixed-lambda=0.3 slice.
 
@@ -221,8 +263,8 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
 - Run: `sbatch slurm/infodfa_hard_cifar100_confirm.sbatch`.
 
 ## ImageNet-100 substitution-depth boundary (Table 15)
-- Channel-covariance ZCA diagnostic: `sbatch slurm/infodfa_imagenet_strongform.sbatch` (13 configs:
-  BP + {raw block-DFA, diagonal nDFA, full channel-covariance inverse-square-root conditioner} x 4 depths
+- Block-output ZCA diagnostic: `sbatch slurm/infodfa_imagenet_strongform.sbatch` (13 configs:
+  BP + {raw block-DFA, diagonal block-output, full block-output inverse-square-root conditioner} x 4 depths
   {layer4, layer3+4, layer2+3+4, all}; pretrained ResNet-18; `--dfa-norm unit`
   (no BP-norm oracle); `--whiten-mode {diag,full}`; 90 epochs; lr 0.1; image 176).
 - Multi-seed extension (error bars on the cliff): `sbatch

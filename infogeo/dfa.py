@@ -584,6 +584,34 @@ def _output_delta(logits: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
     return (probs - one_hot) / logits.shape[0]
 
 
+def error_second_moment(
+    loss_scaled_deltas: torch.Tensor,
+    *,
+    normalization_count: int,
+) -> torch.Tensor:
+    """Return the per-sample second moment of mean-loss error signals.
+
+    Manual BP/DFA gradients store each row of ``deltas`` with the normalization
+    used by the mean loss so that summing outer products produces an averaged
+    weight gradient.  That normalization must be undone before estimating the
+    error-side Kronecker factor; otherwise the factor is smaller by
+    ``normalization_count**2`` and damping reduces it to an almost scalar
+    rescaling.
+
+    ``normalization_count`` is the number by which the local error was divided:
+    the minibatch size for ordinary MLP/conv deltas, and batch times broadcast
+    multiplicity for flattened mixer deltas.
+    """
+
+    if loss_scaled_deltas.ndim != 2:
+        raise ValueError("error second moment expects a 2-D sample-by-feature tensor")
+    count = int(normalization_count)
+    if count <= 0:
+        raise ValueError("normalization_count must be positive")
+    per_sample = loss_scaled_deltas.detach() * count
+    return per_sample.T @ per_sample / max(int(per_sample.shape[0]), 1)
+
+
 def _truncate_rank(matrix: np.ndarray, rank: int) -> np.ndarray:
     max_rank = min(matrix.shape)
     rank = int(min(max(rank, 1), max_rank))
