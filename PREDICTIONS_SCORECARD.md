@@ -198,8 +198,36 @@ selected damping 3, the BP factor's damped spectral ratio reaches 1.95, but the
 norm-matched update cosine with activity nDFA remains at least 0.9984 on the
 audited trajectory.
 
-Consequence: the error-side and incremental two-sided signs now replicate on
+Consequence at P6: the error-side and incremental two-sided signs replicate on
 two clean datasets, but both use the same architecture and one-vs-rest loss.
-Architecture-level replication remains open. The source swap should be
+P7 below addresses that architecture/loss limitation. The source swap should be
 reported as the post-hoc source-specific negative control above, not as
 evidence of equivalence or absence of a locality penalty.
+
+## P7 — ReLU/softmax architectural replication (final test, 8×3 seeds)
+
+The validation-only development protocol used a 256--128 ReLU MLP with
+multiclass softmax cross-entropy, 1,000 updates, and layerwise hidden-gradient
+norm matching. Seeds 0--2 independently selected `lambda_A=3` and
+`lambda_E=0.1`; the protocol and pass/fail criteria were committed before test
+evaluation. Confirmation used fresh model/data-order seeds 100--107 crossed
+with feedback seeds 0--2 and averaged feedback seeds within model seed.
+
+| method | test accuracy | test loss |
+|---|---:|---:|
+| DFA | 87.08 ± 0.79 | 187.339 ± 95.506 |
+| activity nDFA | 95.81 ± 0.03 | 0.1385 ± 0.0005 |
+| error nDFA | 94.61 ± 0.16 | 1.242 ± 0.187 |
+| K-nDFA | **96.71 ± 0.04** | **0.1103 ± 0.0009** |
+
+- **P7a — CONFIRMED.** Error nDFA improves DFA by +7.526 ± 0.860 pp,
+  positive in 8/8 model-seed pairs; test loss is also lower in 8/8.
+- **P7b — CONFIRMED.** K-nDFA improves activity nDFA by +0.900 ± 0.042 pp,
+  positive in 8/8, and lowers loss by 0.0282 ± 0.0011 in 8/8. Both exact
+  two-sided Wilcoxon tests give p=0.0078125.
+- **P7c — CONFIRMED WITH A SCOPE LIMIT.** Both factor-specific signs transfer
+  from a three-hidden-layer tanh/one-vs-rest model to a two-hidden-layer
+  ReLU/softmax model on fresh MNIST seeds. Dataset choice was made after an
+  exploratory ReLU Fashion-MNIST development pilot failed to retain the
+  incremental K-nDFA gain under independent factor selection. This is therefore
+  architecture/loss replication on MNIST, not ReLU dataset generality.

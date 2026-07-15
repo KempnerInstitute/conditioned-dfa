@@ -11,9 +11,9 @@ family: **activity nDFA** right-preconditions the local update by a presynaptic
 second moment, **error nDFA** left-preconditions by a local-error second moment,
 and **K-nDFA** applies both factors. The fixed random feedback path is unchanged.
 Activity conditioning has the broadest evidence in nuisance-stressed settings;
-validation-selected clean MNIST and preregistered Fashion-MNIST confirmations
-provide replicated proof-of-concept support for the error factor and a further
-two-sided gain. BatchNorm remains a strong activity-side
+clean MNIST and preregistered Fashion-MNIST confirmations support the error
+factor and a further two-sided gain, and both signs replicate on eight fresh
+seeds in a ReLU/softmax MNIST model. BatchNorm remains a strong activity-side
 alternative, vision rank sweeps are exploratory, and the separate ImageNet-100
 block-output diagnostic is not the proposed weight-update operator.
 
@@ -48,10 +48,14 @@ transported BP-error factor does not.
     preconditioning) runs through the multioutput synthetic driver.
   - `run_dfa_stall_comparison.py`: corrected activity/error/K-nDFA comparison
     with separate damping and train/validation/test separation.
+  - `run_dfa_relu_vision_threefactor.py`: validation-safe ReLU/softmax
+    architectural replication; `run_dfa_factorial_synthetic.py` contains the
+    controlled activity/error intervention pilot.
   - `analyze_dfa_stall_threefactor.py`,
     `analyze_dfa_stall_fashion_threefactor.py`,
-    `analyze_dfa_stall_bpsource_retune.py`: MNIST and preregistered clean
-    Fashion-MNIST factor confirmations plus the post-hoc source-scale audit.
+    `analyze_dfa_stall_bpsource_retune.py`, and
+    `analyze_dfa_relu_vision_threefactor.py`: tanh and ReLU factor
+    confirmations plus the post-hoc source-scale audit.
   - `run_imagenet_credit_assignment.py`,
     `evaluate_imagenet_torchvision_weights.py`: ImageNet-100 ResNet-18
     diagnostics.
@@ -80,7 +84,7 @@ python experiments/run_dfa_coloredmnist.py --n-seeds 1 --epochs 3
 | Control studies | `run_dfa_controls.py` + `write_infodfa_controls_table.py` |
 | ColoredMNIST DFA rescue | `run_dfa_coloredmnist.py` + `write_infodfa_coloredmnist_table.py` |
 | Hard CIFAR-100 convnet | `run_dfa_convnet_baselines.py` |
-| Activity/error/K-nDFA confirmations | `run_dfa_stall_comparison.py` + both `analyze_dfa_stall_*threefactor.py` scripts |
+| Activity/error/K-nDFA confirmations | `run_dfa_stall_comparison.py`, `run_dfa_relu_vision_threefactor.py`, and the corresponding three-factor analyses |
 | ImageNet-100 substitution depth | `run_imagenet_credit_assignment.py` |
 | Descriptive and seed-level sensitivity tests | `compute_infodfa_statistical_tests.py` + `compute_infodfa_seedlevel_stats.py` |
 

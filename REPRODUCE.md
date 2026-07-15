@@ -21,6 +21,11 @@ root for each result. The current figure-generation manifest is
   Fashion-MNIST, each with five model/data-order seeds crossed with three
   feedback seeds. The Fashion-MNIST run was preregistered and includes a
   corrected nonlocal BP-error covariance-source control.
+- A fresh-seed architectural confirmation uses a 256--128 ReLU MLP with
+  multiclass softmax cross-entropy. It independently selects both dampings on
+  validation data and confirms the error-only and incremental K-nDFA signs on
+  eight model/data-order seeds crossed with three feedback seeds. A negative
+  exploratory ReLU Fashion-MNIST development pilot limits the claim to MNIST.
 - The ImageNet-100 experiment applies diagonal/full inverse-square-root
   conditioning to pooled block outputs. It is a separate credit-assignment
   diagnostic, not Eq. (3)'s activity-side nDFA update.
@@ -44,6 +49,7 @@ root for each result. The current figure-generation manifest is
 | Table 1 exploratory noisy-vision rows | `analysis/write_infodfa_paper_tables.py` | `results/infodfa_vision_noise_sweep_aggregate_v2/dfa_nmnc_best_by_method.csv` |
 | Table 1 and Appendix activity/error/K-nDFA confirmation | `experiments/run_dfa_stall_comparison.py`, `analysis/analyze_dfa_stall_threefactor.py` | `results/dfa_stall_threefactor_dev_v1`, `results/dfa_stall_threefactor_confirmation_v1` |
 | Table 1 and Appendix clean Fashion-MNIST replication/source swap | `slurm/infodfa_dfa_stall_fashion_threefactor.sbatch`, `analysis/analyze_dfa_stall_fashion_threefactor.py` | `results/dfa_stall_fashion_threefactor_{dev,confirmation,analysis}_v1` |
+| Table 1, Fig. 3, and Appendix ReLU/softmax confirmation | `slurm/infodfa_dfa_relu_mnist_threefactor.sbatch`, `analysis/analyze_dfa_relu_vision_threefactor.py`, `analysis/make_error_kndfa_replication_figure.py` | `results/dfa_relu_mnist_{dev,threefactor_confirmation,threefactor_analysis}_v1` |
 | Appendix BP-source scale diagnosis and post-hoc retuning | `analysis/diagnose_dfa_stall_bpsource_scale.py`, `slurm/infodfa_dfa_stall_fashion_bpsource_retune.sbatch`, `analysis/analyze_dfa_stall_bpsource_retune.py` | `results/dfa_stall_fashion_bpsource_scale_audit_v1`, `results/dfa_stall_fashion_bpsource_scale_audit_d3_v1`, `results/dfa_stall_fashion_bpsource_retune_{dev,confirmation,analysis}_v1` |
 | Main figures | `drafts/Info-DFA/scripts/make_iclr_figures.py` | roots listed in `drafts/Info-DFA/FIGURE_INPUTS.md` |
 | Activity norm-match, Adam/diagonal, decorrelation, BatchNorm, and BP-precondition controls | corresponding `analysis/aggregate_*.py` scripts below | control-specific roots listed below |
@@ -150,6 +156,34 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   tasks 10--12 with `BP_ERROR_DAMPING=3`; these use fresh model/data-order seeds
   80--84 crossed with feedback seeds 0--2. Aggregate with
   `python analysis/analyze_dfa_stall_bpsource_retune.py`.
+
+### Fresh-seed ReLU/softmax architectural replication
+
+- The P7 protocol was frozen in `PREDICTIONS.md` before confirmation test
+  evaluation. It uses clean MNIST, a 256--128 ReLU MLP, softmax cross-entropy,
+  1,000 updates, batch size 128, learning rate 0.03, and layerwise hidden-weight
+  gradient norm matching.
+- Run `sbatch slurm/infodfa_dfa_relu_mnist_threefactor.sbatch`. Tasks 0--14
+  perform the independent validation grids, task 15 records the selected joint
+  development check, and tasks 16--18 run the final-only-test confirmation.
+- On split seed 86420, run activity-nDFA development seeds 0--2 over
+  `{0.03,0.1,0.3,1,3,10,30}` and error-nDFA over
+  `{0.003,0.01,0.03,0.1,0.3,1,3,10}` with test evaluation disabled. The
+  validation rule selects `lambda_A=3` and `lambda_E=0.1`; K-nDFA combines them
+  without joint tuning.
+- Run the four methods with those frozen values on model/data-order seeds
+  100--107 separately for feedback seeds 0, 1, and 2, enabling final-only test
+  evaluation. Then run:
+
+  ```bash
+  python analysis/analyze_dfa_relu_vision_threefactor.py
+  python analysis/make_error_kndfa_replication_figure.py
+  ```
+
+  The first command verifies the frozen selection, averages feedback seeds
+  within model seed, scores P7, and regenerates the appendix figure. The second
+  combines the tanh MNIST, tanh Fashion-MNIST, and ReLU MNIST paired contrasts
+  into the main error/K-nDFA replication figure.
 
 ## Historical activity/error factor ablation (two-sided rows are not evidence)
 - Purpose: isolate which Kronecker side drives the first-paper gains. The comparison

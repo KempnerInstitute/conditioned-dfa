@@ -226,7 +226,9 @@ def anisotropize_feedback(
         )
         scales = scales[torch.randperm(matrix.shape[1], generator=generator)]
         scales = scales / scales.square().mean().sqrt().clamp_min(1e-12)
-        out.append(matrix * scales.to(matrix.device).unsqueeze(0))
+        scaled = matrix * scales.to(matrix.device).unsqueeze(0)
+        scaled = scaled * (matrix.norm().clamp_min(1e-12) / scaled.norm().clamp_min(1e-12))
+        out.append(scaled)
     return out
 
 
