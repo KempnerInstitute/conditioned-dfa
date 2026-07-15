@@ -119,6 +119,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--metric-every", type=int, default=1)
     parser.add_argument("--max-train", type=int, default=0, help="Optional train-set subset for quick tests.")
     parser.add_argument("--max-test", type=int, default=0, help="Optional test-set subset for quick tests.")
+    parser.add_argument(
+        "--skip-test-eval",
+        action="store_true",
+        help="Do not evaluate the held-out test set, including at the final step.",
+    )
     parser.add_argument("--no-plots", action="store_true")
     return parser.parse_args()
 
@@ -295,7 +300,7 @@ def run_one(
             if step % args.eval_every == 0 or step == 1 or step == args.total_steps:
                 row["probe_loss"] = loss_on(stall, model, probe_x, probe_t)
                 row["probe_acc"] = accuracy(model, probe_x, probe_y)
-            if step == args.total_steps:
+            if step == args.total_steps and not getattr(args, "skip_test_eval", False):
                 row["test_loss"] = loss_on(stall, model, test_x, test_t)
                 row["test_acc"] = accuracy(model, test_x, test_y)
             rows.append(row)

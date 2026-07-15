@@ -23,7 +23,12 @@ reported factor was therefore nearly scalar at the chosen damping and remains
 excluded. The corrected DFA-stall experiments use per-example errors, separate
 activity/error damping selected on validation data, norm matching, and frozen
 five-seed by three-feedback-seed confirmations. Fashion-MNIST additionally
-compares local K-nDFA with a nonlocal BP-error covariance source.
+compares local K-nDFA with a nonlocal BP-error covariance source. The registered
+source comparator reused the local damping and was effectively activity nDFA
+after norm matching, so its original equivalence interpretation is withdrawn.
+A post-hoc validation-retuned, fresh-seed audit instead shows source
+specificity: the local DFA-error factor improves activity nDFA, whereas the
+transported BP-error factor does not.
 
 ## Layout
 
@@ -44,8 +49,9 @@ compares local K-nDFA with a nonlocal BP-error covariance source.
   - `run_dfa_stall_comparison.py`: corrected activity/error/K-nDFA comparison
     with separate damping and train/validation/test separation.
   - `analyze_dfa_stall_threefactor.py`,
-    `analyze_dfa_stall_fashion_threefactor.py`: MNIST and preregistered clean
-    Fashion-MNIST factor confirmations, including the corrected source swap.
+    `analyze_dfa_stall_fashion_threefactor.py`,
+    `analyze_dfa_stall_bpsource_retune.py`: MNIST and preregistered clean
+    Fashion-MNIST factor confirmations plus the post-hoc source-scale audit.
   - `run_imagenet_credit_assignment.py`,
     `evaluate_imagenet_torchvision_weights.py`: ImageNet-100 ResNet-18
     diagnostics.

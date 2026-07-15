@@ -149,11 +149,57 @@ seed, and evaluated clean Fashion-MNIST test data only after the final update.
   in all 5/5 model-seed units; test loss improves by 0.096.
 - **P6b — CONFIRMED.** K-nDFA improves activity nDFA by +0.501 pp, positive
   in 5/5 units, and lowers test loss by 0.075.
-- **P6c — CONFIRMED at the preregistered margin.** Local K-nDFA is +0.499 pp
-  above the nonlocal BP-error-source comparator, positive in 5/5 units. This is
-  just inside the specified absolute 0.5-pp matching margin. It is evidence
-  against a locality penalty, not a powered statistical equivalence claim.
+- **P6c — NUMERICALLY SATISFIED, BUT THE COMPARATOR IS INCONCLUSIVE.** Local
+  K-nDFA is +0.499 pp above the nonlocal BP-error-source comparator, positive
+  in 5/5 units and just inside the registered absolute 0.5-pp margin. A
+  post-run spectral audit shows that the frozen $\lambda_E=30$ is on the local
+  DFA-error scale, whereas the BP-error covariance is much smaller. Its damped
+  inverse is therefore nearly scalar, and layerwise norm matching removes that
+  scalar: the BP-source update is effectively activity nDFA, consistent with
+  their indistinguishable 80.29% endpoints. P6c cannot support a claim about a
+  locality penalty or covariance-source equivalence. The registered absolute
+  margin was also worded two-sided even though the failure interpretation
+  concerned only a deficit of the local source.
+
+  On the frozen seed-70/feedback-0 trajectory, sampled every ten steps,
+  BP-error $\lambda_{\max}$ is 0.040--2.84 with trace 0.22--4.34, versus local
+  DFA-error $\lambda_{\max}$ 8.59--505 and trace 42.9--723. After norm matching,
+  the BP-source update cosine with activity nDFA is at least 0.99995; the
+  local-source cosine reaches 0.833.
+
+### Post-hoc scale-matched P6c addendum
+
+A BP-source-only validation sweep over
+`{0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30}` on the original
+development split selected $\lambda_E^{BP}=3$. Dampings 3 and 10 tied at
+82.90% mean validation accuracy; lower validation loss breaks the tie in favor
+of 3. This selection is post hoc and is not part of the registered P6 result.
+
+Fresh model/data-order seeds 80--84 crossed with feedback seeds 0--2 give:
+
+| method | test accuracy | test loss |
+|---|---:|---:|
+| activity nDFA | 80.25 ± 0.07 | 1.5721 ± 0.0022 |
+| local K-nDFA | **80.64 ± 0.05** | **1.4955 ± 0.0045** |
+| K-nDFA, retuned BP-error source | 80.27 ± 0.07 | 1.5739 ± 0.0024 |
+
+- Local K-nDFA minus activity nDFA: +0.391 ± 0.040 pp, positive in 5/5;
+  loss −0.0765 ± 0.0028, lower in 5/5.
+- Retuned BP source minus activity nDFA: +0.015 ± 0.011 pp, positive in 4/5;
+  loss +0.0019 ± 0.0015, lower in 2/5.
+- Retuned BP source minus local K-nDFA: −0.375 ± 0.042 pp, positive in 0/5;
+  loss +0.0784 ± 0.0027, lower in 0/5.
+
+The live, scale-matched comparison does not rescue a source-equivalence claim.
+Instead, it supports a narrower source-specific conclusion in this setting:
+conditioning by the local DFA-error second moment improves activity nDFA,
+whereas conditioning by transported BP-error second moments does not. At the
+selected damping 3, the BP factor's damped spectral ratio reaches 1.95, but the
+norm-matched update cosine with activity nDFA remains at least 0.9984 on the
+audited trajectory.
 
 Consequence: the error-side and incremental two-sided signs now replicate on
 two clean datasets, but both use the same architecture and one-vs-rest loss.
-Architecture-level replication remains open.
+Architecture-level replication remains open. The source swap should be
+reported as the post-hoc source-specific negative control above, not as
+evidence of equivalence or absence of a locality penalty.

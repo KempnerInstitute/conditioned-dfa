@@ -44,6 +44,7 @@ root for each result. The current figure-generation manifest is
 | Table 1 exploratory noisy-vision rows | `analysis/write_infodfa_paper_tables.py` | `results/infodfa_vision_noise_sweep_aggregate_v2/dfa_nmnc_best_by_method.csv` |
 | Table 1 and Appendix activity/error/K-nDFA confirmation | `experiments/run_dfa_stall_comparison.py`, `analysis/analyze_dfa_stall_threefactor.py` | `results/dfa_stall_threefactor_dev_v1`, `results/dfa_stall_threefactor_confirmation_v1` |
 | Table 1 and Appendix clean Fashion-MNIST replication/source swap | `slurm/infodfa_dfa_stall_fashion_threefactor.sbatch`, `analysis/analyze_dfa_stall_fashion_threefactor.py` | `results/dfa_stall_fashion_threefactor_{dev,confirmation,analysis}_v1` |
+| Appendix BP-source scale diagnosis and post-hoc retuning | `analysis/diagnose_dfa_stall_bpsource_scale.py`, `slurm/infodfa_dfa_stall_fashion_bpsource_retune.sbatch`, `analysis/analyze_dfa_stall_bpsource_retune.py` | `results/dfa_stall_fashion_bpsource_scale_audit_v1`, `results/dfa_stall_fashion_bpsource_scale_audit_d3_v1`, `results/dfa_stall_fashion_bpsource_retune_{dev,confirmation,analysis}_v1` |
 | Main figures | `drafts/Info-DFA/scripts/make_iclr_figures.py` | roots listed in `drafts/Info-DFA/FIGURE_INPUTS.md` |
 | Activity norm-match, Adam/diagonal, decorrelation, BatchNorm, and BP-precondition controls | corresponding `analysis/aggregate_*.py` scripts below | control-specific roots listed below |
 | ImageNet-100 boundary table | `analysis/aggregate_imagenet_strongform.py` plus the hand-curated table snapshot | `results/imagenet100_strongform_v1/strongform_multiseed_summary.csv` |
@@ -119,7 +120,7 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   writes seed-level contrasts under `results/dfa_stall_threefactor_analysis_v1`,
   and regenerates `figures/iclr_fig_threefactor_conditioning.{pdf,png,svg}`.
 
-### Preregistered clean Fashion-MNIST replication and corrected source swap
+### Preregistered clean Fashion-MNIST replication and source-swap diagnosis
 
 - The protocol and pass/fail criteria are recorded in `PREDICTIONS.md` at
   commit `ef795e1`, before development job 30989996 and confirmation job
@@ -139,6 +140,16 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   endpoint table, paired contrasts, preregistration scorecard, and
   `iclr_fig_fashion_threefactor_conditioning.{pdf,png,svg}` under
   `results/dfa_stall_fashion_threefactor_analysis_v1` and the paper figure root.
+- The registered BP-source comparator is not a live source-equivalence test at
+  the frozen local damping. Run
+  `python analysis/diagnose_dfa_stall_bpsource_scale.py` to reproduce the
+  layerwise spectral-scale and update-cosine audit.
+- For the explicitly post-hoc scale-matched addendum, run development tasks
+  0--9 of `slurm/infodfa_dfa_stall_fashion_bpsource_retune.sbatch`. Validation
+  selects BP-source damping 3 (tied accuracy with 10, lower loss). Then submit
+  tasks 10--12 with `BP_ERROR_DAMPING=3`; these use fresh model/data-order seeds
+  80--84 crossed with feedback seeds 0--2. Aggregate with
+  `python analysis/analyze_dfa_stall_bpsource_retune.py`.
 
 ## Historical activity/error factor ablation (two-sided rows are not evidence)
 - Purpose: isolate which Kronecker side drives the first-paper gains. The comparison
@@ -227,7 +238,8 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   `ndfa_random_kronecker_bp`: K-nDFA with a BP-error left factor instead of DFA-error).
 - Aggregate: `analysis/aggregate_kfac_control.py` (K-nDFA minus KFAC-DFA(bp) = +0.01pp mean).
 - These archived values remain excluded. The corrected Fashion-MNIST
-  `kndfa_bp` source swap above supersedes them for the paper's locality check.
+  `kndfa_bp` audits above supersede them as a source-specific negative control;
+  neither is used as evidence of covariance-source equivalence.
 
 ## Local-rule baselines (sign-symmetry, §5)
 - Run: `sbatch slurm/infodfa_localrule_baselines_synthetic.sbatch` (adds `fa_sign`).
