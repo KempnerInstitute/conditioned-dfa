@@ -123,3 +123,41 @@ update.
   as a formal symmetry whose incremental empirical value remains unresolved.
   If P6c fails, the source-swap control will be reported as evidence that local
   DFA errors are an inferior covariance source in this setting.
+
+## P7. ReLU/softmax architectural replication (`dfa_relu_mnist_threefactor_*_v1`)
+
+Registered 2026-07-15 after validation-only protocol development and before any
+test-set evaluation for this experiment. This changes both architecture and
+loss relative to P6: a two-hidden-layer 256/128 ReLU MLP uses multiclass softmax
+cross-entropy for 1,000 SGD updates on clean MNIST. Every conditioned hidden
+weight gradient is layerwise norm-matched to raw DFA. A fixed 5,000-example
+training-validation split (split seed 86420), model/data-order seeds 0--2, and
+one feedback seed selected activity damping from
+`{0.03, 0.1, 0.3, 1, 3, 10, 30}` and error damping from
+`{0.003, 0.01, 0.03, 0.1, 0.3, 1, 3, 10}`. The frozen values are
+`lambda_A=3` and `lambda_E=0.1`; K-nDFA combines them without joint tuning.
+Confirmation uses fresh model/data-order seeds 100--107 crossed with feedback
+seeds 0--2. Feedback seeds are averaged within model seed before paired tests,
+and the test set is evaluated only after the final update.
+
+The dataset was chosen after an explicitly exploratory ReLU/softmax Fashion-
+MNIST development pilot: independent factor selection there did not preserve a
+K-nDFA increment. P7 is therefore a prospective fresh-seed confirmation of the
+MNIST architectural replication, not a preregistered dataset-generalization
+claim. The Fashion pilot will not be presented as confirmatory evidence.
+
+- **P7a (error side):** error nDFA improves mean test accuracy over raw DFA,
+  with a positive paired difference for at least six of eight model seeds.
+  Test cross-entropy is reported as a secondary endpoint; development indicates
+  that accuracy can improve even when error-only calibration worsens.
+- **P7b (two-sided complementarity):** K-nDFA improves mean test accuracy over
+  activity nDFA, with a positive difference for at least six of eight model
+  seeds, and lowers mean test cross-entropy.
+- **P7c (architecture/loss scope):** P7a and P7b together count as replication
+  of the two factor-specific signs under ReLU/softmax, not as evidence of
+  superiority to BP or of dataset-wide generality.
+- **Failure interpretation:** if P7a fails, error-only improvement remains
+  specific to the tanh/one-vs-rest confirmations. If P7b fails, K-nDFA's
+  incremental evidence remains confined to that architecture/loss. Either
+  failure will be reported, and the title/abstract will be narrowed rather than
+  using the development endpoints as evidence.
