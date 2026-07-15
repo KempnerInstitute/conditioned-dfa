@@ -157,7 +157,16 @@ def paired_contrasts(seed_means: pd.DataFrame) -> pd.DataFrame:
 
 
 def make_figure(selection: pd.DataFrame, seed_means: pd.DataFrame, lambda_a: float, lambda_e: float) -> None:
-    plt.rcParams.update({"font.size": 8, "axes.titlesize": 9, "axes.labelsize": 8})
+    plt.rcParams.update(
+        {
+            "font.size": 8,
+            "axes.titlesize": 9,
+            "axes.labelsize": 8,
+            "pdf.fonttype": 42,
+            "ps.fonttype": 42,
+            "svg.fonttype": "none",
+        }
+    )
     fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.15), constrained_layout=True)
 
     for side, method, ax in (("activity", "ndfa", axes[0]), ("error", "endfa", axes[1])):

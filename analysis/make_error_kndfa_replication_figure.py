@@ -79,6 +79,9 @@ def make_figure() -> None:
             "legend.fontsize": 6.8,
             "axes.spines.top": False,
             "axes.spines.right": False,
+            "pdf.fonttype": 42,
+            "ps.fonttype": 42,
+            "svg.fonttype": "none",
         }
     )
     fig, axes = plt.subplots(1, 3, figsize=(7.15, 2.25), constrained_layout=True)
