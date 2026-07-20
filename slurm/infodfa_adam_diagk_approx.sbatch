@@ -7,7 +7,6 @@
 # It writes shard CSVs consumed by slurm/infodfa_adam_diagk_approx_aggregate.sbatch.
 #SBATCH --job-name=infodfa_adamk
 #SBATCH --partition=kempner_h100
-#SBATCH --account=kempner_bsabatini_lab
 #SBATCH --gres=gpu:1
 #SBATCH --time=12:00:00
 #SBATCH --array=0-63%16
@@ -18,7 +17,7 @@
 
 set -euo pipefail
 
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
 SHARD_INDEX="${SLURM_ARRAY_TASK_ID:-${SHARD_INDEX:-0}}"

@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=infodfa_in100_ndfafull_lr01
 #SBATCH --partition=kempner_h100
-#SBATCH --account=kempner_bsabatini_lab
 #SBATCH --gres=gpu:1
 #SBATCH --time=24:00:00
 #SBATCH --array=0-3%4
@@ -18,12 +17,16 @@
 # completes the lr-0.1 seed grid. Args replicate the seed-0 config.txt exactly,
 # changing only the seed (and, per the multiseed convention, --feedback-seed).
 set -euo pipefail
-source /n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh
-conda activate "${CONDA_ENV:-/n/holylabs/LABS/kempner_dev/Users/hsafaai/conda_envs/vdc_paper_v2}"
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+# Optionally activate a conda env by exporting CONDA_ENV before submitting;
+# otherwise the environment active at submission time is used.
+if [ -n "${CONDA_ENV:-}" ]; then
+    source "${CONDA_SH:-/n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh}"
+    conda activate "${CONDA_ENV}"
+fi
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
-export IMAGENET_ROOT="${IMAGENET_ROOT:-/n/holystore01/LABS/barak_lab/Everyone/datasets/imagenet}"
+export IMAGENET_ROOT="${IMAGENET_ROOT:?set IMAGENET_ROOT to an ImageNet-1k ImageFolder}"
 
 MODULES=( "layer2,layer3,layer4" "layer1,layer2,layer3,layer4" )
 TAGS=(    ndfaFull_l234_lr01 ndfaFull_all_lr01 )

@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=infodfa_c100_hard
 #SBATCH --partition=kempner_h100
-#SBATCH --account=kempner_bsabatini_lab
 #SBATCH --gres=gpu:1
 #SBATCH --time=24:00:00
 #SBATCH --array=0-5%6
@@ -12,7 +11,7 @@
 
 set -euo pipefail
 
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
 METHODS=(bp local_loss dfa_random ndfa_random ndfa_random_kronecker drtp_random)

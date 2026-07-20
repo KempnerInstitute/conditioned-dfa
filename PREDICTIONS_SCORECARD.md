@@ -129,8 +129,8 @@ with 3-seed mean ± sem.
 ## P6 — Clean Fashion-MNIST error-factor replication (final test, 5×3 seeds)
 
 Protocol and pass/fail criteria were registered in `PREDICTIONS.md` at commit
-`ef795e1`, before job 30989996 selected damping and before confirmation job
-30991467 ran. Development independently selected $\lambda_A=0.03$ and
+`ef795e1`, before the development sweep selected damping and before the
+confirmation run. Development independently selected $\lambda_A=0.03$ and
 $\lambda_E=30$ on a fixed 5,000-example training-validation split. The error
 optimum is interior to the eight-value grid; the activity optimum is at the
 lower boundary. Confirmation froze the pair on five fresh model/data-order

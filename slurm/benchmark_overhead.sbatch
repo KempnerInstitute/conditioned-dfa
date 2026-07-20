@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=infodfa_bench
 #SBATCH --partition=kempner_eng
-#SBATCH --account=kempner_bsabatini_lab
 #SBATCH --gres=gpu:1
 #SBATCH --time=01:00:00
 #SBATCH --cpus-per-task=8
@@ -14,9 +13,13 @@
 # both the allocated GPU and CPU. Backs the paper's runtime-overhead numbers
 # (experiments/benchmark_overhead.py writes benchmark_overhead.csv per device).
 set -euo pipefail
-source /n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh
-conda activate "${CONDA_ENV:-/n/holylabs/LABS/kempner_dev/Users/hsafaai/conda_envs/vdc_paper_v2}"
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+# Optionally activate a conda env by exporting CONDA_ENV before submitting;
+# otherwise the environment active at submission time is used.
+if [ -n "${CONDA_ENV:-}" ]; then
+    source "${CONDA_SH:-/n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh}"
+    conda activate "${CONDA_ENV}"
+fi
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
 OUT_ROOT="${OUT_ROOT:-results/benchmark_overhead_v1}"

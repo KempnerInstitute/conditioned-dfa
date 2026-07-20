@@ -22,7 +22,7 @@
 #SBATCH --error=logs/slurm/%x_%A_%a.err
 
 set -euo pipefail
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
 METHODS=(bp block_dfa block_ndfa)
@@ -53,7 +53,7 @@ mkdir -p "${OUT_DIR}"
 
 python experiments/run_imagenet_credit_assignment.py \
   --dataset imagenet1k \
-  --imagenet-root "${IMAGENET_ROOT:-/n/holystore01/LABS/barak_lab/Everyone/datasets/imagenet}" \
+  --imagenet-root "${IMAGENET_ROOT:?set IMAGENET_ROOT to an ImageNet-1k ImageFolder}" \
   --output-dir "${OUT_DIR}" \
   --arch resnet18 \
   --model-source auto \

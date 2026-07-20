@@ -38,11 +38,12 @@ separately distributed paper source (included with the arXiv submission).
   torchvision 0.24, timm 1.0, numpy, pandas, scipy, matplotlib), then activate that
   environment before any run; any environment satisfying `requirements.txt`
   reproduces the results.
-- SLURM scripts set `REPO_ROOT` to this repo and `IMAGENET_ROOT` to an
-  ImageNet ImageFolder; override either by env var. The `#SBATCH` headers
-  (partition, account) and the conda activation line are site-specific: on
-  other systems edit the headers, export `CONDA_ENV`, and set `REPO_ROOT`
-  before submitting.
+- SLURM scripts run from `REPO_ROOT` (defaults to the submission directory,
+  so submit from the repo root or export `REPO_ROOT`). Activate your Python
+  environment before submitting, or export `CONDA_ENV` (and optionally
+  `CONDA_SH`) to have the job activate a conda environment. The `#SBATCH`
+  partition headers are site-specific; add an `--account` line if your
+  scheduler requires one.
 - ImageNet-1k must be obtained separately (standard ImageFolder train/val
   layout) and pointed to via `IMAGENET_ROOT`; the ImageNet-100 subset is
   selected in-code by `--class-subset 100 --class-subset-seed 0`. MNIST,

@@ -15,12 +15,16 @@
 # Per-config LR matches the headline table: full-covariance at layer2+3+4 and
 # all-block uses eta=0.01 (the lr-check showed eta=0.1 collapses there).
 set -euo pipefail
-source /n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh
-conda activate "${CONDA_ENV:-/n/holylabs/LABS/kempner_dev/Users/hsafaai/conda_envs/vdc_paper_v2}"
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+# Optionally activate a conda env by exporting CONDA_ENV before submitting;
+# otherwise the environment active at submission time is used.
+if [ -n "${CONDA_ENV:-}" ]; then
+    source "${CONDA_SH:-/n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh}"
+    conda activate "${CONDA_ENV}"
+fi
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
-export IMAGENET_ROOT="${IMAGENET_ROOT:-/n/holystore01/LABS/barak_lab/Everyone/datasets/imagenet}"
+export IMAGENET_ROOT="${IMAGENET_ROOT:?set IMAGENET_ROOT to an ImageNet-1k ImageFolder}"
 
 METHODS=( bp block_dfa block_dfa block_dfa block_dfa block_ndfa block_ndfa block_ndfa block_ndfa block_ndfa block_ndfa block_ndfa block_ndfa)
 MODULES=( none layer4 "layer3,layer4" "layer2,layer3,layer4" "layer1,layer2,layer3,layer4" \

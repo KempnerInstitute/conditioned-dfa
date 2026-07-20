@@ -6,7 +6,6 @@
 # Tasks 13--15: frozen confirmation, one task per feedback seed.
 #SBATCH --job-name=infodfa_3factor
 #SBATCH --partition=kempner_h100
-#SBATCH --account=kempner_bsabatini_lab
 #SBATCH --gres=gpu:1
 #SBATCH --time=04:00:00
 #SBATCH --array=0-15%8
@@ -17,7 +16,7 @@
 
 set -euo pipefail
 
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
 TASK_ID="${SLURM_ARRAY_TASK_ID:-${TASK_ID:-0}}"

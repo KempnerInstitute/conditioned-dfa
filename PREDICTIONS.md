@@ -1,9 +1,9 @@
 # Pre-registered predictions for in-flight experiments
 
-Recorded before job completion (submitted 2026-07-09: jobs 29774322,
-29774345, 29774356, 29774380, 29774381). The anisotropy law of the paper
-(Proposition 1 + regime prediction, `drafts/Info-DFA/paper_main.tex`
-§2.1/App. A) makes the following falsifiable predictions for these runs.
+Recorded on 2026-07-09, after submission and before completion of the
+corresponding runs. The anisotropy law of the paper (Proposition 1 + regime
+prediction, §2.1/App. A) makes the following falsifiable predictions for
+these runs.
 Interpretation commitments — including what a *failed* prediction would
 mean — are stated alongside each.
 

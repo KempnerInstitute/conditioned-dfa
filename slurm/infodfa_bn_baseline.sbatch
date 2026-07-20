@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=infodfa_bn_base
 #SBATCH --partition=kempner_eng
-#SBATCH --account=kempner_bsabatini_lab
 #SBATCH --time=10:00:00
 #SBATCH --array=0-139%32
 #SBATCH --cpus-per-task=4
@@ -25,10 +24,14 @@
 # main sweeps. Override METHODS/FEEDBACK_RANKS to widen.
 set -euo pipefail
 
-source /n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh
-conda activate "${CONDA_ENV:-/n/holylabs/LABS/kempner_dev/Users/hsafaai/conda_envs/vdc_paper_v2}"
+# Optionally activate a conda env by exporting CONDA_ENV before submitting;
+# otherwise the environment active at submission time is used.
+if [ -n "${CONDA_ENV:-}" ]; then
+    source "${CONDA_SH:-/n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh}"
+    conda activate "${CONDA_ENV}"
+fi
 
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
 TASK_ID="${SLURM_ARRAY_TASK_ID:-${TASK_ID:-0}}"

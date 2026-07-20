@@ -11,12 +11,12 @@
 
 set -euo pipefail
 
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
 export OUT_ROOT="${OUT_ROOT:-results/dfa_convnet_imagenet100_pilot_v1}"
 export DATASETS="${DATASETS:-imagenet100}"
-export IMAGENET_ROOT="${IMAGENET_ROOT:-/n/holystore01/LABS/barak_lab/Everyone/datasets/imagenet}"
+export IMAGENET_ROOT="${IMAGENET_ROOT:?set IMAGENET_ROOT to an ImageNet-1k ImageFolder}"
 export DOWNLOAD="${DOWNLOAD:-0}"
 export BALANCED_SUBSAMPLE="${BALANCED_SUBSAMPLE:-1}"
 export IMAGE_SIZE="${IMAGE_SIZE:-64}"
