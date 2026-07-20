@@ -1,4 +1,4 @@
-"""Synthetic data generators for the Info-DFA project (latent-manifold tasks)."""
+"""Synthetic data generators for the Conditioned DFA project (latent-manifold tasks)."""
 
 from __future__ import annotations
 

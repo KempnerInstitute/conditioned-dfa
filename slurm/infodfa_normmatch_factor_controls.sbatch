@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Norm-matched factor controls for the Info-DFA mechanism claim.
+# Norm-matched factor controls for the Conditioned DFA mechanism claim.
 #
 # This tests whether activity/error/K-nDFA gains survive after each local hidden
 # gradient is rescaled to a matched BP layer norm. If nDFA+norm_match still beats

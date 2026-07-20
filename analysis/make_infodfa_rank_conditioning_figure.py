@@ -1,4 +1,4 @@
-"""Make feedback-rank and conditioning figures for the Info-DFA draft."""
+"""Make feedback-rank and conditioning figures for the Conditioned DFA draft."""
 
 from __future__ import annotations
 
@@ -223,7 +223,7 @@ def make_figure(synth: pd.DataFrame, vision: pd.DataFrame, damping: pd.DataFrame
     ax.set_title("Conditioning transition")
     ax.legend(frameon=False, fontsize=5.3)
 
-    fig.suptitle("Info-DFA: feedback rank and conditioning determine local-learning regimes", fontsize=10.6)
+    fig.suptitle("Conditioned DFA: feedback rank and conditioning determine local-learning regimes", fontsize=10.6)
     for label, ax in zip("ABCDEF", axes):
         ax.text(
             0.01,
@@ -262,7 +262,7 @@ def pretty(method: str) -> str:
 
 
 def write_report(synth: pd.DataFrame, vision: pd.DataFrame, damping: pd.DataFrame) -> None:
-    lines = ["# Info-DFA Rank and Conditioning Results", ""]
+    lines = ["# Conditioned DFA Rank and Conditioning Results", ""]
     if not synth.empty:
         lines.append("## Synthetic")
         for manifold in sorted(synth["manifold"].unique()):

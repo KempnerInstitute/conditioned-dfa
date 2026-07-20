@@ -1,4 +1,4 @@
-"""Write paper-ready Info-DFA result tables from final aggregate CSVs."""
+"""Write paper-ready Conditioned DFA result tables from final aggregate CSVs."""
 
 from __future__ import annotations
 
@@ -64,7 +64,7 @@ def main() -> None:
     write_seed_loso_table(seed_loso)
     write_summary_report(synthetic, vision, hard, imagenet, kfac_source, seed_loso)
 
-    print(f"Wrote Info-DFA table snapshots to {TABLE_DIR}")
+    print(f"Wrote Conditioned DFA table snapshots to {TABLE_DIR}")
     print(f"Wrote compact result summary to {REPORT_DIR}")
 
 
@@ -490,7 +490,7 @@ def write_summary_report(
     seed_loso: pd.DataFrame,
 ) -> None:
     lines = [
-        "# Info-DFA final result summary",
+        "# Conditioned DFA final result summary",
         "",
         "Generated from the final aggregate CSVs resolved via INFODFA_RESULTS / INFODFA_LEGACY_RESULTS.",
         "",

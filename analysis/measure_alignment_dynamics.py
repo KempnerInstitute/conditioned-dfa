@@ -2,7 +2,7 @@
 
 Refinetti et al. (2021) show random-feedback learning proceeds in two phases:
 an alignment phase (forward weights adapt to the fixed feedback) followed by a
-memorization phase. The Info-DFA paper predicts that right-multiplying the DFA
+memorization phase. The Conditioned DFA paper predicts that right-multiplying the DFA
 update by the damped inverse activity second moment (nDFA / K-nDFA) changes
 update *geometry* while leaving the random-feedback *alignment* dynamics
 untouched, and that the E_B[Pi] gap between conditioned and raw DFA is largest

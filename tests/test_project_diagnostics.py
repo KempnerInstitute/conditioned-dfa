@@ -1,4 +1,4 @@
-"""Smoke test for the Info-DFA project diagnostic."""
+"""Smoke test for the Conditioned DFA project diagnostic."""
 
 import numpy as np
 

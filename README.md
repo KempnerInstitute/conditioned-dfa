@@ -1,7 +1,9 @@
-# Info-DFA: Conditioned Direct Feedback Alignment
+# Conditioned Direct Feedback Alignment
 
 Code, experiments, and figures for the paper *Conditioned Direct Feedback
 Alignment via Activity and Error Geometry*.
+
+Repository: [KempnerInstitute/conditioned-dfa](https://github.com/KempnerInstitute/conditioned-dfa)
 
 Direct Feedback Alignment (DFA) trains deep networks with fixed random feedback
 instead of the transposed forward weights used by backpropagation (BP), but it

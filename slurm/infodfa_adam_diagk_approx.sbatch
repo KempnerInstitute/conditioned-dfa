@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Adam/diagonal-K approximation tests for the Info-DFA paper.
+# Adam/diagonal-K approximation tests for the Conditioned DFA paper.
 #
 # This job asks whether nDFA/K-nDFA gains can be explained by an Adam-like
 # diagonal second-moment correction, or whether full activity/error covariance

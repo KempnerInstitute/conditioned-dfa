@@ -1,4 +1,4 @@
-"""Aggregate Adam/diagonal-K approximation tests for Info-DFA."""
+"""Aggregate Adam/diagonal-K approximation tests for Conditioned DFA."""
 
 from __future__ import annotations
 
@@ -74,7 +74,7 @@ def main() -> None:
     df = load_inputs(args.inputs)
     df.to_csv(output_dir / "infodfa_adam_diagk_all.csv", index=False)
     if df.empty:
-        (output_dir / "infodfa_adam_diagk_summary.md").write_text("# Info-DFA Adam/diag-K approximation\n\n_No rows found._\n")
+        (output_dir / "infodfa_adam_diagk_summary.md").write_text("# Conditioned DFA Adam/diag-K approximation\n\n_No rows found._\n")
         return
 
     curves = summarize_curves(df)
@@ -465,7 +465,7 @@ def write_report(best: pd.DataFrame, approx: pd.DataFrame, output_dir: Path) -> 
         ]
         approx_body = approx[[c for c in cols if c in approx]].to_markdown(index=False, floatfmt=".4f")
     text = [
-        "# Info-DFA Adam/diag-K approximation",
+        "# Conditioned DFA Adam/diag-K approximation",
         "",
         "This experiment asks whether the nDFA/K-nDFA benefit can be reduced to an",
         "Adam-like diagonal second-moment effect. It compares raw DFA, hidden-weight",

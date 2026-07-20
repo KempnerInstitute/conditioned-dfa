@@ -2,7 +2,7 @@
 
 This script keeps the experimental setup from the external DFA-Stall repository:
 a three-hidden-layer tanh MLP trained on one-hot MNIST-family data with direct feedback.
-It then applies the Info-DFA preconditioners to the same hidden gradients:
+It then applies the Conditioned DFA preconditioners to the same hidden gradients:
 
 * ``dfa``: raw direct feedback alignment.
 * ``ndfa``: input/activity-side second-moment preconditioning.

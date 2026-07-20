@@ -1,4 +1,4 @@
-"""Adam/diagonal-K approximation tests for Info-DFA.
+"""Adam/diagonal-K approximation tests for Conditioned DFA.
 
 This focused synthetic benchmark tests whether the useful part of nDFA/K-nDFA
 can be explained as an Adam/RMSProp-like diagonal second-moment correction.
@@ -9,7 +9,7 @@ The diagnostic separates three objects for each hidden-layer weight:
 * Adam's running v_ij from minibatch DFA gradients
 
 The performance comparison uses the same multi-output noisy/nuisance cells as
-the main Info-DFA synthetic follow-ups.
+the main Conditioned DFA synthetic follow-ups.
 """
 
 from __future__ import annotations

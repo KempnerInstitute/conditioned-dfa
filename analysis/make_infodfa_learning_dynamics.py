@@ -1,4 +1,4 @@
-"""Make Info-DFA learning-dynamics figures from completed aggregate CSVs."""
+"""Make Conditioned DFA learning-dynamics figures from completed aggregate CSVs."""
 
 from __future__ import annotations
 
@@ -99,7 +99,7 @@ def make_learning_figure(multi: pd.DataFrame, nmnc: pd.DataFrame, output_dir: Pa
     handles, labels = axes[0].get_legend_handles_labels()
     if handles:
         fig.legend(handles, labels, loc="upper center", ncol=7, frameon=False, fontsize=6.2, bbox_to_anchor=(0.5, 1.03))
-    fig.suptitle("Info-DFA learning dynamics: speed, stability, and useful local descent", fontsize=10.5, y=1.05)
+    fig.suptitle("Conditioned DFA learning dynamics: speed, stability, and useful local descent", fontsize=10.5, y=1.05)
     for suffix in ["pdf", "png", "svg"]:
         kwargs = {"bbox_inches": "tight"}
         if suffix == "png":

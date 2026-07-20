@@ -268,7 +268,7 @@ def write_report(endpoints: pd.DataFrame, effects: pd.DataFrame, output_dir: Pat
         ]
         effect_body = effects[effect_cols].to_markdown(index=False, floatfmt=".4f")
     lines = [
-        "# Info-DFA Activity/Error Factor Ablation",
+        "# Conditioned DFA Activity/Error Factor Ablation",
         "",
         "This focused ablation separates the two factors that make up K-nDFA:",
         "activity/input-side preconditioning (`ndfa_random`), error/local-delta-side",

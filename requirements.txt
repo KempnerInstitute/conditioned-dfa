@@ -1,4 +1,4 @@
-# Info-DFA / conditioned DFA --- Python dependencies.
+# Conditioned DFA --- Python dependencies.
 # Portable manifest for the environment described in REPRODUCE.md
 # (original cluster conda env: vdc_paper_v2). Python 3.10.
 #

@@ -1,4 +1,4 @@
-"""Geometry tests for Info-DFA (information/PID tests live in Info-Man)."""
+"""Geometry tests for Conditioned DFA (information/PID tests live in Info-Man)."""
 
 import numpy as np
 

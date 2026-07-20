@@ -77,7 +77,7 @@ The table scripts resolve artifacts from a primary results root and an optional
 secondary root:
 
 ```bash
-export INFODFA_RESULTS=/path/to/Info-DFA/results
+export INFODFA_RESULTS=/path/to/conditioned-dfa/results
 export INFODFA_LEGACY_RESULTS=/path/to/legacy/results  # optional secondary root
 python analysis/reanalyze_synthetic_honest_selection.py
 python analysis/write_infodfa_paper_tables.py

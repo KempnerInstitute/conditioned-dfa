@@ -1,17 +1,17 @@
 # Vendored Source
 
 This directory vendors `git@github.com:varun04reddy/DFA-Stall.git` into the
-Info-DFA repository for local DFA-stall diagnostics.
+Conditioned DFA repository for local DFA-stall diagnostics.
 
 - Upstream commit imported: `3d88734`
 - Imported on: 2026-06-03
 - Local generated data, logs, caches, and bytecode are ignored by the parent
   repository.
 
-## Info-DFA nDFA Stall Runs
+## Conditioned DFA nDFA Stall Runs
 
 The recent nDFA/K-nDFA stall diagnostics were not produced by modifying the
-vendored upstream `train.py`. They were produced from the parent Info-DFA
+vendored upstream `train.py`. They were produced from the parent Conditioned DFA
 repository with:
 
 - `experiments/run_dfa_stall_comparison.py`
@@ -21,7 +21,7 @@ repository with:
 The runner imports this vendored DFA-Stall implementation to preserve the
 original setup: MNIST, a 3-hidden-layer 300-unit tanh MLP, sigmoid outputs,
 binary log loss, SGD with learning rate `1e-3`, batch size `128`, and fixed
-random direct feedback. It then applies Info-DFA variants to the hidden-layer
+random direct feedback. It then applies Conditioned DFA variants to the hidden-layer
 DFA gradients:
 
 - `dfa`: raw DFA hidden updates.

@@ -1,6 +1,6 @@
-"""Lightweight project-level diagnostic for Info-DFA.
+"""Lightweight project-level diagnostic for Conditioned DFA.
 
-A fast smoke test for the core Info-DFA claims that does not replace the
+A fast smoke test for the core Conditioned DFA claims that does not replace the
 publication sweeps. Used by ``experiments/run_project_diagnostics.py``.
 """
 
@@ -28,7 +28,7 @@ from .synthetic import make_manifold_split, manifold_features, task_boundary_wei
 
 @dataclass(frozen=True)
 class InfoDfaDiagnosticConfig:
-    """Configuration for the Info-DFA project smoke diagnostic."""
+    """Configuration for the Conditioned DFA project smoke diagnostic."""
 
     n_train: int = 256
     n_test: int = 256
@@ -59,7 +59,7 @@ class InfoDfaDiagnosticConfig:
 
 
 def run_infodfa_diagnostic(config: InfoDfaDiagnosticConfig | None = None) -> pd.DataFrame:
-    """Run a compact Info-DFA alignment and preconditioning test."""
+    """Run a compact Conditioned DFA alignment and preconditioning test."""
 
     cfg = config or InfoDfaDiagnosticConfig()
     rows: list[dict[str, float | int | str]] = []
@@ -159,7 +159,7 @@ def _evaluate_infodfa_epoch(
     jacobian = np.transpose(tangents[-1], (0, 2, 1)) if tangents[-1].ndim == 3 else tangents[-1][:, :, None]
     fisher = fisher_from_jacobian(jacobian, hidden_cov, ridge=1e-6)
     return {
-        "project": "Info-DFA",
+        "project": "Conditioned DFA",
         "method": method,
         "seed": seed,
         "epoch": epoch,
