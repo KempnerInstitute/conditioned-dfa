@@ -66,11 +66,19 @@ def compute_tests(*, path: Path, cell_cols: list[str], group_col: str) -> pd.Dat
         return pd.DataFrame()
 
     df = pd.read_csv(path)
+    key_cols = cell_cols + ["method"]
+    counts = df.groupby(key_cols, dropna=False).size()
+    if (counts > 1).any():
+        max_count = int(counts.max())
+        raise ValueError(
+            f"{path} contains repeated cell/method rows (max count {max_count}); "
+            "aggregate per cell before running the cell-level paper tests."
+        )
     wide = df.pivot_table(
         index=cell_cols,
         columns="method",
         values="test_mean",
-        aggfunc="max",
+        aggfunc="mean",
     ).reset_index()
     rows = []
     rng = np.random.default_rng(0)

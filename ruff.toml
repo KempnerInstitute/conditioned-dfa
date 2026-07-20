@@ -1,0 +1,7 @@
+target-version = "py310"
+
+[lint.per-file-ignores]
+"analysis/*.py" = ["E402"]
+"experiments/*.py" = ["E402", "E731"]
+"infogeo/project_diagnostics.py" = ["E731"]
+"tests/*.py" = ["E731"]

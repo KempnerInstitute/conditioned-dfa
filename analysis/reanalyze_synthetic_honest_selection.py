@@ -14,8 +14,10 @@ selection schemes, using only the existing per-seed runs:
                      accuracy and removes the test-set-selection bias without
                      new compute.
 
-It also runs seed-level paired tests (conditioned vs DFA, conditioned vs BP)
-instead of the cell-averaged "n=32" pairing the reviewers flagged.
+It also runs matched cell-by-seed paired robustness tests (conditioned vs DFA,
+conditioned vs BP). These retain the held-out seed identity under LOSO rank
+selection, but the paired units are cell x seed observations, not five
+independent seed-level draws.
 """
 
 from __future__ import annotations
@@ -27,8 +29,26 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-RESULTS = Path(os.environ.get("INFODFA_RESULTS", "../results")).resolve()
-SRC = RESULTS / "infodfa_multioutput_noise_sweep_aggregate_v2/dfa_multioutput_all.csv"
+ROOT = Path(__file__).resolve().parents[1]
+RESULTS = Path(os.environ.get("INFODFA_RESULTS", ROOT / "results")).resolve()
+LEGACY_RESULTS = Path(os.environ.get("INFODFA_LEGACY_RESULTS", ROOT / "../Info-Man/results")).resolve()
+
+
+def result_path(relative: str | Path) -> Path:
+    rel = Path(relative)
+    primary = RESULTS / rel
+    legacy = LEGACY_RESULTS / rel
+    if primary.exists():
+        return primary
+    if legacy.exists():
+        return legacy
+    raise FileNotFoundError(
+        f"Missing result artifact {rel}. Checked {primary} and {legacy}. "
+        "Set INFODFA_RESULTS or INFODFA_LEGACY_RESULTS if the aggregate lives elsewhere."
+    )
+
+
+SRC = result_path("infodfa_multioutput_noise_sweep_aggregate_v2/dfa_multioutput_all.csv")
 OUT = RESULTS / "infodfa_honest_selection_reanalysis"
 
 CELL = ["condition", "input_noise", "n_train", "train_label_noise"]
@@ -100,7 +120,7 @@ def summarize(val):
     return pd.DataFrame(out)
 
 
-def seed_level_tests(val):
+def cell_seed_tests(val):
     """Paired tests at the (cell, seed) level: best-conditioned vs DFA and vs BP."""
     piv = val.pivot_table(index=CELL + ["seed"], columns="method", values="test_acc")
     piv = piv.dropna(subset=["bp", "dfa_random"])
@@ -114,7 +134,9 @@ def seed_level_tests(val):
         t_bp = stats.wilcoxon(d_bp) if len(d_bp) > 5 and d_bp.abs().sum() > 0 else None
         rows.append({
             "condition": cond, "n_pairs": len(d_dfa),
+            "n_positive_vs_DFA": int((d_dfa > 0).sum()),
             "mean_gain_vs_DFA": d_dfa.mean(), "p_vs_DFA": (t_dfa.pvalue if t_dfa else np.nan),
+            "n_positive_vs_BP": int((d_bp > 0).sum()),
             "mean_gain_vs_BP": d_bp.mean(), "p_vs_BP": (t_bp.pvalue if t_bp else np.nan),
         })
     return pd.DataFrame(rows)
@@ -134,8 +156,15 @@ def main():
     for scheme, tab in schemes.items():
         lines.append(f"\n## Scheme: {scheme}\n")
         lines.append(tab.round(2).to_string(index=False))
-    lines.append("\n## Seed-level paired tests (best conditioned), LOSO values\n")
-    lines.append(seed_level_tests(loso_val).round(4).to_string(index=False))
+    tests = cell_seed_tests(loso_val)
+    tests.to_csv(OUT / "cell_seed_loso_tests.csv", index=False)
+    display_tests = tests.copy()
+    for col in ["mean_gain_vs_DFA", "mean_gain_vs_BP"]:
+        display_tests[col] = display_tests[col].map(lambda x: f"{x:.4f}")
+    for col in ["p_vs_DFA", "p_vs_BP"]:
+        display_tests[col] = display_tests[col].map(lambda x: f"{x:.2e}")
+    lines.append("\n## Cell x seed paired robustness tests (best conditioned), LOSO values\n")
+    lines.append(display_tests.to_string(index=False))
     report = "\n".join(lines)
     (OUT / "honest_selection_reanalysis.md").write_text(report)
     print(report)

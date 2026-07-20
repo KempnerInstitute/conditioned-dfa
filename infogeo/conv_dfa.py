@@ -9,7 +9,35 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from infogeo.dfa import Gradients, _torch_cosine
+from infogeo.dfa import _torch_cosine
+
+
+SOLVE_STATS = {
+    "solve_damping_escalations": 0,
+    "solve_lstsq_fallbacks": 0,
+    "solve_max_damping_multiplier": 1.0,
+}
+
+
+def reset_solve_stats() -> None:
+    SOLVE_STATS["solve_damping_escalations"] = 0
+    SOLVE_STATS["solve_lstsq_fallbacks"] = 0
+    SOLVE_STATS["solve_max_damping_multiplier"] = 1.0
+
+
+def solve_stats_dict() -> dict[str, float]:
+    return {key: float(value) for key, value in SOLVE_STATS.items()}
+
+
+def _record_solve(multiplier: float, *, used_lstsq: bool = False) -> None:
+    if multiplier > 1.0:
+        SOLVE_STATS["solve_damping_escalations"] += 1
+    if used_lstsq:
+        SOLVE_STATS["solve_lstsq_fallbacks"] += 1
+    SOLVE_STATS["solve_max_damping_multiplier"] = max(
+        float(SOLVE_STATS["solve_max_damping_multiplier"]),
+        float(multiplier),
+    )
 
 
 @dataclass(frozen=True)
@@ -558,8 +586,10 @@ def natural_precondition_conv_gradients(
     x: torch.Tensor,
     *,
     damping: float,
+    error_damping: float | None = None,
     mode: str = "activity",
 ) -> ConvGradients:
+    left_damping = damping if error_damping is None else float(error_damping)
     full = model.forward_full(x)
     activations = full.conv_activations
     conv_weights = [grad.clone() for grad in gradients.conv_weights]
@@ -569,8 +599,12 @@ def natural_precondition_conv_gradients(
             cov = channel_covariance(activations[layer_idx].detach())
             grad = solve_input_channel(cov, grad, damping=damping)
         if mode in {"error", "kronecker"}:
-            cov = channel_covariance(gradients.deltas[layer_idx].detach())
-            grad = solve_output_channel(cov, grad, damping=damping)
+            # Cross-entropy deltas are divided by minibatch size for the mean
+            # loss. Undo that scaling before estimating the per-location error
+            # moment used by the left Kronecker factor.
+            delta = gradients.deltas[layer_idx].detach() * max(int(x.shape[0]), 1)
+            cov = channel_covariance(delta)
+            grad = solve_output_channel(cov, grad, damping=left_damping)
         conv_weights[layer_idx] = grad
     fc_weights = [grad.clone() for grad in gradients.fc_weights]
     for fc_idx in range(model.n_fc_hidden_layers):
@@ -579,8 +613,9 @@ def natural_precondition_conv_gradients(
             cov = feature_covariance(full.fc_activations[fc_idx].detach())
             grad = solve_linear_input(cov, grad, damping=damping)
         if mode in {"error", "kronecker"}:
-            cov = feature_covariance(gradients.deltas[model.n_hidden_layers + fc_idx].detach())
-            grad = solve_linear_output(cov, grad, damping=damping)
+            delta = gradients.deltas[model.n_hidden_layers + fc_idx].detach() * max(int(x.shape[0]), 1)
+            cov = feature_covariance(delta)
+            grad = solve_linear_output(cov, grad, damping=left_damping)
         fc_weights[fc_idx] = grad
     # The classifier is trained with the exact output error. Full Kronecker
     # preconditioning of the flattened conv representation would require an
@@ -674,7 +709,7 @@ def norm_match_conv_gradients(
 
     Controls for per-layer gradient *scale* without whitening the *direction*.
     Comparing this against nDFA isolates the contribution of covariance whitening
-    beyond simple per-layer norm matching (the reviewer's novelty crux).
+    beyond simple per-layer norm matching.
     """
     bp = model.bp_gradients(x, y)
 
@@ -744,7 +779,9 @@ def damped_solve(cov: torch.Tensor, rhs: torch.Tensor, *, damping: float) -> tor
         except RuntimeError:
             continue
         if torch.isfinite(solution).all():
+            _record_solve(multiplier)
             return solution
+    _record_solve(10000.0, used_lstsq=True)
     return torch.linalg.lstsq(cov + (base * 10000.0) * eye, rhs).solution
 
 

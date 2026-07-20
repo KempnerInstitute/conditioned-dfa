@@ -9,7 +9,7 @@
 
 set -euo pipefail
 
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
 DEFAULT_INPUTS="results/imagenet_credit_assignment_standard_v1/*/*/lr_*/scale_*/damping_*/seed_*/fb_*/*.csv results/imagenet_credit_assignment_standard_v1/*/*/modules_*/lr_*/scale_*/gamma_*/module_scales_*/damping_*/seed_*/fb_*/*.csv results/imagenet_credit_assignment_standard_v1/*/*/modules_*/spatial_*/lr_*/scale_*/gamma_*/module_scales_*/damping_*/seed_*/fb_*/*.csv"

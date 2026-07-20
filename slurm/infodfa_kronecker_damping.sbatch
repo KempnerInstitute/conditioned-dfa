@@ -9,9 +9,8 @@
 
 set -euo pipefail
 
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
-export PYTHONUSERBASE="/n/home13/hsafaai/.local"
 
 DATASETS=(${DATASETS:-mnist fashion_mnist})
 DAMPINGS=(${DAMPINGS:-0.001 0.003 0.01 0.03 0.1 0.3 1.0})

@@ -269,6 +269,7 @@ def run_one(
         output_dim=dataset.n_classes,
         seed=10_000 + seed,
         device=device,
+        batchnorm=args.batchnorm,
     )
     x_train = torch.tensor(dataset.x_train, dtype=torch.float32, device=device)
     y_train = torch.tensor(dataset.y_train, dtype=torch.long, device=device)
@@ -276,6 +277,7 @@ def run_one(
     y_test = torch.tensor(dataset.y_test, dtype=torch.long, device=device)
 
     feedback = initialize_feedback(model, method=method, seed=seed, feedback_seed=feedback_seed, feedback_rank=feedback_rank, args=args)
+    precond_cache = {} if args.cov_refresh_interval > 1 else None
     rng = np.random.default_rng(30_000 + 100 * seed + feedback_seed)
     eval_n = min(args.eval_size, len(x_train))
     pca_n = min(args.pca_size, len(x_train))
@@ -327,7 +329,18 @@ def run_one(
                         antithetic=not args.nc_no_antithetic,
                         normalize_by_variance=not args.nc_covariance_scaled,
                     )
-            gradients = compute_gradients(model, xb, yb, method=method, feedback=feedback, args=args)
+            model.training = True  # batch-stats BatchNorm during updates (no-op without --batchnorm)
+            gradients = compute_gradients(
+                model,
+                xb,
+                yb,
+                method=method,
+                feedback=feedback,
+                args=args,
+                precond_cache=precond_cache,
+                refresh_precond=step % max(args.cov_refresh_interval, 1) == 0,
+            )
+            model.training = False
             model.apply_gradients(gradients, lr=args.lr)
             step += 1
     print(
@@ -367,7 +380,17 @@ def initialize_feedback(
     )
 
 
-def compute_gradients(model: ManualMLP, x: torch.Tensor, y: torch.Tensor, *, method: str, feedback, args: argparse.Namespace):
+def compute_gradients(
+    model: ManualMLP,
+    x: torch.Tensor,
+    y: torch.Tensor,
+    *,
+    method: str,
+    feedback,
+    args: argparse.Namespace,
+    precond_cache: dict | None = None,
+    refresh_precond: bool = True,
+):
     if method == "bp":
         return model.bp_gradients(x, y)
     if method == "bp_whitened":
@@ -402,8 +425,17 @@ def compute_gradients(model: ManualMLP, x: torch.Tensor, y: torch.Tensor, *, met
             gradients,
             x,
             damping=args.natural_damping,
+            error_damping=args.natural_error_damping,
             mode=mode,
             error_deltas=error_deltas,
+            cache=precond_cache,
+            refresh=refresh_precond,
+        )
+    if method == "dfa_actwhiten":
+        # Decorrelation baseline: DFA with ZCA-whitened presynaptic activity,
+        # i.e. preconditioning by (C+lambda I)^{-1/2} instead of nDFA's full inverse.
+        gradients = natural_precondition_gradients(
+            model, gradients, x, damping=args.natural_damping, mode="activity_sqrt",
         )
     return gradients
 
@@ -492,8 +524,10 @@ def covariance_diagnostics(
     bp_delta_stats = []
     for layer_idx in range(model.n_hidden_layers):
         presynaptic_stats.append(spectrum_stats(activations[layer_idx], damping=damping))
-        local_delta_stats.append(spectrum_stats(local.deltas[layer_idx], damping=damping))
-        bp_delta_stats.append(spectrum_stats(bp.deltas[layer_idx], damping=damping))
+        # Deltas store the mean-loss 1/B factor; diagnostics of the actual
+        # error-side moment must use per-example errors.
+        local_delta_stats.append(spectrum_stats(local.deltas[layer_idx] * x.shape[0], damping=damping))
+        bp_delta_stats.append(spectrum_stats(bp.deltas[layer_idx] * x.shape[0], damping=damping))
     return {
         **prefix_mean_stats("pre_activity", presynaptic_stats),
         **prefix_mean_stats("local_error", local_delta_stats),
@@ -672,6 +706,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--lr", type=float, default=0.08)
     parser.add_argument("--feedback-scale", type=float, default=1.0)
     parser.add_argument("--natural-damping", type=float, default=0.3)
+    parser.add_argument("--natural-error-damping", type=float, default=None)
     parser.add_argument("--eval-size", type=int, default=512)
     parser.add_argument("--pca-size", type=int, default=1024)
     parser.add_argument("--nc-update-intervals", type=int, nargs="+", default=[10])
@@ -683,6 +718,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--nc-no-antithetic", action="store_true")
     parser.add_argument("--nc-covariance-scaled", action="store_true")
     parser.add_argument("--covariance-diagnostics", action="store_true")
+    parser.add_argument("--batchnorm", action="store_true", help="Insert BatchNorm1d after each hidden linear layer (pre-activation); default off.")
+    parser.add_argument("--cov-refresh-interval", type=int, default=1, help="Recompute the damped covariance inverse for ndfa preconditioning every k training batches (1 = every batch, the default behavior).")
     parser.add_argument("--cuda", action="store_true")
     parser.add_argument("--shard-index", type=int, default=None)
     parser.add_argument("--n-shards", type=int, default=None)

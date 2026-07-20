@@ -1,18 +1,18 @@
 """Compare DFA-Stall dynamics under raw DFA, nDFA, and K-nDFA.
 
 This script keeps the experimental setup from the external DFA-Stall repository:
-a three-hidden-layer tanh MLP trained on one-hot MNIST with direct feedback.
-It then applies the Info-DFA preconditioners to the same hidden gradients:
+a three-hidden-layer tanh MLP trained on one-hot MNIST-family data with direct feedback.
+It then applies the Conditioned DFA preconditioners to the same hidden gradients:
 
 * ``dfa``: raw direct feedback alignment.
 * ``ndfa``: input/activity-side second-moment preconditioning.
 * ``endfa``: error/local-delta-side second-moment preconditioning.
 * ``kndfa``: activity-side plus local-error-side Kronecker preconditioning.
+* ``kndfa_bp``: the K-nDFA update with a nonlocal BP-error covariance source.
 
-The external repo is intentionally kept under ``external/DFA-Stall`` and ignored
-by git. Clone it before running:
-
-    git clone git@github.com:varun04reddy/DFA-Stall.git external/DFA-Stall
+A snapshot of the DFA-Stall reference implementation is vendored under
+``external/DFA-Stall``; see ``external/DFA-Stall/VENDORED_INFO.md`` for
+provenance.
 """
 
 from __future__ import annotations
@@ -21,7 +21,6 @@ import argparse
 import importlib.util
 import math
 from pathlib import Path
-import sys
 from typing import Iterable
 
 import matplotlib
@@ -42,6 +41,7 @@ METHOD_LABEL = {
     "ndfa": "nDFA",
     "endfa": "error-nDFA",
     "kndfa": "K-nDFA",
+    "kndfa_bp": "K-nDFA (BP-error source)",
 }
 METHOD_COLOR = {
     "bp": "#222222",
@@ -49,6 +49,7 @@ METHOD_COLOR = {
     "ndfa": "#009E73",
     "endfa": "#D55E00",
     "kndfa": "#6A3D9A",
+    "kndfa_bp": "#CC79A7",
 }
 
 
@@ -56,8 +57,8 @@ def load_dfa_stall_module():
     path = EXTERNAL / "train.py"
     if not path.exists():
         raise FileNotFoundError(
-            f"Missing {path}. Clone git@github.com:varun04reddy/DFA-Stall.git "
-            "into external/DFA-Stall first."
+            f"Missing {path}. The vendored DFA-Stall reference implementation is "
+            "required; see external/DFA-Stall/VENDORED_INFO.md."
         )
     spec = importlib.util.spec_from_file_location("dfa_stall_train", path)
     if spec is None or spec.loader is None:
@@ -71,6 +72,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", default="results/dfa_stall_comparison_v1")
     parser.add_argument("--data-dir", default=str(ROOT / "data"))
+    parser.add_argument("--dataset", choices=["mnist", "fashion_mnist"], default="mnist")
     parser.add_argument("--methods", nargs="+", default=["bp", "dfa", "ndfa", "kndfa"])
     parser.add_argument("--seeds", type=int, nargs="+", default=[42])
     parser.add_argument("--feedback-seeds", type=int, nargs="+", default=[0])
@@ -78,7 +80,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--batch-size", type=int, default=128)
     parser.add_argument("--hidden", type=int, default=300)
     parser.add_argument("--lr", type=float, default=1e-3)
-    parser.add_argument("--damping", type=float, default=0.3)
+    parser.add_argument("--damping", type=float, default=0.3, help="Activity-side covariance damping.")
+    parser.add_argument(
+        "--error-damping",
+        type=float,
+        default=None,
+        help="Error-side covariance damping for error-nDFA/K-nDFA (default: reuse --damping).",
+    )
     parser.add_argument("--feedback-scale", type=float, default=1.0)
     parser.add_argument(
         "--norm-match-hidden",
@@ -87,10 +95,33 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--probe-n", type=int, default=1024)
+    parser.add_argument(
+        "--validation-size",
+        type=int,
+        default=0,
+        help="Hold out this many training examples for damping selection; zero retains the legacy test probe.",
+    )
+    parser.add_argument(
+        "--validation-seed",
+        type=int,
+        default=12_345,
+        help="Seed for the fixed train/validation split.",
+    )
+    parser.add_argument(
+        "--feature-probe-n",
+        type=int,
+        default=0,
+        help="Examples used for feature-path tracking (zero uses the whole evaluation probe).",
+    )
     parser.add_argument("--eval-every", type=int, default=25)
     parser.add_argument("--metric-every", type=int, default=1)
     parser.add_argument("--max-train", type=int, default=0, help="Optional train-set subset for quick tests.")
     parser.add_argument("--max-test", type=int, default=0, help="Optional test-set subset for quick tests.")
+    parser.add_argument(
+        "--skip-test-eval",
+        action="store_true",
+        help="Do not evaluate the held-out test set, including at the final step.",
+    )
     parser.add_argument("--no-plots", action="store_true")
     return parser.parse_args()
 
@@ -106,7 +137,18 @@ def main() -> None:
     if device.type == "cuda":
         torch.cuda.manual_seed_all(0)
 
-    x_train, y_train, x_test, y_test = stall.load_mnist(Path(args.data_dir))
+    x_train, y_train, x_test, y_test = load_dataset(stall, args.dataset, Path(args.data_dir))
+    if args.validation_size > 0:
+        n_val = min(int(args.validation_size), int(x_train.shape[0]) - 1)
+        split_gen = torch.Generator(device="cpu").manual_seed(int(args.validation_seed))
+        order = torch.randperm(int(x_train.shape[0]), generator=split_gen)
+        val_idx, train_idx = order[:n_val], order[n_val:]
+        x_probe, y_probe = x_train[val_idx], y_train[val_idx]
+        x_train, y_train = x_train[train_idx], y_train[train_idx]
+        probe_split = "validation"
+    else:
+        x_probe, y_probe = x_test, y_test
+        probe_split = "test"
     if args.max_train > 0:
         x_train, y_train = x_train[: args.max_train], y_train[: args.max_train]
     if args.max_test > 0:
@@ -116,7 +158,23 @@ def main() -> None:
     for seed in args.seeds:
         for feedback_seed in args.feedback_seeds:
             for method in args.methods:
-                rows.extend(run_one(stall, args, method, seed, feedback_seed, device, x_train, y_train, x_test, y_test))
+                rows.extend(
+                    run_one(
+                        stall,
+                        args,
+                        method,
+                        seed,
+                        feedback_seed,
+                        device,
+                        x_train,
+                        y_train,
+                        x_probe,
+                        y_probe,
+                        x_test,
+                        y_test,
+                        probe_split,
+                    )
+                )
 
     df = pd.DataFrame(rows)
     df.to_csv(output_dir / "dfa_stall_comparison_results.csv", index=False)
@@ -129,6 +187,27 @@ def main() -> None:
     print(f"\nwrote {output_dir}")
 
 
+def load_dataset(stall, dataset: str, data_dir: Path) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+    if dataset == "mnist":
+        return stall.load_mnist(data_dir)
+    if dataset != "fashion_mnist":
+        raise ValueError(f"unsupported dataset: {dataset}")
+    from torchvision import datasets
+
+    train = datasets.FashionMNIST(root=str(data_dir), train=True, download=True)
+    test = datasets.FashionMNIST(root=str(data_dir), train=False, download=True)
+
+    def flatten(data) -> torch.Tensor:
+        return data.data.float().div(255.0).view(-1, 784)
+
+    return (
+        flatten(train),
+        torch.as_tensor(train.targets, dtype=torch.long),
+        flatten(test),
+        torch.as_tensor(test.targets, dtype=torch.long),
+    )
+
+
 def run_one(
     stall,
     args: argparse.Namespace,
@@ -138,22 +217,31 @@ def run_one(
     device: torch.device,
     x_train: torch.Tensor,
     y_train: torch.Tensor,
+    x_probe: torch.Tensor,
+    y_probe: torch.Tensor,
     x_test: torch.Tensor,
     y_test: torch.Tensor,
+    probe_split: str,
 ) -> list[dict]:
-    n_classes = 10
+    n_classes = int(max(y_train.max().item(), y_test.max().item())) + 1
     torch.manual_seed(seed)
-    model = stall.TanhMLP(784, args.hidden, n_classes, seed).to(device)
+    model = stall.TanhMLP(int(x_train.shape[1]), args.hidden, n_classes, seed).to(device)
     opt = torch.optim.SGD(model.parameters(), lr=args.lr)
     feedback = init_feedback(args, n_classes, device, seed=seed, feedback_seed=feedback_seed) if method != "bp" else None
 
-    probe_n = min(int(args.probe_n), int(x_test.shape[0]))
-    probe_x = x_test[:probe_n].to(device).float()
-    probe_t = stall.to_one_hot(y_test[:probe_n], n_classes).to(device)
-    probe_y = y_test[:probe_n].to(device)
+    probe_n = min(int(args.probe_n), int(x_probe.shape[0]))
+    probe_x = x_probe[:probe_n].to(device).float()
+    probe_t = stall.to_one_hot(y_probe[:probe_n], n_classes).to(device)
+    probe_y = y_probe[:probe_n].to(device)
+    feature_n = probe_n if args.feature_probe_n <= 0 else min(int(args.feature_probe_n), probe_n)
+    feature_x = probe_x[:feature_n]
+
+    test_x = x_test.to(device).float()
+    test_y = y_test.to(device)
+    test_t = stall.to_one_hot(test_y, n_classes).to(device)
 
     with torch.no_grad():
-        model(probe_x)
+        model(feature_x)
         h_prev = [h.clone() for h in model.acts]
         h0_norm2 = [float(h.pow(2).sum(1).mean().item()) + 1e-8 for h in h_prev]
         feature_path = np.zeros(model.layers.__len__() - 1, dtype=np.float64)
@@ -187,7 +275,8 @@ def run_one(
                 targets,
                 feedback,
                 method=method,
-                damping=args.damping,
+                activity_damping=args.damping,
+                error_damping=args.damping if args.error_damping is None else args.error_damping,
                 norm_match_hidden=args.norm_match_hidden,
             )
 
@@ -201,14 +290,21 @@ def run_one(
             if bp_grads is None:
                 bp_grads, _ = bp_gradients(stall, model, xb, targets)
             row = base_metrics(stall, model, method, seed, feedback_seed, step, loss, method_grads, bp_grads)
+            row["dataset"] = args.dataset
+            row["probe_split"] = probe_split
+            row["activity_damping"] = float(args.damping)
+            row["error_damping"] = float(args.damping if args.error_damping is None else args.error_damping)
             row.update(layer_metrics(stall, model, method, feedback, method_grads, teachings, g_primes, feature_path))
             if step % args.eval_every == 0 or step == 1 or step == args.total_steps:
                 row["probe_loss"] = loss_on(stall, model, probe_x, probe_t)
                 row["probe_acc"] = accuracy(model, probe_x, probe_y)
+            if step == args.total_steps and not getattr(args, "skip_test_eval", False):
+                row["test_loss"] = loss_on(stall, model, test_x, test_t)
+                row["test_acc"] = accuracy(model, test_x, test_y)
             rows.append(row)
 
         with torch.no_grad():
-            model(probe_x)
+            model(feature_x)
             for li, h_curr in enumerate(model.acts):
                 d2 = (h_curr - h_prev[li]).pow(2).sum(1).mean().item()
                 feature_path[li] += d2 / h0_norm2[li]
@@ -248,12 +344,14 @@ def dfa_family_gradients(
     feedback: list[torch.Tensor],
     *,
     method: str,
-    damping: float,
+    activity_damping: float,
+    error_damping: float,
     norm_match_hidden: bool,
 ) -> tuple[list[tuple[torch.Tensor, torch.Tensor]], list[torch.Tensor], list[torch.Tensor], float]:
     preds = model(xb)
     error = preds - targets
     loss = float(stall.binary_log_loss(targets, preds).item())
+    bp_hidden_deltas = exact_bp_hidden_deltas(model, error) if method == "kndfa_bp" else []
     grads: list[tuple[torch.Tensor, torch.Tensor]] = []
     teachings: list[torch.Tensor] = []
     g_primes: list[torch.Tensor] = []
@@ -266,13 +364,14 @@ def dfa_family_gradients(
         gw = delta.t() @ h_prev_l / xb.shape[0]
         gb = delta.mean(0)
         raw_norm = gw.norm().clamp_min(1e-12)
-        if method in {"ndfa", "kndfa"}:
+        if method in {"ndfa", "kndfa", "kndfa_bp"}:
             cov_activity = h_prev_l.t() @ h_prev_l / max(int(h_prev_l.shape[0]), 1)
-            gw = damped_solve(cov_activity, gw.t(), damping=damping).t()
-        if method in {"endfa", "kndfa"}:
-            cov_error = delta.t() @ delta / max(int(delta.shape[0]), 1)
-            gw = damped_solve(cov_error, gw, damping=damping)
-        if norm_match_hidden and method in {"ndfa", "endfa", "kndfa"}:
+            gw = damped_solve(cov_activity, gw.t(), damping=activity_damping).t()
+        if method in {"endfa", "kndfa", "kndfa_bp"}:
+            error_source = bp_hidden_deltas[li] if method == "kndfa_bp" else delta
+            cov_error = error_source.t() @ error_source / max(int(error_source.shape[0]), 1)
+            gw = damped_solve(cov_error, gw, damping=error_damping)
+        if norm_match_hidden and method in {"ndfa", "endfa", "kndfa", "kndfa_bp"}:
             gw = gw * (raw_norm / gw.norm().clamp_min(1e-12))
         grads.append((gw, gb))
         teachings.append(delta)
@@ -281,6 +380,18 @@ def dfa_family_gradients(
     h_last = model.acts[-1]
     grads.append((error.t() @ h_last / xb.shape[0], error.mean(0)))
     return grads, teachings, g_primes, loss
+
+
+@torch.no_grad()
+def exact_bp_hidden_deltas(model, output_error: torch.Tensor) -> list[torch.Tensor]:
+    """Per-example BP hidden deltas, used only as a nonlocal covariance-source control."""
+
+    hidden_deltas: list[torch.Tensor] = [torch.empty(0, device=output_error.device) for _ in model.layers[:-1]]
+    delta_next = output_error
+    for li in range(len(model.layers) - 2, -1, -1):
+        delta_next = (delta_next @ model.layers[li + 1].weight) * (1.0 - model.preacts[li].tanh().pow(2))
+        hidden_deltas[li] = delta_next
+    return hidden_deltas
 
 
 def damped_solve(cov: torch.Tensor, rhs: torch.Tensor, *, damping: float) -> torch.Tensor:
@@ -315,6 +426,8 @@ def base_metrics(stall, model, method: str, seed: int, feedback_seed: int, step:
         "grad_alignment": stall.cosine_flat(method_cat, bp_cat),
         "probe_loss": np.nan,
         "probe_acc": np.nan,
+        "test_loss": np.nan,
+        "test_acc": np.nan,
     }
     for li in hidden:
         row[f"param_grad_alignment_l{li + 1}"] = stall.cosine_flat(method_grads[li][0], bp_grads[li][0])
@@ -402,6 +515,8 @@ def summarize(df: pd.DataFrame) -> pd.DataFrame:
                 "final_grad_alignment": float(sub["grad_alignment"].iloc[-1]),
                 "final_probe_loss": float(final_eval.get("probe_loss", np.nan)),
                 "final_probe_acc": float(final_eval.get("probe_acc", np.nan)),
+                "final_test_loss": float(sub["test_loss"].dropna().iloc[-1]) if sub["test_loss"].notna().any() else np.nan,
+                "final_test_acc": float(sub["test_acc"].dropna().iloc[-1]) if sub["test_acc"].notna().any() else np.nan,
             }
         )
     return pd.DataFrame(rows)
@@ -437,6 +552,8 @@ def write_report(df: pd.DataFrame, summary: pd.DataFrame, output_dir: Path, args
         .agg(
             final_probe_acc_mean=("final_probe_acc", "mean"),
             final_probe_acc_sem=("final_probe_acc", sem),
+            final_test_acc_mean=("final_test_acc", "mean"),
+            final_test_acc_sem=("final_test_acc", sem),
             loss_drop_mean=("loss_drop", "mean"),
             stall_duration_mean=("stall_duration", "mean"),
             mean_grad_alignment=("mean_grad_alignment", "mean"),
@@ -448,7 +565,12 @@ def write_report(df: pd.DataFrame, summary: pd.DataFrame, output_dir: Path, args
         "# DFA-Stall comparison",
         "",
         f"- External reference repo: `{EXTERNAL}`",
-        f"- Steps: {args.total_steps}; hidden units: {args.hidden}; batch size: {args.batch_size}; lr: {args.lr:g}; damping: {args.damping:g}.",
+        f"- Dataset: {args.dataset} (no injected input or label noise).",
+        f"- Steps: {args.total_steps}; hidden units: {args.hidden}; batch size: {args.batch_size}; "
+        f"lr: {args.lr:g}; activity damping: {args.damping:g}; error damping: "
+        f"{args.damping if args.error_damping is None else args.error_damping:g}.",
+        f"- Selection probe: {'fixed training-validation split' if args.validation_size > 0 else 'legacy test subset'}; "
+        f"probe examples: {min(args.probe_n, args.validation_size if args.validation_size > 0 else 10_000)}.",
         f"- Methods: {', '.join(args.methods)}.",
         "",
         "## Mean by method",

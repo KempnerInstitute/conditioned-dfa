@@ -1,6 +1,12 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+.DS_Store
+.fusion_scratch/
+.verify_sf_tmp.py
+.audit*.py
 data/
 *.aux
 *.log

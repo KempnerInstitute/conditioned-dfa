@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from collections.abc import Sequence
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -19,6 +20,7 @@ from infogeo.analysis import dataframe_to_markdown, predictor_scores, write_mark
 from infogeo.dfa import (
     Gradients,
     ManualMLP,
+    error_second_moment,
     finite_difference_hidden_tangents,
     gradient_cosines,
     init_fa_feedback,
@@ -28,6 +30,34 @@ from infogeo.dfa import (
 )
 from infogeo.geometry import class_dprime2, effective_dimension, inv_sqrtm_psd, principal_subspace, stable_covariance
 from infogeo.synthetic import make_manifold_split, manifold_features, task_boundary_weights
+
+
+SOLVE_STATS = {
+    "solve_damping_escalations": 0,
+    "solve_lstsq_fallbacks": 0,
+    "solve_max_damping_multiplier": 1.0,
+}
+
+
+def reset_solve_stats() -> None:
+    SOLVE_STATS["solve_damping_escalations"] = 0
+    SOLVE_STATS["solve_lstsq_fallbacks"] = 0
+    SOLVE_STATS["solve_max_damping_multiplier"] = 1.0
+
+
+def solve_stats_dict() -> dict[str, float]:
+    return {key: float(value) for key, value in SOLVE_STATS.items()}
+
+
+def _record_solve(multiplier: float, *, used_lstsq: bool = False) -> None:
+    if multiplier > 1.0:
+        SOLVE_STATS["solve_damping_escalations"] += 1
+    if used_lstsq:
+        SOLVE_STATS["solve_lstsq_fallbacks"] += 1
+    SOLVE_STATS["solve_max_damping_multiplier"] = max(
+        float(SOLVE_STATS["solve_max_damping_multiplier"]),
+        float(multiplier),
+    )
 
 
 def main() -> None:
@@ -161,6 +191,7 @@ def run_one_method(
     args: argparse.Namespace,
 ) -> list[dict[str, float | str]]:
     device = "cuda" if args.cuda and torch.cuda.is_available() else "cpu"
+    reset_solve_stats()
     torch.manual_seed(seed)
     model = ManualMLP(
         input_dim=dataset.x_train.shape[1],
@@ -251,6 +282,7 @@ def run_one_method(
                         gradients,
                         xb,
                         damping=args.natural_damping,
+                        error_damping=args.natural_error_damping,
                         mode=natural_mode_from_method(method),
                     )
             model.apply_gradients(gradients, lr=args.lr)
@@ -356,6 +388,7 @@ def evaluate_model(
                 "weight_rayleigh": float(np.mean(rq)),
                 "class_dprime2": class_dprime2(h, y_eval_np),
                 "effective_dim": effective_dimension(h),
+                **solve_stats_dict(),
             }
         )
     return rows
@@ -387,30 +420,75 @@ def natural_precondition_gradients(
     x: torch.Tensor,
     *,
     damping: float,
+    error_damping: float | None = None,
     mode: str = "activity",
-    error_deltas: "Sequence[torch.Tensor] | None" = None,
+    error_deltas: Sequence[torch.Tensor] | None = None,
+    cache: dict | None = None,
+    refresh: bool = True,
 ) -> Gradients:
     """Local natural-DFA proxies using Kronecker-style preconditioning.
 
-    ``error_deltas`` overrides the deltas used for the error-side (left) factor.
+    ``error_damping`` controls the left factor independently; by default it
+    reuses ``damping`` for backward compatibility. ``error_deltas`` overrides
+    the deltas used for the error-side (left) factor.
     Passing the BP deltas gives a true-KFAC-DFA control: the K-nDFA rule but with
     the left factor built from the BP error covariance rather than DFA's own.
+
+    ``cache``/``refresh`` implement amortized covariance refresh: with a dict
+    ``cache``, the damped inverses are recomputed from the current batch only
+    when ``refresh`` is True and reused otherwise. ``cache=None`` (the default)
+    keeps the original every-batch behavior exactly.
     """
 
-    _, activations, _ = model.forward(x)
+    if cache is not None and not cache:
+        refresh = True  # never apply an uninitialized cache
+    need_forward = cache is None or refresh or mode == "activity_sqrt"
+    activations = model.forward(x)[1] if need_forward else None
     new_weights = [grad.clone() for grad in gradients.weights]
     new_biases = [grad.clone() for grad in gradients.biases]
     left_deltas = gradients.deltas if error_deltas is None else error_deltas
+    left_damping = damping if error_damping is None else float(error_damping)
     for layer_idx in range(model.n_hidden_layers):
         grad = gradients.weights[layer_idx]
-        if mode in {"activity", "kronecker"}:
+        if mode == "activity_sqrt":
+            # Decorrelation baseline: ZCA-whiten the presynaptic activity,
+            # i.e. precondition by (C+lambda I)^{-1/2} (power 1/2) instead of nDFA's
+            # full inverse (C+lambda I)^{-1} (power 1). Tests whether the gain needs
+            # the inverse-second-moment power or only generic activation decorrelation.
             activity = activations[layer_idx].detach()
             cov = activity.T @ activity / max(activity.shape[0], 1)
-            grad = damped_solve(cov, grad.T, damping=damping).T
+            eye = torch.eye(cov.shape[0], dtype=cov.dtype, device=cov.device)
+            inv_sqrt = torch.as_tensor(
+                inv_sqrtm_psd((cov + damping * eye).cpu().numpy()),
+                dtype=cov.dtype, device=cov.device,
+            )
+            grad = grad @ inv_sqrt
+        if mode in {"activity", "kronecker"}:
+            if cache is None:
+                activity = activations[layer_idx].detach()
+                cov = activity.T @ activity / max(activity.shape[0], 1)
+                grad = damped_solve(cov, grad.T, damping=damping).T
+            else:
+                key = ("activity", layer_idx)
+                if refresh:
+                    activity = activations[layer_idx].detach()
+                    cov = activity.T @ activity / max(activity.shape[0], 1)
+                    eye = torch.eye(cov.shape[0], dtype=cov.dtype, device=cov.device)
+                    cache[key] = damped_solve(cov, eye, damping=damping)
+                grad = (cache[key] @ grad.T).T
         if mode in {"error", "kronecker"}:
-            delta = left_deltas[layer_idx].detach()
-            cov = delta.T @ delta / max(delta.shape[0], 1)
-            grad = damped_solve(cov, grad, damping=damping)
+            if cache is None:
+                delta = left_deltas[layer_idx].detach()
+                cov = error_second_moment(delta, normalization_count=delta.shape[0])
+                grad = damped_solve(cov, grad, damping=left_damping)
+            else:
+                key = ("error", layer_idx)
+                if refresh:
+                    delta = left_deltas[layer_idx].detach()
+                    cov = error_second_moment(delta, normalization_count=delta.shape[0])
+                    eye = torch.eye(cov.shape[0], dtype=cov.dtype, device=cov.device)
+                    cache[key] = damped_solve(cov, eye, damping=left_damping)
+                grad = cache[key] @ grad
         new_weights[layer_idx] = grad
     return Gradients(new_weights, new_biases, gradients.deltas, gradients.loss)
 
@@ -428,8 +506,10 @@ def damped_solve(cov: torch.Tensor, rhs: torch.Tensor, *, damping: float) -> tor
             last_error = exc
             continue
         if torch.isfinite(solution).all():
+            _record_solve(multiplier)
             return solution
     try:
+        _record_solve(10000.0, used_lstsq=True)
         return torch.linalg.lstsq(cov + (base * 10000.0) * eye, rhs).solution
     except RuntimeError:
         if last_error is not None:
@@ -669,6 +749,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--eval-size", type=int, default=256)
     parser.add_argument("--tangent-rank", type=int, default=1)
     parser.add_argument("--natural-damping", type=float, default=1e-2)
+    parser.add_argument("--natural-error-damping", type=float, default=None)
     parser.add_argument("--cuda", action="store_true")
     parser.add_argument("--shard-index", type=int, default=None, help="Zero-based shard index for Slurm array runs.")
     parser.add_argument("--n-shards", type=int, default=None, help="Total number of run-spec shards.")

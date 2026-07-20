@@ -1,4 +1,4 @@
-"""Make paper-facing figures for Info-DFA noise/sample-size follow-ups.
+"""Make paper-facing figures for Conditioned DFA noise/sample-size follow-ups.
 
 The default inputs are the completed v2 aggregates used in the current paper
 draft. The script remains tolerant of missing inputs so it can still be reused
@@ -426,7 +426,7 @@ def save(fig: plt.Figure, output_dir: Path, name: str) -> None:
 
 def write_report(data: dict[str, pd.DataFrame], output_dir: Path) -> None:
     lines = [
-        "# Info-DFA Noise/Sample Follow-Up Figure Report",
+        "# Conditioned DFA Noise/Sample Follow-Up Figure Report",
         "",
         "This report is generated from the newest available noise/sample aggregates, falling back to completed v1 aggregates when follow-up jobs have not landed yet.",
         "",

@@ -1,1 +1,1 @@
-"""Runnable experiment scripts for Info-DFA."""
+"""Runnable experiment scripts for Conditioned DFA."""

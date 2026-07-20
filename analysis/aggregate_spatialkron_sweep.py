@@ -91,7 +91,7 @@ def main() -> None:
     lines.append(df.to_string(index=False))
     lines += [
         "",
-        "Reading: if the kernel-patch spatial factor obeys the input-anisotropy law,",
+        "Reading: if the signed input-anisotropy hypothesis extends to the kernel-patch factor,",
         "D=spK-nDFA rises monotonically with alpha and crosses 0 (negative on clean,",
         "positive once spatial nuisance dominates the within-kernel covariance). The",
         "nDFA-DFA gap staying roughly flat rules out a generic denoising confound:",

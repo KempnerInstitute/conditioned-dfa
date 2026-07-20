@@ -9,7 +9,7 @@
 
 set -euo pipefail
 
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
 python analysis/aggregate_infodfa_normmatch_factor_controls.py \

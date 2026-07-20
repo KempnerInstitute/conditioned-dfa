@@ -10,11 +10,11 @@
 
 set -euo pipefail
 
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
 python experiments/evaluate_imagenet_torchvision_weights.py \
-  --imagenet-root "${IMAGENET_ROOT:-/n/holystore01/LABS/barak_lab/Everyone/datasets/imagenet}" \
+  --imagenet-root "${IMAGENET_ROOT:?set IMAGENET_ROOT to an ImageNet-1k ImageFolder}" \
   --output-dir "${OUT_DIR:-results/imagenet_torchvision_weight_validation_v1}" \
   --archs ${ARCHS:-alexnet resnet18 resnet50 convnext_tiny} \
   --batch-size "${BATCH_SIZE:-256}" \

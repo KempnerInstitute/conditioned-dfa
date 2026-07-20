@@ -223,7 +223,7 @@ def parse_args() -> argparse.Namespace:
         choices=["diag", "full"],
         default="diag",
         help="nDFA channel conditioning: 'diag' = per-channel variance (weak form); "
-        "'full' = damped inverse-sqrt of the C x C channel covariance (strong form).",
+        "'full' = damped inverse-sqrt/ZCA of the C x C channel covariance.",
     )
     parser.add_argument(
         "--pretrained",
@@ -835,11 +835,11 @@ class BlockDFAController:
         return scale.detach()
 
     def _full_whiten_mat(self, name: str, activation: torch.Tensor) -> torch.Tensor:
-        """Damped inverse-sqrt of the C x C channel covariance (strong-form nDFA).
+        """Damped inverse-sqrt/ZCA of the C x C channel covariance.
 
         Reduces to the diagonal scale when the channel covariance is diagonal, but
-        also removes cross-channel correlations -- the input-side factor of the
-        natural-gradient preconditioner that the diagonal form ignores.
+        also removes cross-channel correlations. This is a power-1/2 diagnostic,
+        not the full power-1 inverse-second-moment conditioner used by nDFA.
         """
         if activation.ndim == 4:
             feat = activation.mean(dim=(2, 3))  # (B, C) channel activity, pooled over space

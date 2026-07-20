@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Norm-matched factor controls for the Info-DFA mechanism claim.
+# Norm-matched factor controls for the Conditioned DFA mechanism claim.
 #
 # This tests whether activity/error/K-nDFA gains survive after each local hidden
 # gradient is rescaled to a matched BP layer norm. If nDFA+norm_match still beats
@@ -7,7 +7,6 @@
 # per-layer scale change.
 #SBATCH --job-name=infodfa_normfac
 #SBATCH --partition=kempner_h100
-#SBATCH --account=kempner_bsabatini_lab
 #SBATCH --gres=gpu:1
 #SBATCH --time=10:00:00
 #SBATCH --array=0-3%4
@@ -18,7 +17,7 @@
 
 set -euo pipefail
 
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
 CONDITIONS=(nuisance_dominant mixed_context low_sample_noisy task_aligned)

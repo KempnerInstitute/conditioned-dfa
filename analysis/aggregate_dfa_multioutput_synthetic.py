@@ -452,7 +452,7 @@ def make_figure(summary: pd.DataFrame, final: pd.DataFrame, output_dir: Path) ->
     ax.set_title("F  When manifold restriction should help")
     ax.legend(frameon=False, fontsize=6.2)
 
-    fig.suptitle("Info-DFA stress test: multi-output tasks with nuisance manifolds", fontsize=10.5)
+    fig.suptitle("Conditioned DFA stress test: multi-output tasks with nuisance manifolds", fontsize=10.5)
     for suffix in ["pdf", "png", "svg"]:
         kwargs = {"bbox_inches": "tight"}
         if suffix == "png":
@@ -533,7 +533,7 @@ def make_diagnostic_figure(summary: pd.DataFrame, final: pd.DataFrame, elbows: p
     if handles:
         axes[3].legend(frameon=False, fontsize=5.7, ncol=2)
 
-    fig.suptitle("Quantitative success and failure conditions for Info-DFA", fontsize=10.5)
+    fig.suptitle("Quantitative success and failure conditions for Conditioned DFA", fontsize=10.5)
     for suffix in ["pdf", "png", "svg"]:
         kwargs = {"bbox_inches": "tight"}
         if suffix == "png":

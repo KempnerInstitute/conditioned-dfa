@@ -11,7 +11,7 @@
 
 set -euo pipefail
 
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
 ARCHS=(${ARCHS:-resnet18})
@@ -101,7 +101,7 @@ if [[ "${MODULE_SCALE_SCHEDULE}" != "none" ]]; then MODULE_SCALE_ARGS=(--feedbac
 
 python -m torch.distributed.run --standalone --nproc_per_node="${GPUS_PER_NODE}" experiments/run_imagenet_credit_assignment.py \
   --dataset "${DATASET:-imagenet1k}" \
-  --imagenet-root "${IMAGENET_ROOT:-/n/holystore01/LABS/barak_lab/Everyone/datasets/imagenet}" \
+  --imagenet-root "${IMAGENET_ROOT:?set IMAGENET_ROOT to an ImageNet-1k ImageFolder}" \
   --output-dir "${OUT_DIR}" \
   --arch "${ARCH}" \
   --model-source "${MODEL_SOURCE:-auto}" \

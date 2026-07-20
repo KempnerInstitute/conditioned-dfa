@@ -13,11 +13,15 @@
 # depths where it collapsed in the main sweep (lr=0.1). Tests whether the deep
 # collapse is an LR artifact of full-cov whitening (needs a smaller LR) or genuine.
 set -euo pipefail
-source /n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh
-conda activate /n/holylabs/LABS/kempner_dev/Users/hsafaai/conda_envs/vdc_paper_v2
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+# Optionally activate a conda env by exporting CONDA_ENV before submitting;
+# otherwise the environment active at submission time is used.
+if [ -n "${CONDA_ENV:-}" ]; then
+    source "${CONDA_SH:-/n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh}"
+    conda activate "${CONDA_ENV}"
+fi
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
-export IMAGENET_ROOT="${IMAGENET_ROOT:-/n/holystore01/LABS/barak_lab/Everyone/datasets/imagenet}"
+export IMAGENET_ROOT="${IMAGENET_ROOT:?set IMAGENET_ROOT to an ImageNet-1k ImageFolder}"
 
 MODULES=("layer2,layer3,layer4" "layer1,layer2,layer3,layer4" "layer2,layer3,layer4" "layer1,layer2,layer3,layer4")
 LRS=(0.03 0.03 0.01 0.01)

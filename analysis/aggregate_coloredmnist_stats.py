@@ -1,7 +1,7 @@
 """ColoredMNIST: means and Holm-corrected, seed-paired tests on both the standard
 color-reversed test metric and the grayscale probe. Raw DFA's high seed variance
 makes the paired gain over DFA non-significant after correction; the honest claim
-is that conditioning stabilizes DFA to BP-level accuracy.
+is that conditioning stabilizes DFA toward BP-level accuracy.
 """
 
 from __future__ import annotations

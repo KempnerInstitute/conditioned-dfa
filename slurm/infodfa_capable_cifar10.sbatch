@@ -9,14 +9,18 @@
 #SBATCH --output=logs/slurm/%x_%A_%a.out
 #SBATCH --error=logs/slurm/%x_%A_%a.err
 
-# Capable-model whitening-vs-norm-match test (reviewer novelty crux), using the
+# Capable-model whitening-vs-norm-match test, using the
 # KNOWN-STABLE hard-CIFAR-100 convnet recipe (Adam, per-method LR, feedback-scale
 # 0.3) so raw DFA does not diverge. dfa_random_normmatch uses the same LR as raw
 # DFA (the `*)` case), giving a fair scale-only baseline against nDFA whitening.
 set -euo pipefail
-source /n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh
-conda activate /n/holylabs/LABS/kempner_dev/Users/hsafaai/conda_envs/vdc_paper_v2
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+# Optionally activate a conda env by exporting CONDA_ENV before submitting;
+# otherwise the environment active at submission time is used.
+if [ -n "${CONDA_ENV:-}" ]; then
+    source "${CONDA_SH:-/n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh}"
+    conda activate "${CONDA_ENV}"
+fi
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
 METHODS=(bp local_loss dfa_random dfa_random_normmatch ndfa_random ndfa_random_kronecker)

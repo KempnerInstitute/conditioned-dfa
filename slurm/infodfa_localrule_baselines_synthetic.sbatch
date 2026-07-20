@@ -13,9 +13,13 @@
 # (Kolen-Pollack and PEPITA require persistent-feedback / two-pass machinery and
 # are tracked as a separate follow-up.) METHODS overridable.
 set -euo pipefail
-source /n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh
-conda activate /n/holylabs/LABS/kempner_dev/Users/hsafaai/conda_envs/vdc_paper_v2
-cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
+# Optionally activate a conda env by exporting CONDA_ENV before submitting;
+# otherwise the environment active at submission time is used.
+if [ -n "${CONDA_ENV:-}" ]; then
+    source "${CONDA_SH:-/n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh}"
+    conda activate "${CONDA_ENV}"
+fi
+cd "${REPO_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
 mkdir -p logs/slurm
 
 CONDITIONS=(nuisance_dominant mixed_context low_sample_noisy task_aligned)

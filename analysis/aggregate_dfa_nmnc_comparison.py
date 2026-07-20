@@ -214,7 +214,7 @@ def make_figure(summary: pd.DataFrame, final: pd.DataFrame, output_dir: Path) ->
     ax.set_ylabel("Final test accuracy")
     ax.set_title("F  Useful step size")
 
-    fig.suptitle("Info-DFA external benchmark: vanilla vs neural-manifold noise correlation", fontsize=10.5)
+    fig.suptitle("Conditioned DFA external benchmark: vanilla vs neural-manifold noise correlation", fontsize=10.5)
     for suffix in ["pdf", "png", "svg"]:
         kwargs = {"bbox_inches": "tight"}
         if suffix == "png":

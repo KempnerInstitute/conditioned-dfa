@@ -1,17 +1,17 @@
 # Vendored Source
 
 This directory vendors `git@github.com:varun04reddy/DFA-Stall.git` into the
-Info-DFA repository for local DFA-stall diagnostics.
+Conditioned DFA repository for local DFA-stall diagnostics.
 
 - Upstream commit imported: `3d88734`
 - Imported on: 2026-06-03
 - Local generated data, logs, caches, and bytecode are ignored by the parent
   repository.
 
-## Info-DFA nDFA Stall Runs
+## Conditioned DFA nDFA Stall Runs
 
 The recent nDFA/K-nDFA stall diagnostics were not produced by modifying the
-vendored upstream `train.py`. They were produced from the parent Info-DFA
+vendored upstream `train.py`. They were produced from the parent Conditioned DFA
 repository with:
 
 - `experiments/run_dfa_stall_comparison.py`
@@ -21,7 +21,7 @@ repository with:
 The runner imports this vendored DFA-Stall implementation to preserve the
 original setup: MNIST, a 3-hidden-layer 300-unit tanh MLP, sigmoid outputs,
 binary log loss, SGD with learning rate `1e-3`, batch size `128`, and fixed
-random direct feedback. It then applies Info-DFA variants to the hidden-layer
+random direct feedback. It then applies Conditioned DFA variants to the hidden-layer
 DFA gradients:
 
 - `dfa`: raw DFA hidden updates.
@@ -50,38 +50,9 @@ Generated outputs are intentionally kept under the parent repository's ignored
 The exact shell commands are recorded in the parent `REPRODUCE.md` under
 `External DFA-Stall diagnostic`.
 
-## Paper-story link to Info-DFA
+## Local modifications
 
-The Info-DFA factor ablation and the DFA-Stall diagnostic should be framed as
-two complementary uses of the same local outer-product decomposition:
-
-```text
-local DFA update = local error/delta  x  presynaptic activity
-```
-
-For the Info-DFA paper, the strongest positive regimes are nuisance-dominated
-or noisy-input regimes. There the dominant failure is on the presynaptic
-activity side: high-variance nuisance directions dominate the raw DFA update.
-Activity nDFA fixes most of the problem. Error nDFA alone is usually harmful,
-but the error-side factor can add a smaller positive refinement after activity
-conditioning has already made the update useful. This supports the wording:
-"activity conditioning is the main rescue; error conditioning is conditional."
-
-For the DFA-Stall paper, the setup is different. Tanh gates and direct random
-feedback make the local error/delta distribution itself part of the stall
-mechanism. The useful comparison is therefore a damping- and norm-controlled
-factorial diagnostic:
-
-- `ndfa - dfa`: activity-side relief of the stalled hidden update.
-- `endfa - dfa`: whether error-side whitening alone helps or amplifies bad
-  local-error directions.
-- `kndfa - ndfa`: whether the error-side factor helps after activity-side
-  conditioning has stabilized scale and participation.
-
-The current stall runs suggest that error-side conditioning is fragile at low
-damping, improves only when damping or norm matching controls update size, and
-should be presented as a mechanism probe rather than as an unconditional
-learning-rule improvement. That makes the stall-paper message consistent with
-Info-DFA: the two sides of the outer product are separable, and the error-side
-factor is useful only when the local-error statistics are estimable and
-properly scaled.
+Relative to the imported upstream commit, this vendored copy omits the
+upstream `run_slurm.sh` (cluster-specific submission wrapper) and
+neutralizes a hardcoded interpreter path in `README.md`; `train.py` and all
+other files are unmodified.

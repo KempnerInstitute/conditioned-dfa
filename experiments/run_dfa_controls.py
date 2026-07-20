@@ -1,7 +1,7 @@
-"""Reviewer-control experiments for the conditioned-DFA paper.
+"""Control experiments for the conditioned-DFA paper.
 
-This script runs matched comparisons that address the most-cited reject vectors
-for the ICLR draft:
+This script runs matched comparisons that address two alternative explanations
+for the conditioning gains:
 
   (a) Is conditioned DFA winning over BP because conditioning is genuinely
       different, or because the BP recipe is under-regularized? We sweep
@@ -29,7 +29,6 @@ from __future__ import annotations
 
 import argparse
 import sys
-from copy import deepcopy
 from dataclasses import dataclass, field
 from pathlib import Path
 from time import perf_counter
@@ -44,7 +43,6 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from experiments.run_dfa_multioutput_synthetic import (  # noqa: E402
-    MultiOutputDataset,
     make_multioutput_dataset,
 )
 from experiments.run_dfa_synthetic import (  # noqa: E402

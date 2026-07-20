@@ -38,11 +38,9 @@ from experiments.run_dfa_controls import (  # noqa: E402
 )
 from experiments.run_dfa_synthetic import (  # noqa: E402
     feedback_mode_from_method,
-    natural_mode_from_method,
-    natural_precondition_gradients,
 )
 from experiments.run_dfa_vision_baselines import minibatches  # noqa: E402
-from infogeo.dfa import Gradients, ManualMLP, init_feedback  # noqa: E402
+from infogeo.dfa import ManualMLP, init_feedback  # noqa: E402
 
 
 METHODS = (

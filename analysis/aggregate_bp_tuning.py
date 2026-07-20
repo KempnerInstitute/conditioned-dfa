@@ -1,6 +1,6 @@
 """Aggregate the tuning-matched-BP synthetic sweep and compare to conditioned DFA.
 
-Answers the reviewer concern that the synthetic "beats BP" claim used a single,
+Tests whether the synthetic "beats BP" comparison depended on a single,
 possibly under-tuned BP learning rate (lr=0.08). We re-ran BP over an lr grid at
 every cell; here we pick the tuned BP per cell by leave-one-seed-out selection
 over lr (unbiased), then compare best-conditioned vs tuned BP at the seed level.

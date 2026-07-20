@@ -1,4 +1,4 @@
-"""Write the reviewer-controls LaTeX table from the controls runner output.
+"""Write the regularization/norm-matching controls LaTeX table from the controls runner output.
 
 Consumes ``results/dfa_controls_<task>_v1/dfa_controls_summary.csv`` for
 each task and produces ``drafts/Info-DFA/tables/table_infodfa_controls.tex``.
@@ -89,7 +89,7 @@ def main() -> None:
         [
             "        \\bottomrule",
             "    \\end{tabular}",
-            "    \\caption{Reviewer-control comparison. Three BP regularization variants test "
+            "    \\caption{\\textbf{Regularization and norm-matching controls.} Three BP regularization variants test "
             "whether a stronger BP recipe closes the gap to conditioned DFA. \\texttt{DFA + norm match} "
             "rescales each layer's DFA gradient to match the BP gradient norm on a held-out evaluation batch, "
             "isolating the contribution of activity-covariance whitening (nDFA) from per-layer norm matching.}",

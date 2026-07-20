@@ -10,12 +10,42 @@ import torch
 import torch.nn.functional as F
 
 
+STABLE_SOLVE_STATS = {
+    "stable_solve_damping_escalations": 0,
+    "stable_solve_lstsq_fallbacks": 0,
+    "stable_solve_max_damping_multiplier": 1.0,
+}
+
+
+def reset_stable_solve_stats() -> None:
+    STABLE_SOLVE_STATS["stable_solve_damping_escalations"] = 0
+    STABLE_SOLVE_STATS["stable_solve_lstsq_fallbacks"] = 0
+    STABLE_SOLVE_STATS["stable_solve_max_damping_multiplier"] = 1.0
+
+
+def stable_solve_stats_dict() -> dict[str, float]:
+    return {key: float(value) for key, value in STABLE_SOLVE_STATS.items()}
+
+
+def _record_stable_solve(multiplier: float, *, used_lstsq: bool = False) -> None:
+    if multiplier > 1.0:
+        STABLE_SOLVE_STATS["stable_solve_damping_escalations"] += 1
+    if used_lstsq:
+        STABLE_SOLVE_STATS["stable_solve_lstsq_fallbacks"] += 1
+    STABLE_SOLVE_STATS["stable_solve_max_damping_multiplier"] = max(
+        float(STABLE_SOLVE_STATS["stable_solve_max_damping_multiplier"]),
+        float(multiplier),
+    )
+
+
 @dataclass
 class Gradients:
     weights: list[torch.Tensor]
     biases: list[torch.Tensor]
     deltas: list[torch.Tensor]
     loss: float
+    bn_gammas: list[torch.Tensor] | None = None
+    bn_betas: list[torch.Tensor] | None = None
 
 
 class ManualMLP:
@@ -29,6 +59,9 @@ class ManualMLP:
         *,
         seed: int = 0,
         device: str = "cpu",
+        batchnorm: bool = False,
+        bn_eps: float = 1e-5,
+        bn_momentum: float = 0.1,
     ) -> None:
         self.device = torch.device(device)
         generator = torch.Generator(device=self.device)
@@ -42,6 +75,24 @@ class ManualMLP:
             bias = torch.zeros(out_dim, device=self.device)
             self.weights.append(weight)
             self.biases.append(bias)
+        # Optional BatchNorm1d after each hidden linear layer (pre-activation).
+        # Off by default; without it every code path is unchanged.
+        self.batchnorm = bool(batchnorm)
+        self.bn_eps = float(bn_eps)
+        self.bn_momentum = float(bn_momentum)
+        self.training = False
+        self.bn_gamma: list[torch.Tensor] = []
+        self.bn_beta: list[torch.Tensor] = []
+        self.bn_running_mean: list[torch.Tensor] = []
+        self.bn_running_var: list[torch.Tensor] = []
+        self._bn_cache: list[tuple[torch.Tensor, torch.Tensor, bool] | None] = []
+        if self.batchnorm:
+            for dim in hidden_dims:
+                self.bn_gamma.append(torch.ones(dim, device=self.device))
+                self.bn_beta.append(torch.zeros(dim, device=self.device))
+                self.bn_running_mean.append(torch.zeros(dim, device=self.device))
+                self.bn_running_var.append(torch.ones(dim, device=self.device))
+                self._bn_cache.append(None)
 
     @property
     def n_hidden_layers(self) -> int:
@@ -61,6 +112,8 @@ class ManualMLP:
         preactivations: list[torch.Tensor] = []
         for layer_idx, (weight, bias) in enumerate(zip(self.weights, self.biases)):
             a = h @ weight.T + bias
+            if self.batchnorm and layer_idx < len(self.weights) - 1:
+                a = self._bn_forward(layer_idx, a)
             preactivations.append(a)
             if layer_idx < len(self.weights) - 1:
                 h = torch.relu(a)
@@ -68,6 +121,54 @@ class ManualMLP:
                 h = a
             activations.append(h)
         return h, activations, preactivations
+
+    def _bn_forward(self, layer_idx: int, a: torch.Tensor) -> torch.Tensor:
+        """BatchNorm1d after the hidden linear map (pre-activation).
+
+        Batch statistics (and running-stat updates) are used only while
+        ``self.training`` is True; evaluation uses the running statistics.
+        """
+
+        if self.training and a.shape[0] > 1:
+            mean = a.mean(dim=0)
+            var = a.var(dim=0, unbiased=False)
+            n = a.shape[0]
+            momentum = self.bn_momentum
+            unbiased_var = var * (n / max(n - 1, 1))
+            self.bn_running_mean[layer_idx] = (1.0 - momentum) * self.bn_running_mean[layer_idx] + momentum * mean
+            self.bn_running_var[layer_idx] = (1.0 - momentum) * self.bn_running_var[layer_idx] + momentum * unbiased_var
+            was_training = True
+        else:
+            mean = self.bn_running_mean[layer_idx]
+            var = self.bn_running_var[layer_idx]
+            was_training = False
+        inv_std = torch.rsqrt(var + self.bn_eps)
+        x_hat = (a - mean) * inv_std
+        self._bn_cache[layer_idx] = (x_hat, inv_std, was_training)
+        return self.bn_gamma[layer_idx] * x_hat + self.bn_beta[layer_idx]
+
+    def _bn_backward(self, layer_idx: int, dz: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        """Backward through the layer-local BN given the grad w.r.t. its output."""
+
+        cache = self._bn_cache[layer_idx]
+        if cache is None:
+            raise RuntimeError("BatchNorm backward called before forward")
+        x_hat, inv_std, was_training = cache
+        dgamma = (dz * x_hat).sum(dim=0)
+        dbeta = dz.sum(dim=0)
+        dx_hat = dz * self.bn_gamma[layer_idx]
+        if was_training:
+            da = inv_std * (dx_hat - dx_hat.mean(dim=0) - x_hat * (dx_hat * x_hat).mean(dim=0))
+        else:
+            da = dx_hat * inv_std
+        return da, dgamma, dbeta
+
+    def _empty_bn_grads(self) -> tuple[list[torch.Tensor] | None, list[torch.Tensor] | None]:
+        if not self.batchnorm:
+            return None, None
+        zeros_g = [torch.zeros_like(g) for g in self.bn_gamma]
+        zeros_b = [torch.zeros_like(b) for b in self.bn_beta]
+        return zeros_g, zeros_b
 
     def predict(self, x: torch.Tensor) -> torch.Tensor:
         logits, _, _ = self.forward(x)
@@ -92,13 +193,16 @@ class ManualMLP:
         grad_w[last] = delta.T @ activations[last]
         grad_b[last] = delta.sum(dim=0)
 
+        bn_gammas, bn_betas = self._empty_bn_grads()
         for layer_idx in range(last - 1, -1, -1):
             delta = (delta @ self.weights[layer_idx + 1]) * (preactivations[layer_idx] > 0).float()
+            if self.batchnorm:
+                delta, bn_gammas[layer_idx], bn_betas[layer_idx] = self._bn_backward(layer_idx, delta)
             deltas[layer_idx] = delta
             grad_w[layer_idx] = delta.T @ activations[layer_idx]
             grad_b[layer_idx] = delta.sum(dim=0)
 
-        return Gradients(grad_w, grad_b, deltas, loss)
+        return Gradients(grad_w, grad_b, deltas, loss, bn_gammas, bn_betas)
 
     def dfa_gradients(self, x: torch.Tensor, y: torch.Tensor, feedback: Sequence[torch.Tensor]) -> Gradients:
         if len(feedback) != self.n_hidden_layers:
@@ -113,8 +217,11 @@ class ManualMLP:
         grad_b: list[torch.Tensor] = [torch.empty_like(bias) for bias in self.biases]
         deltas: list[torch.Tensor] = [torch.empty(0, device=self.device) for _ in self.weights]
 
+        bn_gammas, bn_betas = self._empty_bn_grads()
         for layer_idx in range(self.n_hidden_layers):
             delta = (output_delta @ feedback[layer_idx].to(self.device)) * (preactivations[layer_idx] > 0).float()
+            if self.batchnorm:
+                delta, bn_gammas[layer_idx], bn_betas[layer_idx] = self._bn_backward(layer_idx, delta)
             deltas[layer_idx] = delta
             grad_w[layer_idx] = delta.T @ activations[layer_idx]
             grad_b[layer_idx] = delta.sum(dim=0)
@@ -123,7 +230,7 @@ class ManualMLP:
         deltas[last] = output_delta
         grad_w[last] = output_delta.T @ activations[last]
         grad_b[last] = output_delta.sum(dim=0)
-        return Gradients(grad_w, grad_b, deltas, loss)
+        return Gradients(grad_w, grad_b, deltas, loss, bn_gammas, bn_betas)
 
     def fa_gradients(self, x: torch.Tensor, y: torch.Tensor, feedback: Sequence[torch.Tensor]) -> Gradients:
         """Layerwise feedback-alignment gradients.
@@ -133,6 +240,8 @@ class ManualMLP:
         corresponding backpropagated weight transpose.
         """
 
+        if self.batchnorm:
+            raise NotImplementedError("fa_gradients does not support --batchnorm")
         if len(feedback) != self.n_hidden_layers:
             raise ValueError("feedback must contain one matrix per hidden layer")
 
@@ -166,6 +275,8 @@ class ManualMLP:
         layers, following the spirit of direct random target projection.
         """
 
+        if self.batchnorm:
+            raise NotImplementedError("target_projection_gradients does not support --batchnorm")
         if len(feedback) != self.n_hidden_layers:
             raise ValueError("feedback must contain one matrix per hidden layer")
 
@@ -195,6 +306,10 @@ class ManualMLP:
         for layer_idx in range(len(self.weights)):
             self.weights[layer_idx] = self.weights[layer_idx] - lr * gradients.weights[layer_idx]
             self.biases[layer_idx] = self.biases[layer_idx] - lr * gradients.biases[layer_idx]
+        if self.batchnorm and gradients.bn_gammas is not None and gradients.bn_betas is not None:
+            for layer_idx in range(self.n_hidden_layers):
+                self.bn_gamma[layer_idx] = self.bn_gamma[layer_idx] - lr * gradients.bn_gammas[layer_idx]
+                self.bn_beta[layer_idx] = self.bn_beta[layer_idx] - lr * gradients.bn_betas[layer_idx]
 
     def hidden_activations(self, x: torch.Tensor) -> list[torch.Tensor]:
         _, activations, _ = self.forward(x)
@@ -469,6 +584,34 @@ def _output_delta(logits: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
     return (probs - one_hot) / logits.shape[0]
 
 
+def error_second_moment(
+    loss_scaled_deltas: torch.Tensor,
+    *,
+    normalization_count: int,
+) -> torch.Tensor:
+    """Return the per-sample second moment of mean-loss error signals.
+
+    Manual BP/DFA gradients store each row of ``deltas`` with the normalization
+    used by the mean loss so that summing outer products produces an averaged
+    weight gradient.  That normalization must be undone before estimating the
+    error-side Kronecker factor; otherwise the factor is smaller by
+    ``normalization_count**2`` and damping reduces it to an almost scalar
+    rescaling.
+
+    ``normalization_count`` is the number by which the local error was divided:
+    the minibatch size for ordinary MLP/conv deltas, and batch times broadcast
+    multiplicity for flattened mixer deltas.
+    """
+
+    if loss_scaled_deltas.ndim != 2:
+        raise ValueError("error second moment expects a 2-D sample-by-feature tensor")
+    count = int(normalization_count)
+    if count <= 0:
+        raise ValueError("normalization_count must be positive")
+    per_sample = loss_scaled_deltas.detach() * count
+    return per_sample.T @ per_sample / max(int(per_sample.shape[0]), 1)
+
+
 def _truncate_rank(matrix: np.ndarray, rank: int) -> np.ndarray:
     max_rank = min(matrix.shape)
     rank = int(min(max(rank, 1), max_rank))
@@ -529,8 +672,10 @@ def _stable_solve(gram: torch.Tensor, rhs: torch.Tensor, eye: torch.Tensor, *, e
             last_error = exc
             continue
         if torch.isfinite(coeff).all():
+            _record_stable_solve(multiplier)
             return coeff
     try:
+        _record_stable_solve(10000.0, used_lstsq=True)
         return torch.linalg.lstsq(gram + (base * 10000.0) * eye, rhs).solution
     except RuntimeError:
         if last_error is not None:

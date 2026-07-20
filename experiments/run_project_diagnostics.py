@@ -1,4 +1,4 @@
-"""Run a compact Info-DFA project-level smoke diagnostic.
+"""Run a compact Conditioned DFA project-level smoke diagnostic.
 
 Fast harness for sanity-checking the core hidden-credit-assignment claims.
 Not a replacement for the publication sweeps in ``run_dfa_*.py``.
@@ -43,11 +43,11 @@ def main() -> None:
     summary = summarize_infodfa_diagnostic(dfa)
     write_markdown_report(
         output_dir / "project_diagnostics.md",
-        title="Info-DFA Project Diagnostics",
+        title="Conditioned DFA Project Diagnostics",
         sections=[
             (
                 "Purpose",
-                "Fast smoke diagnostic for the Info-DFA hidden-credit-assignment claims "
+                "Fast smoke diagnostic for the Conditioned DFA hidden-credit-assignment claims "
                 "on a known latent manifold. Tests BP, DFA, tangent-biased/orthogonal "
                 "feedback, and activity/Kronecker nDFA.",
             ),
@@ -55,7 +55,7 @@ def main() -> None:
         ],
     )
 
-    print(f"Saved Info-DFA project diagnostic to {output_dir}")
+    print(f"Saved Conditioned DFA project diagnostic to {output_dir}")
     print("\nfinal_by_method:")
     print(summary.to_string(index=False, float_format=lambda value: f"{value:0.4f}"))
 
