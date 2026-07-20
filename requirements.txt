@@ -11,5 +11,5 @@ timm==1.0.*
 numpy
 pandas
 scipy
-# Figure generation (drafts/Info-DFA/scripts/make_iclr_figures.py)
+# Figure generation
 matplotlib

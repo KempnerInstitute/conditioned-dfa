@@ -6,8 +6,8 @@ table/figure snapshot or an aggregate CSV under `results/`. Aggregate CSVs land
 under `results/` (gitignored; sizes can be large), so a fresh checkout may need
 those roots restored from the artifact bundle or regenerated before table/stat
 scripts can be rerun. This file lists the command, grid, aggregator, and artifact
-root for each result. The current figure-generation manifest is
-`drafts/Info-DFA/FIGURE_INPUTS.md`.
+root for each result. Final figure assembly and the LaTeX build live in the
+separately distributed paper source (included with the arXiv submission).
 
 ## Current claim boundary
 
@@ -36,10 +36,17 @@ root for each result. The current figure-generation manifest is
 ## Environment
 - Python 3.10. Install dependencies with `pip install -r requirements.txt` (torch 2.9,
   torchvision 0.24, timm 1.0, numpy, pandas, scipy, matplotlib), then activate that
-  environment before any run. On the original cluster this was a conda env named
-  `vdc_paper_v2`; any environment satisfying `requirements.txt` reproduces the results.
-- SLURM scripts set `REPO_ROOT` to this repo and `IMAGENET_ROOT` to the shared
-  ImageNet ImageFolder; override either by env var.
+  environment before any run; any environment satisfying `requirements.txt`
+  reproduces the results.
+- SLURM scripts set `REPO_ROOT` to this repo and `IMAGENET_ROOT` to an
+  ImageNet ImageFolder; override either by env var. The `#SBATCH` headers
+  (partition, account) and the conda activation line are site-specific: on
+  other systems edit the headers, export `CONDA_ENV`, and set `REPO_ROOT`
+  before submitting.
+- ImageNet-1k must be obtained separately (standard ImageFolder train/val
+  layout) and pointed to via `IMAGENET_ROOT`; the ImageNet-100 subset is
+  selected in-code by `--class-subset 100 --class-subset-seed 0`. MNIST,
+  Fashion-MNIST, and CIFAR download automatically.
 
 ## Claim-to-artifact map
 
@@ -51,47 +58,38 @@ root for each result. The current figure-generation manifest is
 | Table 1 and Appendix clean Fashion-MNIST replication/source swap | `slurm/infodfa_dfa_stall_fashion_threefactor.sbatch`, `analysis/analyze_dfa_stall_fashion_threefactor.py` | `results/dfa_stall_fashion_threefactor_{dev,confirmation,analysis}_v1` |
 | Table 1, Fig. 3, and Appendix ReLU/softmax confirmation | `slurm/infodfa_dfa_relu_mnist_threefactor.sbatch`, `analysis/analyze_dfa_relu_vision_threefactor.py`, `analysis/make_error_kndfa_replication_figure.py` | `results/dfa_relu_mnist_{dev,threefactor_confirmation,threefactor_analysis}_v1` |
 | Appendix BP-source scale diagnosis and post-hoc retuning | `analysis/diagnose_dfa_stall_bpsource_scale.py`, `slurm/infodfa_dfa_stall_fashion_bpsource_retune.sbatch`, `analysis/analyze_dfa_stall_bpsource_retune.py` | `results/dfa_stall_fashion_bpsource_scale_audit_v1`, `results/dfa_stall_fashion_bpsource_scale_audit_d3_v1`, `results/dfa_stall_fashion_bpsource_retune_{dev,confirmation,analysis}_v1` |
-| Main figures | `drafts/Info-DFA/scripts/make_iclr_figures.py` | roots listed in `drafts/Info-DFA/FIGURE_INPUTS.md` |
+| Main figures | figure-assembly script shipped with the paper source (arXiv submission) | aggregate roots listed in the sections below |
 | Activity norm-match, Adam/diagonal, decorrelation, BatchNorm, and BP-precondition controls | corresponding `analysis/aggregate_*.py` scripts below | control-specific roots listed below |
 | ImageNet-100 boundary table | `analysis/aggregate_imagenet_strongform.py` plus the hand-curated table snapshot | `results/imagenet100_strongform_v1/strongform_multiseed_summary.csv` |
 
-At the time of this revision, the ImageNet aggregate CSV is present locally, but
-the synthetic and noisy-vision `*_best_by_method.csv` aggregates must be restored
-from the artifact bundle or regenerated with the SLURM commands below before the
-table/stat scripts can be rerun end-to-end. The TeX tables in `drafts/Info-DFA`
-are embedded into the single manuscript body; regenerated table snapshots are
-written under `results/infodfa_paper_tables_20260527/tex_tables/` by default.
+`results/` is not versioned: before rerunning table/stat scripts, regenerate
+the aggregate CSVs (in particular the synthetic and noisy-vision
+`*_best_by_method.csv` files) with the SLURM commands below. Regenerated table
+snapshots are written under
+`results/infodfa_paper_tables_20260527/tex_tables/` by default.
 
-## Paper table, figure, and PDF build
+## Paper tables
 
-The paper build resolves artifacts from a primary results root and a legacy
-aggregate fallback. Use the defaults if the repo is checked out in the original
-cluster layout, or set them explicitly:
+The table scripts resolve artifacts from a primary results root and an optional
+secondary root:
 
 ```bash
 export INFODFA_RESULTS=/path/to/Info-DFA/results
-export INFODFA_LEGACY_RESULTS=/path/to/Info-Man/results
+export INFODFA_LEGACY_RESULTS=/path/to/legacy/results  # optional secondary root
 python analysis/reanalyze_synthetic_honest_selection.py
 python analysis/write_infodfa_paper_tables.py
-cd drafts/Info-DFA
-python scripts/make_iclr_figures.py
-pdflatex -interaction=nonstopmode -halt-on-error paper_main.tex
-pdflatex -interaction=nonstopmode -halt-on-error paper_main.tex
-pdflatex -interaction=nonstopmode -halt-on-error paper_main.tex
 ```
 
 `analysis/write_infodfa_paper_tables.py` records the resolved table inputs in
 `results/infodfa_paper_tables_20260527/infodfa_final_result_summary.md` and
 writes regenerable TeX snapshots under
 `results/infodfa_paper_tables_20260527/tex_tables/` unless
-`INFODFA_TABLE_TEX_DIR` is set.
-`drafts/Info-DFA/scripts/make_iclr_figures.py` records every plotted artifact in
-`drafts/Info-DFA/FIGURE_INPUTS.md`. The paper draft keeps a single root TeX file,
-`paper_main.tex`. The TeX build uses committed figures, but clean figure
-regeneration is not self-contained without the bundle in `FIGURE_INPUTS.md`.
-Generated PDFs and LaTeX build auxiliaries are not source files.
+`INFODFA_TABLE_TEX_DIR` is set. Final figure assembly and the LaTeX build live
+in the paper source distributed with the arXiv submission (shared body
+`paper_body.tex` with two selectable roots, `conditioned_dfa_arxiv.tex` and
+`conditioned_dfa_iclr.tex`); the paper build uses committed figure files.
 
-## Synthetic stress suite (Tables 1, 7; Figs 1, 2)
+## Synthetic stress suite (Tables 1, 10; Fig 2)
 - Run: `sbatch slurm/infodfa_multioutput_noise_sweep.sbatch` (128 cells = 4 regimes
   x 4 n_train {512,1024,2048,4096} x 4 label-noise {0,0.1,0.2,0.4} x 2 input-noise
   {0.05,0.15}; methods bp/dfa_random/fa_random/ndfa_random/ndfa_random_kronecker/
@@ -129,8 +127,8 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
 ### Preregistered clean Fashion-MNIST replication and source-swap diagnosis
 
 - The protocol and pass/fail criteria are recorded in `PREDICTIONS.md` at
-  commit `ef795e1`, before development job 30989996 and confirmation job
-  30991467. Run tasks 0--15 of
+  commit `ef795e1`, before the development and confirmation runs. Run tasks
+  0--15 of
   `slurm/infodfa_dfa_stall_fashion_threefactor.sbatch` for the independent
   activity/error development sweeps. They freeze `lambda_A=0.03` and
   `lambda_E=30` in commit `f2eaf3a`; run tasks 16--19 only from that frozen
@@ -149,7 +147,11 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
 - The registered BP-source comparator is not a live source-equivalence test at
   the frozen local damping. Run
   `python analysis/diagnose_dfa_stall_bpsource_scale.py` to reproduce the
-  layerwise spectral-scale and update-cosine audit.
+  layerwise spectral-scale and update-cosine audit (defaults: `--error-damping
+  30`, output `results/dfa_stall_fashion_bpsource_scale_audit_v1`); rerun with
+  `--error-damping 3 --output-dir
+  results/dfa_stall_fashion_bpsource_scale_audit_d3_v1` for the retuned-damping
+  variant.
 - For the explicitly post-hoc scale-matched addendum, run development tasks
   0--9 of `slurm/infodfa_dfa_stall_fashion_bpsource_retune.sbatch`. Validation
   selects BP-source damping 3 (tied accuracy with 10, lower loss). Then submit
@@ -228,7 +230,7 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   second-moment learning-rate effect. The comparison is BP, DFA, hidden-weight
   Adam-DFA, diagonal square-root activity/error/K conditioning, activity/error
   nDFA, and full K-nDFA on the four focused synthetic cells.
-- Run: `sbatch slurm/infodfa_adam_diagk_approx.sbatch` (Kempner H100 array;
+- Run: `sbatch slurm/infodfa_adam_diagk_approx.sbatch` (GPU array;
   5 data seeds x 2 feedback seeds; damping grid {0.03,0.1,0.3,1.0}; Adam hidden
   lr grid {0.001,0.003}; hidden 256-128; 100 epochs).
 - Aggregate: `sbatch slurm/infodfa_adam_diagk_approx_aggregate.sbatch`, or
@@ -241,7 +243,7 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   `infodfa_adam_diagk_learning_best.{pdf,png,svg}`, and
   `infodfa_adam_diagk_diagnostics.{pdf,png,svg}`.
 
-## Decorrelation baseline (§4.2, "more than activation decorrelation")
+## Decorrelation baseline (§4.3, "beyond decorrelation")
 - Run: `sbatch slurm/infodfa_actwhiten_synthetic.sbatch` (128-cell grid, same recipe
   as the main sweep; methods dfa_random/dfa_actwhiten/ndfa_random/ndfa_random_kronecker).
   `dfa_actwhiten` preconditions the DFA update by (C+lambda I)^{-1/2} (ZCA decorrelation,
@@ -250,13 +252,13 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   the input-side gain (+16..+34pp over DFA); the full inverse adds +5.8/+3.7/+0.8pp on
   nuisance/low-sample/mixed and over-conditions the clean control (-0.7pp).
 
-## Tuned-BP control (§4.2)
+## Tuned-BP control (§4.3)
 - Run: `sbatch slurm/infodfa_bp_tuning_synthetic.sbatch` (BP only, lr grid
   {0.02,0.04,0.08,0.16,0.32} at every cell).
 - Aggregate: `analysis/aggregate_bp_tuning.py` (tuned BP per cell via LOSO over lr;
   matched cell-by-seed LOSO robustness test vs the selected conditioned rule).
 
-## BP-preconditioning control, matched learning rate (§4.2, Table 11)
+## BP-preconditioning control, matched learning rate (§4.3, Table 14)
 - BP+precond data: `results/infodfa_bpwhiten_synthetic_v1` (same lr grid as Tuned-BP).
 - The fair comparison reports BOTH BP and BP+precond at their best-of-grid lr per
   regime (NOT best-of-grid BP+precond vs fixed-lr BP). Per-regime best-lr means
@@ -275,26 +277,26 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   `kndfa_bp` audits above supersede them as a source-specific negative control;
   neither is used as evidence of covariance-source equivalence.
 
-## Local-rule baselines (sign-symmetry, §5)
+## Local-rule baselines (sign-symmetry, Appendix F)
 - Run: `sbatch slurm/infodfa_localrule_baselines_synthetic.sbatch` (adds `fa_sign`).
 
-## Vision MLPs and ColoredMNIST (Tables 8, 13)
-- Vision noisy-label sweep: `run_dfa_nmnc_comparison.py` (slurm `infodfa_nmnc_comparison.sbatch`).
-- ColoredMNIST: `run_dfa_coloredmnist.py` (slurm `infodfa_coloredmnist.sbatch`).
+## Vision MLPs and ColoredMNIST (Tables 11, 17)
+- Vision noisy-label sweep: `experiments/run_dfa_nmnc_comparison.py` (slurm `infodfa_nmnc_comparison.sbatch`).
+- ColoredMNIST: `experiments/run_dfa_coloredmnist.py` (slurm `infodfa_coloredmnist.sbatch`).
 
-## Reviewer controls (activity-side rows support the revised paper)
+## Regularization and norm-matching controls (activity-side rows support the paper)
 - Run: `sbatch slurm/infodfa_controls.sbatch` (BP/BP+L2/BP+label-smoothing/BP+early-stop/
   DFA/DFA+norm-match/nDFA plus a historical two-sided row at one nuisance cell
   and one Fashion-MNIST cell, 5 seeds).
 
-## Capable-model preconditioning vs norm-match (§4.2)
+## Capable-model preconditioning vs norm-match (§4.3)
 - Run: `sbatch slurm/infodfa_capable_normmatch.sbatch` (CIFAR-100 convnet, methods
   bp/local_loss/dfa_random/dfa_random_normmatch/ndfa_random/ndfa_random_kronecker;
   Adam; per-method lr {bp,dfa,normmatch 3e-4; ndfa 1e-4}; channels 64-128-256; 40 epochs;
   feedback-scale 0.3; 5 seeds x 5 feedback-seeds).
 - Aggregate: `analysis/aggregate_capable_normmatch.py` (nDFA 23.6 vs DFA+norm-match 13.1).
 
-## Spatial-Kronecker conv conditioning (Appendix F)
+## Spatial-Kronecker conv conditioning (Appendix H)
 - Rule: `infogeo/conv_dfa.py:spatial_kronecker_conv_gradients` (method
   `ndfa_spatial_kron`) = channel-only nDFA plus a kernel-patch spatial second-moment
   factor (`kernel_spatial_covariance` over the kH*kW receptive-field positions,
@@ -331,10 +333,10 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   jointly controlled by nuisance amplitude and damping; the both-directions sweep is
   the fixed-lambda=0.3 slice.
 
-## CIFAR-100 convnet (Table 14)
+## CIFAR-100 convnet (Table 18)
 - Run: `sbatch slurm/infodfa_hard_cifar100_confirm.sbatch`.
 
-## ImageNet-100 substitution-depth boundary (Table 15)
+## ImageNet-100 substitution-depth boundary (Table 19)
 - Block-output ZCA diagnostic: `sbatch slurm/infodfa_imagenet_strongform.sbatch` (13 configs:
   BP + {raw block-DFA, diagonal block-output, full block-output inverse-square-root conditioner} x 4 depths
   {layer4, layer3+4, layer2+3+4, all}; pretrained ResNet-18; `--dfa-norm unit`
@@ -353,12 +355,20 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
 
 ## Theory figure (Fig 1 for §2.1)
 - Self-contained (no external data): the `_theory_sim` / `make_theory_conditioning`
-  routines in `drafts/Info-DFA/scripts/make_iclr_figures.py`. Panel C uses
+  routines in the paper-source figure-assembly script. Panel C uses
   `task_in_high_var` to place the target in low- vs high-variance eigendirections.
 
+## Additional appendix figures
+- Feedback-variance collapse: `python analysis/compute_feedback_variance_collapse.py`
+  (requires the noise-sweep and Mixer shards) writes
+  `results/infodfa_feedback_variance_v1/`.
+- Mode-timing theory validation: `python analysis/validate_mode_timing.py`
+  (self-contained, CPU-only) writes `results/infodfa_mode_timing_v1/`.
+
 ## External DFA-Stall diagnostic
-- External reference clone (ignored by git): `git clone
-  git@github.com:varun04reddy/DFA-Stall.git external/DFA-Stall`.
+- The DFA-Stall reference implementation is vendored under
+  `external/DFA-Stall/`; see `external/DFA-Stall/VENDORED_INFO.md` for
+  provenance. No clone step is needed.
 - Faithful comparison on the DFA-Stall MNIST/tanh setup:
   `python experiments/run_dfa_stall_comparison.py --output-dir
   results/dfa_stall_comparison_3seed_v1 --total-steps 1000 --hidden 300
@@ -375,20 +385,12 @@ Generated PDFs and LaTeX build auxiliaries are not source files.
   `python analysis/aggregate_dfa_stall_error_ablation.py`.
 
 ## Regenerating all figures
-```
-INFODFA_RESULTS=<results dir> \
-INFODFA_LEGACY_RESULTS=<legacy results dir> \
-python drafts/Info-DFA/scripts/make_iclr_figures.py
-```
-`INFODFA_RESULTS`, `INFODFA_LEGACY_RESULTS`, and `INFODFA_FIGURES` override the
-default paths; the script is headless-safe (Agg backend) and writes
-`drafts/Info-DFA/FIGURE_INPUTS.md`.
 
-Clean regeneration is not fully self-contained unless the large synthetic
-trajectory aggregate
-`infodfa_multioutput_noise_sweep_aggregate_v2/dfa_multioutput_all.csv` is staged
-under either result root. On the original cluster this file resolves from
-`INFODFA_LEGACY_RESULTS`; it is intentionally not vendored into the paper repo
-because it is approximately 544 MiB. A reduced canonical curve artifact would be
-enough for future releases, but the current submitted figures record the full
-dependency explicitly in `FIGURE_INPUTS.md`.
+The composite paper figures are assembled by a script shipped with the paper
+source (arXiv submission); it reads the aggregate roots listed above via
+`INFODFA_RESULTS` (and optionally `INFODFA_LEGACY_RESULTS`) and is
+headless-safe (Agg backend). Clean regeneration additionally requires the large
+synthetic trajectory aggregate
+`infodfa_multioutput_noise_sweep_aggregate_v2/dfa_multioutput_all.csv`
+(approximately 544 MiB, regenerated by the synthetic stress-suite commands
+above) staged under either results root.

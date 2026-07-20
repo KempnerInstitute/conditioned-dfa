@@ -1,8 +1,8 @@
 """Aggregate the capable-model whitening-vs-norm-match test (CIFAR-100 convnet).
 
 Shows covariance-conditioned nDFA beats per-layer DFA-to-BP norm matching on a
-standard convnet with anisotropic channel statistics -- the reviewer's novelty
-crux, on real data rather than the hand-built synthetic regime.
+standard convnet with anisotropic channel statistics, isolating covariance
+conditioning from scalar rescaling on real data rather than the synthetic regime.
 """
 
 from __future__ import annotations

@@ -9,7 +9,7 @@
 #SBATCH --output=logs/slurm/%x_%A_%a.out
 #SBATCH --error=logs/slurm/%x_%A_%a.err
 
-# DFA+BatchNorm and BP+BatchNorm baselines (reviewer ask: does BatchNorm's
+# DFA+BatchNorm and BP+BatchNorm baselines (does BatchNorm's
 # implicit activation normalization already close the DFA gap that nDFA
 # conditioning closes?). --batchnorm inserts BatchNorm1d after each hidden
 # linear layer (pre-activation) in the manual MLP; all other protocol args
@@ -26,7 +26,7 @@
 set -euo pipefail
 
 source /n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh
-conda activate /n/holylabs/LABS/kempner_dev/Users/hsafaai/conda_envs/vdc_paper_v2
+conda activate "${CONDA_ENV:-/n/holylabs/LABS/kempner_dev/Users/hsafaai/conda_envs/vdc_paper_v2}"
 
 cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
 mkdir -p logs/slurm

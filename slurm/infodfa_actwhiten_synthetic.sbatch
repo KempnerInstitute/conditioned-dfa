@@ -8,15 +8,15 @@
 #SBATCH --output=logs/slurm/%x_%A_%a.out
 #SBATCH --error=logs/slurm/%x_%A_%a.err
 
-# Decorrelation baseline on the synthetic stress suite (reviewer "did you need a new
-# rule?" test). dfa_actwhiten preconditions the DFA update by (C+lambda I)^{-1/2}
+# Decorrelation baseline on the synthetic stress suite (does the gain need the
+# full inverse?). dfa_actwhiten preconditions the DFA update by (C+lambda I)^{-1/2}
 # (ZCA activation decorrelation, power 1/2) vs nDFA's full inverse (C+lambda I)^{-1}
 # (natural-gradient power 1). Same 128-cell grid and recipe as the main sweep so the
 # numbers are directly comparable to Table tab:infodfa_synthetic_noise_split.
 set -euo pipefail
 
 source /n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh
-conda activate /n/holylabs/LABS/kempner_dev/Users/hsafaai/conda_envs/vdc_paper_v2
+conda activate "${CONDA_ENV:-/n/holylabs/LABS/kempner_dev/Users/hsafaai/conda_envs/vdc_paper_v2}"
 
 cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
 mkdir -p logs/slurm

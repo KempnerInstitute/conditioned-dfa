@@ -10,10 +10,9 @@ It then applies the Info-DFA preconditioners to the same hidden gradients:
 * ``kndfa``: activity-side plus local-error-side Kronecker preconditioning.
 * ``kndfa_bp``: the K-nDFA update with a nonlocal BP-error covariance source.
 
-The external repo is intentionally kept under ``external/DFA-Stall`` and ignored
-by git. Clone it before running:
-
-    git clone git@github.com:varun04reddy/DFA-Stall.git external/DFA-Stall
+A snapshot of the DFA-Stall reference implementation is vendored under
+``external/DFA-Stall``; see ``external/DFA-Stall/VENDORED_INFO.md`` for
+provenance.
 """
 
 from __future__ import annotations
@@ -59,8 +58,8 @@ def load_dfa_stall_module():
     path = EXTERNAL / "train.py"
     if not path.exists():
         raise FileNotFoundError(
-            f"Missing {path}. Clone git@github.com:varun04reddy/DFA-Stall.git "
-            "into external/DFA-Stall first."
+            f"Missing {path}. The vendored DFA-Stall reference implementation is "
+            "required; see external/DFA-Stall/VENDORED_INFO.md."
         )
     spec = importlib.util.spec_from_file_location("dfa_stall_train", path)
     if spec is None or spec.loader is None:

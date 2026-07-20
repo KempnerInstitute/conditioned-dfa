@@ -1,4 +1,4 @@
-"""Aggregate the decorrelation-baseline sweep (reviewer 'did you need a new rule?').
+"""Aggregate the decorrelation-baseline sweep (full inverse vs. decorrelation).
 
 Compares raw DFA, dfa_actwhiten (ZCA activation decorrelation, precondition by
 (C+lambda I)^{-1/2}), activity nDFA, and K-nDFA (full inverse, (C+lambda I)^{-1})

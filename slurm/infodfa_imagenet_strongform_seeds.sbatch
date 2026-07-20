@@ -10,13 +10,13 @@
 #SBATCH --error=logs/slurm/%x_%A_%a.err
 
 # Multi-seed extension of the strong-form ImageNet-100 substitution-depth sweep
-# (reviewer ask: error bars on the ~20pp all-block cliff and per-depth orderings).
+# (error bars on the ~20pp all-block cliff and per-depth orderings).
 # Seeds 1 and 2 for all 13 configs; seed 0 is the existing strongform_v1 run.
 # Per-config LR matches the headline table: full-covariance at layer2+3+4 and
 # all-block uses eta=0.01 (the lr-check showed eta=0.1 collapses there).
 set -euo pipefail
 source /n/sw/Mambaforge-23.11.0-0/etc/profile.d/conda.sh
-conda activate /n/holylabs/LABS/kempner_dev/Users/hsafaai/conda_envs/vdc_paper_v2
+conda activate "${CONDA_ENV:-/n/holylabs/LABS/kempner_dev/Users/hsafaai/conda_envs/vdc_paper_v2}"
 cd "${REPO_ROOT:-/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA}"
 mkdir -p logs/slurm
 

@@ -23,7 +23,7 @@ DFA-STALL/
 ### Login node (CPU, ~10 min)
 ```bash
 cd DFA-STALL
-/n/home00/varunreddy/dynamics/venv/bin/python train.py
+python train.py
 ```
 
 ### GPU via SLURM (~3 min)

@@ -709,7 +709,7 @@ def norm_match_conv_gradients(
 
     Controls for per-layer gradient *scale* without whitening the *direction*.
     Comparing this against nDFA isolates the contribution of covariance whitening
-    beyond simple per-layer norm matching (the reviewer's novelty crux).
+    beyond simple per-layer norm matching.
     """
     bp = model.bp_gradients(x, y)
 

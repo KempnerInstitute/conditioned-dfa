@@ -17,18 +17,30 @@ seeds in a ReLU/softmax MNIST model. BatchNorm remains a strong activity-side
 alternative, vision rank sweeps are exploratory, and the separate ImageNet-100
 block-output diagnostic is not the proposed weight-update operator.
 
-Historical error-side and two-sided (`K-nDFA`) experiments used
-mean-loss-normalized deltas when estimating the error second moment. Their
-reported factor was therefore nearly scalar at the chosen damping and remains
-excluded. The corrected DFA-stall experiments use per-example errors, separate
-activity/error damping selected on validation data, norm matching, and frozen
-five-seed by three-feedback-seed confirmations. Fashion-MNIST additionally
-compares local K-nDFA with a nonlocal BP-error covariance source. The registered
-source comparator reused the local damping and was effectively activity nDFA
-after norm matching, so its original equivalence interpretation is withdrawn.
-A post-hoc validation-retuned, fresh-seed audit instead shows source
-specificity: the local DFA-error factor improves activity nDFA, whereas the
-transported BP-error factor does not.
+## Scope and caveats
+
+All error-side and two-sided results in the paper use per-example errors,
+separate activity/error damping selected on validation data, layerwise norm
+matching, and frozen multi-seed confirmations; earlier sweeps that formed the
+error second moment from mean-loss-normalized deltas are excluded throughout.
+The Fashion-MNIST study additionally compares local K-nDFA with a nonlocal
+BP-error covariance source: the registered comparator reused the local damping
+and was effectively activity nDFA after norm matching, so its equivalence
+interpretation is withdrawn, and a post-hoc validation-retuned, fresh-seed
+audit instead shows source specificity — the local DFA-error factor improves
+activity nDFA, whereas the transported BP-error factor does not.
+
+## Installation
+
+Python 3.10+.
+
+```bash
+pip install -r requirements.txt
+```
+
+Core dependencies: torch 2.9, torchvision 0.24, timm 1.0, numpy, pandas,
+scipy, matplotlib. MNIST, Fashion-MNIST, and CIFAR download automatically;
+ImageNet-1k must be provided separately (see `REPRODUCE.md`).
 
 ## Layout
 
@@ -59,12 +71,13 @@ transported BP-error factor does not.
   - `run_imagenet_credit_assignment.py`,
     `evaluate_imagenet_torchvision_weights.py`: ImageNet-100 ResNet-18
     diagnostics.
-- `analysis/`: aggregators, paired-test scripts, table writers, and the
-  paper-figure builder.
-- `slurm/`: batch scripts for every experiment.
+- `analysis/`: aggregators, paired-test scripts, table writers, and figure
+  builders.
+- `slurm/`: batch scripts for every experiment (site-specific headers; see
+  `REPRODUCE.md`).
 - `tests/`: pytest suite.
-- `drafts/Info-DFA/`: paper draft (nested, separately versioned git repo that
-  pushes to `houman1359/Info-DFA-draft`).
+- `external/DFA-Stall/`: vendored reference implementation for the DFA-stall
+  diagnostic (provenance in `external/DFA-Stall/VENDORED_INFO.md`).
 
 ## Quick start
 
@@ -75,7 +88,12 @@ python experiments/run_dfa_synthetic.py --quick                  # ~1 min
 python experiments/run_dfa_coloredmnist.py --n-seeds 1 --epochs 3
 ```
 
-## Main empirical claims
+## Reproducing the paper
+
+`REPRODUCE.md` maps every reported result to the script, parameter grid,
+aggregator, and artifact root that regenerate it. `PREDICTIONS.md` and
+`PREDICTIONS_SCORECARD.md` record the preregistered predictions and their
+scored outcomes, including refuted ones.
 
 | Claim | Script |
 |---|---|
@@ -88,8 +106,17 @@ python experiments/run_dfa_coloredmnist.py --n-seeds 1 --epochs 3
 | ImageNet-100 substitution depth | `run_imagenet_credit_assignment.py` |
 | Descriptive and seed-level sensitivity tests | `compute_infodfa_statistical_tests.py` + `compute_infodfa_seedlevel_stats.py` |
 
-## Companion repository
+## Citation
 
-The Info-Man population-geometry project lives at `KempnerInstitute/Info-Man`.
-The two projects are independent but share geometry and analysis helpers in
-`infogeo/`.
+```bibtex
+@article{safaai2026conditioned,
+  title   = {Conditioned Direct Feedback Alignment via Activity and Error Geometry},
+  author  = {Safaai, Houman and Reddy, Varun and Sabatini, Bernardo L.},
+  journal = {arXiv preprint},
+  year    = {2026}
+}
+```
+
+## License
+
+Released under the MIT License (see `LICENSE`).

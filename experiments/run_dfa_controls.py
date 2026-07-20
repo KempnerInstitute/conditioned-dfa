@@ -1,7 +1,7 @@
-"""Reviewer-control experiments for the conditioned-DFA paper.
+"""Control experiments for the conditioned-DFA paper.
 
-This script runs matched comparisons that address the most-cited reject vectors
-for the ICLR draft:
+This script runs matched comparisons that address two alternative explanations
+for the conditioning gains:
 
   (a) Is conditioned DFA winning over BP because conditioning is genuinely
       different, or because the BP recipe is under-regularized? We sweep
