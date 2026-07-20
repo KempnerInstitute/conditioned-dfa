@@ -28,7 +28,7 @@ def main() -> None:
     report = (
         "# Capable-model whitening vs norm-match (CIFAR-100 convnet)\n\n"
         + s.round(3).to_string()
-        + f"\n\nWhitening advantage over norm-match: "
+        + "\n\nWhitening advantage over norm-match: "
         + f"{s.loc['ndfa_random','mean'] - s.loc['dfa_random_normmatch','mean']:+.2f} pp (nDFA), "
         + f"{s.loc['ndfa_random_kronecker','mean'] - s.loc['dfa_random_normmatch','mean']:+.2f} pp (K-nDFA).\n"
         + "Note: DFA+norm-match is below raw DFA -- matching scale without fixing direction hurts.\n"

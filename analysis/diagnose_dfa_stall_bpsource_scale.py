@@ -14,7 +14,6 @@ from pathlib import Path
 import sys
 from types import SimpleNamespace
 
-import numpy as np
 import pandas as pd
 import torch
 

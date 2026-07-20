@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from collections.abc import Sequence
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -421,8 +422,8 @@ def natural_precondition_gradients(
     damping: float,
     error_damping: float | None = None,
     mode: str = "activity",
-    error_deltas: "Sequence[torch.Tensor] | None" = None,
-    cache: "dict | None" = None,
+    error_deltas: Sequence[torch.Tensor] | None = None,
+    cache: dict | None = None,
     refresh: bool = True,
 ) -> Gradients:
     """Local natural-DFA proxies using Kronecker-style preconditioning.

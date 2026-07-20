@@ -36,7 +36,8 @@ def per_seed_final(d: Path) -> pd.DataFrame:
 
 def diff_row(spk: pd.DataFrame, nd: pd.DataFrame) -> str:
     keys = [k for k in KEYS if k in spk.columns and k in nd.columns]
-    a = spk.set_index(keys)["test_acc"]; b = nd.set_index(keys)["test_acc"]
+    a = spk.set_index(keys)["test_acc"]
+    b = nd.set_index(keys)["test_acc"]
     common = a.index.intersection(b.index)
     a, b = a.loc[common].to_numpy(), b.loc[common].to_numpy()
     diff = (a - b) * 100

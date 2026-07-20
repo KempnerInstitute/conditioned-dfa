@@ -1,4 +1,4 @@
-"""Validate Proposition 3 (mode-timing law) in the aligned linear-Gaussian model.
+"""Validate Proposition 2 (mode timing) in the aligned linear-Gaussian model.
 
 Model (Appendix A notation): x ~ N(0, Sigma), scalar teacher y = w*.x + xi,
 xi ~ N(0, sigma^2), n training samples, student w = (W2 W1)^T with fixed
@@ -10,7 +10,7 @@ in the eigenbasis of the empirical second moment Sigma_hat,
 
 with per-mode rates
     BP / DFA : r_i = eta lambda_hat_i
-    nDFA     : r_i = eta lambda_hat_i / (lambda_hat_i + lambda_C).
+    nDFA     : r_i = eta lambda_hat_i / (lambda_hat_i + lambda_A).
 
 All rules share the destination w^LS: conditioning changes only the clock.
 Expected excess test risk (population-spectrum approximation, Advani & Saxe
@@ -22,10 +22,10 @@ Expected excess test risk (population-spectrum approximation, Advani & Saxe
 Checks performed here (all exact finite-n, no population approximation in the
 simulation itself):
   1. Per-mode timing: t_task/t_nuis = kappa for BP/DFA vs
-     rho_c = [lam_N (lam_T + lam_C)] / [lam_T (lam_N + lam_C)] for nDFA.
+     rho_c = [lam_N (lam_T + lam_A)] / [lam_T (lam_N + lam_A)] for nDFA.
   2. Nuisance-dominant regime (task on lowest-lambda directions): the
      best-achievable test risk along the trajectory improves under
-     conditioning, monotonically as lambda_C decreases; raw DFA/BP pay the
+     conditioning, monotonically as lambda_A decreases; raw DFA/BP pay the
      full nuisance noise floor sigma^2 d_N / n before the task is fit.
   3. Task-aligned control (task on highest-lambda directions): conditioning
      does not improve the trajectory minimum and mild damping delays task
@@ -33,15 +33,14 @@ simulation itself):
   4. Crossing sweep: moving the task mode through the spectrum flips the sign
      of the conditioning gain; the two-block theory predicts the flip at
      lambda_task = lambda_nuis, and for a full spectrum the measured crossing
-     position depends on sigma and lambda_C (noise modes faster than the task
+     position depends on sigma and lambda_A (noise modes faster than the task
      favor conditioning, slower ones penalize it).
   5. Two-block closed form: Delta ~= min(S,N)^2/(S+N) at strong compression,
      N = sigma^2 d_N / n.
 Both the exact ODE solution of the empirical-loss gradient flow AND minibatch
 SGD on an explicit two-layer linear network (W1 trained, W2 fixed, B = W2^T)
-are simulated. The preconditioner uses the full-train Sigma_hat + lambda_C I
-(estimation noise in the preconditioner is Proposition 2's subject, held
-fixed here to isolate timing).
+are simulated. The preconditioner uses the full-train Sigma_hat + lambda_A I;
+estimation noise in the preconditioner is held fixed here to isolate timing.
 
 CPU-only; ~1 minute. Outputs (results/infodfa_mode_timing_v1/):
     mode_timing_trajectories.csv, mode_timing_sweep.csv,
@@ -89,7 +88,7 @@ plt.rcParams.update(
 )
 COLORS = {"BP": "#0072B2", "DFA": "#999999", "nDFA": "#009E73", "dark": "#222222"}
 DFA_DASH = (0, (4, 2))
-# nDFA shades: light -> dark green as lambda_C decreases (stronger conditioning)
+# nDFA shades: light -> dark green as lambda_A decreases (stronger conditioning)
 NDFA_SHADES = {1.0: "#7FCDBB", 0.1: "#009E73", 0.01: "#00543E"}
 
 # ---------------------------------------------------------------- model setup
@@ -99,7 +98,7 @@ LAMBDAS = np.logspace(0.0, -np.log10(KAPPA), D)  # lambda_max = 1 .. lambda_min 
 SIGMA_NOISE = 0.2  # label-noise std
 N_TRAIN = 128
 S_SIGNAL = 0.02  # population signal power S = sum_task lambda_i w_i*^2
-LAMBDA_CS = [0.01, 0.1, 1.0]
+LAMBDA_AS = [0.01, 0.1, 1.0]
 N_SEEDS = 20
 ETA = 1.0  # gradient-flow time unit; trajectory minima are invariant to it
 T_GRID = np.concatenate([[0.0], np.logspace(-3, 3.6, 900)])
@@ -114,11 +113,11 @@ def make_wstar(task_idx: np.ndarray) -> np.ndarray:
     return w
 
 
-def rates(lams: np.ndarray, rule: str, lam_c: float = 0.0) -> np.ndarray:
+def rates(lams: np.ndarray, rule: str, lam_a: float = 0.0) -> np.ndarray:
     if rule in ("BP", "DFA"):
         return ETA * lams
     if rule == "nDFA":
-        return ETA * lams / (lams + lam_c)
+        return ETA * lams / (lams + lam_a)
     raise ValueError(rule)
 
 
@@ -130,7 +129,7 @@ def theory_risk(t: np.ndarray, wstar_eig: np.ndarray, r: np.ndarray) -> np.ndarr
     return sig + noi
 
 
-def ode_risk(t: np.ndarray, wstar: np.ndarray, rule: str, lam_c: float,
+def ode_risk(t: np.ndarray, wstar: np.ndarray, rule: str, lam_a: float,
              X: np.ndarray, xi: np.ndarray) -> np.ndarray:
     """Exact risk trajectory of gradient flow on the empirical loss.
 
@@ -142,7 +141,7 @@ def ode_risk(t: np.ndarray, wstar: np.ndarray, rule: str, lam_c: float,
     Sig_hat = X.T @ X / n
     lh, V = np.linalg.eigh(Sig_hat)
     lh = np.clip(lh, 1e-12, None)
-    r = rates(lh, rule, lam_c)
+    r = rates(lh, rule, lam_a)
     b_ls = V.T @ wstar + (V.T @ (X.T @ xi / n)) / lh  # w_LS in eigenbasis
     b_star = V.T @ wstar
     decay = np.exp(-np.outer(t, r))  # (T, D)
@@ -151,13 +150,13 @@ def ode_risk(t: np.ndarray, wstar: np.ndarray, rule: str, lam_c: float,
     return np.einsum("td,de,te->t", db, G, db)
 
 
-def sgd_risk(wstar: np.ndarray, rule: str, lam_c: float, X: np.ndarray,
+def sgd_risk(wstar: np.ndarray, rule: str, lam_a: float, X: np.ndarray,
              xi: np.ndarray, rng: np.random.Generator, eta: float = 0.05,
              batch: int = 16, steps: int = 60000, n_hidden: int = 64):
     """Minibatch SGD on an explicit two-layer linear net, W2 fixed, B = W2^T.
 
     First-layer update: DFA outer product (B e) x^T, optionally
-    right-multiplied by (Sigma_hat + lambda_C I)^{-1} (nDFA). With aligned
+    right-multiplied by (Sigma_hat + lambda_A I)^{-1} (nDFA). With aligned
     B = W2^T the BP and DFA first-layer updates coincide exactly.
     Returns (effective_time, risk) at recorded steps; t_eff = step * eta *
     ||W2||^2 matches the gradient-flow clock (ETA = 1).
@@ -170,7 +169,7 @@ def sgd_risk(wstar: np.ndarray, rule: str, lam_c: float, X: np.ndarray,
     W1 = np.zeros((n_hidden, D))
     P = np.eye(D)
     if rule == "nDFA":
-        P = np.linalg.inv(X.T @ X / n + lam_c * np.eye(D))
+        P = np.linalg.inv(X.T @ X / n + lam_a * np.eye(D))
     # log-spaced recording so early minima (t ~ 1) are resolved
     rec = np.unique(np.concatenate(
         [[0], np.logspace(0, np.log10(steps), 60).astype(int)]))
@@ -200,20 +199,20 @@ def run_regime(task_idx: np.ndarray, seeds) -> dict:
     """ODE risk trajectories (mean/sem over seeds) for BP/DFA/nDFA."""
     wstar = make_wstar(task_idx)
     out = {}
-    rules = [("BP", 0.0), ("DFA", 0.0)] + [("nDFA", lc) for lc in LAMBDA_CS]
-    for rule, lc in rules:
+    rules = [("BP", 0.0), ("DFA", 0.0)] + [("nDFA", la) for la in LAMBDA_AS]
+    for rule, la in rules:
         curves = []
         for ss in seeds:
             rng = np.random.default_rng(ss)
             X, xi = draw_data(rng)
-            curves.append(ode_risk(T_GRID, wstar, rule, lc, X, xi))
+            curves.append(ode_risk(T_GRID, wstar, rule, la, X, xi))
         curves = np.array(curves)
-        key = rule if rule != "nDFA" else f"nDFA_{lc}"
+        key = rule if rule != "nDFA" else f"nDFA_{la}"
         out[key] = {
             "mean": curves.mean(0),
             "sem": curves.std(0, ddof=1) / np.sqrt(len(seeds)),
             "rule": rule,
-            "lambda_C": lc,
+            "lambda_A": la,
             "wstar": wstar,
         }
     return out
@@ -224,7 +223,7 @@ def best_along(mean_curve: np.ndarray) -> tuple[float, float]:
     return float(mean_curve[i]), float(T_GRID[i])
 
 
-print("=== Proposition 3 validation ===")
+print("=== Proposition 2 validation ===")
 seeds = RNG_ROOT.generate_state(N_SEEDS) % (2**31)
 
 TASK_LOW = np.array([D - 2, D - 1])   # two lowest-variance directions
@@ -233,19 +232,19 @@ TASK_HIGH = np.array([0, 1])          # two highest-variance directions (control
 # --- check 1: per-mode timing ratios (exact algebra, recorded for the CSV)
 lam_T, lam_N = LAMBDAS[-1], LAMBDAS[0]
 permode_rows = []
-for rule, lc in [("DFA", 0.0)] + [("nDFA", lc) for lc in LAMBDA_CS]:
-    r = rates(LAMBDAS, rule, lc)
+for rule, la in [("DFA", 0.0)] + [("nDFA", la) for la in LAMBDA_AS]:
+    r = rates(LAMBDAS, rule, la)
     ratio = r[0] / r[-1]  # fastest(nuis) / slowest(task) rate = t_task/t_nuis
     pred = (lam_N / lam_T if rule == "DFA"
-            else (lam_N * (lam_T + lc)) / (lam_T * (lam_N + lc)))
-    permode_rows.append(dict(rule=rule, lambda_C=lc, t_task_over_t_nuis=ratio,
+            else (lam_N * (lam_T + la)) / (lam_T * (lam_N + la)))
+    permode_rows.append(dict(rule=rule, lambda_A=la, t_task_over_t_nuis=ratio,
                              predicted=pred))
     for i, (lam, ri) in enumerate(zip(LAMBDAS, r)):
-        permode_rows.append(dict(rule=rule, lambda_C=lc, mode=i, eigenvalue=lam,
+        permode_rows.append(dict(rule=rule, lambda_A=la, mode=i, eigenvalue=lam,
                                  rate=ri, t_fit_90=np.log(10.0) / ri))
 pd.DataFrame(permode_rows).to_csv(OUT / "mode_timing_permode.csv", index=False)
 print("timing ratios (t_task/t_nuis):",
-      {f"{r['rule']}@{r['lambda_C']}": round(r["t_task_over_t_nuis"], 2)
+      {f"{r['rule']}@{r['lambda_A']}": round(r["t_task_over_t_nuis"], 2)
        for r in permode_rows if "t_task_over_t_nuis" in r and not np.isnan(
            r.get("t_task_over_t_nuis", np.nan))})
 
@@ -268,66 +267,66 @@ noise_floor_nuis = SIGMA_NOISE**2 * (D - 2) / N_TRAIN
 print(f"S={S_SIGNAL}, nuisance noise floor N=sigma^2 d_N/n={noise_floor_nuis:.5f}, "
       f"final risk sigma^2 d/n={SIGMA_NOISE**2 * D / N_TRAIN:.5f}")
 
-# monotonicity check (Prop 3 iii): R_dagger decreasing in lambda_C strength
+# monotonicity check (Prop 2 iii): R_dagger decreasing in lambda_A strength
 b_dfa = best_along(res_low["DFA"]["mean"])[0]
-b_ndfa = {lc: best_along(res_low[f"nDFA_{lc}"]["mean"])[0] for lc in LAMBDA_CS}
-ok_low = all(b_ndfa[lc] < b_dfa for lc in LAMBDA_CS) and (
+b_ndfa = {la: best_along(res_low[f"nDFA_{la}"]["mean"])[0] for la in LAMBDA_AS}
+ok_low = all(b_ndfa[la] < b_dfa for la in LAMBDA_AS) and (
     b_ndfa[0.01] < b_ndfa[0.1] < b_ndfa[1.0])
 b_dfa_hi = best_along(res_high["DFA"]["mean"])[0]
-b_ndfa_hi = {lc: best_along(res_high[f"nDFA_{lc}"]["mean"])[0] for lc in LAMBDA_CS}
-ok_high = all(b_ndfa_hi[lc] >= b_dfa_hi * 0.999 for lc in LAMBDA_CS)
+b_ndfa_hi = {la: best_along(res_high[f"nDFA_{la}"]["mean"])[0] for la in LAMBDA_AS}
+ok_high = all(b_ndfa_hi[la] >= b_dfa_hi * 0.999 for la in LAMBDA_AS)
 print(f"nuisance-dominant: conditioning improves R_dagger, monotone in "
-      f"lambda_C: {ok_low}")
+      f"lambda_A: {ok_low}")
 print(f"task-aligned control: conditioning does not improve R_dagger "
       f"(reversal): {ok_high}")
 
-# task-fitting delay at matched eta in the control (Prop 3, part b)
-for lc in LAMBDA_CS:
-    delay = (LAMBDAS[0] + lc) / LAMBDAS[0]
-    print(f"  matched-eta task-fit delay, lambda_C={lc}: x{delay:.2f}")
+# task-fitting delay at matched eta in the control (Prop 2, part b)
+for la in LAMBDA_AS:
+    delay = (LAMBDAS[0] + la) / LAMBDAS[0]
+    print(f"  matched-eta task-fit delay, lambda_A={la}: x{delay:.2f}")
 
-# material-improvement condition (Prop 3 iii, quantitative form):
+# material-improvement condition (Prop 2 iii, quantitative form):
 # retained nuisance fraction at the stopping point ~ u*^rho_c with
 # u* = Ntot/(S+Ntot); predicted Delta ~ N u*^rho_c (2 - u*^rho_c).
 Ntot = SIGMA_NOISE**2 * D / N_TRAIN
 u_star = Ntot / (S_SIGNAL + Ntot)
 print("material-improvement condition (population two-block prediction "
       "vs measured, nuisance-dominant):")
-for lc in LAMBDA_CS:
-    rho_c = (LAMBDAS[0] * (LAMBDAS[-1] + lc)) / (LAMBDAS[-1] * (LAMBDAS[0] + lc))
+for la in LAMBDA_AS:
+    rho_c = (LAMBDAS[0] * (LAMBDAS[-1] + la)) / (LAMBDAS[-1] * (LAMBDAS[0] + la))
     retained = u_star**rho_c
     delta_pred = noise_floor_nuis * retained * (2 - retained)
-    delta_meas = b_dfa - b_ndfa[lc]
-    print(f"  lambda_C={lc:5g} rho_c={rho_c:6.2f} retained u*^rho_c={retained:.3f}"
+    delta_meas = b_dfa - b_ndfa[la]
+    print(f"  lambda_A={la:5g} rho_c={rho_c:6.2f} retained u*^rho_c={retained:.3f}"
           f"  Delta_pred~{delta_pred:.5f}  Delta_meas={delta_meas:.5f}")
 
 # corollary: separation time ~ fitting time of the fastest nuisance mode
-for lc in LAMBDA_CS:
-    diff = np.abs(res_low[f"nDFA_{lc}"]["mean"] - res_low["DFA"]["mean"])
+for la in LAMBDA_AS:
+    diff = np.abs(res_low[f"nDFA_{la}"]["mean"] - res_low["DFA"]["mean"])
     rel = diff / np.maximum(res_low["DFA"]["mean"], 1e-12)
     t_fast = 1.0 / (ETA * LAMBDAS[0])
     if np.any(rel > 0.05):
         i_sep = int(np.argmax(rel > 0.05))
-        print(f"  separation time (5% rel. gap) lambda_C={lc}: "
+        print(f"  separation time (5% rel. gap) lambda_A={la}: "
               f"t={T_GRID[i_sep]:.2f}  (fastest-nuisance-mode time "
               f"1/(eta lambda_max)={t_fast:.2f})")
     else:
-        print(f"  separation time (5% rel. gap) lambda_C={lc}: no 5% gap "
+        print(f"  separation time (5% rel. gap) lambda_A={la}: no 5% gap "
               f"(heavy damping reverts to a rescaled raw-DFA trajectory)")
 
 # --- minibatch SGD spot check (nuisance-dominant, subset of seeds)
 sgd_rows = []
 wstar_low = make_wstar(TASK_LOW)
-for rule, lc in [("DFA", 0.0), ("nDFA", 0.1), ("nDFA", 0.01)]:
+for rule, la in [("DFA", 0.0), ("nDFA", 0.1), ("nDFA", 0.01)]:
     curves = []
     for ss in seeds[:8]:
         rng = np.random.default_rng(ss)
         X, xi = draw_data(rng)
-        ts, risks = sgd_risk(wstar_low, rule, lc, X, xi,
+        ts, risks = sgd_risk(wstar_low, rule, la, X, xi,
                              np.random.default_rng(int(ss) + 1))
         curves.append(risks)
     curves = np.array(curves)
-    key = rule if rule == "DFA" else f"nDFA_{lc}"
+    key = rule if rule == "DFA" else f"nDFA_{la}"
     for t, m, s in zip(ts, curves.mean(0),
                        curves.std(0, ddof=1) / np.sqrt(curves.shape[0])):
         sgd_rows.append(dict(regime="nuisance_dominant", rule=key, t=t,
@@ -347,26 +346,26 @@ for sigma_sweep in [0.1, 0.2, 0.4]:
         wstar = np.zeros(D)
         wstar[k] = np.sqrt(S_SIGNAL / LAMBDAS[k])
         rvals = {}
-        for rule, lc in [("DFA", 0.0)] + [("nDFA", lc) for lc in LAMBDA_CS]:
+        for rule, la in [("DFA", 0.0)] + [("nDFA", la) for la in LAMBDA_AS]:
             curves = []
             for ss in sweep_seeds:
                 rng = np.random.default_rng(int(ss) + 7)
                 X = rng.standard_normal((N_TRAIN, D)) * np.sqrt(LAMBDAS)[None, :]
                 xi = rng.standard_normal(N_TRAIN) * sigma_sweep
-                curves.append(ode_risk(T_GRID, wstar, rule, lc, X, xi))
-            key = rule if rule == "DFA" else f"nDFA_{lc}"
+                curves.append(ode_risk(T_GRID, wstar, rule, la, X, xi))
+            key = rule if rule == "DFA" else f"nDFA_{la}"
             rvals[key] = best_along(np.mean(curves, axis=0))[0]
-        for lc in LAMBDA_CS:
+        for la in LAMBDA_AS:
             sweep_rows.append(dict(
                 sigma=sigma_sweep, task_mode=k, lambda_task=LAMBDAS[k],
-                lambda_C=lc, R_dagger_DFA=rvals["DFA"],
-                R_dagger_nDFA=rvals[f"nDFA_{lc}"],
-                delta_rel=(rvals["DFA"] - rvals[f"nDFA_{lc}"]) / rvals["DFA"]))
+                lambda_A=la, R_dagger_DFA=rvals["DFA"],
+                R_dagger_nDFA=rvals[f"nDFA_{la}"],
+                delta_rel=(rvals["DFA"] - rvals[f"nDFA_{la}"]) / rvals["DFA"]))
 sweep_df = pd.DataFrame(sweep_rows)
 sweep_df.to_csv(OUT / "mode_timing_sweep.csv", index=False)
 for sigma_sweep in [0.1, 0.2, 0.4]:
-    for lc in LAMBDA_CS:
-        sub = sweep_df[(sweep_df.lambda_C == lc)
+    for la in LAMBDA_AS:
+        sub = sweep_df[(sweep_df.lambda_A == la)
                        & (sweep_df.sigma == sigma_sweep)].sort_values("task_mode")
         sign = np.sign(sub.delta_rel.values)
         # crossing: last task position (from top) where conditioning hurts
@@ -376,7 +375,7 @@ for sigma_sweep in [0.1, 0.2, 0.4]:
                      else np.sqrt(sub.lambda_task.values[neg[-1]]
                                   * sub.lambda_task.values[neg[-1] + 1])
                      if neg[-1] + 1 < D else np.nan)
-        print(f"[sweep sigma={sigma_sweep} lambda_C={lc}] "
+        print(f"[sweep sigma={sigma_sweep} lambda_A={la}] "
               f"delta_rel(top)={sub.delta_rel.iloc[0]:+.3f} "
               f"delta_rel(bottom)={sub.delta_rel.iloc[-1]:+.3f} "
               f"crossing at lambda_task ~ {lam_cross:.3f}")
@@ -416,9 +415,9 @@ plt.subplots_adjust(left=0.055, right=0.995, top=0.82, bottom=0.19, wspace=0.34)
 # Panel A: per-mode fitting curves
 ax = axes[0]
 tt = np.logspace(-2, 3.6, 400)
-for rule, lc, color, ls in [("DFA", 0.0, COLORS["DFA"], DFA_DASH),
+for rule, la, color, ls in [("DFA", 0.0, COLORS["DFA"], DFA_DASH),
                             ("nDFA", 0.1, NDFA_SHADES[0.1], "-")]:
-    r = rates(LAMBDAS, rule, lc)
+    r = rates(LAMBDAS, rule, la)
     ax.plot(tt, 1 - np.exp(-r[0] * tt), color=color, ls=ls, lw=1.4, alpha=0.85)
     ax.plot(tt, 1 - np.exp(-r[-1] * tt), color=color, ls=ls, lw=2.4)
 ax.set_xscale("log")
@@ -439,7 +438,7 @@ for ax, res, regime, title in [
     (axes[1], res_low, "nuisance_dominant", "B  task on low-$\\lambda$"),
     (axes[2], res_high, "task_aligned", "C  task on high-$\\lambda$ (control)"),
 ]:
-    order = ["BP", "DFA"] + [f"nDFA_{lc}" for lc in LAMBDA_CS]
+    order = ["BP", "DFA"] + [f"nDFA_{la}" for la in LAMBDA_AS]
     for key in order:
         v = res[key]
         if key == "BP":
@@ -447,9 +446,9 @@ for ax, res, regime, title in [
         elif key == "DFA":
             color, ls, lw, lab = COLORS["DFA"], DFA_DASH, 2.0, "DFA"
         else:
-            lc = v["lambda_C"]
-            color, ls, lw = NDFA_SHADES[lc], "-", 1.8
-            lab = f"nDFA $\\lambda_C{{=}}{lc:g}$"
+            la = v["lambda_A"]
+            color, ls, lw = NDFA_SHADES[la], "-", 1.8
+            lab = f"nDFA $\\lambda_A{{=}}{la:g}$"
         m = v["mean"]
         ax.plot(T_GRID[1:], m[1:], color=color, ls=ls, lw=lw, label=lab)
         ax.fill_between(T_GRID[1:], (m - v["sem"])[1:], (m + v["sem"])[1:],
@@ -476,15 +475,15 @@ for ax, res, regime, title in [
 
 # Panel D: crossing sweep
 ax = axes[3]
-for lc in LAMBDA_CS:
-    sub = sweep_df[(sweep_df.lambda_C == lc)
+for la in LAMBDA_AS:
+    sub = sweep_df[(sweep_df.lambda_A == la)
                    & (sweep_df.sigma == SIGMA_NOISE)].sort_values("lambda_task")
-    ax.plot(sub.lambda_task, 100 * sub.delta_rel, color=NDFA_SHADES[lc], lw=1.8,
-            label=f"$\\lambda_C{{=}}{lc:g}$")
-sub = sweep_df[(sweep_df.lambda_C == 0.1)
+    ax.plot(sub.lambda_task, 100 * sub.delta_rel, color=NDFA_SHADES[la], lw=1.8,
+            label=f"$\\lambda_A{{=}}{la:g}$")
+sub = sweep_df[(sweep_df.lambda_A == 0.1)
                & (sweep_df.sigma == 0.4)].sort_values("lambda_task")
 ax.plot(sub.lambda_task, 100 * sub.delta_rel, color=NDFA_SHADES[0.1], lw=1.2,
-        ls=(0, (1, 1)), label="$\\lambda_C{=}0.1,\\,\\sigma{=}0.4$")
+        ls=(0, (1, 1)), label="$\\lambda_A{=}0.1,\\,\\sigma{=}0.4$")
 ax.axhline(0, color=COLORS["dark"], lw=0.8)
 ax.set_xscale("log")
 ax.set_xlabel("$\\lambda_{task}$ (task-mode eigenvalue)")

@@ -52,7 +52,8 @@ def main() -> None:
             common = a.index.intersection(b.index)
             a, b = a.loc[common].to_numpy(), b.loc[common].to_numpy()
         else:
-            n = min(len(a), len(b)); a, b = a.to_numpy()[:n], b.to_numpy()[:n]
+            n = min(len(a), len(b))
+            a, b = a.to_numpy()[:n], b.to_numpy()[:n]
         diff = (a - b) * 100
         rng = np.random.default_rng(0)
         boot = np.array([rng.choice(diff, len(diff), replace=True).mean() for _ in range(10000)])

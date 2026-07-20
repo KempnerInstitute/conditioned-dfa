@@ -20,7 +20,9 @@ separately distributed paper source (included with the arXiv submission).
   damping, norm matching, and frozen confirmations on clean MNIST and
   Fashion-MNIST, each with five model/data-order seeds crossed with three
   feedback seeds. The Fashion-MNIST run was preregistered and includes a
-  corrected nonlocal BP-error covariance-source control.
+  diagnosed nonlocal BP-error covariance-source control; its original
+  equivalence interpretation is withdrawn because the registered damping made
+  the comparator effectively activity nDFA after norm matching.
 - A fresh-seed architectural confirmation uses a 256--128 ReLU MLP with
   multiclass softmax cross-entropy. It independently selects both dampings on
   validation data and confirms the error-only and incremental K-nDFA signs on

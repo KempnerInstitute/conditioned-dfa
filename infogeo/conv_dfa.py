@@ -9,7 +9,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from infogeo.dfa import Gradients, _torch_cosine
+from infogeo.dfa import _torch_cosine
 
 
 SOLVE_STATS = {

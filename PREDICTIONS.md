@@ -1,5 +1,9 @@
 # Pre-registered predictions for in-flight experiments
 
+> **Terminology note (added after the freeze):** References below to an
+> “anisotropy law” preserve the preregistered wording. The current manuscript
+> treats this as a signed empirical hypothesis, not a general law.
+
 Recorded on 2026-07-09, after submission and before completion of the
 corresponding runs. The anisotropy law of the paper (Proposition 1 + regime
 prediction, §2.1/App. A) makes the following falsifiable predictions for

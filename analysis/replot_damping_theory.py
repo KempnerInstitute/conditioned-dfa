@@ -1,4 +1,4 @@
-"""Restyle the damping-law validation figure from the saved CSVs (no re-simulation).
+"""Restyle the historical damping simulation from saved CSVs (no re-simulation).
 
 Reads ONLY the aggregates written by analysis/validate_damping_theory.py:
   results/infodfa_damping_theory_v1/damping_theory_curves.csv
@@ -7,11 +7,11 @@ Reads ONLY the aggregates written by analysis/validate_damping_theory.py:
 
 and redraws the three validation panels in the paper's house style
 (drafts/Info-DFA/scripts/make_iclr_figures.py conventions):
-  A  realized kappa(M-hat) vs damping lambda_C by n/d at d=32, kappa=100
-     (interior optimum; dotted verticals at lambda_C*)
-  B  lambda_C* vs d/n, log-log, with the fitted-slope line (paper quotes 1.17)
+  A  realized kappa(M-hat) vs damping lambda_A by n/d at d=32, kappa=100
+     (interior optimum; dotted verticals at lambda_A*)
+  B  lambda_A* vs d/n, log-log, with the fitted-slope line (historical draft: 1.17)
      and the perturbative 1/4 lower-bound rate
-  C  lambda_C* vs kappa(Sigma), log-log, with the predicted -1/2 slope
+  C  lambda_A* vs kappa(Sigma), log-log, with the predicted -1/2 slope
 
 The slopes shown are verified against damping_theory_fits.csv: the CSV stores
 per-(d,kappa) and per-(d,n/d) slopes, so the displayed aggregate is refit from
@@ -125,8 +125,8 @@ def verify_slopes(fits: pd.DataFrame, opt: pd.DataFrame) -> tuple[float, float]:
     The CSV stores the slope per (d, kappa) group (panel B) and per (d, n/d)
     group (panel C); the figure quotes one aggregate slope per panel, so we
     refit it from the optima CSV and assert it matches the mean of the stored
-    group slopes to 2 decimals. The paper (Table + caption) quotes 1.17 and
-    -0.52; note 1.17 truncates the pooled 1.1753.
+    group slopes to 2 decimals. The archived figure quotes 1.17 and -0.52;
+    note 1.17 truncates the pooled 1.1753.
     """
     stored_b = fits.loc[fits["fit"].eq("lam_star_vs_d_over_n"), "slope_cond"]
     stored_c = fits.loc[fits["fit"].eq("lam_star_vs_kappa"), "slope_cond"]
@@ -136,7 +136,7 @@ def verify_slopes(fits: pd.DataFrame, opt: pd.DataFrame) -> tuple[float, float]:
         f"panel-B refit {refit_b:.4f} != mean stored slope {stored_b.mean():.4f}")
     assert abs(refit_c - stored_c.mean()) < 5e-3, (
         f"panel-C refit {refit_c:.4f} != mean stored slope {stored_c.mean():.4f}")
-    # Displayed values are the paper-quoted 1.17 / -0.52.
+    # Displayed values are the archived-figure values 1.17 / -0.52.
     assert abs(refit_b - 1.17) < 6e-3, f"panel-B slope {refit_b:.4f} drifted from quoted 1.17"
     assert abs(refit_c - (-0.52)) < 5e-3, f"panel-C slope {refit_c:.4f} drifted from quoted -0.52"
     print(f"slope check: B refit {refit_b:.4f} vs stored mean {stored_b.mean():.4f} (shown 1.17); "
@@ -165,7 +165,7 @@ def main() -> None:
         axA.axvline(float(so.lam_star_cond.iloc[0]), color=color, ls=":", lw=0.8, alpha=0.85)
     axA.set_xscale("log")
     axA.set_yscale("log")
-    axA.set_xlabel(r"damping $\lambda_C$")
+    axA.set_xlabel(r"damping $\lambda_A$")
     axA.set_ylabel(r"realized $\kappa(\widehat M)$")
     axA.set_title("Interior optimum", fontsize=8.5)
     axA.text(0.03, 0.04, r"$d{=}32$, $\kappa{=}100$", transform=axA.transAxes,
@@ -178,7 +178,7 @@ def main() -> None:
 
     # B: the optimum grows with d/n. Color encodes kappa (sequential blues),
     # marker/linestyle encode d; the solid line is the pooled fit (slope
-    # 1.1753, quoted as 1.17 in the paper), the gray dashed line the
+    # 1.1753, shown as 1.17 in the archived figure), the gray dashed line the
     # perturbative 1/4 lower-bound rate, both through the log-centroid.
     for d, mk in D_MARKERS.items():
         for kappa, color in KAPPA_COLORS.items():
@@ -203,15 +203,15 @@ def main() -> None:
     axB.set_xscale("log")
     axB.set_yscale("log")
     axB.set_xlabel(r"$d/n$")
-    axB.set_ylabel(r"$\lambda_C^\star$")
+    axB.set_ylabel(r"$\lambda_A^\star$")
     axB.set_title("Sample-size rate", fontsize=8.5)
     # ~1 decade of headroom above the data for the in-panel legend
     axB.set_ylim(top=float(opt.lam_star_cond.max()) * 12.0)
     axB.grid(which="major", **GRID_KW)
     axB.set_axisbelow(True)
 
-    # C: the optimum follows the predicted spectral law
-    # lambda_C* ~ sqrt(lam_min lam_max) ~ kappa^{-1/2} (fit -0.52). Same n/d
+    # C: the optimum follows the predicted spectral trend
+    # lambda_A* ~ sqrt(lam_min lam_max) ~ kappa^{-1/2} (fit -0.52). Same n/d
     # ramp as panel A (subset for legibility); marker/linestyle encode d.
     nod_subset = [2, 8, 32]
     for d, mk in D_MARKERS.items():
@@ -237,8 +237,8 @@ def main() -> None:
     axC.set_xscale("log")
     axC.set_yscale("log")
     axC.set_xlabel(r"$\kappa(\Sigma)$")
-    axC.set_ylabel(r"$\lambda_C^\star$")
-    axC.set_title("Spectral law", fontsize=8.5)
+    axC.set_ylabel(r"$\lambda_A^\star$")
+    axC.set_title("Spectral trend", fontsize=8.5)
     axC.text(0.96, 0.96, r"fit $-0.52$", transform=axC.transAxes, fontsize=5.8,
              va="top", ha="right")
     axC.grid(which="major", **GRID_KW)

@@ -21,7 +21,6 @@ import argparse
 import importlib.util
 import math
 from pathlib import Path
-import sys
 from typing import Iterable
 
 import matplotlib

@@ -433,7 +433,7 @@ def write_seed_loso_table(df: pd.DataFrame) -> None:
             "observations where the selected conditioned rule exceeds BP. The paired units are "
             "matched cell$\\times$seed observations, not five independent seed-level draws, and "
             "the very small Wilcoxon values are reported only as robustness floors. The clean "
-            "task-aligned control is negative, matching the anisotropy law rather than supporting "
+            "task-aligned control is negative, matching the signed anisotropy hypothesis rather than supporting "
             "a universal BP-replacement claim."
         ),
         label="tab:infodfa_seed_loso",

@@ -1,8 +1,9 @@
-"""Finite-sample damping theory for conditioned DFA (Info-DFA, Appendix A).
+"""Historical finite-sample damping simulation for conditioned DFA.
 
-This script validates the finite-sample damping proposition that supplements the
-paper's population anisotropy law. In the linear-Gaussian model of Appendix A the
-population nDFA input factor is
+This script explores a heuristic damping relation considered during development.
+The current paper does not state that relation as a proposition or empirical law;
+it retains damping as a validation-selected parameter. In the linear-Gaussian
+model the population nDFA input factor is
 
     M(lambda)      = Sigma (Sigma + lambda I)^{-1},
 
@@ -26,7 +27,7 @@ i.e. a log-log slope of +1/4 in (d/n) and -1/2 in kappa (at fixed lambda_max=1).
 
 We test this two ways:
   (A) realized condition number kappa(M_hat) averaged over draws (clean, fast);
-  (B) steps-to-target-loss of the plug-in nDFA GD iteration (the paper's own
+  (B) steps-to-target-loss of the plug-in nDFA GD iteration (the original
       theory-figure metric), refreshing Sigma_hat every step as the rule does.
 
 Outputs (results/infodfa_damping_theory_v1/):
@@ -225,7 +226,6 @@ def main():
                 for lam, sv in zip(sub, steps):
                     curve_rows.append(dict(d=d, kappa=kappa, n_over_d=nod, n=n,
                                            lam=lam, metric="steps", value=sv))
-                ev = make_spectrum(d, kappa)
                 opt_rows.append(dict(
                     d=d, kappa=kappa, n_over_d=nod, n=n,
                     d_over_n=d / n, lam_min=1.0 / kappa, lam_max=1.0,

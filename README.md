@@ -63,16 +63,13 @@ ImageNet-1k must be provided separately (see `REPRODUCE.md`).
   - `run_dfa_relu_vision_threefactor.py`: validation-safe ReLU/softmax
     architectural replication; `run_dfa_factorial_synthetic.py` contains the
     controlled activity/error intervention pilot.
-  - `analyze_dfa_stall_threefactor.py`,
-    `analyze_dfa_stall_fashion_threefactor.py`,
-    `analyze_dfa_stall_bpsource_retune.py`, and
-    `analyze_dfa_relu_vision_threefactor.py`: tanh and ReLU factor
-    confirmations plus the post-hoc source-scale audit.
   - `run_imagenet_credit_assignment.py`,
     `evaluate_imagenet_torchvision_weights.py`: ImageNet-100 ResNet-18
     diagnostics.
 - `analysis/`: aggregators, paired-test scripts, table writers, and figure
-  builders.
+  builders. The `analyze_dfa_stall_*.py` and
+  `analyze_dfa_relu_vision_threefactor.py` scripts aggregate the tanh and ReLU
+  factor confirmations and the post-hoc source-scale audit.
 - `slurm/`: batch scripts for every experiment (site-specific headers; see
   `REPRODUCE.md`).
 - `tests/`: pytest suite.
