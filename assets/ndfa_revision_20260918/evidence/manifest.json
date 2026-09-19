@@ -1,0 +1,37 @@
+{
+  "assets/ndfa_revision_20260918/evidence/ndfa_revision_followups_audit_20260918__endpoints.csv": {
+    "sha256": "4ebdc43abf45f2f6fa8eed315f3139565950b36add6f96c047a93e5f2dbe4bf3",
+    "original_path": "results/ndfa_revision_followups_audit_20260918/endpoints.csv",
+    "scope": "Saved numeric summary; prediction replay requires separate evidence archive."
+  },
+  "assets/ndfa_revision_20260918/evidence/ndfa_revision_followups_audit_20260918__summary.csv": {
+    "sha256": "84373c76cbc5834492d122ac2f24ca19853767db74bc7187ab1f6e2c85118984",
+    "original_path": "results/ndfa_revision_followups_audit_20260918/summary.csv",
+    "scope": "Saved numeric summary; prediction replay requires separate evidence archive."
+  },
+  "assets/ndfa_revision_20260918/evidence/ndfa_revision_followups_audit_20260918__contrasts.csv": {
+    "sha256": "1034a92f890de416936162692e989e37609afb313e6e34edbb4bbf282c5ef15f",
+    "original_path": "results/ndfa_revision_followups_audit_20260918/contrasts.csv",
+    "scope": "Saved numeric summary; prediction replay requires separate evidence archive."
+  },
+  "assets/ndfa_revision_20260918/evidence/ndfa_revision_saved_audit_20260918__metric_control_endpoints.csv": {
+    "sha256": "fdcb8427786f6d1bb1dbe684e5fb0c189c9374232291210aba48f3d1362abb8b",
+    "original_path": "results/ndfa_revision_saved_audit_20260918/metric_control_endpoints.csv",
+    "scope": "Saved numeric summary; prediction replay requires separate evidence archive."
+  },
+  "assets/ndfa_revision_20260918/evidence/ndfa_revision_saved_audit_20260918__loss_tails_by_seed.csv": {
+    "sha256": "e2e6c534af4170032c1c50282b8b8359bc68cfb665df82d0077b506c5afa7f92",
+    "original_path": "results/ndfa_revision_saved_audit_20260918/loss_tails_by_seed.csv",
+    "scope": "Saved numeric summary; prediction replay requires separate evidence archive."
+  },
+  "assets/ndfa_revision_20260918/evidence/ndfa_revision_saved_audit_20260918__loss_tails_summary.csv": {
+    "sha256": "7da88b179407c59e81136533c26d3b8fd7c0c640fdcd43c3fc2828203413481c",
+    "original_path": "results/ndfa_revision_saved_audit_20260918/loss_tails_summary.csv",
+    "scope": "Saved numeric summary; prediction replay requires separate evidence archive."
+  },
+  "assets/ndfa_revision_20260918/evidence/infodfa_seedlevel_stats_corrected_20260918__seedlevel_seed_deltas.csv": {
+    "sha256": "d9ca3cee349ceea3b28fffae1f8d9db7e8f64046280ff14912ad7c129dda89d2",
+    "original_path": "results/infodfa_seedlevel_stats_corrected_20260918/seedlevel_seed_deltas.csv",
+    "scope": "Saved numeric summary; prediction replay requires separate evidence archive."
+  }
+}

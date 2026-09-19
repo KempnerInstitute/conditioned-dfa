@@ -1,0 +1,76 @@
+{
+  "absolute_tolerance": 2e-10,
+  "activity_damping": [
+    0.1,
+    1.0,
+    16.0
+  ],
+  "batch_sizes": [
+    32,
+    64,
+    128
+  ],
+  "cone_anchors": [
+    "activity",
+    "error",
+    "kronecker"
+  ],
+  "cone_margins": [
+    "below",
+    "boundary",
+    "above"
+  ],
+  "cone_sides": [
+    "adverse",
+    "favorable"
+  ],
+  "dimension": 8,
+  "error_damping": [
+    0.1,
+    1.0,
+    16.0
+  ],
+  "feedback_readout_cosine": 0.5,
+  "frozen_utc": "2026-09-15T02:48:29.030407+00:00",
+  "methods": [
+    "raw",
+    "activity",
+    "error",
+    "kronecker"
+  ],
+  "orientations": [
+    "isotropic",
+    "signal_low",
+    "signal_high"
+  ],
+  "purpose": "engineered_fixed_readout_DFA_directional_diagnostic",
+  "rotation_seeds": [
+    9151500,
+    9151501,
+    9151502,
+    9151503,
+    9151504,
+    9151505,
+    9151506,
+    9151507
+  ],
+  "schema_version": 1,
+  "source_sha256": {
+    "analysis/analyze_ndfa_factor_mechanism.py": "3dcba0d82d2cdfdc5d7e0b2fd1598a57f561b6dc39e606efd675b89683f79c5f",
+    "docs/research/ndfa_factor_mechanism_protocol_20260915.md": "47c191c0417b9ffb9ffde5bfa6f4e5ee6051a916c8807283a46304a9d25d9968",
+    "experiments/run_ndfa_factor_mechanism.py": "8399461dbbf26e4d531d155accfb265ab9a19bb20b04c9e28952fc9d171b8d1b",
+    "tests/test_ndfa_factor_mechanism.py": "1c1edda1f4e571b84f92f9c17e8a25f44a4239cf593724c8a7ef6e89f2b6619b"
+  },
+  "spectrum_high": 16.0,
+  "spectrum_low": 1.0,
+  "step_sizes": [
+    0.001,
+    0.01,
+    0.1
+  ],
+  "study_id": "ndfa_factor_mechanism_20260915",
+  "trajectory_batch_size": 64,
+  "trajectory_lr": 0.03,
+  "trajectory_seed": 9151500,
+  "trajectory_steps": 100
+}

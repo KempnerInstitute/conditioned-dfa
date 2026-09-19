@@ -1,0 +1,79 @@
+{
+  "purpose": "Read-only assessment; candidate corrected intervals, not manuscript replacements or a coverage guarantee with only five seeds.",
+  "eq17_counterexample": {
+    "S": "1",
+    "N": "1",
+    "N_T": "1/10",
+    "raw_min": "1",
+    "conditioned_min": "11/21",
+    "actual_gain": "10/21",
+    "claimed_gain": "341/441"
+  },
+  "finite_sample_endpoint_ratio_128_32": 1.3473684210526315,
+  "seed_cluster_check": {
+    "nuisance_dominant": {
+      "seed_means": [
+        40.93424479166667,
+        36.55827840169271,
+        40.245564778645836,
+        41.65166219075521,
+        39.8956298828125
+      ],
+      "mean_pp": 39.857076009114586,
+      "all_positive": true,
+      "exact_empirical_seed_bootstrap_percentile_interval": [
+        38.10094197591146,
+        41.08922322591146
+      ],
+      "bootstrap_draws": 3125
+    },
+    "low_sample_noisy": {
+      "seed_means": [
+        30.796305338541664,
+        34.391021728515625,
+        31.901550292968754,
+        28.182220458984375,
+        29.120635986328125
+      ],
+      "mean_pp": 30.878346761067707,
+      "all_positive": true,
+      "exact_empirical_seed_bootstrap_percentile_interval": [
+        29.080403645833332,
+        32.83905029296875
+      ],
+      "bootstrap_draws": 3125
+    },
+    "mixed_context": {
+      "seed_means": [
+        21.591695149739586,
+        22.794087727864586,
+        21.80811564127604,
+        21.933746337890625,
+        21.964263916015625
+      ],
+      "mean_pp": 22.018381754557293,
+      "all_positive": true,
+      "exact_empirical_seed_bootstrap_percentile_interval": [
+        21.728515625,
+        22.430928548177086
+      ],
+      "bootstrap_draws": 3125
+    },
+    "task_aligned": {
+      "seed_means": [
+        12.206268310546875,
+        16.400146484375,
+        17.4407958984375,
+        15.929412841796875,
+        17.281341552734375
+      ],
+      "mean_pp": 15.851593017578125,
+      "all_positive": true,
+      "exact_empirical_seed_bootstrap_percentile_interval": [
+        13.965911865234375,
+        17.16888427734375
+      ],
+      "bootstrap_draws": 3125
+    }
+  }
+}

@@ -1,0 +1,972 @@
+{
+  "schema_version": 1,
+  "status": "frozen_prospective",
+  "created_utc": "2026-09-15T19:25:47.830266+00:00",
+  "official_test_evaluation": false,
+  "source_root": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_bn_forward_decorrelation_snapshot_20260915/source_snapshot",
+  "output_root": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_bn_forward_decorrelation_20260915",
+  "methods": [
+    "bp",
+    "dfa",
+    "ndfa",
+    "fd_dfa"
+  ],
+  "candidates": {
+    "bp": [
+      {
+        "candidate_id": "c00",
+        "peak_lr": 0.003
+      },
+      {
+        "candidate_id": "c01",
+        "peak_lr": 0.01
+      },
+      {
+        "candidate_id": "c02",
+        "peak_lr": 0.03
+      },
+      {
+        "candidate_id": "c03",
+        "peak_lr": 0.06
+      },
+      {
+        "candidate_id": "c04",
+        "peak_lr": 0.1
+      },
+      {
+        "candidate_id": "c05",
+        "peak_lr": 0.2
+      },
+      {
+        "candidate_id": "c06",
+        "peak_lr": 0.3
+      },
+      {
+        "candidate_id": "c07",
+        "peak_lr": 0.6
+      },
+      {
+        "candidate_id": "c08",
+        "peak_lr": 1.0
+      }
+    ],
+    "dfa": [
+      {
+        "candidate_id": "c00",
+        "peak_lr": 0.003
+      },
+      {
+        "candidate_id": "c01",
+        "peak_lr": 0.01
+      },
+      {
+        "candidate_id": "c02",
+        "peak_lr": 0.03
+      },
+      {
+        "candidate_id": "c03",
+        "peak_lr": 0.06
+      },
+      {
+        "candidate_id": "c04",
+        "peak_lr": 0.1
+      },
+      {
+        "candidate_id": "c05",
+        "peak_lr": 0.2
+      },
+      {
+        "candidate_id": "c06",
+        "peak_lr": 0.3
+      },
+      {
+        "candidate_id": "c07",
+        "peak_lr": 0.6
+      },
+      {
+        "candidate_id": "c08",
+        "peak_lr": 1.0
+      }
+    ],
+    "ndfa": [
+      {
+        "candidate_id": "c00",
+        "peak_lr": 0.03,
+        "relative_damping": 3.0
+      },
+      {
+        "candidate_id": "c01",
+        "peak_lr": 0.03,
+        "relative_damping": 30.0
+      },
+      {
+        "candidate_id": "c02",
+        "peak_lr": 0.03,
+        "relative_damping": 300.0
+      },
+      {
+        "candidate_id": "c03",
+        "peak_lr": 0.1,
+        "relative_damping": 3.0
+      },
+      {
+        "candidate_id": "c04",
+        "peak_lr": 0.1,
+        "relative_damping": 30.0
+      },
+      {
+        "candidate_id": "c05",
+        "peak_lr": 0.1,
+        "relative_damping": 300.0
+      },
+      {
+        "candidate_id": "c06",
+        "peak_lr": 0.3,
+        "relative_damping": 3.0
+      },
+      {
+        "candidate_id": "c07",
+        "peak_lr": 0.3,
+        "relative_damping": 30.0
+      },
+      {
+        "candidate_id": "c08",
+        "peak_lr": 0.3,
+        "relative_damping": 300.0
+      }
+    ],
+    "fd_dfa": [
+      {
+        "candidate_id": "c00",
+        "peak_lr": 0.03,
+        "decorrelation_lr": 1e-06
+      },
+      {
+        "candidate_id": "c01",
+        "peak_lr": 0.03,
+        "decorrelation_lr": 1e-05
+      },
+      {
+        "candidate_id": "c02",
+        "peak_lr": 0.03,
+        "decorrelation_lr": 0.0001
+      },
+      {
+        "candidate_id": "c03",
+        "peak_lr": 0.1,
+        "decorrelation_lr": 1e-06
+      },
+      {
+        "candidate_id": "c04",
+        "peak_lr": 0.1,
+        "decorrelation_lr": 1e-05
+      },
+      {
+        "candidate_id": "c05",
+        "peak_lr": 0.1,
+        "decorrelation_lr": 0.0001
+      },
+      {
+        "candidate_id": "c06",
+        "peak_lr": 0.3,
+        "decorrelation_lr": 1e-06
+      },
+      {
+        "candidate_id": "c07",
+        "peak_lr": 0.3,
+        "decorrelation_lr": 1e-05
+      },
+      {
+        "candidate_id": "c08",
+        "peak_lr": 0.3,
+        "decorrelation_lr": 0.0001
+      }
+    ]
+  },
+  "development_seeds": [
+    38000,
+    38001
+  ],
+  "confirmation_seeds": [
+    39000,
+    39001,
+    39002,
+    39003,
+    39004,
+    39005,
+    39006,
+    39007
+  ],
+  "shared_args": {
+    "dataset": "cifar10",
+    "data_dir": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/data/torchvision",
+    "download": false,
+    "regime": "task_high_variance",
+    "task_view_noise": 0.0,
+    "data_seed": 9173,
+    "split_seed": 80423,
+    "feedback_seed": 2901,
+    "feedback_scale": 0.1,
+    "standardize_inputs": true,
+    "batchnorm": true,
+    "hidden_dims": [
+      1024,
+      512
+    ],
+    "input_dim": 32,
+    "n_train": 48000,
+    "validation_size": 2000,
+    "steps": 30000,
+    "batch_size": 64,
+    "lr": 0.03,
+    "relative_damping": 0.3,
+    "damping_floor": 1e-06,
+    "view_penalty": 1.0,
+    "backend": "auto",
+    "eval_every": 500,
+    "device": "cuda",
+    "threads": 4
+  },
+  "training_files_sha256": {
+    "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/data/torchvision/cifar-10-batches-py/data_batch_1": "54636561a3ce25bd3e19253c6b0d8538147b0ae398331ac4a2d86c6d987368cd",
+    "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/data/torchvision/cifar-10-batches-py/data_batch_2": "766b2cef9fbc745cf056b3152224f7cf77163b330ea9a15f9392beb8b89bc5a8",
+    "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/data/torchvision/cifar-10-batches-py/data_batch_3": "0f00d98ebfb30b3ec0ad19f9756dc2630b89003e10525f5e148445e82aa6a1f9",
+    "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/data/torchvision/cifar-10-batches-py/data_batch_4": "3f7bb240661948b8f4d53e36ec720d8306f5668bd0071dcb4e6c947f78e9682b",
+    "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/data/torchvision/cifar-10-batches-py/data_batch_5": "d91802434d8376bbaeeadf58a737e3a1b12ac839077e931237e0dcd43adcb154",
+    "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/data/torchvision/cifar-10-batches-py/batches.meta": "f962466ef690d46b226450fb9aadc74ba4bc64a76aa526b5827fe4bc5c7125cb"
+  },
+  "legacy_source_sha256": {
+    "experiments/__init__.py": "e21f49e9c12dff69f0338fe4bf30f5dd7e7ada63235db6f74010bab1af77adb0",
+    "experiments/run_ndfa_paired_views.py": "515f53ba7c1c75bb33c25d2c347b65970a8b14300739a0b3a489701aa9d2609b",
+    "experiments/run_ndfa_bn_confirmation_case.py": "d5ac8d06774fd0e7e1f6c0f452f68a17afe691564f8141940db4998e9b4c59b6",
+    "infogeo/__init__.py": "78a6c7f72fb955d5a2b63d0212e86f825b995a8b84d79b1fb97c3834464eae88",
+    "infogeo/dfa.py": "1c5b74c7939d073608c32c9c5c98577c40258ca11dc1a321390a4a51d56ba25e",
+    "infogeo/geometry.py": "4912e94c761ab694c0dd0306b4a83813356e3a41c7988aaa28d47728c84aa237",
+    "infogeo/local_preconditioning.py": "9b7f918ee9f1ca1cf5206211f4f6486e589ed1f0a6d5c1be19eaada7bd53dcc6",
+    "infogeo/paired_conditioning.py": "0ca562775475ef901794bb428451bc61b25cbdca12504787007f44b91b09670d"
+  },
+  "optimizer": {
+    "name": "torch.optim.SGD",
+    "momentum": 0.9,
+    "weight_decay": 0.0005,
+    "weight_decay_scope": "weight matrices only",
+    "dampening": 0.0,
+    "nesterov": false,
+    "foreach": false,
+    "fused": false
+  },
+  "schedule": {
+    "warmup_fraction": 0.05,
+    "warmup_start_fraction": 0.1,
+    "minimum_fraction": 0.01,
+    "family": "one cosine decay after linear warmup",
+    "progress": "measured synchronized update work / budget"
+  },
+  "update_budget_seconds": 30.0,
+  "observe_every_work_seconds": 3.0,
+  "secondary_step_endpoint": 5000,
+  "maximum_validation_observations": 12,
+  "benchmark_steps": 500,
+  "runtime_gate": {
+    "overhead_multiplier": 1.1,
+    "audit_and_shutdown_reserve_seconds": 480,
+    "validation_metrics_used": false
+  },
+  "selection": {
+    "criterion": "mean final development CE, then negative mean accuracy, then smaller peak LR, relative damping, decorrelation LR",
+    "require_both_seeds": true,
+    "boundary_flag": true,
+    "automatic_grid_extension": false
+  },
+  "analysis": {
+    "primary": "A minus FD-DFA final accuracy at measured-work endpoint",
+    "paired_seeds": 8,
+    "CI": "paired t95 conditional on fixed data/settings",
+    "supplemental": "two-sided exact paired sign flip, one primary comparison",
+    "all_BP_CE_cost_comparisons": "descriptive; all A-DFA/A-BP/FD-DFA-DFA and common-step contrasts retained",
+    "no_old_seed_pooling": true,
+    "no_partial_confirmation": true
+  },
+  "execution": {
+    "python": "/n/sw/Mambaforge-23.11.0-0/bin/python",
+    "device": "NVIDIA H100 80GB HBM3",
+    "account": "kempner_dev",
+    "partition": "kempner_h100_priority",
+    "qos": "kemp_gpu16_id38",
+    "gpus": 1,
+    "cpus": 4,
+    "memory_gb": 24,
+    "maximum_seconds": 6600,
+    "proposed_gpu_hours": 1.8333333333333333,
+    "no_requeue": true,
+    "excluded_node": "holygpu8a05402",
+    "submission_authorized": false,
+    "reservation_created": false,
+    "parent_cuda_initialized": false
+  },
+  "budget": {
+    "prior_actual_gpu_hours": 5.736389555555555,
+    "proposed_study_gpu_hours": 1.8333333333333333,
+    "root_final_test_reserved_gpu_hours": 0.3333333333333333,
+    "prospective_phase_maximum": 7.903056222222222,
+    "phase_cap": 8.0
+  },
+  "benchmark": [
+    {
+      "case_id": "benchmark_bp",
+      "method": "bp",
+      "seed": 38999,
+      "candidate_id": "c04"
+    },
+    {
+      "case_id": "benchmark_dfa",
+      "method": "dfa",
+      "seed": 38999,
+      "candidate_id": "c04"
+    },
+    {
+      "case_id": "benchmark_ndfa",
+      "method": "ndfa",
+      "seed": 38999,
+      "candidate_id": "c04"
+    },
+    {
+      "case_id": "benchmark_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38999,
+      "candidate_id": "c04"
+    }
+  ],
+  "development": [
+    {
+      "case_id": "dev_38000_c00_bp",
+      "method": "bp",
+      "seed": 38000,
+      "candidate_id": "c00"
+    },
+    {
+      "case_id": "dev_38000_c00_dfa",
+      "method": "dfa",
+      "seed": 38000,
+      "candidate_id": "c00"
+    },
+    {
+      "case_id": "dev_38000_c00_ndfa",
+      "method": "ndfa",
+      "seed": 38000,
+      "candidate_id": "c00"
+    },
+    {
+      "case_id": "dev_38000_c00_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38000,
+      "candidate_id": "c00"
+    },
+    {
+      "case_id": "dev_38000_c01_dfa",
+      "method": "dfa",
+      "seed": 38000,
+      "candidate_id": "c01"
+    },
+    {
+      "case_id": "dev_38000_c01_ndfa",
+      "method": "ndfa",
+      "seed": 38000,
+      "candidate_id": "c01"
+    },
+    {
+      "case_id": "dev_38000_c01_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38000,
+      "candidate_id": "c01"
+    },
+    {
+      "case_id": "dev_38000_c01_bp",
+      "method": "bp",
+      "seed": 38000,
+      "candidate_id": "c01"
+    },
+    {
+      "case_id": "dev_38000_c02_ndfa",
+      "method": "ndfa",
+      "seed": 38000,
+      "candidate_id": "c02"
+    },
+    {
+      "case_id": "dev_38000_c02_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38000,
+      "candidate_id": "c02"
+    },
+    {
+      "case_id": "dev_38000_c02_bp",
+      "method": "bp",
+      "seed": 38000,
+      "candidate_id": "c02"
+    },
+    {
+      "case_id": "dev_38000_c02_dfa",
+      "method": "dfa",
+      "seed": 38000,
+      "candidate_id": "c02"
+    },
+    {
+      "case_id": "dev_38000_c03_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38000,
+      "candidate_id": "c03"
+    },
+    {
+      "case_id": "dev_38000_c03_bp",
+      "method": "bp",
+      "seed": 38000,
+      "candidate_id": "c03"
+    },
+    {
+      "case_id": "dev_38000_c03_dfa",
+      "method": "dfa",
+      "seed": 38000,
+      "candidate_id": "c03"
+    },
+    {
+      "case_id": "dev_38000_c03_ndfa",
+      "method": "ndfa",
+      "seed": 38000,
+      "candidate_id": "c03"
+    },
+    {
+      "case_id": "dev_38000_c04_bp",
+      "method": "bp",
+      "seed": 38000,
+      "candidate_id": "c04"
+    },
+    {
+      "case_id": "dev_38000_c04_dfa",
+      "method": "dfa",
+      "seed": 38000,
+      "candidate_id": "c04"
+    },
+    {
+      "case_id": "dev_38000_c04_ndfa",
+      "method": "ndfa",
+      "seed": 38000,
+      "candidate_id": "c04"
+    },
+    {
+      "case_id": "dev_38000_c04_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38000,
+      "candidate_id": "c04"
+    },
+    {
+      "case_id": "dev_38000_c05_dfa",
+      "method": "dfa",
+      "seed": 38000,
+      "candidate_id": "c05"
+    },
+    {
+      "case_id": "dev_38000_c05_ndfa",
+      "method": "ndfa",
+      "seed": 38000,
+      "candidate_id": "c05"
+    },
+    {
+      "case_id": "dev_38000_c05_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38000,
+      "candidate_id": "c05"
+    },
+    {
+      "case_id": "dev_38000_c05_bp",
+      "method": "bp",
+      "seed": 38000,
+      "candidate_id": "c05"
+    },
+    {
+      "case_id": "dev_38000_c06_ndfa",
+      "method": "ndfa",
+      "seed": 38000,
+      "candidate_id": "c06"
+    },
+    {
+      "case_id": "dev_38000_c06_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38000,
+      "candidate_id": "c06"
+    },
+    {
+      "case_id": "dev_38000_c06_bp",
+      "method": "bp",
+      "seed": 38000,
+      "candidate_id": "c06"
+    },
+    {
+      "case_id": "dev_38000_c06_dfa",
+      "method": "dfa",
+      "seed": 38000,
+      "candidate_id": "c06"
+    },
+    {
+      "case_id": "dev_38000_c07_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38000,
+      "candidate_id": "c07"
+    },
+    {
+      "case_id": "dev_38000_c07_bp",
+      "method": "bp",
+      "seed": 38000,
+      "candidate_id": "c07"
+    },
+    {
+      "case_id": "dev_38000_c07_dfa",
+      "method": "dfa",
+      "seed": 38000,
+      "candidate_id": "c07"
+    },
+    {
+      "case_id": "dev_38000_c07_ndfa",
+      "method": "ndfa",
+      "seed": 38000,
+      "candidate_id": "c07"
+    },
+    {
+      "case_id": "dev_38000_c08_bp",
+      "method": "bp",
+      "seed": 38000,
+      "candidate_id": "c08"
+    },
+    {
+      "case_id": "dev_38000_c08_dfa",
+      "method": "dfa",
+      "seed": 38000,
+      "candidate_id": "c08"
+    },
+    {
+      "case_id": "dev_38000_c08_ndfa",
+      "method": "ndfa",
+      "seed": 38000,
+      "candidate_id": "c08"
+    },
+    {
+      "case_id": "dev_38000_c08_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38000,
+      "candidate_id": "c08"
+    },
+    {
+      "case_id": "dev_38001_c00_dfa",
+      "method": "dfa",
+      "seed": 38001,
+      "candidate_id": "c00"
+    },
+    {
+      "case_id": "dev_38001_c00_ndfa",
+      "method": "ndfa",
+      "seed": 38001,
+      "candidate_id": "c00"
+    },
+    {
+      "case_id": "dev_38001_c00_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38001,
+      "candidate_id": "c00"
+    },
+    {
+      "case_id": "dev_38001_c00_bp",
+      "method": "bp",
+      "seed": 38001,
+      "candidate_id": "c00"
+    },
+    {
+      "case_id": "dev_38001_c01_ndfa",
+      "method": "ndfa",
+      "seed": 38001,
+      "candidate_id": "c01"
+    },
+    {
+      "case_id": "dev_38001_c01_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38001,
+      "candidate_id": "c01"
+    },
+    {
+      "case_id": "dev_38001_c01_bp",
+      "method": "bp",
+      "seed": 38001,
+      "candidate_id": "c01"
+    },
+    {
+      "case_id": "dev_38001_c01_dfa",
+      "method": "dfa",
+      "seed": 38001,
+      "candidate_id": "c01"
+    },
+    {
+      "case_id": "dev_38001_c02_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38001,
+      "candidate_id": "c02"
+    },
+    {
+      "case_id": "dev_38001_c02_bp",
+      "method": "bp",
+      "seed": 38001,
+      "candidate_id": "c02"
+    },
+    {
+      "case_id": "dev_38001_c02_dfa",
+      "method": "dfa",
+      "seed": 38001,
+      "candidate_id": "c02"
+    },
+    {
+      "case_id": "dev_38001_c02_ndfa",
+      "method": "ndfa",
+      "seed": 38001,
+      "candidate_id": "c02"
+    },
+    {
+      "case_id": "dev_38001_c03_bp",
+      "method": "bp",
+      "seed": 38001,
+      "candidate_id": "c03"
+    },
+    {
+      "case_id": "dev_38001_c03_dfa",
+      "method": "dfa",
+      "seed": 38001,
+      "candidate_id": "c03"
+    },
+    {
+      "case_id": "dev_38001_c03_ndfa",
+      "method": "ndfa",
+      "seed": 38001,
+      "candidate_id": "c03"
+    },
+    {
+      "case_id": "dev_38001_c03_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38001,
+      "candidate_id": "c03"
+    },
+    {
+      "case_id": "dev_38001_c04_dfa",
+      "method": "dfa",
+      "seed": 38001,
+      "candidate_id": "c04"
+    },
+    {
+      "case_id": "dev_38001_c04_ndfa",
+      "method": "ndfa",
+      "seed": 38001,
+      "candidate_id": "c04"
+    },
+    {
+      "case_id": "dev_38001_c04_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38001,
+      "candidate_id": "c04"
+    },
+    {
+      "case_id": "dev_38001_c04_bp",
+      "method": "bp",
+      "seed": 38001,
+      "candidate_id": "c04"
+    },
+    {
+      "case_id": "dev_38001_c05_ndfa",
+      "method": "ndfa",
+      "seed": 38001,
+      "candidate_id": "c05"
+    },
+    {
+      "case_id": "dev_38001_c05_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38001,
+      "candidate_id": "c05"
+    },
+    {
+      "case_id": "dev_38001_c05_bp",
+      "method": "bp",
+      "seed": 38001,
+      "candidate_id": "c05"
+    },
+    {
+      "case_id": "dev_38001_c05_dfa",
+      "method": "dfa",
+      "seed": 38001,
+      "candidate_id": "c05"
+    },
+    {
+      "case_id": "dev_38001_c06_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38001,
+      "candidate_id": "c06"
+    },
+    {
+      "case_id": "dev_38001_c06_bp",
+      "method": "bp",
+      "seed": 38001,
+      "candidate_id": "c06"
+    },
+    {
+      "case_id": "dev_38001_c06_dfa",
+      "method": "dfa",
+      "seed": 38001,
+      "candidate_id": "c06"
+    },
+    {
+      "case_id": "dev_38001_c06_ndfa",
+      "method": "ndfa",
+      "seed": 38001,
+      "candidate_id": "c06"
+    },
+    {
+      "case_id": "dev_38001_c07_bp",
+      "method": "bp",
+      "seed": 38001,
+      "candidate_id": "c07"
+    },
+    {
+      "case_id": "dev_38001_c07_dfa",
+      "method": "dfa",
+      "seed": 38001,
+      "candidate_id": "c07"
+    },
+    {
+      "case_id": "dev_38001_c07_ndfa",
+      "method": "ndfa",
+      "seed": 38001,
+      "candidate_id": "c07"
+    },
+    {
+      "case_id": "dev_38001_c07_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38001,
+      "candidate_id": "c07"
+    },
+    {
+      "case_id": "dev_38001_c08_dfa",
+      "method": "dfa",
+      "seed": 38001,
+      "candidate_id": "c08"
+    },
+    {
+      "case_id": "dev_38001_c08_ndfa",
+      "method": "ndfa",
+      "seed": 38001,
+      "candidate_id": "c08"
+    },
+    {
+      "case_id": "dev_38001_c08_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 38001,
+      "candidate_id": "c08"
+    },
+    {
+      "case_id": "dev_38001_c08_bp",
+      "method": "bp",
+      "seed": 38001,
+      "candidate_id": "c08"
+    }
+  ],
+  "confirmation": [
+    {
+      "case_id": "confirm_39000_bp",
+      "method": "bp",
+      "seed": 39000
+    },
+    {
+      "case_id": "confirm_39000_dfa",
+      "method": "dfa",
+      "seed": 39000
+    },
+    {
+      "case_id": "confirm_39000_ndfa",
+      "method": "ndfa",
+      "seed": 39000
+    },
+    {
+      "case_id": "confirm_39000_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 39000
+    },
+    {
+      "case_id": "confirm_39001_dfa",
+      "method": "dfa",
+      "seed": 39001
+    },
+    {
+      "case_id": "confirm_39001_ndfa",
+      "method": "ndfa",
+      "seed": 39001
+    },
+    {
+      "case_id": "confirm_39001_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 39001
+    },
+    {
+      "case_id": "confirm_39001_bp",
+      "method": "bp",
+      "seed": 39001
+    },
+    {
+      "case_id": "confirm_39002_ndfa",
+      "method": "ndfa",
+      "seed": 39002
+    },
+    {
+      "case_id": "confirm_39002_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 39002
+    },
+    {
+      "case_id": "confirm_39002_bp",
+      "method": "bp",
+      "seed": 39002
+    },
+    {
+      "case_id": "confirm_39002_dfa",
+      "method": "dfa",
+      "seed": 39002
+    },
+    {
+      "case_id": "confirm_39003_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 39003
+    },
+    {
+      "case_id": "confirm_39003_bp",
+      "method": "bp",
+      "seed": 39003
+    },
+    {
+      "case_id": "confirm_39003_dfa",
+      "method": "dfa",
+      "seed": 39003
+    },
+    {
+      "case_id": "confirm_39003_ndfa",
+      "method": "ndfa",
+      "seed": 39003
+    },
+    {
+      "case_id": "confirm_39004_bp",
+      "method": "bp",
+      "seed": 39004
+    },
+    {
+      "case_id": "confirm_39004_dfa",
+      "method": "dfa",
+      "seed": 39004
+    },
+    {
+      "case_id": "confirm_39004_ndfa",
+      "method": "ndfa",
+      "seed": 39004
+    },
+    {
+      "case_id": "confirm_39004_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 39004
+    },
+    {
+      "case_id": "confirm_39005_dfa",
+      "method": "dfa",
+      "seed": 39005
+    },
+    {
+      "case_id": "confirm_39005_ndfa",
+      "method": "ndfa",
+      "seed": 39005
+    },
+    {
+      "case_id": "confirm_39005_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 39005
+    },
+    {
+      "case_id": "confirm_39005_bp",
+      "method": "bp",
+      "seed": 39005
+    },
+    {
+      "case_id": "confirm_39006_ndfa",
+      "method": "ndfa",
+      "seed": 39006
+    },
+    {
+      "case_id": "confirm_39006_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 39006
+    },
+    {
+      "case_id": "confirm_39006_bp",
+      "method": "bp",
+      "seed": 39006
+    },
+    {
+      "case_id": "confirm_39006_dfa",
+      "method": "dfa",
+      "seed": 39006
+    },
+    {
+      "case_id": "confirm_39007_fd_dfa",
+      "method": "fd_dfa",
+      "seed": 39007
+    },
+    {
+      "case_id": "confirm_39007_bp",
+      "method": "bp",
+      "seed": 39007
+    },
+    {
+      "case_id": "confirm_39007_dfa",
+      "method": "dfa",
+      "seed": 39007
+    },
+    {
+      "case_id": "confirm_39007_ndfa",
+      "method": "ndfa",
+      "seed": 39007
+    }
+  ],
+  "forward_decorrelation": {
+    "upstream_revision": "00cf47050bbd20e6a153e10bd86e1651524f9779",
+    "implementation": "infogeo/forward_decorrelation.py",
+    "placement": "before all three linear maps including input and classifier",
+    "sample_fraction": 0.1,
+    "mean_momentum": 0.1,
+    "backend": "low_rank",
+    "injection": "original post-ReLU hidden activity before outgoing decorator",
+    "all_operations_charged_to_update_clock": true,
+    "training_count_per_step": 1,
+    "validation_updates": 0,
+    "norm_matching": false,
+    "interpretation": "matched BN/direct-feedback/SGD adaptation; not published FA/Adam reproduction"
+  },
+  "source_sha256": {
+    "docs/research/ndfa_bn_forward_decorrelation_protocol_20260915.md": "37bb24cb21da365bf9af8c7b0c85604051aeeac6d9e24a332ec1df2442d17646",
+    "experiments/__init__.py": "e21f49e9c12dff69f0338fe4bf30f5dd7e7ada63235db6f74010bab1af77adb0",
+    "experiments/run_ndfa_bn_confirmation_case.py": "d5ac8d06774fd0e7e1f6c0f452f68a17afe691564f8141940db4998e9b4c59b6",
+    "experiments/run_ndfa_paired_views.py": "515f53ba7c1c75bb33c25d2c347b65970a8b14300739a0b3a489701aa9d2609b",
+    "infogeo/__init__.py": "78a6c7f72fb955d5a2b63d0212e86f825b995a8b84d79b1fb97c3834464eae88",
+    "infogeo/dfa.py": "1c5b74c7939d073608c32c9c5c98577c40258ca11dc1a321390a4a51d56ba25e",
+    "infogeo/forward_decorrelation.py": "a47186588c5d1f82f4f8b792d41f3b724a363d8277fa70e755a677979dd32f1b",
+    "infogeo/geometry.py": "4912e94c761ab694c0dd0306b4a83813356e3a41c7988aaa28d47728c84aa237",
+    "infogeo/local_preconditioning.py": "9b7f918ee9f1ca1cf5206211f4f6486e589ed1f0a6d5c1be19eaada7bd53dcc6",
+    "infogeo/paired_conditioning.py": "0ca562775475ef901794bb428451bc61b25cbdca12504787007f44b91b09670d",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/case.py": "5ac376818400da7bfccc7c9f0a49606d9178236dc69b46f9bb7da92f53995a3d",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/common.py": "32d56e2d6ccd80f4756e5312c845f9a0e348f9dc1d616d2d8f64ba2a895bffb8",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/cpu_checks.py": "3b07b7d52bb8c0a82790f6a692188171a770af89b1f5bcdca742c6d493efc130",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/exports.py": "2594433f2a02eded0f3547946535490d1e977d028e213f80030d648b9c08fd7b",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/fd_checks.py": "362f51fd24b6aebd53b5db67919ff489c6f961803a76bb109ea46be1634f0918",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/model.py": "8820fb648d10c72f3c7670234fd387066c8bf78625fb12e51342c895855a0200",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/report.py": "b474518a045cf9b50ccb3c3bb34ecfda8ae4771c628a8c098d56e2ff8fdb547f",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/upstream_decor_00cf470.py": "c7a6a7243a898f9a5b4f167f5fe1b1dc7e01d53505a70f1652b17a1a80112551",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/workflow.py": "7eff3d919a0931347050a383e20c7258381c322cde271f1a8c62fde31160f14f",
+    "slurm/ndfa_bn_forward_decorrelation_20260915.sbatch": "e16b2b5daa77707156365ae6e0b15038d8d0d58faba091a72628a57a7f7201ee"
+  }
+}

@@ -13,3 +13,7 @@ pandas
 scipy
 # Figure generation
 matplotlib
+# Verification and Markdown reports
+pytest
+tabulate
+PyMuPDF

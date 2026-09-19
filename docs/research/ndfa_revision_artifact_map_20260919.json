@@ -1,0 +1,187 @@
+{
+  "revision": "ndfa-revision-2026-09-19",
+  "prepared_utc": "2026-09-19T04:18:39.850500+00:00",
+  "manuscript_repository": "https://github.com/houman1359/Info-DFA-draft",
+  "manuscript_commit": "7fa1eddfe59415e1e6979e0cfda039c4f49d66d1",
+  "code_repository": "https://github.com/KempnerInstitute/conditioned-dfa",
+  "code_ref": "refs/tags/ndfa-revision-2026-09-19",
+  "release_code_based_on": "67db63957eb228d996f4a148f876115815a1fe64",
+  "scope": "Corrected original geometry-led paper and all 202 targeted follow-up cases. Original historical measurements retained; mathematical and statistical summaries corrected.",
+  "availability": {
+    "git": "Code, frozen configurations, public numerical summaries, curated figure objects, protocols, manuscript sources and active figure PDFs.",
+    "separate_attachment": "The compact anonymous review archive and arXiv upload source archives are prepared locally; these binaries are not GitHub-hosted downloads.",
+    "full_workspace_only": "Original new logits, checkpoints and optimizer states; their hashes are recorded by the audits.",
+    "not_performed": [
+      "arXiv replacement",
+      "OpenReview abstract registration",
+      "conference submission"
+    ]
+  },
+  "artifacts": {
+    "drafts/Info-DFA/build/comments_revision_20260918/release_07/conditioned_dfa_iclr.pdf": {
+      "sha256": "91917af717e22797eed0d0e323dd572d04419de9d65b82546d2d87d3a22ee407",
+      "bytes": 1171352
+    },
+    "drafts/Info-DFA/build/comments_revision_20260918/release_07/conditioned_dfa_arxiv.pdf": {
+      "sha256": "2d539f847a323d394f7556356904e7c7b559eb86ad4b01923da7a3c9b715b8be",
+      "bytes": 1165033
+    },
+    "drafts/Info-DFA/build/comments_revision_20260918/release_07/build_receipt.json": {
+      "sha256": "082801f4ed2908512f266dbd3851871610222ab308e5e09072d13a02c79b581c",
+      "bytes": 4534
+    },
+    "drafts/Info-DFA/build/comments_revision_20260918/release_07/source_snapshot/manifest.json": {
+      "sha256": "074f30aea41f7e0869f2333d0a592309d42615ed03778c63ccb3e75e8f938584",
+      "bytes": 5196
+    },
+    "drafts/Info-DFA/build/arxiv_package_20260918/release_04/conditioned_dfa_arxiv_source.zip": {
+      "sha256": "e40b9e8d8f39e426ee91f59f7ef8ac4938a8dcf5465c503af87ca8dc1c743a04",
+      "bytes": 677222
+    },
+    "drafts/Info-DFA/build/arxiv_package_20260918/release_04/conditioned_dfa_arxiv_source.tar.gz": {
+      "sha256": "930d09604cd955f6b92000b4ab34ba4bb79a3281bd873dfc1c4db075e920e168",
+      "bytes": 661927
+    },
+    "drafts/Info-DFA/build/arxiv_package_20260918/release_04/build_receipt.json": {
+      "sha256": "8b7eeccedf3afa33f87327c236d923a038659c33136e82c7883ee3d5c57d1545",
+      "bytes": 2495
+    },
+    "results/ndfa_revision_release_20260918/review_04/iclr_supplement.zip": {
+      "sha256": "78d4e9a2808c2ccd2efae1e8db9dd2d9d70a90f98d40d6b3e6fad904074eb678",
+      "bytes": 98188181
+    },
+    "results/ndfa_revision_followups_audit_20260918/audit.json": {
+      "sha256": "dd2a33553b6902488eb28514a5375223bcd4ba738588677c49129083ed99fa2a",
+      "bytes": 215613
+    },
+    "results/ndfa_revision_saved_audit_20260918/audit.json": {
+      "sha256": "c36c9e86f6aff0a1f978501301e1c50ac1fc28bcf1c76f3cf3ab6abf573307e7",
+      "bytes": 20827
+    },
+    "results/ndfa_revision_release_20260918/review_04/build_receipt.json": {
+      "sha256": "0c935cd3429390abe499aa5a82072dce35bf7ea3fe04f4cc3ff5bdf45b98e14b",
+      "bytes": 461
+    },
+    "results/ndfa_revision_release_20260918/review_04/fresh_validation/receipt.json": {
+      "sha256": "39687b324b73527977ecb0ae2da85c69d13623005599d8cffdbc584a0f1c04ac",
+      "bytes": 339
+    },
+    "results/ndfa_revision_release_20260918/review_04/fresh_validation/anonymity_scan.json": {
+      "sha256": "2ee4bfa491502b9bdc8df1bbfd08ba7ac9cf4ed70ea7dffc3992aaa5c74ca633",
+      "bytes": 1041
+    }
+  },
+  "code_file_sha256": {
+    "analysis/aggregate_actwhiten.py": "0948cc2333400c6cfa4d5374dd9b397fc954ae434d245bfec4cd3c9a4ff4f5be",
+    "analysis/aggregate_bpwhiten.py": "5704dfca96cb1740ad3f0cb19b2b15f854488f672c7b6ccc3448bf3cd1fbf6bf",
+    "analysis/aggregate_spatial_kron.py": "18058004d2ce49cfe1c5a7560a4a6d6286a61929b8c6e404c2469a823172e4d6",
+    "analysis/aggregate_spatialkron_controls.py": "a400ebf07624cc9b8d4a7cb4fffa16345705ccbc73ee57ce149d6bd08e09d7d8",
+    "analysis/aggregate_spatialkron_sweep.py": "30ef0c7b881003f49ebeb3e9eb5e0f8d733b81240b0d27bf21e76bffafb3f403",
+    "analysis/analyze_ndfa_factor_mechanism.py": "3dcba0d82d2cdfdc5d7e0b2fd1598a57f561b6dc39e606efd675b89683f79c5f",
+    "analysis/compute_infodfa_seedlevel_stats.py": "3fe423073223f932b9564b749a8f27754507c1fd58be340e6c41ba91dd1d1f6c",
+    "analysis/make_error_kndfa_replication_figure.py": "5b22a8782ef4758ca0ea91108ee77dedd667084da14f430d58ef63cc600b338c",
+    "analysis/ndfa_revision_math.py": "23b44f654d274b689a5b12994c59b217e83c941e3c80cecd6a5778ba8d1bc6ac",
+    "analysis/plot_ndfa_factor_mechanism.py": "49867ca17365572a2d65f2813984ef7e34ca93f14209c5912ccb2696f7a467ec",
+    "analysis/validate_mode_timing.py": "d7560f4270dbe2f294255bc902c1ac0c1b3e0ce1e6420fb1dd2ade98768c81fa",
+    "configs/ndfa_bn_forward_decorrelation_20260915.json": "accc9f36e35ff3b459f8d9e04170c2c465109832f98109161f95f85f77676a2f",
+    "experiments/__init__.py": "e21f49e9c12dff69f0338fe4bf30f5dd7e7ada63235db6f74010bab1af77adb0",
+    "experiments/run_ndfa_bn_confirmation_case.py": "d5ac8d06774fd0e7e1f6c0f452f68a17afe691564f8141940db4998e9b4c59b6",
+    "experiments/run_ndfa_bn_factors.py": "f88db35d15f5abd77baf990b12177b95c52eadb1f371867eb4e3033140e5eb50",
+    "experiments/run_ndfa_factor_mechanism.py": "8399461dbbf26e4d531d155accfb265ab9a19bb20b04c9e28952fc9d171b8d1b",
+    "experiments/run_ndfa_paired_views.py": "515f53ba7c1c75bb33c25d2c347b65970a8b14300739a0b3a489701aa9d2609b",
+    "infogeo/dfa.py": "1c5b74c7939d073608c32c9c5c98577c40258ca11dc1a321390a4a51d56ba25e",
+    "infogeo/forward_decorrelation.py": "a47186588c5d1f82f4f8b792d41f3b724a363d8277fa70e755a677979dd32f1b",
+    "infogeo/geometry.py": "4912e94c761ab694c0dd0306b4a83813356e3a41c7988aaa28d47728c84aa237",
+    "infogeo/local_preconditioning.py": "9b7f918ee9f1ca1cf5206211f4f6486e589ed1f0a6d5c1be19eaada7bd53dcc6",
+    "infogeo/paired_conditioning.py": "0ca562775475ef901794bb428451bc61b25cbdca12504787007f44b91b09670d",
+    "scripts/build_ndfa_anonymous_package.py": "0b6939522b9dd882959f613a1f3e78e88c93dd3b7d3dd203f008a548c76a9bf7",
+    "scripts/build_ndfa_completion_package.py": "fdf46b71b85d5577d5280da7e8391cb41ebbdae7f001235ed0f668a4b3bf5871",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/case.py": "5ac376818400da7bfccc7c9f0a49606d9178236dc69b46f9bb7da92f53995a3d",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/common.py": "32d56e2d6ccd80f4756e5312c845f9a0e348f9dc1d616d2d8f64ba2a895bffb8",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/cpu_checks.py": "3b07b7d52bb8c0a82790f6a692188171a770af89b1f5bcdca742c6d493efc130",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/exports.py": "2594433f2a02eded0f3547946535490d1e977d028e213f80030d648b9c08fd7b",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/fd_checks.py": "362f51fd24b6aebd53b5db67919ff489c6f961803a76bb109ea46be1634f0918",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/model.py": "8820fb648d10c72f3c7670234fd387066c8bf78625fb12e51342c895855a0200",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/report.py": "b474518a045cf9b50ccb3c3bb34ecfda8ae4771c628a8c098d56e2ff8fdb547f",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/upstream_decor_00cf470.py": "c7a6a7243a898f9a5b4f167f5fe1b1dc7e01d53505a70f1652b17a1a80112551",
+    "scripts/ndfa_bn_forward_decorrelation_20260915/workflow.py": "7eff3d919a0931347050a383e20c7258381c322cde271f1a8c62fde31160f14f",
+    "scripts/ndfa_revision_20260918/audit_followups.py": "b3dead604df47ba03ce60d226895e940a54bed92aeea59997eb356994730fb0d",
+    "scripts/ndfa_revision_20260918/audit_saved.py": "d4575bf83ce55c719d5bcb982b006c4429b03c22575fe97dfb8e34e0f35be5b6",
+    "scripts/ndfa_revision_20260918/package.py": "74e9cf62060bc8db2cdd69268ecbd8fb3969879e22490303ae95f59680991c2c",
+    "scripts/ndfa_revision_20260918/prepare_rerun.py": "a234bfa91d38b77f2f58d213a2fa2d5c1fa6e43d0f9e369c8a472ae3a8a90dd9",
+    "scripts/ndfa_revision_20260918/redraw.py": "3435f92bd3cfe1e3065499f6f618e66f3a668d2da17f40e56f27d1e18083aa76",
+    "scripts/ndfa_revision_20260918/runner.py": "47cc1dfbfc56e613caf6f77e9bb67ea28314ea74cc4420fd87fd042dcc1f7bb1",
+    "scripts/ndfa_revision_20260918/verify_package.py": "56632f87ee46da3b12fbd5ec28726b344519e7d060b647b6b91c0cd7065ca3a8",
+    "scripts/ndfa_revision_20260918/verify_revision.py": "552550e3d872f2743f41201c66fb483fe68b3fd303cf3248fd77bf02106960aa",
+    "scripts/ndfa_revision_20260918/visual_check.py": "e1121b88a85abc192770d96a834210e49195b1964e0a3a3f319c49662cae8d7b",
+    "scripts/visual_revision_20260915/redesign.py": "8e85eff2f04e3516e11126cba389fabe8724194ab97cd57b20086eafc6fb3b4b",
+    "tests/test_covariance_power_cohorts.py": "e2f4b73dc31d1db8f3c6c9819aab01135c8a984bb4db938c3d2454f87e1259dc",
+    "tests/test_ndfa_revision_math.py": "766a9ca42c89eeefe1c5240e881f29b155b0fabd2ddb11b254e27b844b120ee4",
+    "tests/test_replication_figure_cohorts.py": "9a12d8b6276f8f2bb558661d80f895d06b449ed3a77a57311834fb3b6ce5390c"
+  },
+  "public_numeric_summaries": {
+    "assets/ndfa_revision_20260918/evidence/ndfa_revision_followups_audit_20260918__endpoints.csv": {
+      "sha256": "4ebdc43abf45f2f6fa8eed315f3139565950b36add6f96c047a93e5f2dbe4bf3",
+      "original_path": "results/ndfa_revision_followups_audit_20260918/endpoints.csv",
+      "scope": "Saved numeric summary; prediction replay requires separate evidence archive."
+    },
+    "assets/ndfa_revision_20260918/evidence/ndfa_revision_followups_audit_20260918__summary.csv": {
+      "sha256": "84373c76cbc5834492d122ac2f24ca19853767db74bc7187ab1f6e2c85118984",
+      "original_path": "results/ndfa_revision_followups_audit_20260918/summary.csv",
+      "scope": "Saved numeric summary; prediction replay requires separate evidence archive."
+    },
+    "assets/ndfa_revision_20260918/evidence/ndfa_revision_followups_audit_20260918__contrasts.csv": {
+      "sha256": "1034a92f890de416936162692e989e37609afb313e6e34edbb4bbf282c5ef15f",
+      "original_path": "results/ndfa_revision_followups_audit_20260918/contrasts.csv",
+      "scope": "Saved numeric summary; prediction replay requires separate evidence archive."
+    },
+    "assets/ndfa_revision_20260918/evidence/ndfa_revision_saved_audit_20260918__metric_control_endpoints.csv": {
+      "sha256": "fdcb8427786f6d1bb1dbe684e5fb0c189c9374232291210aba48f3d1362abb8b",
+      "original_path": "results/ndfa_revision_saved_audit_20260918/metric_control_endpoints.csv",
+      "scope": "Saved numeric summary; prediction replay requires separate evidence archive."
+    },
+    "assets/ndfa_revision_20260918/evidence/ndfa_revision_saved_audit_20260918__loss_tails_by_seed.csv": {
+      "sha256": "e2e6c534af4170032c1c50282b8b8359bc68cfb665df82d0077b506c5afa7f92",
+      "original_path": "results/ndfa_revision_saved_audit_20260918/loss_tails_by_seed.csv",
+      "scope": "Saved numeric summary; prediction replay requires separate evidence archive."
+    },
+    "assets/ndfa_revision_20260918/evidence/ndfa_revision_saved_audit_20260918__loss_tails_summary.csv": {
+      "sha256": "7da88b179407c59e81136533c26d3b8fd7c0c640fdcd43c3fc2828203413481c",
+      "original_path": "results/ndfa_revision_saved_audit_20260918/loss_tails_summary.csv",
+      "scope": "Saved numeric summary; prediction replay requires separate evidence archive."
+    },
+    "assets/ndfa_revision_20260918/evidence/infodfa_seedlevel_stats_corrected_20260918__seedlevel_seed_deltas.csv": {
+      "sha256": "d9ca3cee349ceea3b28fffae1f8d9db7e8f64046280ff14912ad7c129dda89d2",
+      "original_path": "results/infodfa_seedlevel_stats_corrected_20260918/seedlevel_seed_deltas.csv",
+      "scope": "Saved numeric summary; prediction replay requires separate evidence archive."
+    }
+  },
+  "verification": {
+    "main_pages_including_all_main_floats": 9,
+    "iclr_total_pages": 56,
+    "author_total_pages": 54,
+    "figures": 17,
+    "redrawn_figures": 14,
+    "references": 59,
+    "targeted_tests_passed": 22,
+    "followup_cases": 202,
+    "validation_only_cases": 32,
+    "final_test_models": 170,
+    "fresh_review_archive": "accepted",
+    "retained_cpu_tests": 143,
+    "revision_math_tests": 3,
+    "revised_figures_regenerated_from_fresh_export": 13,
+    "anonymity_scan": "accepted",
+    "arxiv_independent_extraction": "accepted: full text and all 54 rendered pages match"
+  },
+  "limitations": [
+    "Five-seed follow-ups condition on the fixed data split and protocol.",
+    "Longer work budgets transfer earlier validation-selected settings, without budget-specific retuning.",
+    "Compact loss/class replay is not fresh model inference or timing.",
+    "Retuned E is nearly scalar at both widths; no general error-side gain is claimed."
+  ],
+  "figure_commands": [
+    "NDFA_FIGURE_CACHE=revision/figure_cache.pkl NDFA_FIGURE_OUTPUT=/tmp/ndfa_previews NDFA_PAPER_FIGURES=/tmp/ndfa_pdfs python scripts/ndfa_revision_20260918/redraw.py",
+    "python analysis/validate_mode_timing.py"
+  ]
+}

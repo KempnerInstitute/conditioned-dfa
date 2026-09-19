@@ -1,11 +1,7 @@
-"""Aggregate the spatial-Kronecker spatial-nuisance amplitude sweep.
+"""Descriptive spatial-versus-channel effects in the complete crossed design.
 
-Tests the both-directions prediction: D(alpha) = acc(spatial-Kron) -
-acc(channel-only nDFA) should rise from the clean -0.78pp (alpha=0) through zero
-and turn positive as the class-independent low-frequency spatial nuisance grows.
-The key anti-confound control is the channel-nDFA-minus-DFA gap, which should stay
-roughly flat in alpha (channel whitening is blind to a channel-shared smooth field,
-so a generic "denoising helps" effect would NOT show up there).
+A channel-shared field changes channel moments as well as spatial moments;
+a stable channel-versus-raw gap therefore does not establish causal isolation.
 """
 
 from __future__ import annotations
@@ -15,7 +11,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from scipy import stats
+import os
 
 import sys
 
@@ -57,14 +53,8 @@ def paired(a_df: pd.DataFrame, b_df: pd.DataFrame) -> tuple[np.ndarray, np.ndarr
 
 def diff_stats(a: np.ndarray, b: np.ndarray) -> dict:
     diff = (a - b) * 100
-    rng = np.random.default_rng(0)
-    boot = np.array([rng.choice(diff, len(diff), replace=True).mean() for _ in range(10000)])
-    lo, hi = np.percentile(boot, [2.5, 97.5])
-    try:
-        _, p = stats.wilcoxon(a, b)
-    except ValueError:
-        p = float("nan")
-    return {"mean": diff.mean(), "lo": lo, "hi": hi, "p": p, "n": len(diff)}
+    return {"mean": float(diff.mean()), "n_combinations": len(diff),
+            "scope": "Descriptive complete crossed-design mean; no independent-run inference"}
 
 
 def main() -> None:
@@ -80,7 +70,7 @@ def main() -> None:
         if not m["ndfa_spatial_kron"].empty and not m["ndfa_random"].empty:
             a, b = paired(m["ndfa_spatial_kron"], m["ndfa_random"])
             s = diff_stats(a, b)
-            row["D=spK-nDFA"] = f"{s['mean']:+.2f} [{s['lo']:+.2f},{s['hi']:+.2f}] p={s['p']:.3g}"
+            row["D=spK-nDFA"] = f"{s['mean']:+.2f} (crossed-design mean)"
         # confound control: channel-nDFA - DFA (should stay flat in alpha)
         if not m["ndfa_random"].empty and not m["dfa_random"].empty:
             a, b = paired(m["ndfa_random"], m["dfa_random"])
@@ -89,18 +79,13 @@ def main() -> None:
 
     df = pd.DataFrame(table)
     lines.append(df.to_string(index=False))
-    lines += [
-        "",
-        "Reading: if the signed input-anisotropy hypothesis extends to the kernel-patch factor,",
-        "D=spK-nDFA rises monotonically with alpha and crosses 0 (negative on clean,",
-        "positive once spatial nuisance dominates the within-kernel covariance). The",
-        "nDFA-DFA gap staying roughly flat rules out a generic denoising confound:",
-        "channel whitening is blind to a channel-shared smooth field, so any spatial-Kron",
-        "gain is attributable to the kernel-patch spatial factor alone.",
-    ]
+    lines += ["", "Effects describe the retained crossed seed combinations.",
+              "Both channel and spatial moments can respond to channel-shared nuisance."]
     out = "\n".join(lines) + "\n"
     SWEEP_ROOT.mkdir(parents=True, exist_ok=True)
-    (SWEEP_ROOT / "spatialkron_sweep_summary.md").write_text(out)
+    target = Path(os.environ.get("NDFA_SPATIAL_SWEEP_OUTPUT", "results/ndfa_spatial_sweep_corrected_20260918"))
+    target.mkdir(parents=True, exist_ok=True)
+    (target / (dataset.lower()+"_spatialkron_sweep_summary.md")).write_text(out)
     print(out)
 
 

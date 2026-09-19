@@ -1,0 +1,38 @@
+{
+  "status": "verified_scientific_release",
+  "baseline_manuscript_commit": "6adf726db830844389eb237a7a5243f639207c70",
+  "manuscript_commit": "7fa1eddfe59415e1e6979e0cfda039c4f49d66d1",
+  "revision_tag": "ndfa-revision-2026-09-19",
+  "tasks": {
+    "mathematics": "corrected and numerically verified",
+    "statistics_and_cohorts": "whole-seed resampling and matched cohorts verified; crossed designs descriptive",
+    "loss_tail_audit": "all 50 saved endpoints reproduced and tails quantified",
+    "targeted_experiments": "all 202 planned cases completed and independently audited",
+    "main_narrative": "integrated, coherent and within nine pages including floats",
+    "figures": "14 redrawn; all 17 checked for clipping and placement",
+    "supplement": "redundant graphics archived; full ICLR document reduced to 56 pages",
+    "release_archives": "arXiv extraction matches all pages; fresh anonymous evidence checks pass",
+    "publication": "manuscript pushed; both releases identified by revision tag; post-push remote verification is recorded in the local release receipt"
+  },
+  "partition": "kempner_h100_priority",
+  "allocated_gpu_seconds": 6661,
+  "jobs": [
+    {
+      "id": 47091857,
+      "phase": "work",
+      "status": "COMPLETED"
+    },
+    {
+      "id": 47091858,
+      "phase": "width",
+      "status": "COMPLETED"
+    },
+    {
+      "id": 47091861,
+      "phase": "stability",
+      "status": "COMPLETED"
+    }
+  ],
+  "artifact_map": "docs/research/ndfa_revision_artifact_map_20260919.json",
+  "external_submission_performed": false
+}

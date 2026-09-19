@@ -1,7 +1,14 @@
-"""Make the main-text cross-setting error/K-nDFA replication figure."""
+"""Make the main-text figure from the original confirmation cohorts.
+
+The appendix analyses may contain later extension seeds. Those seeds must not
+silently change this figure's original five/five/eight-seed comparisons.
+"""
 
 from __future__ import annotations
 
+import argparse
+import hashlib
+import json
 from pathlib import Path
 
 import matplotlib
@@ -19,20 +26,76 @@ PAPER_FIGURES = ROOT / "drafts" / "Info-DFA" / "figures"
 STEM = "iclr_fig_error_kndfa_replication"
 COLORS = {"dfa": "#7F7F7F", "ndfa": "#009E73", "endfa": "#D55E00", "kndfa": "#6A3D9A"}
 LABELS = {"dfa": "DFA", "ndfa": "activity nDFA", "endfa": "error nDFA", "kndfa": "K-nDFA"}
+COHORTS = {
+    "tanh MNIST": tuple(range(50, 55)),
+    "tanh Fashion": tuple(range(70, 75)),
+    "ReLU MNIST": tuple(range(100, 108)),
+}
+ANALYSIS_DIRS = {
+    "tanh MNIST": "dfa_stall_threefactor_analysis_v1",
+    "tanh Fashion": "dfa_stall_fashion_threefactor_analysis_v1",
+    "ReLU MNIST": "dfa_relu_mnist_threefactor_analysis_v1",
+}
+FEEDBACK_SEEDS = (0, 1, 2)
+
+
+def original_cohort(frame: pd.DataFrame, label: str) -> pd.DataFrame:
+    """Select explicit seed IDs and reject missing or duplicated method pairs."""
+    selected = frame[
+        frame["seed"].isin(COHORTS[label]) & frame["method"].isin(COLORS)
+    ].copy()
+    expected = pd.MultiIndex.from_product(
+        [COHORTS[label], tuple(COLORS)], names=["seed", "method"]
+    )
+    actual = pd.MultiIndex.from_frame(selected[["seed", "method"]])
+    if actual.has_duplicates or set(actual) != set(expected):
+        raise ValueError(f"{label}: incomplete or duplicated original seed/method pairs")
+    if not selected["n_feedback_seeds"].eq(len(FEEDBACK_SEEDS)).all():
+        raise ValueError(f"{label}: every original pair must average three feedback seeds")
+    if not np.isfinite(selected[["test_acc", "test_loss"]].to_numpy()).all():
+        raise ValueError(f"{label}: nonfinite original test endpoints")
+    return selected.sort_values(["seed", "method"]).reset_index(drop=True)
 
 
 def load_seed_means() -> dict[str, pd.DataFrame]:
-    paths = {
-        "tanh MNIST": RESULTS / "dfa_stall_threefactor_analysis_v1" / "confirmation_seed_means.csv",
-        "tanh Fashion": RESULTS / "dfa_stall_fashion_threefactor_analysis_v1" / "confirmation_seed_means.csv",
-        "ReLU MNIST": RESULTS / "dfa_relu_mnist_threefactor_analysis_v1" / "confirmation_seed_means.csv",
-    }
     frames = {}
-    for label, path in paths.items():
+    for label, directory in ANALYSIS_DIRS.items():
+        path = RESULTS / directory / "confirmation_seed_means.csv"
         frame = pd.read_csv(path)
-        frame = frame[frame["method"].isin(COLORS)].copy()
-        frames[label] = frame
+        frames[label] = original_cohort(frame, label)
+        runs = pd.read_csv(RESULTS / directory / "confirmation_runs.csv")
+        runs = runs[runs["seed"].isin(COHORTS[label]) & runs["method"].isin(COLORS)]
+        keys = ["seed", "method", "feedback_seed"]
+        actual = pd.MultiIndex.from_frame(runs[keys])
+        expected = pd.MultiIndex.from_product(
+            [COHORTS[label], tuple(COLORS), FEEDBACK_SEEDS], names=keys
+        )
+        if actual.has_duplicates or set(actual) != set(expected):
+            raise ValueError(f"{label}: original runs must cover feedback seeds 0, 1, 2 exactly")
+        columns = ["test_acc", "test_loss"] if label == "ReLU MNIST" else ["final_test_acc", "final_test_loss"]
+        recomputed = runs.groupby(["seed", "method"])[columns].mean()
+        saved = frames[label].set_index(["seed", "method"])[["test_acc", "test_loss"]]
+        if not np.allclose(recomputed.to_numpy(), saved.to_numpy(), rtol=1e-12, atol=1e-12):
+            raise ValueError(f"{label}: saved seed means disagree with the original runs")
     return frames
+
+
+def load_original_curves() -> pd.DataFrame:
+    curves = pd.read_csv(RESULTS / ANALYSIS_DIRS["ReLU MNIST"] / "confirmation_curves.csv")
+    curves = curves[
+        curves["seed"].isin(COHORTS["ReLU MNIST"]) & curves["method"].isin(COLORS)
+    ].copy()
+    keys = ["seed", "method", "step", "feedback_seed"]
+    if curves.empty or curves.duplicated(keys).any():
+        raise ValueError("ReLU MNIST: missing or duplicated original validation curves")
+    expected = pd.MultiIndex.from_product(
+        [COHORTS["ReLU MNIST"], tuple(COLORS), sorted(curves["step"].unique()), FEEDBACK_SEEDS],
+        names=keys,
+    )
+    actual = pd.MultiIndex.from_frame(curves[keys])
+    if set(actual) != set(expected) or not np.isfinite(curves["val_acc"]).all():
+        raise ValueError("ReLU MNIST: incomplete original validation curves or nonfinite values")
+    return curves.groupby(["seed", "method", "step"], as_index=False)["val_acc"].mean()
 
 
 def paired_deltas(frames: dict[str, pd.DataFrame], method: str, reference: str) -> dict[str, pd.Series]:
@@ -60,12 +123,11 @@ def plot_paired(ax, deltas: dict[str, pd.Series], *, color: str, title: str, yla
     ax.grid(axis="y", alpha=0.18, lw=0.5)
 
 
-def make_figure() -> None:
+def make_figure(*, output_dir: Path = OUT, copy_to_paper: bool = True) -> None:
     frames = load_seed_means()
     error_delta = paired_deltas(frames, "endfa", "dfa")
     k_delta = paired_deltas(frames, "kndfa", "ndfa")
-    curves = pd.read_csv(RESULTS / "dfa_relu_mnist_threefactor_analysis_v1" / "confirmation_curves.csv")
-    curves = curves.groupby(["seed", "method", "step"], as_index=False)["val_acc"].mean()
+    curves = load_original_curves()
 
     plt.rcParams.update(
         {
@@ -113,9 +175,9 @@ def make_figure() -> None:
     axes[2].grid(alpha=0.18, lw=0.5)
     axes[2].legend(frameon=False, loc="lower right")
 
-    OUT.mkdir(parents=True, exist_ok=True)
-    PAPER_FIGURES.mkdir(parents=True, exist_ok=True)
-    for directory in (OUT, PAPER_FIGURES):
+    directories = [output_dir] + ([PAPER_FIGURES] if copy_to_paper else [])
+    for directory in directories:
+        directory.mkdir(parents=True, exist_ok=True)
         for extension in ("pdf", "png", "svg"):
             fig.savefig(directory / f"{STEM}.{extension}", dpi=300, bbox_inches="tight")
     plt.close(fig)
@@ -133,8 +195,30 @@ def make_figure() -> None:
                     "wins": int((values > 0).sum()),
                 }
             )
-    pd.DataFrame(rows).to_csv(OUT / "replication_contrasts.csv", index=False)
+    pd.DataFrame(rows).to_csv(output_dir / "replication_contrasts.csv", index=False)
+    input_paths = [
+        RESULTS / directory / filename
+        for directory in ANALYSIS_DIRS.values()
+        for filename in ("confirmation_seed_means.csv", "confirmation_runs.csv")
+    ] + [RESULTS / ANALYSIS_DIRS["ReLU MNIST"] / "confirmation_curves.csv"]
+    manifest = {
+        "figure": STEM,
+        "cohort": "original confirmation; post-hoc extension seeds excluded",
+        "model_seed_ids": COHORTS,
+        "feedback_seed_ids": FEEDBACK_SEEDS,
+        "aggregation": "average feedback seeds within model seed; mean and SEM across model seeds",
+        "caption_counts": {label: len(seeds) for label, seeds in COHORTS.items()},
+        "sources": [
+            {"path": str(path.relative_to(RESULTS)), "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+            for path in input_paths
+        ],
+    }
+    (output_dir / "cohort_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
 
 
 if __name__ == "__main__":
-    make_figure()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output-dir", type=Path, default=OUT)
+    parser.add_argument("--no-copy-to-paper", action="store_true", help="write only to the output directory")
+    args = parser.parse_args()
+    make_figure(output_dir=args.output_dir, copy_to_paper=not args.no_copy_to_paper)

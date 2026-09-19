@@ -1,121 +1,63 @@
 # Conditioned Direct Feedback Alignment
 
-Code, experiments, and figures for the paper *Conditioned Direct Feedback
-Alignment via Activity and Error Geometry*.
+Code for **Conditioned Direct Feedback Alignment via Activity and Error Geometry**,
+by Houman Safaai, Varun Reddy, and Bernardo L. Sabatini.
+The [manuscript repository](https://github.com/houman1359/Info-DFA-draft)
+contains the anonymous ICLR entrypoint and author preprint sources.
+The published [arXiv preprint](https://arxiv.org/abs/2607.18574) predates the
+September 18–19 scientific revision described here.
 
-Repository: [KempnerInstitute/conditioned-dfa](https://github.com/KempnerInstitute/conditioned-dfa)
+Activity conditioning improves fixed-feedback learning in nuisance-dominated
+settings and retains gains over DFA with shared normalization, wider MLPs and
+matched measured work. Error conditioning provides a distinct benefit in the
+clean factor confirmations but depends more strongly on damping and protocol.
+BP remains stronger in the matched-work comparisons; forward decorrelation is
+competitive. The paper studies update geometry under approximate credit, with
+explicit limits on biological locality and practical generalization.
 
-Direct Feedback Alignment (DFA) trains deep networks with fixed random feedback
-instead of the transposed forward weights used by backpropagation (BP), but it
-degrades sharply when the learning signal is dominated by noise, nuisance
-variation, or limited samples. This project studies a symmetric conditioned-DFA
-family: **activity nDFA** right-preconditions the local update by a presynaptic
-second moment, **error nDFA** left-preconditions by a local-error second moment,
-and **K-nDFA** applies both factors. The fixed random feedback path is unchanged.
-Activity conditioning has the broadest evidence in nuisance-stressed settings;
-clean MNIST and preregistered Fashion-MNIST confirmations support the error
-factor and a further two-sided gain, and both signs replicate on eight fresh
-seeds in a ReLU/softmax MNIST model. BatchNorm remains a strong activity-side
-alternative, vision rank sweeps are exploratory, and the separate ImageNet-100
-block-output diagnostic is not the proposed weight-update operator.
+The current revision corrects the complete-risk calculation, seed-dependent
+uncertainty and covariance-power cohorts. It integrates all 202 targeted
+follow-up cases, promotes matched-work results to the main paper, redraws
+14 figures and archives three redundant plots. The original measurements remain
+part of the evidence; historical equations and statistical summaries are not
+claimed to be unchanged. See the [findings](docs/research/ndfa_revision_findings_20260918.md).
 
-## Scope and caveats
+## Reproduction and evidence
 
-All error-side and two-sided results in the paper use per-example errors,
-separate activity/error damping selected on validation data, layerwise norm
-matching, and frozen multi-seed confirmations; earlier sweeps that formed the
-error second moment from mean-loss-normalized deltas are excluded throughout.
-The Fashion-MNIST study additionally compares local K-nDFA with a nonlocal
-BP-error covariance source: the registered comparator reused the local damping
-and was effectively activity nDFA after norm matching, so its equivalence
-interpretation is withdrawn, and a post-hoc validation-retuned, fresh-seed
-audit instead shows source specificity — the local DFA-error factor improves
-activity nDFA, whereas the transported BP-error factor does not.
+[REPRODUCE.md](REPRODUCE.md) gives build, verification, figure and training
+commands. The [artifact map](docs/research/ndfa_revision_artifact_map_20260919.json)
+binds source hashes, audited evidence, PDFs and upload archives to this revision.
+The revision tag is `ndfa-revision-2026-09-19` in both code and manuscript repositories.
 
-## Installation
-
-Python 3.10+.
-
-```bash
-pip install -r requirements.txt
-```
-
-Core dependencies: torch 2.9, torchvision 0.24, timm 1.0, numpy, pandas,
-scipy, matplotlib. MNIST, Fashion-MNIST, and CIFAR download automatically;
-ImageNet-1k must be provided separately (see `REPRODUCE.md`).
-
-## Layout
-
-- `infogeo/`: reusable utilities — geometry, DFA / conv-DFA / nDFA training
-  primitives, synthetic latent-manifold data, noise-correlation baselines, and
-  project-level diagnostics.
-- `experiments/`: experiment drivers.
-  - `run_dfa_synthetic.py`, `run_dfa_multioutput_synthetic.py`,
-    `run_dfa_preconditioning_spectrum.py`: synthetic stress suite.
-  - `run_dfa_vision_baselines.py`, `run_dfa_convnet_baselines.py`,
-    `run_dfa_nmnc_comparison.py`, `run_dfa_coloredmnist.py`,
-    `run_dfa_controls.py`: Fashion-MNIST / CIFAR / convnet / ColoredMNIST /
-    control studies.
-  - `run_infodfa_adam_diagk_approx.py`: archived Adam/diagonal and two-sided
-    approximation tests; only the activity-side comparisons support the paper.
-    The decorrelation baseline (`dfa_actwhiten`, inverse-square-root
-    preconditioning) runs through the multioutput synthetic driver.
-  - `run_dfa_stall_comparison.py`: corrected activity/error/K-nDFA comparison
-    with separate damping and train/validation/test separation.
-  - `run_dfa_relu_vision_threefactor.py`: validation-safe ReLU/softmax
-    architectural replication; `run_dfa_factorial_synthetic.py` contains the
-    controlled activity/error intervention pilot.
-  - `run_imagenet_credit_assignment.py`,
-    `evaluate_imagenet_torchvision_weights.py`: ImageNet-100 ResNet-18
-    diagnostics.
-- `analysis/`: aggregators, paired-test scripts, table writers, and figure
-  builders. The `analyze_dfa_stall_*.py` and
-  `analyze_dfa_relu_vision_threefactor.py` scripts aggregate the tanh and ReLU
-  factor confirmations and the post-hoc source-scale audit.
-- `slurm/`: batch scripts for every experiment (site-specific headers; see
-  `REPRODUCE.md`).
-- `tests/`: pytest suite.
-- `external/DFA-Stall/`: vendored reference implementation for the DFA-stall
-  diagnostic (provenance in `external/DFA-Stall/VENDORED_INFO.md`).
-
-## Quick start
-
-```bash
-python -m pytest
-python experiments/run_project_diagnostics.py --seeds 1          # ~30 sec smoke
-python experiments/run_dfa_synthetic.py --quick                  # ~1 min
-python experiments/run_dfa_coloredmnist.py --n-seeds 1 --epochs 3
-```
-
-## Reproducing the paper
-
-`REPRODUCE.md` maps every reported result to the script, parameter grid,
-aggregator, and artifact root that regenerate it. `PREDICTIONS.md` and
-`PREDICTIONS_SCORECARD.md` record the preregistered predictions and their
-scored outcomes, including refuted ones.
-
-| Claim | Script |
+| Claim or artifact | Implementation / record |
 |---|---|
-| Synthetic 128-cell DFA rescue | `run_dfa_multioutput_synthetic.py` + `aggregate_dfa_multioutput_synthetic.py` |
-| Vision MLP noisy-label sweep | `run_dfa_nmnc_comparison.py` + `aggregate_dfa_nmnc_comparison.py` |
-| Control studies | `run_dfa_controls.py` + `write_infodfa_controls_table.py` |
-| ColoredMNIST DFA rescue | `run_dfa_coloredmnist.py` + `write_infodfa_coloredmnist_table.py` |
-| Hard CIFAR-100 convnet | `run_dfa_convnet_baselines.py` |
-| Activity/error/K-nDFA confirmations | `run_dfa_stall_comparison.py`, `run_dfa_relu_vision_threefactor.py`, and the corresponding three-factor analyses |
-| ImageNet-100 substitution depth | `run_imagenet_credit_assignment.py` |
-| Descriptive and seed-level sensitivity tests | `compute_infodfa_statistical_tests.py` + `compute_infodfa_seedlevel_stats.py` |
+| Complete-risk calculation and seed-level resampling | [Mathematical functions](analysis/ndfa_revision_math.py), [mode-timing simulation](analysis/validate_mode_timing.py), [seed analysis](analysis/compute_infodfa_seedlevel_stats.py) |
+| Longer matched work, width-specific damping and BN intervention | [Frozen protocol](docs/research/ndfa_revision_followups_protocol_20260918.md), [configuration](configs/ndfa_revision_followups_20260918.json), [runner](scripts/ndfa_revision_20260918/runner.py) |
+| Saved-logit endpoints, loss tails and existing diagonal control | [New-study audit](scripts/ndfa_revision_20260918/audit_followups.py), [saved-evidence audit](scripts/ndfa_revision_20260918/audit_saved.py) |
+| Earlier matched-work and forward-decorrelation comparison | [Protocol](docs/research/ndfa_bn_forward_decorrelation_protocol_20260915.md), [training and verification](scripts/ndfa_bn_forward_decorrelation_20260915) |
+| Controlled moment orientation and credit quality | [Experiment](experiments/run_ndfa_factor_mechanism.py), [analysis](analysis/analyze_ndfa_factor_mechanism.py) |
+| Revised publication figures | [Generator](scripts/ndfa_revision_20260918/redraw.py), [curated figure inputs](assets/ndfa_revision_20260918/manifest.json) |
+
+The compact anonymous evidence archive is prepared as a separate submission
+attachment. Generated PDFs, the archive, datasets, raw logits and checkpoints
+are not stored in this Git repository. Paths under `results/` in the artifact
+map identify the preserved workspace/review-package evidence, not public GitHub
+files. The compact archive verifies reported endpoints from saved per-example
+losses and classes; it does not rerun GPU training, checkpoint inference or timing.
+
+No arXiv replacement or conference submission was performed during this revision.
+Earlier development documentation is historical; use the revision findings and
+artifact map for current claims.
 
 ## Citation
 
 ```bibtex
-@article{safaai2026conditioned,
-  title   = {Conditioned Direct Feedback Alignment via Activity and Error Geometry},
-  author  = {Safaai, Houman and Reddy, Varun and Sabatini, Bernardo L.},
-  journal = {arXiv preprint},
-  year    = {2026}
+@misc{safaai2026conditioned,
+  title = {Conditioned Direct Feedback Alignment via Activity and Error Geometry},
+  author = {Safaai, Houman and Reddy, Varun and Sabatini, Bernardo L.},
+  year = {2026},
+  eprint = {2607.18574},
+  archivePrefix = {arXiv},
+  url = {https://arxiv.org/abs/2607.18574}
 }
 ```
-
-## License
-
-Released under the MIT License (see `LICENSE`).

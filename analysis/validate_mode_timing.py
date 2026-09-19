@@ -19,14 +19,14 @@ Expected excess test risk (population-spectrum approximation, Advani & Saxe
     E R(t) = sum_i lambda_i w_i*^2 exp(-2 r_i t)
            + (sigma^2/n) sum_i (1 - exp(-r_i t))^2.
 
-Checks performed here (all exact finite-n, no population approximation in the
-simulation itself):
+Empirical full-spectrum trajectories use exact finite-sample dynamics.
+The separately labeled two-block calculations use the population surrogate:
   1. Per-mode timing: t_task/t_nuis = kappa for BP/DFA vs
      rho_c = [lam_N (lam_T + lam_A)] / [lam_T (lam_N + lam_A)] for nDFA.
   2. Nuisance-dominant regime (task on lowest-lambda directions): the
      best-achievable test risk along the trajectory improves under
      conditioning, monotonically as lambda_A decreases; raw DFA/BP pay the
-     full nuisance noise floor sigma^2 d_N / n before the task is fit.
+     nuisance noise early before the task is fit.
   3. Task-aligned control (task on highest-lambda directions): conditioning
      does not improve the trajectory minimum and mild damping delays task
      fitting at matched step size (clean-control reversal).
@@ -42,7 +42,7 @@ SGD on an explicit two-layer linear network (W1 trained, W2 fixed, B = W2^T)
 are simulated. The preconditioner uses the full-train Sigma_hat + lambda_A I;
 estimation noise in the preconditioner is held fixed here to isolate timing.
 
-CPU-only; ~1 minute. Outputs (results/infodfa_mode_timing_v1/):
+CPU-only. Outputs (results/infodfa_mode_timing_corrected_20260918/):
     mode_timing_trajectories.csv, mode_timing_sweep.csv,
     mode_timing_permode.csv, mode_timing_twoblock_check.csv,
     mode_timing_validation.pdf/.png
@@ -51,6 +51,8 @@ CPU-only; ~1 minute. Outputs (results/infodfa_mode_timing_v1/):
 from __future__ import annotations
 
 from pathlib import Path
+import os
+from ndfa_revision_math import two_block_minimum
 
 import matplotlib
 
@@ -60,7 +62,7 @@ import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "results" / "infodfa_mode_timing_v1"
+OUT = Path(os.environ.get("NDFA_MODE_TIMING_OUTPUT", ROOT / "results" / "infodfa_mode_timing_corrected_20260918"))
 OUT.mkdir(parents=True, exist_ok=True)
 
 # ---------------------------------------------------------------- house style
@@ -265,7 +267,7 @@ pd.DataFrame(traj_rows).to_csv(OUT / "mode_timing_trajectories.csv", index=False
 
 noise_floor_nuis = SIGMA_NOISE**2 * (D - 2) / N_TRAIN
 print(f"S={S_SIGNAL}, nuisance noise floor N=sigma^2 d_N/n={noise_floor_nuis:.5f}, "
-      f"final risk sigma^2 d/n={SIGMA_NOISE**2 * D / N_TRAIN:.5f}")
+      f"population-surrogate endpoint sigma^2 d/n={SIGMA_NOISE**2 * D / N_TRAIN:.5f}")
 
 # monotonicity check (Prop 2 iii): R_dagger decreasing in lambda_A strength
 b_dfa = best_along(res_low["DFA"]["mean"])[0]
@@ -285,20 +287,20 @@ for la in LAMBDA_AS:
     delay = (LAMBDAS[0] + la) / LAMBDAS[0]
     print(f"  matched-eta task-fit delay, lambda_A={la}: x{delay:.2f}")
 
-# material-improvement condition (Prop 2 iii, quantitative form):
-# retained nuisance fraction at the stopping point ~ u*^rho_c with
-# u* = Ntot/(S+Ntot); predicted Delta ~ N u*^rho_c (2 - u*^rho_c).
+# Complete population two-block risk difference. This surrogate is distinct
+# from the finite-sample full-spectrum empirical trajectories above.
 Ntot = SIGMA_NOISE**2 * D / N_TRAIN
 u_star = Ntot / (S_SIGNAL + Ntot)
 print("material-improvement condition (population two-block prediction "
       "vs measured, nuisance-dominant):")
 for la in LAMBDA_AS:
     rho_c = (LAMBDAS[0] * (LAMBDAS[-1] + la)) / (LAMBDAS[-1] * (LAMBDAS[0] + la))
-    retained = u_star**rho_c
-    delta_pred = noise_floor_nuis * retained * (2 - retained)
+    task_noise = Ntot - noise_floor_nuis
+    delta_pred = (two_block_minimum(S_SIGNAL, noise_floor_nuis, task_noise, KAPPA)
+                  - two_block_minimum(S_SIGNAL, noise_floor_nuis, task_noise, rho_c))
     delta_meas = b_dfa - b_ndfa[la]
-    print(f"  lambda_A={la:5g} rho_c={rho_c:6.2f} retained u*^rho_c={retained:.3f}"
-          f"  Delta_pred~{delta_pred:.5f}  Delta_meas={delta_meas:.5f}")
+    print(f"  lambda_A={la:5g} rho_c={rho_c:6.2f}"
+          f"  Delta_two_block={delta_pred:.5f}  Delta_empirical_full_spectrum={delta_meas:.5f}")
 
 # corollary: separation time ~ fitting time of the fastest nuisance mode
 for la in LAMBDA_AS:
@@ -491,6 +493,32 @@ ax.set_ylabel("$\\Delta R^{\\dagger}/R^{\\dagger}_{DFA}$ (%)")
 ax.legend(frameon=False, fontsize=6.4, loc="lower left")
 ax.set_title("D  crossing condition", loc="left", fontweight="bold")
 
-for ext in ("pdf", "png"):
-    fig.savefig(OUT / f"mode_timing_validation.{ext}")
+# Native two-row presentation keeps labels readable at manuscript width.
+fig.set_size_inches(5.5, 4.6)
+for i, axis in enumerate(axes):
+    row, col = divmod(i, 2)
+    x, y = .12 + .49*col, .61 if row == 0 else .21
+    axis.set_position([x, y, .36, .28])
+    axis.set_title('', loc='left')
+    axis.set_title(['Mode timing', 'Task in low-variance modes',
+                    'Task in high-variance modes', 'Task-location dependence'][i],
+                   fontsize=8, fontweight='bold')
+    axis.tick_params(labelsize=7, pad=2)
+    axis.set_xlabel('Flow time' if i < 3 else 'Task eigenvalue', fontsize=8)
+    axis.set_ylabel(['Fraction fitted', 'Expected test risk', 'Expected test risk',
+                     'Relative risk gain (%)'][i], fontsize=8)
+    fig.text(x-.09, y+.34, chr(65+i), fontsize=10, fontweight='bold', va='bottom')
+    for item in axis.texts:
+        item.set_fontsize(6.5)
+for axis in axes[:2]:
+    for item in list(axis.texts):item.remove()
+handles, labels = axes[1].get_legend_handles_labels()
+axes[1].get_legend().remove()
+fig.legend(handles, labels, loc='lower center', ncol=3, fontsize=7, frameon=False)
+axes[1].set_yticks([.01,.015,.02]);axes[1].set_yticklabels(['0.010','0.015','0.020'])
+axes[1].minorticks_off()
+for ext in ('pdf', 'png'):
+    fig.savefig(OUT / f'mode_timing_validation.{ext}',
+                metadata={'Author':'','CreationDate':None,'ModDate':None} if ext=='pdf' else None)
+
 print(f"wrote figure + CSVs to {OUT}")

@@ -3,8 +3,7 @@
 Compares spatial-Kronecker conditioning (channel + kernel-spatial covariance
 factors) against channel-only nDFA, raw DFA, and BP under an identical recipe,
 to test whether the added kernel-spatial factor improves credit assignment on a
-real capable convnet. Reports seed-level paired Wilcoxon (spatial-Kron vs nDFA)
-with a bootstrap CI on the difference.
+real capable convnet. Reports descriptive crossed-design means and run spread, without independent-run inference.
 """
 
 from __future__ import annotations
@@ -37,8 +36,8 @@ def main() -> None:
     summary = []
     for m, d in frames.items():
         accs = d["test_acc"].to_numpy() * 100
-        summary.append((m, accs.mean(), accs.std(ddof=1) / max(np.sqrt(len(accs)), 1), len(accs)))
-    s = pd.DataFrame(summary, columns=["method", "mean", "sem", "n"]).set_index("method")
+        summary.append((m, accs.mean(), accs.std(ddof=1), len(accs)))
+    s = pd.DataFrame(summary, columns=["method", "mean", "run_sd_descriptive", "n_combinations"]).set_index("method")
     s = s.reindex([m for m in ORDER if m in s.index])
 
     report = ["# Spatial-Kronecker conv test (capable CIFAR-10)\n", s.round(3).to_string(), ""]
@@ -55,19 +54,10 @@ def main() -> None:
             n = min(len(a), len(b))
             a, b = a.to_numpy()[:n], b.to_numpy()[:n]
         diff = (a - b) * 100
-        rng = np.random.default_rng(0)
-        boot = np.array([rng.choice(diff, len(diff), replace=True).mean() for _ in range(10000)])
-        lo, hi = np.percentile(boot, [2.5, 97.5])
-        try:
-            _, p = stats.wilcoxon(a, b)
-        except ValueError:
-            p = float("nan")
         report += [
-            f"\nspatial-Kron vs nDFA (channel-only), paired over {len(diff)} runs:",
-            f"  mean diff = {diff.mean():+.3f} pp  (95% CI [{lo:+.3f}, {hi:+.3f}])",
-            f"  Wilcoxon p = {p:.4g}",
-            "  -> spatial factor helps" if lo > 0 else
-            ("  -> spatial factor hurts" if hi < 0 else "  -> no significant difference from channel-only nDFA"),
+            f"\nspatial-Kron vs nDFA: complete crossed-design mean over {len(diff)} combinations",
+            f"  mean diff = {diff.mean():+.3f} pp",
+            "  Combinations share initialization/feedback draws; no independent-run CI or test.",
         ]
 
     out = "\n".join(report) + "\n"
