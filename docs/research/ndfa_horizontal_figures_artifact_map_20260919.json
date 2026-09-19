@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "release": "ndfa-horizontal-figures-2026-09-19",
+  "status": "verified",
+  "scope": "Four-panel rows for Figures 1, 2 and 4; restored analytic conditioning-bound panel and improved float placement. Corrected results and uncertainty estimates preserved.",
+  "manuscript_repository": "https://github.com/houman1359/Info-DFA-draft",
+  "manuscript_commit": "cdcef7d61ca3ac36a3e81166958cca103d40ba4b",
+  "code_repository": "https://github.com/KempnerInstitute/conditioned-dfa",
+  "code_source_tag": "ndfa-horizontal-figures-2026-09-19",
+  "previous_manuscript_commit": "bd0f5895e3e56181daf824721e977d6a8c3b4ebc",
+  "previous_code_commit": "47884a5",
+  "pages": {
+    "iclr": 51,
+    "iclr_main": 9,
+    "author": 49
+  },
+  "figures": 14,
+  "references": 49,
+  "appendices": 13,
+  "supplementary_tables": 37,
+  "active_sources": [
+    {
+      "path": "scripts/ndfa_figure_layout_20260919/package.py",
+      "bytes": 5458,
+      "sha256": "41a3bdfe305deba04cbf4ccafaff802ec96c9083d59d3484d3b2fe8b6e32a545"
+    },
+    {
+      "path": "scripts/ndfa_figure_layout_20260919/redraw.py",
+      "bytes": 11924,
+      "sha256": "9a69d60f9468a3a2b33013160358c3bf744936fe6d0bdace51b8b88f0d96c326"
+    },
+    {
+      "path": "scripts/ndfa_figure_layout_20260919/verify_package.py",
+      "bytes": 4207,
+      "sha256": "20d0e683dc69f8acde4a70f5b2022a79664ff2757cf77745133caa12ee99e2b3"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "drafts/Info-DFA/build/figure_layout_review_20260919/release_02/conditioned_dfa_iclr.pdf",
+      "bytes": 1039969,
+      "sha256": "73775c9364ada3c77f6f3b93b7c2e004170676f6ea8a23bc7288bccdbe3f1d02"
+    },
+    {
+      "path": "drafts/Info-DFA/build/figure_layout_review_20260919/release_02/conditioned_dfa_arxiv.pdf",
+      "bytes": 1035446,
+      "sha256": "7668d9baf412840719ca0fe8e24a87da9cf2fba11da150f6601856b258061095"
+    },
+    {
+      "path": "drafts/Info-DFA/build/figure_layout_review_20260919/release_02/build_receipt.json",
+      "bytes": 15793,
+      "sha256": "7b2c01448915997227980f62e6d83cac7d11d86ea11acef18b40ebe793218f9e"
+    },
+    {
+      "path": "drafts/Info-DFA/build/figure_layout_review_20260919/release_02/visual/figure_text_bounds.json",
+      "bytes": 2319,
+      "sha256": "9bb035c677248efb6c8fbe502abc547717af3c25515e336c6425e60073a827ae"
+    },
+    {
+      "path": "drafts/Info-DFA/build/figure_layout_review_20260919/final_figures/manifest.json",
+      "bytes": 2414,
+      "sha256": "9ce4e9ed4247e9329c40cce436586316c3cc7ca654503f3a9ecd4d23c3daac84"
+    },
+    {
+      "path": "drafts/Info-DFA/build/arxiv_horizontal_figures_20260919/release_01/conditioned_dfa_arxiv_source.zip",
+      "bytes": 575485,
+      "sha256": "a901876c052749cbbfe570d79367960863fffb6748dbcbfa04c5fec46ef0430a"
+    },
+    {
+      "path": "drafts/Info-DFA/build/arxiv_horizontal_figures_20260919/release_01/conditioned_dfa_arxiv_source.tar.gz",
+      "bytes": 551955,
+      "sha256": "003084c651f52a302d02ea1d6b9e5f95c4a4c87290cfdd7adf5265fbb0c4c65d"
+    },
+    {
+      "path": "drafts/Info-DFA/build/arxiv_horizontal_figures_20260919/release_01/build_receipt.json",
+      "bytes": 2248,
+      "sha256": "f0c57b96f73ac2633732fea4d6b80eb93b333ba3ca4b3017d2313324bc5d80f9"
+    },
+    {
+      "path": "results/ndfa_horizontal_figures_20260919/review_01/iclr_supplement.zip",
+      "bytes": 97996188,
+      "sha256": "b122ad597e47a499307379361b915a5196f64e626ef65cda28b530dfcdc8dc26"
+    },
+    {
+      "path": "results/ndfa_horizontal_figures_20260919/review_01/build_receipt.json",
+      "bytes": 774,
+      "sha256": "1b3a5f4e8fa5a8299517f34c4456b8a723567bcea0d5456888c85e5dd9230b35"
+    },
+    {
+      "path": "results/ndfa_horizontal_figures_20260919/review_01/fresh_validation/receipt.json",
+      "bytes": 435,
+      "sha256": "63052be097c23b5d7a254ff41510bf525dc3c8f3acbd8eadcb19cf30e7bf9e00"
+    },
+    {
+      "path": "results/ndfa_horizontal_figures_20260919/review_01/fresh_validation/anonymity_scan.json",
+      "bytes": 1041,
+      "sha256": "512289c09ce5d36de2af21bd16452470e390b79b0f0de070366eaebfdaa6923c"
+    }
+  ],
+  "verification": {
+    "integrity_and_paper": {
+      "exit_code": 0
+    },
+    "compact_figures": {
+      "exit_code": 0,
+      "pixel_identical_assets": 3
+    },
+    "anonymity": true,
+    "accepted": true,
+    "fresh_extraction_outside_workspace": true,
+    "model_training": false,
+    "new_test_evaluation": false,
+    "scope": "Three revised figure assets and fresh manuscript build; original experiment records unchanged; previous full scientific validation retained."
+  },
+  "all_experimental_records_byte_identical": true,
+  "previous_full_scientific_validation": "results/ndfa_second_review_release_20260919/review_03/fresh_validation/receipt.json",
+  "public_arxiv_replacement": false,
+  "conference_submission": false,
+  "path_scope": "Paths under drafts/build/results identify preserved workspace and attachment artifacts, not files promised in the public code repository."
+}
