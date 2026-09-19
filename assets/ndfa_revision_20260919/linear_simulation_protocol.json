@@ -1,0 +1,49 @@
+{
+  "dimensions": [
+    12,
+    10,
+    4
+  ],
+  "condition_number": 50,
+  "population_moments": true,
+  "activity_damping": 0.001,
+  "initial_weight_sd": 0.01,
+  "loss_ratio_threshold": 1e-06,
+  "learning_rates": [
+    0.0001,
+    0.0001600674563846453,
+    0.0002562159059345033,
+    0.0004101182834822349,
+    0.0006564659045383824,
+    0.0010507882754270427,
+    0.0016819700644641483,
+    0.0026922866993389413,
+    0.004309474838213967,
+    0.006898066757065406,
+    0.011041559997749386,
+    0.017673944233581942,
+    0.02829023297753531,
+    0.04528345633243088,
+    0.07248407671437371,
+    0.11602341788059299,
+    0.18571573381199297,
+    0.2972704512189358,
+    0.4758332498493084,
+    0.7616541796661821,
+    1.2191604718389941,
+    1.951479156519718,
+    3.123683047717644,
+    5.0
+  ],
+  "max_updates": 4000,
+  "feedback": "fixed readout transpose",
+  "readout": "iid Gaussian / sqrt(hidden width)",
+  "target": "Gaussian output map onto four lowest/highest variance eigenvectors / sqrt(input dimension)",
+  "selection": "fewest updates to threshold per rule and initialization; lower grid rate breaks ties",
+  "divergence_threshold": "nonfinite loss or >1000 * initial loss",
+  "seeds": [
+    0,
+    1,
+    2
+  ]
+}

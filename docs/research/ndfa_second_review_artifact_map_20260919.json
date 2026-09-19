@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "release": "ndfa-editorial-2026-09-19",
+  "status": "verified",
+  "manuscript_repository": "https://github.com/houman1359/Info-DFA-draft",
+  "manuscript_commit": "4077c2b8d7e0f2fe106909a89c0e9470f146568a",
+  "code_repository": "https://github.com/KempnerInstitute/conditioned-dfa",
+  "code_source_tag": "ndfa-editorial-2026-09-19",
+  "previous_code_commit": "14df9be4e99c8618d8c36fd1c08543b1e955dd10",
+  "previous_manuscript_commit": "7fa1eddfe59415e1e6979e0cfda039c4f49d66d1",
+  "pages": {
+    "iclr": 51,
+    "iclr_main": 9,
+    "author": 49
+  },
+  "figures": 14,
+  "references": 49,
+  "supplementary_tables": 37,
+  "appendices": 13,
+  "original_experimental_measurements_preserved": true,
+  "new_training": false,
+  "new_test_inference": false,
+  "active_sources": [
+    {
+      "path": "analysis/aggregate_infodfa_bn_baseline.py",
+      "bytes": 9564,
+      "sha256": "83288be30e3fa87888f84bed22bfee355de54a0cbf3ad3b3eeded49c91f72307"
+    },
+    {
+      "path": "analysis/write_infodfa_paper_tables.py",
+      "bytes": 26356,
+      "sha256": "5c7cbbfa0cd0d44c8d9d46f031c159888f8f228faad85ccb1353b0f3b15d8d22"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/bn_control_seed_differences.csv",
+      "bytes": 784,
+      "sha256": "2fe9659c1d715bf3baf84a438ce6f2ad33057f5b0cad70fb9f235e634e61c470"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/followup_contrasts.csv",
+      "bytes": 5824,
+      "sha256": "1034a92f890de416936162692e989e37609afb313e6e34edbb4bbf282c5ef15f"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/followup_endpoints.csv",
+      "bytes": 43010,
+      "sha256": "4ebdc43abf45f2f6fa8eed315f3139565950b36add6f96c047a93e5f2dbe4bf3"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/hard_cifar100_seed_means.csv",
+      "bytes": 873,
+      "sha256": "640714a2fa38f07dbafaeacef8d748fcc1ed246ce4b8e8836321c16ff5768b05"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/imagenet_clean_summary.csv",
+      "bytes": 1003,
+      "sha256": "30779fc347c812f86a5848b46a7eb6d4bf34c43069d1a57b83a205a44a5e82fe"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/imagenet_noisy_endpoints.csv",
+      "bytes": 1805,
+      "sha256": "057b6acd197f4f206efde7bcc7611500f73ea17402830d38152aed3cb3aaae56"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/linear_simulation.csv",
+      "bytes": 736,
+      "sha256": "8755b5a519db14a16939189d89187cbb54fb19e0ae57a4d58a5386c8043c0bbc"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/linear_simulation_protocol.json",
+      "bytes": 1231,
+      "sha256": "40495e8f487529e27a22779b6d08823987806f05c596272a21b3732899fc7dfc"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/nuisance_correlation_cells.csv",
+      "bytes": 8764,
+      "sha256": "c5a4c1874ad87e05ed3922d268c99b801bd80c53d947c7ddf0b8a35f5b9a1760"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/saved_results_audit.json",
+      "bytes": 3164,
+      "sha256": "bf108931b370756fefa662029105473e3b7b9166a90f528e2e1a0e849397599c"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/study_ledger.json",
+      "bytes": 19823,
+      "sha256": "fd91d5e036c11f5210a8cd3cda74afc4666f1387f4b1005c9366bc7a5a42f3c4"
+    },
+    {
+      "path": "scripts/ndfa_revision_20260919/linear_simulation.py",
+      "bytes": 2873,
+      "sha256": "5d9db0ebf5b4932b666435ad28db974141754e05a36a7ef81cb2f4e9f5180906"
+    },
+    {
+      "path": "scripts/ndfa_revision_20260919/package.py",
+      "bytes": 6807,
+      "sha256": "11f5304b5451fe1f0534bc1f0ff55b0244473e7900b47acae259ecf71d15554c"
+    },
+    {
+      "path": "scripts/ndfa_revision_20260919/prepare_evidence.py",
+      "bytes": 5942,
+      "sha256": "4a11b7fb5622f6855e3fe4cc1a1e610ef9271ba27eefc4f13b4aba63148fca83"
+    },
+    {
+      "path": "scripts/ndfa_revision_20260919/redraw.py",
+      "bytes": 9349,
+      "sha256": "1a94b395111e7cf9f7f60bf18ba72188b5e9db10474ca79883ed47263845315f"
+    },
+    {
+      "path": "scripts/ndfa_revision_20260919/verify.py",
+      "bytes": 3144,
+      "sha256": "980ad00156aca420d51771c37cb90d13bf0c4d6ce69c10ed1ea21cdc7d3814a7"
+    },
+    {
+      "path": "scripts/ndfa_revision_20260919/verify_package.py",
+      "bytes": 4273,
+      "sha256": "3852bb54a3c0926310e4b330c5131f0abc4418631638c92ec8256527726cae70"
+    },
+    {
+      "path": "scripts/ndfa_revision_20260919/visual_check.py",
+      "bytes": 2141,
+      "sha256": "04badcaed5a4bb3ddf0ea446abe1a5ce57900ce7302980d25acd98759f9fe31b"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "drafts/Info-DFA/build/second_review_20260919/release_04/conditioned_dfa_iclr.pdf",
+      "bytes": 1051003,
+      "sha256": "5c824c9f5396dd1c25f6d47708236ff4dc75b5f2117ee17163259206ae321116"
+    },
+    {
+      "path": "drafts/Info-DFA/build/second_review_20260919/release_04/conditioned_dfa_arxiv.pdf",
+      "bytes": 1046339,
+      "sha256": "c762f915c62c2d107111825dfb82b9672b094b857db7d8d3a24df191bb837e8b"
+    },
+    {
+      "path": "drafts/Info-DFA/build/second_review_20260919/release_04/build_receipt.json",
+      "bytes": 15785,
+      "sha256": "fd77a4938a22ed9770fe777fa414a2a499ef95378fa90d8b63c896349c2d2e0a"
+    },
+    {
+      "path": "drafts/Info-DFA/build/second_review_20260919/release_04/visual_review.json",
+      "bytes": 2771,
+      "sha256": "7de7ed9e2586ec0057d96ea1b11b8d846bc5a259e90961ff69fff3d5cd9be265"
+    },
+    {
+      "path": "drafts/Info-DFA/build/arxiv_package_20260919/release_03/conditioned_dfa_arxiv_source.zip",
+      "bytes": 586619,
+      "sha256": "04af796d3ccd9e2c942aca568eb44273245d52e8ca29d2bf8e24b9166c2256fd"
+    },
+    {
+      "path": "drafts/Info-DFA/build/arxiv_package_20260919/release_03/conditioned_dfa_arxiv_source.tar.gz",
+      "bytes": 563371,
+      "sha256": "46b65de772a15e7c32621549e240a9c0bcfc8ef07e9abeecc3d03f6aa27f6ba7"
+    },
+    {
+      "path": "drafts/Info-DFA/build/arxiv_package_20260919/release_03/build_receipt.json",
+      "bytes": 2250,
+      "sha256": "d2c22479a245ec9651394190fd2069df28d19ca57b754d5f49974a8f34312d10"
+    },
+    {
+      "path": "results/ndfa_second_review_release_20260919/review_03/iclr_supplement.zip",
+      "bytes": 98016578,
+      "sha256": "44ac825cbf5204300ae2d5211e62e6b155aec6eda0ab8595aa66872d85c2d6b0"
+    },
+    {
+      "path": "results/ndfa_second_review_release_20260919/review_03/build_receipt.json",
+      "bytes": 324,
+      "sha256": "96e04e8090ae88d8893813c3e83393df32aba4909bae6431bcfcf35fa4f37cae"
+    },
+    {
+      "path": "results/ndfa_second_review_release_20260919/review_03/fresh_validation/receipt.json",
+      "bytes": 429,
+      "sha256": "39a8b632a857ad357e7c8e66b06d3b461f0080fe3b36460280dd0f4b5e8f8ed4"
+    },
+    {
+      "path": "results/ndfa_second_review_release_20260919/review_03/fresh_validation/anonymity_scan.json",
+      "bytes": 1041,
+      "sha256": "512289c09ce5d36de2af21bd16452470e390b79b0f0de070366eaebfdaa6923c"
+    },
+    {
+      "path": "results/ndfa_revision_20260919/verification.json",
+      "bytes": 322,
+      "sha256": "10af2b8a6959a418c2e9a551ddfde1da23551f8c1a39dc306b1788c52b442660"
+    },
+    {
+      "path": "results/ndfa_revision_20260919/curation.json",
+      "bytes": 1051,
+      "sha256": "8721c084a54adcf021d0928a82476f2a99d010a2b295b8837bea59bf6c5a6f1b"
+    }
+  ],
+  "verification": {
+    "retained_evidence": {
+      "exit_code": 0
+    },
+    "revision_evidence": {
+      "exit_code": 0
+    },
+    "revision_math": {
+      "exit_code": 0
+    },
+    "second_review_statistics": {
+      "exit_code": 0
+    },
+    "revised_figures": {
+      "exit_code": 0,
+      "pixel_identical_assets": 13
+    },
+    "anonymity": true,
+    "accepted": true,
+    "fresh_extraction_outside_workspace": true,
+    "model_training": false,
+    "new_test_evaluation": false
+  },
+  "public_arxiv_replacement": false,
+  "conference_submission": false,
+  "path_scope": "Paths under drafts/build/results describe preserved workspace or review-attachment artifacts, not files promised in the public code repository."
+}

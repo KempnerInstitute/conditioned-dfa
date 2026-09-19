@@ -172,7 +172,15 @@ def vision_summary() -> pd.DataFrame:
 
 
 def hard_cifar_summary() -> pd.DataFrame:
+    raw = read_csv("infodfa_hard_cifar100_confirm_aggregate_v2/dfa_convnet_all.csv")
+    final = raw.sort_values("epoch").groupby(
+        ["method", "seed", "feedback_seed"], dropna=False).tail(1)
+    seeds = final.groupby(["method", "seed"]).test_acc.mean()
     df = read_csv("infodfa_hard_cifar100_confirm_aggregate_v2/dfa_convnet_summary.csv")
+    # Keep training-run counts distinct from the conditional SEM unit.
+    df["test_sem"] = df.method.map(seeds.groupby("method").sem())
+    df["global_seeds"] = df.method.map(seeds.groupby("method").size())
+    df["replication_unit"] = "global-seed means conditional on retained feedback set"
     order = ["bp", "local_loss", "ndfa_random", "ndfa_random_kronecker", "dfa_random", "drtp_random"]
     df = df.set_index("method").loc[order].reset_index()
     dfa = float(df.loc[df["method"] == "dfa_random", "test_mean"].iloc[0])
@@ -342,10 +350,12 @@ def write_hard_cifar_table(df: pd.DataFrame) -> None:
         TABLE_DIR / "table_infodfa_hard_cifar.tex",
         caption=(
             "Hard CIFAR-100 convnet confirmation. The conditioned local rules improve raw DFA by about "
-            "8 percentage points, but remain below BP and the local auxiliary-loss baseline."
+            "8 percentage points, but remain below BP and the local auxiliary-loss baseline. "
+            "Errors are SEMs across five global-seed means after averaging feedback draws, "
+            "conditional on the retained feedback set. Crossed runs are not independent replicates."
         ),
         label="tab:infodfa_hard_cifar",
-        headers=["Method", "Test accuracy", "Train accuracy", "$\\Delta$ vs DFA", "$n$"],
+        headers=["Method", "Test accuracy", "Train accuracy", "$\\Delta$ vs DFA", "Training runs"],
         rows=rows,
         resize=False,
     )

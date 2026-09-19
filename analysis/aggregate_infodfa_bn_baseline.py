@@ -33,7 +33,8 @@ if str(ROOT) not in sys.path:
 
 from infogeo.analysis import dataframe_to_markdown, write_markdown_report
 
-RESULTS = ROOT / "results" / "infodfa_bn_baseline_v1"
+INPUT_RESULTS = ROOT / "results" / "infodfa_bn_baseline_v1"
+RESULTS = Path(os.environ.get("INFODFA_BN_BASELINE_OUTPUT", INPUT_RESULTS))
 LEGACY = Path(os.environ.get("INFODFA_LEGACY_RESULTS", ROOT / ".." / "Info-Man" / "results")).resolve()
 
 SYN_CELL = ["condition", "input_noise", "n_train", "train_label_noise"]
@@ -72,10 +73,11 @@ def per_cell_method_means(final: pd.DataFrame, cell: list[str], suffix: str) -> 
 
 
 def main() -> None:
+    RESULTS.mkdir(parents=True, exist_ok=True)
     # --- synthetic suite ---
     syn_run_keys = SYN_CELL + ["method", "seed", "feedback_seed", "feedback_rank"]
     bn_syn = load_final(
-        glob.glob(str(RESULTS / "synthetic" / "*" / "ntrain_*" / "label_*" / "input_*" / "dfa_multioutput_results.csv")),
+        glob.glob(str(INPUT_RESULTS / "synthetic" / "*" / "ntrain_*" / "label_*" / "input_*" / "dfa_multioutput_results.csv")),
         syn_run_keys,
     )
     legacy_syn_all = pd.read_csv(
@@ -108,9 +110,23 @@ def main() -> None:
         "delta_kndfa_minus_dfa_bn", "delta_bp_bn_minus_bp",
     ]
     agg = {c: (c, "mean") for c in value_cols}
-    agg.update({f"{c}_sem": (c, "sem") for c in ["delta_dfa_bn_minus_dfa", "delta_ndfa_minus_dfa_bn"]})
     agg["n_cells"] = ("dfa_bn", "size")
     regime = cells.groupby("condition", as_index=False).agg(**agg)
+    # The grid reuses global seeds. Average feedback draws and the complete
+    # grid within each seed before estimating replication uncertainty.
+    seed_cells = per_cell_method_means(legacy_syn, SYN_CELL + ["seed"], "").merge(
+        per_cell_method_means(bn_syn, SYN_CELL + ["seed"], "_bn"),
+        on=SYN_CELL + ["seed"], validate="one_to_one")
+    assert len(seed_cells) == 128 * 5
+    seed_cells["delta_dfa_bn_minus_dfa"] = seed_cells.dfa_bn - seed_cells.dfa
+    seed_cells["delta_ndfa_minus_dfa_bn"] = seed_cells.ndfa - seed_cells.dfa_bn
+    contrasts = ["delta_dfa_bn_minus_dfa", "delta_ndfa_minus_dfa_bn"]
+    seed_means = seed_cells.groupby(["condition", "seed"])[contrasts].mean().reset_index()
+    assert seed_means.groupby("condition").size().eq(5).all()
+    seed_means.to_csv(RESULTS / "bn_baseline_synthetic_seed_contrasts.csv", index=False)
+    errors = seed_means.groupby("condition")[contrasts].sem().add_suffix("_sem")
+    regime = regime.merge(errors, on="condition", validate="one_to_one")
+    regime["replication_unit"] = "five global-seed means; fixed grid and feedback draws"
     regime["condition"] = pd.Categorical(regime["condition"], COND_ORDER, ordered=True)
     regime = regime.sort_values("condition")
     regime.to_csv(RESULTS / "bn_baseline_synthetic_regime.csv", index=False)
@@ -118,7 +134,7 @@ def main() -> None:
     # --- noisy Fashion-MNIST ---
     vis_run_keys = ["dataset"] + VIS_CELL + ["method", "seed", "feedback_seed", "feedback_rank"]
     bn_vis = load_final(
-        glob.glob(str(RESULTS / "fashion_mnist" / "ntrain_*" / "label_*" / "dfa_nmnc_results.csv")),
+        glob.glob(str(INPUT_RESULTS / "fashion_mnist" / "ntrain_*" / "label_*" / "dfa_nmnc_results.csv")),
         vis_run_keys,
     )
     legacy_vis_all = pd.read_csv(
@@ -154,7 +170,9 @@ def main() -> None:
             "seeds, otherwise the paper sweep protocol. Comparison partners are the paper's "
             "no-BN sweeps restricted to the SAME cells, SAME data seeds (0-4), SAME feedback "
             "seeds (0-2), and full-rank (`feedback_rank == 0`) rows; per-cell values are means "
-            "over seed x feedback_seed at the final epoch.",
+            "over seed x feedback_seed at the final epoch. Reported contrast SEMs use five "
+            "global-seed summaries after averaging the full grid and feedback draws; they "
+            "are conditional on the fixed designed conditions and feedback set.",
         ),
         ("Synthetic: per-regime means (mean over the 32 cells per regime)", dataframe_to_markdown(regime, float_format=".4f")),
         ("Fashion-MNIST: per-cell values", dataframe_to_markdown(vis_cells, float_format=".4f")),
