@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "release": "ndfa-abstract-2026-09-19",
+  "status": "verified",
+  "manuscript_repository": "https://github.com/houman1359/Info-DFA-draft",
+  "manuscript_commit": "bd0f5895e3e56181daf824721e977d6a8c3b4ebc",
+  "code_repository": "https://github.com/KempnerInstitute/conditioned-dfa",
+  "code_source_tag": "ndfa-abstract-2026-09-19",
+  "previous_code_commit": "ae2d6e3139d18216b2f26bb056edbd097e5f1613",
+  "previous_manuscript_commit": "4077c2b8d7e0f2fe106909a89c0e9470f146568a",
+  "pages": {
+    "iclr": 51,
+    "iclr_main": 9,
+    "author": 49
+  },
+  "figures": 14,
+  "references": 49,
+  "supplementary_tables": 37,
+  "appendices": 13,
+  "original_experimental_measurements_preserved": true,
+  "new_training": false,
+  "new_test_inference": false,
+  "active_sources": [
+    {
+      "path": "analysis/aggregate_infodfa_bn_baseline.py",
+      "bytes": 9564,
+      "sha256": "83288be30e3fa87888f84bed22bfee355de54a0cbf3ad3b3eeded49c91f72307"
+    },
+    {
+      "path": "analysis/write_infodfa_paper_tables.py",
+      "bytes": 26356,
+      "sha256": "5c7cbbfa0cd0d44c8d9d46f031c159888f8f228faad85ccb1353b0f3b15d8d22"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/bn_control_seed_differences.csv",
+      "bytes": 784,
+      "sha256": "2fe9659c1d715bf3baf84a438ce6f2ad33057f5b0cad70fb9f235e634e61c470"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/followup_contrasts.csv",
+      "bytes": 5824,
+      "sha256": "1034a92f890de416936162692e989e37609afb313e6e34edbb4bbf282c5ef15f"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/followup_endpoints.csv",
+      "bytes": 43010,
+      "sha256": "4ebdc43abf45f2f6fa8eed315f3139565950b36add6f96c047a93e5f2dbe4bf3"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/hard_cifar100_seed_means.csv",
+      "bytes": 873,
+      "sha256": "640714a2fa38f07dbafaeacef8d748fcc1ed246ce4b8e8836321c16ff5768b05"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/imagenet_clean_summary.csv",
+      "bytes": 1003,
+      "sha256": "30779fc347c812f86a5848b46a7eb6d4bf34c43069d1a57b83a205a44a5e82fe"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/imagenet_noisy_endpoints.csv",
+      "bytes": 1805,
+      "sha256": "057b6acd197f4f206efde7bcc7611500f73ea17402830d38152aed3cb3aaae56"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/linear_simulation.csv",
+      "bytes": 736,
+      "sha256": "8755b5a519db14a16939189d89187cbb54fb19e0ae57a4d58a5386c8043c0bbc"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/linear_simulation_protocol.json",
+      "bytes": 1231,
+      "sha256": "40495e8f487529e27a22779b6d08823987806f05c596272a21b3732899fc7dfc"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/nuisance_correlation_cells.csv",
+      "bytes": 8764,
+      "sha256": "c5a4c1874ad87e05ed3922d268c99b801bd80c53d947c7ddf0b8a35f5b9a1760"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/saved_results_audit.json",
+      "bytes": 3164,
+      "sha256": "bf108931b370756fefa662029105473e3b7b9166a90f528e2e1a0e849397599c"
+    },
+    {
+      "path": "assets/ndfa_revision_20260919/study_ledger.json",
+      "bytes": 19823,
+      "sha256": "fd91d5e036c11f5210a8cd3cda74afc4666f1387f4b1005c9366bc7a5a42f3c4"
+    },
+    {
+      "path": "scripts/ndfa_revision_20260919/linear_simulation.py",
+      "bytes": 2873,
+      "sha256": "5d9db0ebf5b4932b666435ad28db974141754e05a36a7ef81cb2f4e9f5180906"
+    },
+    {
+      "path": "scripts/ndfa_revision_20260919/package.py",
+      "bytes": 6807,
+      "sha256": "11f5304b5451fe1f0534bc1f0ff55b0244473e7900b47acae259ecf71d15554c"
+    },
+    {
+      "path": "scripts/ndfa_revision_20260919/prepare_evidence.py",
+      "bytes": 5942,
+      "sha256": "4a11b7fb5622f6855e3fe4cc1a1e610ef9271ba27eefc4f13b4aba63148fca83"
+    },
+    {
+      "path": "scripts/ndfa_revision_20260919/redraw.py",
+      "bytes": 9349,
+      "sha256": "1a94b395111e7cf9f7f60bf18ba72188b5e9db10474ca79883ed47263845315f"
+    },
+    {
+      "path": "scripts/ndfa_revision_20260919/verify.py",
+      "bytes": 3144,
+      "sha256": "980ad00156aca420d51771c37cb90d13bf0c4d6ce69c10ed1ea21cdc7d3814a7"
+    },
+    {
+      "path": "scripts/ndfa_revision_20260919/verify_package.py",
+      "bytes": 4273,
+      "sha256": "3852bb54a3c0926310e4b330c5131f0abc4418631638c92ec8256527726cae70"
+    },
+    {
+      "path": "scripts/ndfa_revision_20260919/visual_check.py",
+      "bytes": 2141,
+      "sha256": "04badcaed5a4bb3ddf0ea446abe1a5ce57900ce7302980d25acd98759f9fe31b"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "drafts/Info-DFA/build/abstract_revision_20260919/release_01/conditioned_dfa_iclr.pdf",
+      "bytes": 1050912,
+      "sha256": "406ccb8a968801a49e41677e6f2fb09940135ec54484cb3f6073c59d760cce41"
+    },
+    {
+      "path": "drafts/Info-DFA/build/abstract_revision_20260919/release_01/conditioned_dfa_arxiv.pdf",
+      "bytes": 1046345,
+      "sha256": "d3b6b381bd41e7e638fe417fb3daa55ccafa80de6e45019eca2b8592a59a6a75"
+    },
+    {
+      "path": "drafts/Info-DFA/build/abstract_revision_20260919/release_01/build_receipt.json",
+      "bytes": 15785,
+      "sha256": "9bbea6ddc5763c9de805638a5131b32a0d1eda120c42d1e2d8b61b4a19811341"
+    },
+    {
+      "path": "drafts/Info-DFA/build/arxiv_abstract_20260919/release_01/conditioned_dfa_arxiv_source.zip",
+      "bytes": 586604,
+      "sha256": "ae38f335c02050e7f44cb6a7b4821e7560a872a4f633621ebd06f05b5432023a"
+    },
+    {
+      "path": "drafts/Info-DFA/build/arxiv_abstract_20260919/release_01/conditioned_dfa_arxiv_source.tar.gz",
+      "bytes": 563357,
+      "sha256": "a4d466ba612151a4e7f74963750d125caef3b8c5d7e1b61053b1001222c25919"
+    },
+    {
+      "path": "drafts/Info-DFA/build/arxiv_abstract_20260919/release_01/build_receipt.json",
+      "bytes": 2250,
+      "sha256": "19070df63da40e7dabde74a3f9dc9005437d0ce4d489c54c1a4a7d38a54d28e3"
+    },
+    {
+      "path": "results/ndfa_abstract_release_20260919/review_01/iclr_supplement.zip",
+      "bytes": 98016526,
+      "sha256": "dfa89c19814e3a4dc4c1172a943bec578197e306e47d9fa43d47d750d0bbee56"
+    },
+    {
+      "path": "results/ndfa_abstract_release_20260919/review_01/build_receipt.json",
+      "bytes": 267,
+      "sha256": "d343a96bd00d68689fd90c19ee04495aa37e81f8750b55ca40c11f0281216b84"
+    },
+    {
+      "path": "results/ndfa_abstract_release_20260919/review_01/fresh_validation/receipt.json",
+      "bytes": 888,
+      "sha256": "55222faa757bc01d2aaa1f87dab28a3038bd7c36e292ff997bf23b55ee0d6709"
+    },
+    {
+      "path": "results/ndfa_abstract_release_20260919/review_01/fresh_validation/anonymity_scan.json",
+      "bytes": 1041,
+      "sha256": "512289c09ce5d36de2af21bd16452470e390b79b0f0de070366eaebfdaa6923c"
+    },
+    {
+      "path": "docs/research/ndfa_submission_abstract_20260919.txt",
+      "bytes": 1799,
+      "sha256": "e8820cbc2f9b8c29a80e21fe4ed7467fe3b05e2118707df44eaf736aeb158a1b"
+    }
+  ],
+  "verification": {
+    "accepted": true,
+    "scope": "Abstract-only revision; fresh archive integrity, independent manuscript rebuild and anonymity scan. Unchanged scientific inputs and figures inherit their verified previous checks.",
+    "changed_archive_files": [
+      "review_package/PACKAGE_MANIFEST.json",
+      "review_package/paper/conditioned_dfa_iclr.pdf",
+      "review_package/paper/paper_body.tex"
+    ],
+    "all_other_archive_files_byte_identical": true,
+    "source_outside_abstract_unchanged": true,
+    "fresh_extraction_outside_workspace": true,
+    "previous_full_validation": "results/ndfa_second_review_release_20260919/review_03/fresh_validation/receipt.json",
+    "previous_validation_sha256": "39a8b632a857ad357e7c8e66b06d3b461f0080fe3b36460280dd0f4b5e8f8ed4",
+    "zip_sha256": "dfa89c19814e3a4dc4c1172a943bec578197e306e47d9fa43d47d750d0bbee56",
+    "new_training": false,
+    "new_test_inference": false
+  },
+  "public_arxiv_replacement": false,
+  "conference_submission": false,
+  "path_scope": "Paths under drafts/build/results describe preserved workspace or review-attachment artifacts, not files promised in the public code repository.",
+  "scope": "Abstract-only wording change at author request: qualitative comparisons replace isolated runtime and accuracy-difference numerals. All scientific content and figure assets are unchanged."
+}

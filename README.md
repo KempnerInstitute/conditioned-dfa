@@ -29,9 +29,9 @@ experimental records remain available in the research and review archives.
 ## Reproduction and evidence
 
 [REPRODUCE.md](REPRODUCE.md) gives build, verification, figure and training
-commands. The [artifact map](docs/research/ndfa_second_review_artifact_map_20260919.json)
+commands. The [artifact map](docs/research/ndfa_abstract_artifact_map_20260919.json)
 binds source hashes, audited evidence, PDFs and upload archives to this revision.
-The current tag is `ndfa-editorial-2026-09-19` in both code and manuscript repositories.
+The current tag is `ndfa-abstract-2026-09-19` in both code and manuscript repositories.
 
 | Claim or artifact | Implementation / record |
 |---|---|

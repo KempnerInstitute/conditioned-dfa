@@ -1,8 +1,8 @@
 # Reproducing the second-review revision
 
-The [artifact map](docs/research/ndfa_second_review_artifact_map_20260919.json) binds
+The [artifact map](docs/research/ndfa_abstract_artifact_map_20260919.json) binds
 this revision to exact source and evidence hashes. The manuscript and code
-repositories share the tag `ndfa-editorial-2026-09-19`. The main ICLR text,
+repositories share the tag `ndfa-abstract-2026-09-19`. The main ICLR text,
 including every main figure and table, fits within nine pages in the official
 style. The full documents have 51 pages (ICLR) and 49 pages (author preprint),
 with 14 active figures and 49 references.
@@ -12,7 +12,7 @@ with 14 active figures and 49 references.
 From this code repository, obtain the separate manuscript sources:
 
 ```bash
-git clone --branch ndfa-editorial-2026-09-19 https://github.com/houman1359/Info-DFA-draft.git drafts/Info-DFA
+git clone --branch ndfa-abstract-2026-09-19 https://github.com/houman1359/Info-DFA-draft.git drafts/Info-DFA
 python -m pip install -r requirements.txt
 python drafts/Info-DFA/scripts/build_manuscript.py
 python drafts/Info-DFA/scripts/build_arxiv_package.py --output-dir drafts/Info-DFA/build/arxiv_upload --reference-pdf drafts/Info-DFA/build/checked/conditioned_dfa_arxiv.pdf
