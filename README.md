@@ -22,10 +22,11 @@ into 13 appendices, removes duplicate/development presentations and supplies a
 study ledger. The active paper has 14 figures and 49 references. No new model
 training was needed. See the [second-review findings](docs/research/ndfa_second_review_revision_20260919.md).
 
-The final [figure-layout revision](docs/research/ndfa_horizontal_figures_20260919.md)
-restores four-panel rows in Figures 1, 2 and 4, including the analytic
-conditioning-bound panel. Corrected measurements and uncertainty estimates
-are preserved.
+The current [figure revision](docs/research/ndfa_figures_3_5_revision_20260919.md)
+compacts Figure 3 and expands Figure 5 to four panels, adding the existing
+work and width follow-ups. Duplicate supplementary panels are removed.
+The preceding horizontal layouts in Figures 1, 2 and 4 remain unchanged;
+corrected measurements and uncertainty estimates are preserved.
 
 The preceding [experimental revision](docs/research/ndfa_revision_findings_20260918.md)
 remains integrated, including all 202 targeted follow-up cases. Original
@@ -34,9 +35,9 @@ experimental records remain available in the research and review archives.
 ## Reproduction and evidence
 
 [REPRODUCE.md](REPRODUCE.md) gives build, verification, figure and training
-commands. The [artifact map](docs/research/ndfa_horizontal_figures_artifact_map_20260919.json)
+commands. The [artifact map](docs/research/ndfa_expanded_figures_artifact_map_20260919.json)
 binds source hashes, audited evidence, PDFs and upload archives to this revision.
-The current tag is `ndfa-horizontal-figures-2026-09-19` in both code and manuscript repositories.
+The current tag is `ndfa-expanded-figures-2026-09-19` in both code and manuscript repositories.
 
 | Claim or artifact | Implementation / record |
 |---|---|

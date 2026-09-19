@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "release": "ndfa-expanded-figures-2026-09-19",
+  "status": "verified",
+  "scope": "Compact Figure 3; expand Figure 5 with existing longer-work and retuned-width contrasts; retain normalization without duplicate supplementary panels.",
+  "manuscript_repository": "https://github.com/houman1359/Info-DFA-draft",
+  "manuscript_commit": "6ec78fb50dcca76e2fc9c55bf73da4348a1232fd",
+  "code_repository": "https://github.com/KempnerInstitute/conditioned-dfa",
+  "code_source_tag": "ndfa-expanded-figures-2026-09-19",
+  "previous_manuscript_commit": "cdcef7d61ca3ac36a3e81166958cca103d40ba4b",
+  "previous_code_commit": "27d1f5951635f2c055e3159cdf3438573b944419",
+  "pages": {
+    "iclr": 51,
+    "iclr_main": 9,
+    "author": 49
+  },
+  "figures": 14,
+  "references": 49,
+  "appendices": 13,
+  "supplementary_tables": 37,
+  "active_sources": [
+    {
+      "path": "scripts/ndfa_figure_layout_20260919/package.py",
+      "bytes": 6077,
+      "sha256": "1c69fecf05637af1e5f2f678b85ee6bbd8fb1b72c9b940d9f52ee010f57703b5"
+    },
+    {
+      "path": "scripts/ndfa_figure_layout_20260919/redraw.py",
+      "bytes": 20892,
+      "sha256": "406db45c8fb2f2762f06b672a38accba53111a42cbd3a0352709d0efa2e9cba5"
+    },
+    {
+      "path": "scripts/ndfa_figure_layout_20260919/verify_package.py",
+      "bytes": 4241,
+      "sha256": "a36cfc86fadff2e98616dc54119a9869ebe8e485e6a14df7d4afe393df07bbcc"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "drafts/Info-DFA/build/figure35_revision_20260919/release_02/conditioned_dfa_iclr.pdf",
+      "bytes": 1027572,
+      "sha256": "c05b5f0600f4752d080b1de59d5cae163bc4d1a9898330cc8260b83f20014bc0"
+    },
+    {
+      "path": "drafts/Info-DFA/build/figure35_revision_20260919/release_02/conditioned_dfa_arxiv.pdf",
+      "bytes": 1023817,
+      "sha256": "44a709be2ff1f1850ca0239a5f601f74a396193515c9de83c0aa63ad916ac2d8"
+    },
+    {
+      "path": "drafts/Info-DFA/build/figure35_revision_20260919/release_02/build_receipt.json",
+      "bytes": 15793,
+      "sha256": "7083b898b1b50efab9576449275c7d8ee4947b7c15f07c6df2261fde4ca8acbb"
+    },
+    {
+      "path": "drafts/Info-DFA/build/figure35_revision_20260919/release_02/visual/figure_text_bounds.json",
+      "bytes": 2318,
+      "sha256": "b7be6eee29fb8e9b8cffbb1955d39b6deaf9f9981e2e0d4b0986232de8e5756b"
+    },
+    {
+      "path": "drafts/Info-DFA/build/figure35_revision_20260919/final_figures/manifest.json",
+      "bytes": 15446,
+      "sha256": "784d676784c22ccd9a24cf8b54ba9ab5d0212d8017662637f093ad0352a2c9a1"
+    },
+    {
+      "path": "drafts/Info-DFA/build/arxiv_expanded_figures_20260919/release_01/conditioned_dfa_arxiv_source.zip",
+      "bytes": 564562,
+      "sha256": "5d58cefd4685ede3d9d396cc11cf7fd2e6c8dcee0031af1fbca8508314affd3b"
+    },
+    {
+      "path": "drafts/Info-DFA/build/arxiv_expanded_figures_20260919/release_01/conditioned_dfa_arxiv_source.tar.gz",
+      "bytes": 542191,
+      "sha256": "af794cfd5964b9fd8c3f061598f081f55c58dc984b28fc57226465a947e4ffe1"
+    },
+    {
+      "path": "drafts/Info-DFA/build/arxiv_expanded_figures_20260919/release_01/build_receipt.json",
+      "bytes": 2248,
+      "sha256": "67d7b93417a76b169cb8208fec1ad446fe9dd9671f9b3b92c773544ad74c6e80"
+    },
+    {
+      "path": "results/ndfa_expanded_figures_20260919/review_01/iclr_supplement.zip",
+      "bytes": 97977707,
+      "sha256": "4643b5c62f74d799107ae7d209e89a37647de8958e512731c93d53ed1f5f062f"
+    },
+    {
+      "path": "results/ndfa_expanded_figures_20260919/review_01/build_receipt.json",
+      "bytes": 776,
+      "sha256": "80ace39f67e94541da1d57010c80cc9a0bc49e0fc36f96dae696da38f7d2b758"
+    },
+    {
+      "path": "results/ndfa_expanded_figures_20260919/review_01/fresh_validation/receipt.json",
+      "bytes": 469,
+      "sha256": "6f66dcf0633f3b26aebdb0e3cf4a7fdccb5dbf7de4d18be8d6216a2762170305"
+    },
+    {
+      "path": "results/ndfa_expanded_figures_20260919/review_01/fresh_validation/anonymity_scan.json",
+      "bytes": 1041,
+      "sha256": "512289c09ce5d36de2af21bd16452470e390b79b0f0de070366eaebfdaa6923c"
+    }
+  ],
+  "verification": {
+    "integrity_and_paper": {
+      "exit_code": 0
+    },
+    "compact_figures": {
+      "exit_code": 0,
+      "pixel_identical_assets": 6
+    },
+    "anonymity": true,
+    "accepted": true,
+    "fresh_extraction_outside_workspace": true,
+    "model_training": false,
+    "new_test_evaluation": false,
+    "scope": "Six final figure assets, including all 21 Figure 5 contrasts, and fresh manuscript build; original experiment records unchanged; previous full scientific validation retained."
+  },
+  "figure5": {
+    "original_contrasts_retained": 9,
+    "existing_followup_contrasts_added": 12,
+    "total": 21,
+    "no_cohort_pooling": true,
+    "all_paired_means_and_intervals_checked": true
+  },
+  "figures_1_2_4_byte_identical_to_previous_release": true,
+  "all_experimental_records_byte_identical": true,
+  "previous_full_scientific_validation": "results/ndfa_second_review_release_20260919/review_03/fresh_validation/receipt.json",
+  "public_arxiv_replacement": false,
+  "conference_submission": false,
+  "path_scope": "Paths under drafts/build/results identify preserved workspace and attachment artifacts, not files promised in the public code repository."
+}

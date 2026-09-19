@@ -1,8 +1,8 @@
 # Reproducing the second-review revision
 
-The [artifact map](docs/research/ndfa_horizontal_figures_artifact_map_20260919.json) binds
+The [artifact map](docs/research/ndfa_expanded_figures_artifact_map_20260919.json) binds
 this revision to exact source and evidence hashes. The manuscript and code
-repositories share the tag `ndfa-horizontal-figures-2026-09-19`. The main ICLR text,
+repositories share the tag `ndfa-expanded-figures-2026-09-19`. The main ICLR text,
 including every main figure and table, fits within nine pages in the official
 style. The full documents have 51 pages (ICLR) and 49 pages (author preprint),
 with 14 active figures and 49 references.
@@ -12,7 +12,7 @@ with 14 active figures and 49 references.
 From this code repository, obtain the separate manuscript sources:
 
 ```bash
-git clone --branch ndfa-horizontal-figures-2026-09-19 https://github.com/houman1359/Info-DFA-draft.git drafts/Info-DFA
+git clone --branch ndfa-expanded-figures-2026-09-19 https://github.com/houman1359/Info-DFA-draft.git drafts/Info-DFA
 python -m pip install -r requirements.txt
 python drafts/Info-DFA/scripts/build_manuscript.py
 python drafts/Info-DFA/scripts/build_arxiv_package.py --output-dir drafts/Info-DFA/build/arxiv_upload --reference-pdf drafts/Info-DFA/build/checked/conditioned_dfa_arxiv.pdf
@@ -87,9 +87,10 @@ python analysis/validate_mode_timing.py
 ```
 
 The first command produces 13 revised plots; the second applies the final
-horizontal layouts to Figures 1, 2 and 4 while checking their plotted values
-against the corrected preceding generator. The third produces the corrected
-mode-timing figure and numerical comparisons. The cache contains locally
+layouts to all five main figures and the supplementary normalization figure.
+It checks retained measurements and all 21 Figure 5 paired contrasts against
+the preceding generator and source summaries. The third command produces
+the corrected mode-timing figure and numerical comparisons. The cache contains locally
 constructed Matplotlib figures, with obsolete panels replaced from audited
 measurements by the generator. Its hash is recorded; use only the supplied
 artifact. Full-workspace audits are `audit_saved.py` and `audit_followups.py`

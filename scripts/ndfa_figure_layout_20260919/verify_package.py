@@ -46,7 +46,7 @@ def main():
         (out/'anonymity_scan.json').write_text(json.dumps(scan,indent=2)+'\n')
         results['anonymity']=scan['ready_for_anonymous_distribution']
         assert results['anonymity'],str(unresolved[:5])
-    results.update(accepted=True,fresh_extraction_outside_workspace=True,model_training=False,new_test_evaluation=False,scope='Three revised figure assets and fresh manuscript build; original experiment records unchanged; previous full scientific validation retained.')
+    results.update(accepted=True,fresh_extraction_outside_workspace=True,model_training=False,new_test_evaluation=False,scope='Six final figure assets, including all 21 Figure 5 contrasts, and fresh manuscript build; original experiment records unchanged; previous full scientific validation retained.')
     (out/'receipt.json').write_text(json.dumps(results,indent=2)+'\n')
     print(json.dumps(results,indent=2))
 if __name__=='__main__':main()

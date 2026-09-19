@@ -1,8 +1,10 @@
 """Compact four-panel figures at the final ICLR text width.
 
 Use the corrected September 19 generator for all measurements and uncertainty
-estimates. Only Figures 1, 2 and 4 are changed here. The restored conditioning
-panel is an analytic identity, not a simulated convergence-rate claim.
+estimates. Figures 1, 2 and 4 use four-panel rows; Figure 3 is compacted and
+Figure 5 includes the existing longer-work and retuned-width follow-ups.
+The restored conditioning panel is an analytic identity, not a simulated
+convergence-rate claim.
 """
 from pathlib import Path
 import argparse
@@ -16,9 +18,11 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.collections import PathCollection, PolyCollection, LineCollection
 from matplotlib.patches import Ellipse, FancyArrowPatch, Rectangle
+from matplotlib.lines import Line2D
 from matplotlib.ticker import NullLocator
 import numpy as np
 import pandas as pd
+from scipy.stats import t
 
 ROOT = Path(__file__).resolve().parents[2]
 spec = importlib.util.spec_from_file_location(
@@ -28,6 +32,9 @@ spec.loader.exec_module(previous)
 COL = previous.m.COL
 NAMES = ["iclr_fig_theory_conditioning", "iclr_fig1_rule_and_positive_regimes",
          "iclr_fig_controls_composite"]
+REPLICATION = "iclr_fig_error_kndfa_replication"
+PRACTICAL = "ndfa_final_test_summary_20260915"
+STABILITY = "ndfa_targeted_followups_20260918"
 
 
 def measured_artists(fig):
@@ -218,6 +225,156 @@ def controls(fig):
     return fig
 
 
+def compact_replication(fig):
+    """Preserve all three panels and every seed/interval; reduce empty height."""
+    row_layout(fig, ["E − DFA", "K − A", "Predictive loss"], height=1.80,
+               positions=[(.08,.225),(.417,.225),(.755,.225)], bottom=.255, top=.79)
+    for i, letter in enumerate(fig.texts):
+        letter.set_position((.005+i*.3375,.925))
+    for ax in fig.axes[:2]:
+        for item in list(ax.texts):
+            item.remove()  # Means already have explicit markers and intervals.
+        ax.set_ylabel("Gain (pp)")
+    fig.axes[0].set_yticks([0,5,10])
+    fig.axes[1].set_yticks([0,.5,1], ["0", "0.5", "1"])
+    fig.axes[2].set_ylabel("Cross-entropy")
+    fig.axes[2].set_yticks([.1,1,10,100,1000])
+    fig.axes[2].yaxis.set_minor_locator(NullLocator())
+    return fig
+
+
+def practical_results():
+    """Four questions, with all original comparisons and two existing follow-ups."""
+    source = ROOT / "docs/research/ndfa_final_test_20260915/summary.json"
+    summary = json.loads(source.read_text())
+    assert summary["accepted"] and len(summary["contrasts"]) == 45
+    endpoints = pd.read_csv(previous.DATA / "followup_endpoints.csv")
+    endpoints = endpoints[~endpoints.development]
+    contrasts = pd.read_csv(previous.DATA / "followup_contrasts.csv")
+    fig, axes = plt.subplots(1,4)
+    row_layout(fig, ["Matched work", "Longer work", "Transferred damping", "Retuned damping"],
+               height=2.28, bottom=.34, top=.80,
+               positions=[(.075,.174),(.312,.174),(.577,.169),(.832,.15)])
+    a,b,c,d = axes
+    records = []
+    reference_colors = {"dfa":COL["a"], "bp":COL["bp"], "fd_dfa":"#AA4499"}
+
+    def plot(ax, x, values, color, record, *, primary=False, marker="o"):
+        values = np.asarray(values, float)
+        mean = values.mean()
+        half = t.ppf(.975,len(values)-1)*values.std(ddof=1)/np.sqrt(len(values))
+        if "expected" in record:
+            np.testing.assert_allclose([mean,mean-half,mean+half],record.pop("expected"),atol=1e-10,rtol=0)
+        ax.scatter(x+np.linspace(-.034,.034,len(values)),values,s=7,alpha=.28,marker=marker,
+                   color=color,edgecolors="none",zorder=2)
+        ax.errorbar(x,mean,yerr=half,fmt="D" if primary else marker,
+                    color=color,ms=3.3,lw=1,capsize=1.7,zorder=3)
+        record.update(paired_values=values.tolist(),n=len(values),mean=float(mean),
+                      ci95=[float(mean-half),float(mean+half)],primary=primary)
+        records.append(record)
+
+    # All five contrasts from the original matched-work panel remain present.
+    for x, cohort in enumerate(["optimizer","forward"]):
+        for offset, reference in [(-.18,"dfa"),(0,"bp"),(.18,"fd_dfa")]:
+            if cohort == "optimizer" and reference == "fd_dfa":
+                continue
+            r = next(r for r in summary["contrasts"] if
+                     (r["cohort"],r["first"],r["second"]) == (cohort,"ndfa",reference))
+            v = r["accuracy"]
+            assert len(v["paired_values"]) == 8
+            plot(a,x+offset,v["paired_values"],reference_colors[reference],
+                 {"panel":"A","cohort":cohort,"contrast":"ndfa - "+reference,
+                  "expected":[v["mean"],*v["ci95"]]},primary=r["primary_accuracy"])
+    a.set_xticks([0,1],["SGD","FD"])
+    a.set(xlabel="30-s study",ylabel="Gain (pp)",xlim=(-.42,1.42),ylim=(-3.6,3.4))
+    a.set_yticks([-3,0,3])
+
+    def followup(ax,panel,phase,field,levels,comparisons):
+        for x,level in enumerate(levels):
+            p = endpoints[(endpoints.phase==phase)&(endpoints[field]==level)].pivot(
+                index="seed",columns="method",values="test_accuracy")
+            for offset,(first,second,color) in zip([-.18,0,.18],comparisons):
+                values = 100*(p[first]-p[second])
+                assert len(values)==5 and values.notna().all()
+                r = contrasts[(contrasts.phase==phase)&(contrasts[field]==level)&
+                              (contrasts.contrast==first+" - "+second)]
+                assert len(r)==1
+                r = r.iloc[0]
+                plot(ax,x+offset,values.to_numpy(),color,
+                     {"panel":panel,"cohort":phase,"level":level,"contrast":first+" - "+second,
+                      "expected":[r["mean"],r.low,r.high]})
+    followup(b,"B","work","budget",[60,120],
+             [("ndfa","dfa",COL["a"]),("ndfa","bp",COL["bp"]),("ndfa","fd_dfa","#AA4499")])
+    b.set_xticks([0,1],["60","120"])
+    b.set(xlabel="Update work (s)",ylabel="",xlim=(-.42,1.42),ylim=a.get_ylim())
+    b.set_yticks([-3,0,3]); b.tick_params(labelleft=False)
+
+    # All four original transferred-damping contrasts remain, grouped by width.
+    for x,width in enumerate([1024,2048]):
+        for offset,n_train,marker in [(-.13,10000,"o"),(.13,48000,"s")]:
+            r = next(r for r in summary["contrasts"] if
+                     (r["cohort"],r["first"],r["second"],r["n_train"],r["width"]) ==
+                     ("factor","ndfa","kndfa",n_train,width))
+            v = r["accuracy"]; values = -np.asarray(v["paired_values"])
+            assert len(values)==8
+            plot(c,x+offset,values,COL["k"],
+                 {"panel":"C","cohort":"factor","width":width,"n_train":n_train,
+                  "contrast":"kndfa - ndfa","expected":[-v["mean"],-v["ci95"][1],-v["ci95"][0]]},marker=marker)
+    c.set_xticks([0,1],["3.68","8.41"])
+    c.set(xlabel="Parameters (M)",ylabel="K − A (pp)",xlim=(-.37,1.37),ylim=(-3.6,3.4))
+    c.set_yticks([-3,0,3])
+
+    followup(d,"D","width","width",[1024,2048],
+             [("ndfa","dfa",COL["a"]),("endfa","dfa",COL["e"]),("kndfa","ndfa",COL["k"])])
+    d.set_xticks([0,1],["1024","2048"])
+    d.set(xlabel="Hidden width",ylabel="Gain (pp)",xlim=(-.42,1.42),ylim=(-1.6,9.2))
+    d.set_yticks([0,4,8])
+
+    for ax in axes:
+        ax.axhline(0,color=".6",lw=.65,ls=":",zorder=1)
+        ax.grid(axis="y",color=".93",lw=.5)
+        ax.set_axisbelow(True)
+    handles = [Line2D([],[],color=color,marker="o",lw=0,ms=3) for color in reference_colors.values()]
+    fig.legend(handles,["A − DFA","A − BP","A − FD"],frameon=False,fontsize=6.5,
+               ncol=3,loc="lower center",bbox_to_anchor=(.285,.065),
+               handlelength=.7,handletextpad=.35,columnspacing=.9)
+    fig.legend([Line2D([],[],color=COL["k"],marker=m,lw=0,ms=3) for m in ["o","s"]],
+               ["10k examples","48k examples"],frameon=False,fontsize=6.3,ncol=1,
+               loc="lower center",bbox_to_anchor=(.661,.03),handlelength=.7,
+               handletextpad=.35,labelspacing=.25)
+    fig.legend([Line2D([],[],color=COL[k],marker="o",lw=0,ms=3) for k in ["a","e","k"]],
+               ["A − DFA","E − DFA","K − A"],frameon=False,fontsize=6.3,ncol=1,
+               loc="lower center",bbox_to_anchor=(.918,.01),handlelength=.7,
+               handletextpad=.35,labelspacing=.20)
+    assert len(records)==21 and sum(r["primary"] for r in records)==2
+    for record in records:
+        lo,hi = axes["ABCD".index(record["panel"])].get_ylim()
+        assert lo < min(record["paired_values"]+record["ci95"])
+        assert hi > max(record["paired_values"]+record["ci95"])
+    return fig,{"contrasts":records,"source_sha256":hashlib.sha256(source.read_bytes()).hexdigest(),
+                "all_nine_original_contrasts_retained":True,"no_cohort_pooling":True,
+                "followup_contrasts_checked_against_saved_summaries":12}
+
+
+def stability_only(fig):
+    """The other two follow-up panels now appear in the main Figure 5."""
+    before = json.loads(measured_artists(fig))[2]
+    for ax in list(fig.axes[:2]):
+        fig.delaxes(ax)
+    row_layout(fig,["Normalization and predictive stability"],height=1.85,
+               positions=[(.12,.65)],bottom=.28,top=.80)
+    for item in list(fig.texts):
+        item.remove()  # A single plot does not need a panel letter.
+    ax = fig.axes[0]
+    ax.set_yticks([1,1e5,1e10,1e15,1e20])
+    ax.set_xlabel("Batch normalization / feedback scale")
+    ax.set_ylabel("Test cross-entropy")
+    ax.legend(frameon=False,fontsize=7,loc="center left",bbox_to_anchor=(1.03,.5),
+              handlelength=1.5,handletextpad=.5)
+    assert json.loads(measured_artists(fig))[0] == before
+    return fig
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
@@ -227,9 +384,13 @@ def main():
     captured = {}
     previous.m.save = lambda fig, name, scope: captured.update({name: fig})
     previous.theory_and_controls()
-    baselines = {name: measured_artists(captured[name]) for name in NAMES[1:]}
+    previous.m.paired()
+    previous.followups()
+    baselines = {name: measured_artists(captured[name]) for name in [*NAMES[1:],REPLICATION]}
     figures = {NAMES[0]: theory(), NAMES[1]: positive(captured[NAMES[1]]),
-               NAMES[2]: controls(captured[NAMES[2]])}
+               NAMES[2]: controls(captured[NAMES[2]]),REPLICATION:compact_replication(captured[REPLICATION])}
+    figures[PRACTICAL],practical_record = practical_results()
+    figures[STABILITY] = stability_only(captured[STABILITY])
     for index in [1, 3]:
         before = captured[NAMES[0]].axes[index]
         after = figures[NAMES[0]].axes[index]
@@ -253,6 +414,8 @@ def main():
             "data_sha256": hashlib.sha256(measured_artists(fig).encode()).hexdigest(),
             "panels": [list(a.get_position().bounds) for a in fig.axes]}
     receipt["figure1_scope"] = "Mixed-residual schematic; unchanged spectral formula and population step means; restored analytic condition-number ratio with explicit labeling."
+    receipt["figure5"] = practical_record
+    receipt["supplement_followup"] = "Work and width panels moved to main Figure 5; all normalization points and means retained without duplicate plots."
     (args.output/"manifest.json").write_text(json.dumps(receipt, indent=2)+"\n")
     plt.close("all")
     print(json.dumps(receipt, indent=2))

@@ -51,13 +51,19 @@ def main():
     add("paper/conditioned_dfa_iclr.pdf", a.paper_build / "conditioned_dfa_iclr.pdf")
     path = ROOT / "scripts/ndfa_figure_layout_20260919/redraw.py"
     add(str(path.relative_to(ROOT)), path)
-    note = """# Horizontal figure layouts
+    note = """# Compact main figures and follow-up evidence
 
 Figures 1, 2 and 4 use a four-panel row at the final manuscript width.
 Figure 1 restores the analytic input-conditioning ratio; this is not a
 simulated convergence-rate result. Figure 2 and Figure 4 retain every curve,
 point, bar and uncertainty value from the corrected preceding revision.
 The dashed direction in Figure 1A has both task and nuisance components.
+Figure 3 retains all seed points and intervals in a shorter layout. Figure 5
+retains all nine original contrasts and adds twelve existing work/width
+follow-up contrasts in two panels. All paired means and individual 95% t
+intervals are checked against their source summaries. No cohorts are pooled.
+The supplementary follow-up figure retains the normalization intervention;
+its work and width panels have moved to the main figure, avoiding duplication.
 No measurements, training, test evaluation or inferential claims changed.
 
 To reproduce all revised assets, first run the September 19 generator as
@@ -71,13 +77,15 @@ Point the preceding generator's NDFA_PAPER_FIGURES to the same output
 directory, /tmp/ndfa_all_figures. Use a fresh output location. The unchanged
 mode-timing PDF is retained in paper/figures. The compact generator compares
 all plotted numerical values with the corrected preceding generator before
-exporting Figures 2 and 4, and checks the spectral weights and simulation
-means in Figure 1. Its manifest records the three exported figure hashes.
+exporting Figures 2, 3 and 4, and checks the spectral weights and simulation
+means in Figure 1. Its manifest records the six exported figure hashes and
+all 21 plotted Figure 5 contrasts. It also checks all normalization points
+and means against the preceding supplementary panel.
 """
     for name, text in [("revision/HORIZONTAL_FIGURES.md", note),
                        ("README.md", payload["README.md"].decode()+
-                        "\nThe latest presentation revision restores compact rows in Figures 1, 2 and 4.\n"
-                        "See `revision/HORIZONTAL_FIGURES.md` for the final figure reproduction step.\n")]:
+                        "\nThe latest revision compacts Figure 3 and adds existing work/width evidence to Figure 5.\n"
+                        "See `revision/HORIZONTAL_FIGURES.md` for the current figure reproduction step.\n")]:
         data = text.encode()
         payload[name] = data
         records[name] = {"original_sha256": None, "export_sha256": sha(data),
@@ -85,7 +93,7 @@ means in Figure 1. Its manifest records the three exported figure hashes.
     changed = sorted(name for name in payload if payload[name] != original.get(name))
     assert all(name.startswith("paper/") or name in ["README.md", "revision/HORIZONTAL_FIGURES.md",
                "scripts/ndfa_figure_layout_20260919/redraw.py"] for name in changed)
-    manifest.update(release_status="horizontal_figures", base_archive_sha256=sha(a.base.read_bytes()))
+    manifest.update(release_status="expanded_main_figures", base_archive_sha256=sha(a.base.read_bytes()))
     payload["PACKAGE_MANIFEST.json"] = (json.dumps(manifest, indent=2)+"\n").encode()
     archive = a.output / "iclr_supplement.zip"
     with zipfile.ZipFile(archive, "x", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as z:
