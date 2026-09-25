@@ -1,0 +1,17 @@
+cell,method,accuracy_pct,sem_pp,n_seeds,feedback_draws,damping,adaptive_lr
+clean_aligned,dfa_adam_hidden,97.0458984375,0.19246892405763918,5,2,,0.003
+clean_aligned,dfa_diag_activity_sqrt,97.10205078125,0.18543440773201408,5,2,1.0,
+clean_aligned,dfa_sgd,97.09228515625,0.1738120082284499,5,2,,
+clean_aligned,ndfa_activity,96.97998046875,0.13899944461738997,5,2,1.0,
+low_sample_noisy,dfa_adam_hidden,32.3291015625,0.9178567371611364,5,2,,0.003
+low_sample_noisy,dfa_diag_activity_sqrt,33.58154296875,0.9536574705543411,5,2,0.1,
+low_sample_noisy,dfa_sgd,33.34716796875,0.9372297533259435,5,2,,
+low_sample_noisy,ndfa_activity,40.66162109375,0.7910683696728281,5,2,0.1,
+mixed_hard,dfa_adam_hidden,36.9189453125,1.2926468001769198,5,2,,0.003
+mixed_hard,dfa_diag_activity_sqrt,38.779296875,1.6552815394920632,5,2,0.03,
+mixed_hard,dfa_sgd,37.7978515625,1.9191246822478414,5,2,,
+mixed_hard,ndfa_activity,38.92578125,1.3648170630166534,5,2,0.3,
+nuisance_hard,dfa_adam_hidden,21.0302734375,1.0379810298185823,5,2,,0.003
+nuisance_hard,dfa_diag_activity_sqrt,21.2646484375,1.2153262930980195,5,2,0.1,
+nuisance_hard,dfa_sgd,17.28271484375,1.1938913411454055,5,2,,
+nuisance_hard,ndfa_activity,45.5322265625,0.9274050479416709,5,2,0.03,

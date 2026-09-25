@@ -15,12 +15,23 @@ BP remains stronger in the matched-work comparisons; forward decorrelation is
 competitive. The paper studies update geometry under approximate credit, with
 explicit limits on biological locality and practical generalization.
 
-The current second-review revision qualifies the full-versus-diagonal moment
-interpretation, fixes the remaining seed-level uncertainty summaries, and
-clarifies the theory's joint limit and flow clock. It organizes the supplement
-into 13 appendices, removes duplicate/development presentations and supplies a
-study ledger. The active paper has 14 figures and 49 references. No new model
-training was needed. See the [second-review findings](docs/research/ndfa_second_review_revision_20260919.md).
+The September 25 correction release attributes the activity operator to FOOF,
+qualifies the shared-rate synthetic gains using their loss distributions,
+and discloses earlier test-probe exposure for the original MNIST cohort.
+The supplement adds the direct within-BN comparison, exploratory Adam controls,
+and explicitly separated post-hoc seed extensions. Synthetic uncertainty now
+uses seed-level Student t intervals. The paper retains its compact figures.
+
+Long-horizon validation development is underway under the
+[baseline protocol](docs/research/ndfa_baseline_development_protocol_20260925.md).
+These development runs are not new confirmed paper results. The full EMA-based
+FOOF baseline, independent confirmation and mechanism studies remain pending.
+Run the correction checks with:
+
+```bash
+python scripts/ndfa_strengthening_20260925/verify_corrections.py
+python -m pytest -q tests/test_ndfa_strengthening_20260925.py
+```
 
 The current [figure revision](docs/research/ndfa_figures_3_5_revision_20260919.md)
 compacts Figure 3 and expands Figure 5 to four panels, adding the existing
@@ -37,7 +48,7 @@ experimental records remain available in the research and review archives.
 [REPRODUCE.md](REPRODUCE.md) gives build, verification, figure and training
 commands. The [artifact map](docs/research/ndfa_expanded_figures_artifact_map_20260919.json)
 binds source hashes, audited evidence, PDFs and upload archives to this revision.
-The current tag is `ndfa-expanded-figures-2026-09-19` in both code and manuscript repositories.
+The previous figure release is tagged `ndfa-expanded-figures-2026-09-19`. The correction and development work is on branch `ndfa-strengthening-20260925`; the paper uses branch `strengthening-20260925`.
 
 | Claim or artifact | Implementation / record |
 |---|---|

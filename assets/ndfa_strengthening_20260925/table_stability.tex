@@ -1,0 +1,16 @@
+\begin{table}[!htbp]
+\centering\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Regime & BP loss & DFA loss & A loss & DFA loss $>10$ (\%) \\
+\midrule
+Nuisance-dominant & 0.77 & 86,170.82 & 0.41 & 100.0 \\
+Low-sample/noisy & 0.68 & 1,350.76 & 0.38 & 97.1 \\
+Mixed-context & 0.93 & 1,195.00 & 0.52 & 100.0 \\
+Task-aligned & 0.79 & 1.66 & 0.60 & 25.0 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Predictive instability in the shared-rate synthetic sweep.} Median final training loss and the fraction of raw-DFA runs with loss above 10. BP uses 160 runs per regime; local rules use 480 crossed data/feedback runs. These distribution summaries do not treat crossed runs as independent replications. No activity-nDFA run exceeds the threshold. Large accuracy differences in this sweep therefore combine stabilization with directional effects; norm-matched controls address the latter separately.}
+\label{tab:infodfa_synthetic_stability}
+\end{table}

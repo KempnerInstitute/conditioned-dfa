@@ -1,0 +1,16 @@
+\begin{table}[!htbp]
+\centering\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Regime & DFA+BN & A+BN & $\Delta$ (pp) & Individual 95\% CI \\
+\midrule
+Nuisance-dominant & 47.37 & 50.72 & $+3.34$ & $[+2.58,+4.11]$ \\
+Low-sample/noisy & 66.65 & 67.64 & $+0.99$ & $[+0.26,+1.71]$ \\
+Mixed-context & 50.72 & 48.24 & $-2.48$ & $[-3.10,-1.86]$ \\
+Task-aligned & 87.46 & 86.48 & $-0.97$ & $[-1.77,-0.18]$ \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Conditioning within a shared BatchNorm recipe.} Regime means of test accuracy (\%). Both rules use BN before the hidden ReLU under the synthetic sweep's shared learning rate and 14-epoch horizon. Contrasts average all 32 designed cells and three feedback draws within each of five global seeds; intervals use Student $t$ with four degrees of freedom. Conditioning adds a benefit in the nuisance and low-sample regimes but reduces accuracy in the other two. This comparison does not establish the ordering after independent learning-rate tuning or convergence.}
+\label{tab:infodfa_bn_baseline}
+\end{table}

@@ -1,0 +1,17 @@
+dataset,method,test_mean
+cifar10,bp,0.32229444185892736
+cifar10,dfa_random,0.17241111128694475
+cifar10,drtp_random,0.1143703705320755
+cifar10,fa_random,0.15973148192796435
+cifar10,ndfa_random,0.32124814738829927
+cifar10,ndfa_random_kronecker,0.3194425928095976
+cifar10,nmnc,0.30300555626551307
+cifar10,vnc,0.2887222232917944
+fashion_mnist,bp,0.7251250013709069
+fashion_mnist,dfa_random,0.5017750014033583
+fashion_mnist,drtp_random,0.256983333122399
+fashion_mnist,fa_random,0.4848527753518687
+fashion_mnist,ndfa_random,0.7151444451676475
+fashion_mnist,ndfa_random_kronecker,0.7015666660335329
+fashion_mnist,nmnc,0.7324833345082071
+fashion_mnist,vnc,0.6842694424920612

@@ -1,0 +1,16 @@
+\begin{table}[!htbp]
+\centering\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Cell & DFA & Hidden Adam & Diagonal $C_A^{-1/2}$ & Activity nDFA \\
+\midrule
+Nuisance & $17.28\pm1.19$ & $21.03\pm1.04$ & $21.26\pm1.22$ & $45.53\pm0.93$ \\
+Low-sample & $33.35\pm0.94$ & $32.33\pm0.92$ & $33.58\pm0.95$ & $40.66\pm0.79$ \\
+Mixed & $37.80\pm1.92$ & $36.92\pm1.29$ & $38.78\pm1.66$ & $38.93\pm1.36$ \\
+Task-aligned & $97.09\pm0.17$ & $97.05\pm0.19$ & $97.10\pm0.19$ & $96.98\pm0.14$ \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Exploratory optimizer and diagonal controls.} Test accuracy (\%), mean $\pm$ SEM over five model seeds after averaging two feedback draws per seed. These are single cells with configurations selected on test accuracy, not a validation-selected optimizer benchmark. The diagonal rule uses inverse square roots while activity nDFA uses an inverse; this comparison does not isolate off-diagonal structure at a common power. Adam adapts hidden-weight updates. The original settings and explicit cohort summaries accompany the reproduction files.}
+\label{tab:infodfa_adam_control}
+\end{table}

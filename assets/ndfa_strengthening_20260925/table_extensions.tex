@@ -1,0 +1,18 @@
+\begin{table}[!htbp]
+\centering\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lllrrrr@{}}
+\toprule
+Setting & Cohort & Seeds & $n$ & E$-$DFA & K$-$A & Nominal $p$ \\
+\midrule
+MNIST/tanh & Extension & 55--59 & 5 & +4.21 & +0.38 & 0.06250 \\
+MNIST/tanh & Pooled & 50--59 & 10 & +4.48 & +0.39 & 0.00195 \\
+Fashion/tanh & Extension & 75--79 & 5 & +1.54 & +0.46 & 0.06250 \\
+Fashion/tanh & Pooled & 70--79 & 10 & +1.65 & +0.48 & 0.00195 \\
+MNIST/ReLU & Extension & 108--112 & 5 & +9.05 & +0.91 & 0.06250 \\
+MNIST/ReLU & Pooled & 100--112 & 13 & +8.11 & +0.91 & 0.00024 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Post-hoc extensions of the frozen factor protocols.} Mean paired accuracy differences in percentage points. Each model/data-order seed averages three feedback draws. Every seed favors E over DFA and K over A; the last column is the identical exact two-sided Wilcoxon value for the two contrasts, without multiplicity adjustment. Pooled results include the original cohort and the post-hoc extension; they are descriptive and do not turn the original MNIST cohort into a test-blind confirmation. Explicit original, extension and pooled exports prevent the larger cohorts from silently replacing the original tables and figures.}
+\label{tab:factor_seed_extensions}
+\end{table}

@@ -1,0 +1,24 @@
+{
+  "status": "correction_release; validation development underway",
+  "paper_branch": "strengthening-20260925",
+  "code_branch": "ndfa-strengthening-20260925",
+  "paper_build": "drafts/Info-DFA/build/strengthening_20260925/corrections_02",
+  "paper_pdf_sha256": "944278d7c302caf31c5d10d25d0cf641417ab8ef79f15f33c436ec4280e9607a",
+  "anonymous_archive": {
+    "path": "results/ndfa_strengthening_20260925/correction_package_v1/iclr_supplement.zip",
+    "sha256": "f48254b4656342c55da973c2345c76be247a566c9ece2996fce9cc1879501ab9",
+    "bytes": 98361342
+  },
+  "arxiv_source": {
+    "path": "drafts/Info-DFA/build/arxiv_strengthening_20260925/corrections_01/conditioned_dfa_arxiv_source.zip",
+    "sha256": "92d5340051cc51b3bcc30f9981adf8db4426e0edc464a5aab5a887c720a3068e"
+  },
+  "validation": {
+    "new_runner_and_adapter_tests": 69,
+    "correction_checks": 7,
+    "existing_archive_verifiers": "passed",
+    "paper_rebuild": "passed"
+  },
+  "new_training_results_in_paper": false,
+  "no_public_submission": true
+}
