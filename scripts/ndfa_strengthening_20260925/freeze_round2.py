@@ -34,20 +34,21 @@ def extension_cases(config,summary):
         flags=result.get("boundary_flags",{})
         if not flags:continue
         winner=result["selected"]
-        previous=[c for c in config["cases"] if c["cell"]==winner["cell"] and c["family"]==winner["family"] and c["optimizer"]==winner["optimizer"]]
-        rates=neighbors([c["lr"] for c in previous],winner["lr"])
-        dampings=neighbors([c["damping"] for c in previous],winner["damping"]) if winner["damping"] is not None else [None]
-        for name,values in [("lr",rates),("damping",dampings)]:
+        previous=[c for c in config["cases"] if c.get("cell")==winner.get("cell") and c["family"]==winner["family"] and c["optimizer"]==winner["optimizer"]]
+        dimensions=[name for name in ["lr","damping","rho","decor_lr"] if winner.get(name) is not None]
+        choices={name:neighbors([c[name] for c in previous],winner[name]) for name in dimensions}
+        for name,values in choices.items():
             if name in flags:
                 edge=flags[name]
                 factors=[1/3,1/10] if edge["selected"]==edge["range"][0] else [3,10]
                 values.extend(float(f'{edge["selected"]*factor:.12g}') for factor in factors)
-        old={(c["lr"],c["damping"]) for c in previous}
+        old={tuple(c[name] for name in dimensions) for c in previous}
         added=0
-        for lr,damping in itertools.product(sorted(set(rates)),sorted(set(dampings)) if dampings!=[None] else [None]):
-            if (lr,damping) in old:continue
+        for coordinates in itertools.product(*(sorted(set(choices[name])) for name in dimensions)):
+            if coordinates in old:continue
             case=copy.deepcopy(winner)
-            case.update(id=f"case_{len(config['cases'])+len(cases):03d}",lr=lr,damping=damping)
+            case.update(zip(dimensions,coordinates))
+            case["id"]=f"case_{len(config['cases'])+len(cases):03d}"
             cases.append(case);added+=1
         ledger.append(dict(group=key,parent_case=winner["id"],boundaries=flags,new_candidates=added))
     return cases,ledger

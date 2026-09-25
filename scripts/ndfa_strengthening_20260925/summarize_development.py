@@ -62,7 +62,7 @@ def summarize(config_path):
             row=dict(seed=seed,status=e["status"],updates=e["completed_updates"],error=e["error"],
                      training_seconds=e["training_seconds"],final_validation=e["final_validation"])
             if e["status"]=="complete":
-                n=cfg["cells"][case["cell"]]["n_train"] if cfg["dataset"]=="synthetic" else 45000
+                n=cfg["cells"][case["cell"]]["n_train"] if cfg["dataset"]=="synthetic" else (55000 if cfg["dataset"]=="digits" else 45000)
                 assert e["completed_updates"]==math.ceil(n/cfg["batch_size"])*cfg["epochs"]
                 history=json.loads((folder/"history.json").read_text())
                 assert history[-1]["epoch"]==cfg["epochs"] and history[-1]["validation"]==e["final_validation"]

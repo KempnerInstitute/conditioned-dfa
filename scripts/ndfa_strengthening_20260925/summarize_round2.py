@@ -12,7 +12,7 @@ from summarize_development import summarize,choose
 
 
 def group(record):
-    c=record["case"];return f"{c['cell']}/{c['family']}"
+    c=record["case"];return f"{c.get('cell','cifar10')}/{c['family']}"
 
 
 def pool(parent,current):
@@ -60,13 +60,14 @@ def report(config_path):
         current["interpretation"]+="; longer horizon restarts initialization and stretches the schedule"
     else:
         records=current["candidates"]
-        full={(r["case"]["cell"],r["case"]["normalization"],r["case"]["damping"]):r for r in records if r["case"].get("statistic")=="full"}
+        coordinate=lambda c:c.get("rho") if c.get("rho") is not None else c["damping"]
+        full={(r["case"]["cell"],r["case"]["normalization"],coordinate(r["case"])):r for r in records if r["case"].get("statistic")=="full"}
         contrasts=[]
         for r in records:
             c=r["case"]
             if c.get("statistic") not in {None,"full"}:
-                ref=full[c["cell"],c["normalization"],c["damping"]]
-                contrasts.append(dict(cell=c["cell"],normalization=c["normalization"],damping=c["damping"],statistic=c["statistic"],seed_deltas=deltas(ref,r)))
+                ref=full[c["cell"],c["normalization"],coordinate(c)]
+                contrasts.append(dict(cell=c["cell"],normalization=c["normalization"],damping=c["damping"],rho=c.get("rho"),statistic=c["statistic"],seed_deltas=deltas(ref,r)))
         current["matched_damping_contrasts"]=contrasts
         current["geometry_probe_histories"]=[str(Path(cfg["output_root"])/r["case"]["id"]/f"seed_{seed}"/"history.json") for r in records for seed in cfg["development_seeds"]]
         current["interpretation"]+="; provisional first-grid optimizer/rate anchors; five equally searched operators, plus matched raw and batch-space references"

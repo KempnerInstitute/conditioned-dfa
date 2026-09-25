@@ -38,3 +38,11 @@ def test_pooled_selection_keeps_parent_winner_and_waits_for_new_grid():
     assert result['nuisance/dfa']['selected']['id']=='case_000'
     new['status']='incomplete'
     assert pool(dict(complete=True,candidates=[old]),dict(candidates=[new]))['nuisance/dfa']['selected'] is None
+
+
+@pytest.mark.parametrize("name",["rho","decor_lr"])
+def test_extension_supports_cifar_relative_damping_and_fd_rate(name):
+    cases=[dict(id=f"case_{i}",family="dfa",optimizer="adamw",lr=.001,**{name:x}) for i,x in enumerate([1.,30.])]
+    summary=dict(complete=True,selections={"cifar10/dfa":dict(selected=cases[0],boundary_flags={name:dict(selected=1.,range=[1.,30.])})})
+    added,_=extension_cases(dict(cases=cases),summary)
+    assert len(added)==2 and all(c[name]<1. for c in added)

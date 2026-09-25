@@ -44,7 +44,7 @@ def verify(config_path):
             assert endpoint["status"]=="complete","GPU verification did not finish normally"
             assert endpoint["official_test_loaded"] is False
             assert manifest["official_test_loaded"] is False
-            examples=config["cells"][case["cell"]]["n_train"] if config["dataset"]=="synthetic" else 45000
+            examples=config["cells"][case["cell"]]["n_train"] if config["dataset"]=="synthetic" else (55000 if config["dataset"]=="digits" else 45000)
             assert endpoint["completed_updates"]==math.ceil(examples/config["batch_size"])*config["epochs"]
             assert endpoint["epoch"]==history[-1]["epoch"]==config["epochs"]
             assert endpoint["final_validation"]==history[-1]["validation"]
@@ -54,7 +54,7 @@ def verify(config_path):
     return dict(config_sha256=sha(config_path),verified=verified)
 
 
-def submit(config_path,partition,constraint,cap):
+def submit(config_path,partition,constraint,cap,time_limit="01:00:00"):
     config_path=Path(config_path).resolve();out=config_path.parent
     receipt_path=out/"submission.json"
     receipt=json.loads(receipt_path.read_text())
@@ -90,6 +90,7 @@ exec /n/sw/Mambaforge-23.11.0-0/bin/python -u "$NDFA_NEXT_SOURCE/scripts/ndfa_st
     env.update(NDFA_NEXT_SOURCE=str(out/"source"),NDFA_NEXT_CONFIG=str(config_path),
                NDFA_NEXT_CONFIG_SHA256=sha(config_path),NDFA_NEXT_GATE=str(gate))
     command=["sbatch","--parsable",f"--partition={partition}",f"--constraint={constraint}",
+             f"--time={time_limit}",
              f"--dependency=afterok:{receipt['verification_job']}",
              "--array="+','.join(map(str,indices))+f"%{cap}",str(wrapper)]
     result=subprocess.run(command,env=env,text=True,capture_output=True)

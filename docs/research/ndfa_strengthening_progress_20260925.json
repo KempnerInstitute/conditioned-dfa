@@ -8,9 +8,9 @@
   "work_packages": {
     "corrections": "completed_and_verified",
     "baseline_protocol_and_timing": "completed",
-    "stable_baseline_confirmation": "CIFAR stable-baseline, synthetic, and EMA FOOF validation grids submitted; confirmation follows development",
-    "mean_covariance": "exploratory synthetic controls submitted; CIFAR and confirmation pending stable-baseline review",
-    "alignment": "pending_baselines",
+    "stable_baseline_confirmation": "Initial synthetic/CIFAR/FOOF development complete; tuning extensions, horizon checks and stronger digit baselines submitted; final confirmation not frozen",
+    "mean_covariance": "Synthetic exploratory controls complete; CIFAR controls submitted behind technical gate",
+    "alignment": "Synthetic and CIFAR early/late/always/never interventions submitted with offline diagnostics",
     "error_factor": "pending_mechanism",
     "application": "pending_gate",
     "final_rewrite_and_release": "pending_results"
@@ -26,7 +26,7 @@
   },
   "baseline_development": {
     "verification_job": "48550331_87",
-    "status": "development_array_submitted",
+    "status": "complete_and_audited",
     "cases": 108,
     "training_runs": 216,
     "epochs": 200,
@@ -37,8 +37,8 @@
     "completed_runs_at_launch": 2,
     "concurrency_limit": 8,
     "latest_endpoint_counts": {
-      "complete": 128,
-      "numerical_failure": 2
+      "complete": 206,
+      "numerical_failure": 10
     },
     "migration_job": "48564083",
     "migration_concurrency": 60,
@@ -62,7 +62,12 @@
     "public_release_next_round_suite": 14,
     "partial_development_audit": "Baseline and synthetic source/manifest/checkpoint/completion checks passed",
     "round2_geometry_operator_runner_design": "passed; dense/sample equivalence, five matrix controls, probe neutrality, resume identity, symmetric extension and pooled selection",
-    "geometry_gpu_verification": "five operators, both seeds, full declared horizon and provenance gate passed"
+    "geometry_gpu_verification": "five operators, both seeds, full declared horizon and provenance gate passed",
+    "public_release_round2_suite": 25,
+    "parallel_controls_suite": 32,
+    "public_release_parallel_controls_suite": 34,
+    "digit_gpu_verification": "six full-horizon seed runs passed configuration/source/checkpoint audits",
+    "alignment_gpu_verification": "four full-horizon synthetic seed runs passed configuration/source/checkpoint audits"
   },
   "paper_build": "drafts/Info-DFA/build/strengthening_20260925/corrections_02",
   "correction_package": {
@@ -76,10 +81,11 @@
   "paper_branch_pushed": true,
   "code_branch_pushed": true,
   "next_actions": [
-    "Complete all three validation grids and inspect numerical failures, boundary optima, and late learning curves",
-    "Run any necessary validation-only extensions, then freeze separate matched-work confirmation",
-    "Use stable settings for mean/covariance controls and causal alignment studies",
-    "Curate final narrative and supplement around resulting evidence; finish typography pass"
+    "Audit all nine new studies and pooled development choices; classify missing runs separately from numerical failures",
+    "Inspect alignment onset/censoring and negative projections alongside predictive loss and accuracy",
+    "Freeze held-out/matched-work confirmation only after boundary and horizon review",
+    "Decide crossed feedback replications, swap interventions and larger application from the mechanism evidence",
+    "Keep error-factor expansion conditional on a defined anisotropy mechanism; curate manuscript after results"
   ],
   "authorized_partitions": [
     "kempner_h100_priority",
@@ -129,13 +135,16 @@
     "remaining_concurrency": 60,
     "dependency": "afterok:48567356",
     "gate": "Full expected GPU-probe updates, paired seeds, finite endpoint, configuration/source/checkpoint hashes; no performance threshold",
-    "status": "submitted",
-    "latest_endpoint_counts": {},
+    "status": "complete_and_audited",
+    "latest_endpoint_counts": {
+      "complete": 46,
+      "numerical_failure": 2
+    },
     "official_test_loaded": false,
     "summary_job": "48572537"
   },
   "next_round_protocol": "docs/research/ndfa_parallel_development_20260925.md",
-  "last_updated_utc": "2026-09-25T20:58:26.886519+00:00",
+  "last_updated_utc": "2026-09-25T21:23:25.338176+00:00",
   "parallel_development_code_commit": "40206f0",
   "parallel_development_code_branch": "ndfa-strengthening-20260925",
   "parallel_development_code_pushed": true,
@@ -188,9 +197,10 @@
         "partition": "kempner_eng",
         "concurrency": 12,
         "latest_endpoint_counts": {
-          "complete": 198
+          "complete": 340
         },
-        "summary_job": "48594724"
+        "summary_job": "48594724",
+        "status": "complete_and_audited"
       },
       "horizon": {
         "job": "48592816",
@@ -200,9 +210,10 @@
         "partition": "kempner_requeue",
         "concurrency": 60,
         "latest_endpoint_counts": {
-          "complete": 63
+          "complete": 64
         },
-        "summary_job": "48594737"
+        "summary_job": "48594737",
+        "status": "complete_and_audited"
       },
       "geometry": {
         "remaining_job": "48593949",
@@ -214,10 +225,337 @@
         "concurrency": 60,
         "remaining_concurrency": 60,
         "latest_endpoint_counts": {
-          "complete": 24
+          "complete": 136
         },
-        "summary_job": "48594751"
+        "summary_job": "48594751",
+        "status": "complete_and_audited"
       }
-    }
+    },
+    "code_commit": "004d345",
+    "code_pushed": true
+  },
+  "parallel_controls": {
+    "protocol": "docs/research/ndfa_parallel_controls_20260925.md",
+    "training_runs": 466,
+    "array_tasks": 209,
+    "studies": {
+      "cifar_baseline_boundaries_v1": {
+        "job": "48598245",
+        "study": "baseline",
+        "kind": "boundaries",
+        "cases": 38,
+        "training_runs": 76,
+        "config_sha256": "c17638940734db171a21862442b3e5245d4c94eac9a3a5f29c093843e23cffab",
+        "partition": "kempner_requeue",
+        "hardware": "H100",
+        "concurrency": 60,
+        "summary_job": "48601522",
+        "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/cifar_baseline_boundaries_v1/followup_summary.json",
+        "summary_submitted_utc": "2026-09-25T21:19:39.722376+00:00",
+        "latest_endpoint_counts": {
+          "complete": 56,
+          "numerical_failure": 2
+        }
+      },
+      "cifar_baseline_horizon_v1": {
+        "job": "48598247",
+        "study": "baseline",
+        "kind": "horizon",
+        "cases": 9,
+        "training_runs": 18,
+        "config_sha256": "0af3e29549b637a44bf1fcbd9c0ea387878b95ccc6d6a4f8184f1d2d097bad45",
+        "partition": "kempner_requeue",
+        "hardware": "H100",
+        "concurrency": 60,
+        "summary_job": "48601530",
+        "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/cifar_baseline_horizon_v1/followup_summary.json",
+        "summary_submitted_utc": "2026-09-25T21:19:41.453663+00:00",
+        "latest_endpoint_counts": {}
+      },
+      "cifar_foof_boundaries_v1": {
+        "job": "48598252",
+        "study": "foof_cifar",
+        "kind": "boundaries",
+        "cases": 18,
+        "training_runs": 36,
+        "config_sha256": "f083056b7b47ae4da8b756ff10c8168203ca1c0f95500322cca3538ba4b6d571",
+        "partition": "kempner_requeue",
+        "hardware": "H100",
+        "concurrency": 60,
+        "summary_job": "48601532",
+        "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/cifar_foof_boundaries_v1/followup_summary.json",
+        "summary_submitted_utc": "2026-09-25T21:19:41.913690+00:00",
+        "latest_endpoint_counts": {}
+      },
+      "cifar_foof_horizon_v1": {
+        "job": "48598258",
+        "study": "foof_cifar",
+        "kind": "horizon",
+        "cases": 2,
+        "training_runs": 4,
+        "config_sha256": "5d7c880debd2e57ca905a02c7dccabcb17f036a0047d778c3c497abafcce1b32",
+        "partition": "kempner_requeue",
+        "hardware": "H100",
+        "concurrency": 60,
+        "summary_job": "48601538",
+        "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/cifar_foof_horizon_v1/followup_summary.json",
+        "summary_submitted_utc": "2026-09-25T21:19:42.343957+00:00",
+        "latest_endpoint_counts": {}
+      },
+      "digits_v1": {
+        "kind": "digits",
+        "verification_job": "48599548",
+        "verification_indices": [
+          18,
+          36,
+          48
+        ],
+        "config_sha256": "bd2ae225b323a52c5b77ebe0a002344ed0ce5f651798fd5a24f5d72debb9652c",
+        "cases": 72,
+        "training_runs": 144,
+        "hardware": "h200",
+        "partitions": [
+          "kempner_eng"
+        ],
+        "concurrency": 12,
+        "remaining_job": "48599726",
+        "remaining_partition": "kempner_eng",
+        "remaining_hardware": "h200",
+        "remaining_concurrency": 12,
+        "remaining_submitted_utc": "2026-09-25T21:11:44.532594+00:00",
+        "dispatch_gate_sha256": "ef53fa7c2791f04a5343680ccb794368b747c04e545029127ecefbecd756898c",
+        "dispatch_wrapper_sha256": "9a5e5ad678da6065060838a1fdb335d45614d2ee2edd7cca6245ce774d1933a8",
+        "dependency": "afterok:48599548",
+        "gate": "Full expected GPU-probe updates, paired seeds, finite endpoint, configuration/source/checkpoint hashes; no performance threshold",
+        "partition_migrations": [
+          {
+            "utc": "2026-09-25T21:15:20.124472+00:00",
+            "job": "48599548",
+            "from_partition": "kempner_requeue",
+            "to_partition": "kempner_eng",
+            "array_throttle": 12,
+            "hardware": "h200",
+            "before": [
+              "PENDING|kempner_requeue"
+            ],
+            "verified_queue": "48599548_[18,36,48%12]|PENDING|kempner_eng|(None)"
+          },
+          {
+            "utc": "2026-09-25T21:15:24.209661+00:00",
+            "job": "48599726",
+            "from_partition": "kempner_requeue",
+            "to_partition": "kempner_eng",
+            "array_throttle": 12,
+            "hardware": "h200",
+            "before": [
+              "PENDING|kempner_requeue"
+            ],
+            "verified_queue": "48599726_[0-17,19-35,37-47,49-7|PENDING|kempner_eng|(Dependency)"
+          }
+        ],
+        "summary_job": "48601543",
+        "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/digits_v1/followup_summary.json",
+        "summary_submitted_utc": "2026-09-25T21:19:43.262133+00:00",
+        "latest_endpoint_counts": {
+          "complete": 18
+        }
+      },
+      "alignment_synthetic_v1": {
+        "kind": "alignment_synthetic",
+        "verification_job": "48599553",
+        "verification_indices": [
+          6
+        ],
+        "config_sha256": "38900a4532951a357ee0ee5e78abc99163bd2df2e56b00785fc6692ddef9dfd2",
+        "cases": 16,
+        "training_runs": 64,
+        "hardware": "h200",
+        "partitions": [
+          "kempner_eng"
+        ],
+        "concurrency": 12,
+        "remaining_job": "48599731",
+        "remaining_partition": "kempner_eng",
+        "remaining_hardware": "h200",
+        "remaining_concurrency": 12,
+        "remaining_submitted_utc": "2026-09-25T21:11:45.924826+00:00",
+        "dispatch_gate_sha256": "ef53fa7c2791f04a5343680ccb794368b747c04e545029127ecefbecd756898c",
+        "dispatch_wrapper_sha256": "9a5e5ad678da6065060838a1fdb335d45614d2ee2edd7cca6245ce774d1933a8",
+        "dependency": "afterok:48599553",
+        "gate": "Full expected GPU-probe updates, paired seeds, finite endpoint, configuration/source/checkpoint hashes; no performance threshold",
+        "partition_migrations": [
+          {
+            "utc": "2026-09-25T21:15:20.982010+00:00",
+            "job": "48599553",
+            "from_partition": "kempner_requeue",
+            "to_partition": "kempner_eng",
+            "array_throttle": 12,
+            "hardware": "h200",
+            "before": [
+              "PENDING|kempner_requeue"
+            ],
+            "verified_queue": "48599553_[6%12]|PENDING|kempner_eng|(Priority)"
+          },
+          {
+            "utc": "2026-09-25T21:15:22.801307+00:00",
+            "job": "48599731",
+            "from_partition": "kempner_requeue",
+            "to_partition": "kempner_eng",
+            "array_throttle": 12,
+            "hardware": "h200",
+            "before": [
+              "PENDING|kempner_requeue"
+            ],
+            "verified_queue": "48599731_[0-5,7-15%12]|PENDING|kempner_eng|(Dependency)"
+          }
+        ],
+        "summary_job": "48601548",
+        "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/alignment_synthetic_v1/followup_summary.json",
+        "summary_submitted_utc": "2026-09-25T21:19:43.673010+00:00",
+        "latest_endpoint_counts": {
+          "complete": 63
+        }
+      },
+      "alignment_cifar_v1": {
+        "kind": "alignment_cifar",
+        "verification_job": "48599570",
+        "verification_indices": [
+          6
+        ],
+        "config_sha256": "af11229083c795c8eca6fbe03d5c4a591bf0fb0a030499f163d444f1de7943d0",
+        "cases": 8,
+        "training_runs": 32,
+        "hardware": "h100",
+        "partitions": [
+          "kempner_requeue"
+        ],
+        "concurrency": 60,
+        "remaining_job": "48599734",
+        "remaining_partition": "kempner_requeue",
+        "remaining_hardware": "h100",
+        "remaining_concurrency": 60,
+        "remaining_submitted_utc": "2026-09-25T21:11:46.320395+00:00",
+        "dispatch_gate_sha256": "ef53fa7c2791f04a5343680ccb794368b747c04e545029127ecefbecd756898c",
+        "dispatch_wrapper_sha256": "9a5e5ad678da6065060838a1fdb335d45614d2ee2edd7cca6245ce774d1933a8",
+        "dependency": "afterok:48599570",
+        "gate": "Full expected GPU-probe updates, paired seeds, finite endpoint, configuration/source/checkpoint hashes; no performance threshold",
+        "summary_job": "48601555",
+        "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/alignment_cifar_v1/followup_summary.json",
+        "summary_submitted_utc": "2026-09-25T21:19:43.855028+00:00",
+        "latest_endpoint_counts": {}
+      },
+      "geometry_cifar_v1": {
+        "kind": "geometry_cifar",
+        "verification_job": "48601403",
+        "verification_indices": [
+          18,
+          27
+        ],
+        "config_sha256": "bf8867b9df63ceb70acad4f8128ed1f0e72139b48671094b92c7c2abf63c8a1b",
+        "cases": 34,
+        "training_runs": 68,
+        "hardware": "h100",
+        "partitions": [
+          "kempner_requeue"
+        ],
+        "concurrency": 60,
+        "remaining_job": "48601458",
+        "remaining_partition": "kempner_requeue",
+        "remaining_hardware": "h100",
+        "remaining_concurrency": 60,
+        "remaining_submitted_utc": "2026-09-25T21:19:24.640568+00:00",
+        "dispatch_gate_sha256": "a7110f67e814571812e24c847dc8c02c13a45f2b48b844a2ecfda2c937ba7aea",
+        "dispatch_wrapper_sha256": "9a5e5ad678da6065060838a1fdb335d45614d2ee2edd7cca6245ce774d1933a8",
+        "dependency": "afterok:48601403",
+        "gate": "Full expected GPU-probe updates, paired seeds, finite endpoint, configuration/source/checkpoint hashes; no performance threshold",
+        "summary_job": "48601557",
+        "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/geometry_cifar_v1/followup_summary.json",
+        "summary_submitted_utc": "2026-09-25T21:19:44.364166+00:00",
+        "latest_endpoint_counts": {}
+      },
+      "synthetic_boundaries_v2": {
+        "job": "48602047",
+        "kind": "boundaries",
+        "cases": 12,
+        "training_runs": 24,
+        "config_sha256": "51844454f4605f96be8c075c85cff7a4dfe15e13f91287d708fb9fb1f3c61fad",
+        "partition": "kempner_eng",
+        "hardware": "H200",
+        "concurrency": 12,
+        "parent_summary_sha256": "5824b8c09111781acc6387dc941cb3bd8e2372ba816adaa9c77adbd897eac940",
+        "submitted_utc": "2026-09-25T21:21:02.634644+00:00",
+        "summary_job": "48602049",
+        "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/synthetic_boundaries_v2/followup_summary.json",
+        "summary_submitted_utc": "2026-09-25T21:21:02.990586+00:00",
+        "latest_endpoint_counts": {}
+      }
+    },
+    "partition_migrations": [
+      {
+        "utc": "2026-09-25T21:15:20.124472+00:00",
+        "job": "48599548",
+        "from_partition": "kempner_requeue",
+        "to_partition": "kempner_eng",
+        "array_throttle": 12,
+        "hardware": "h200",
+        "before": [
+          "PENDING|kempner_requeue"
+        ],
+        "verified_queue": "48599548_[18,36,48%12]|PENDING|kempner_eng|(None)"
+      },
+      {
+        "utc": "2026-09-25T21:15:20.982010+00:00",
+        "job": "48599553",
+        "from_partition": "kempner_requeue",
+        "to_partition": "kempner_eng",
+        "array_throttle": 12,
+        "hardware": "h200",
+        "before": [
+          "PENDING|kempner_requeue"
+        ],
+        "verified_queue": "48599553_[6%12]|PENDING|kempner_eng|(Priority)"
+      },
+      {
+        "utc": "2026-09-25T21:15:22.801307+00:00",
+        "job": "48599731",
+        "from_partition": "kempner_requeue",
+        "to_partition": "kempner_eng",
+        "array_throttle": 12,
+        "hardware": "h200",
+        "before": [
+          "PENDING|kempner_requeue"
+        ],
+        "verified_queue": "48599731_[0-5,7-15%12]|PENDING|kempner_eng|(Dependency)"
+      },
+      {
+        "utc": "2026-09-25T21:15:24.209661+00:00",
+        "job": "48599726",
+        "from_partition": "kempner_requeue",
+        "to_partition": "kempner_eng",
+        "array_throttle": 12,
+        "hardware": "h200",
+        "before": [
+          "PENDING|kempner_requeue"
+        ],
+        "verified_queue": "48599726_[0-17,19-35,37-47,49-7|PENDING|kempner_eng|(Dependency)"
+      },
+      {
+        "utc": "2026-09-25T21:15:25.303817+00:00",
+        "job": "48593949_47",
+        "from_partition": "kempner_requeue",
+        "to_partition": "kempner_eng",
+        "result": 0,
+        "message": ""
+      },
+      {
+        "utc": "2026-09-25T21:15:26.554406+00:00",
+        "job": "48593949_60",
+        "from_partition": "kempner_requeue",
+        "to_partition": "kempner_eng",
+        "result": 0,
+        "message": ""
+      }
+    ],
+    "code_branch": "ndfa-strengthening-20260925"
   }
 }
