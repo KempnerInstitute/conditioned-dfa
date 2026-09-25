@@ -9,7 +9,7 @@
     "corrections": "completed_and_verified",
     "baseline_protocol_and_timing": "completed",
     "stable_baseline_confirmation": "CIFAR stable-baseline, synthetic, and EMA FOOF validation grids submitted; confirmation follows development",
-    "mean_covariance": "pending_baselines",
+    "mean_covariance": "exploratory synthetic controls submitted; CIFAR and confirmation pending stable-baseline review",
     "alignment": "pending_baselines",
     "error_factor": "pending_mechanism",
     "application": "pending_gate",
@@ -37,11 +37,11 @@
     "completed_runs_at_launch": 2,
     "concurrency_limit": 8,
     "latest_endpoint_counts": {
-      "complete": 121,
+      "complete": 128,
       "numerical_failure": 2
     },
     "migration_job": "48564083",
-    "migration_concurrency": 4,
+    "migration_concurrency": 60,
     "migration_cases": 32,
     "summary_job": "48572523"
   },
@@ -60,7 +60,9 @@
     "synthetic_gpu_verification": "two predefined cases, both seeds, full horizon; source/config/checkpoint gate passed",
     "development_selection": 2,
     "public_release_next_round_suite": 14,
-    "partial_development_audit": "Baseline and synthetic source/manifest/checkpoint/completion checks passed"
+    "partial_development_audit": "Baseline and synthetic source/manifest/checkpoint/completion checks passed",
+    "round2_geometry_operator_runner_design": "passed; dense/sample equivalence, five matrix controls, probe neutrality, resume identity, symmetric extension and pooled selection",
+    "geometry_gpu_verification": "five operators, both seeds, full declared horizon and provenance gate passed"
   },
   "paper_build": "drafts/Info-DFA/build/strengthening_20260925/corrections_02",
   "correction_package": {
@@ -101,15 +103,17 @@
     "remaining_job": "48569415",
     "remaining_partition": "kempner_eng",
     "remaining_hardware": "h200",
-    "remaining_concurrency": 4,
+    "remaining_concurrency": 12,
     "dependency": "afterok:48567324",
     "gate": "Full expected GPU-probe updates, paired seeds, finite endpoint, configuration/source/checkpoint hashes; no performance threshold",
-    "status": "submitted",
+    "status": "complete_and_audited",
     "latest_endpoint_counts": {
-      "complete": 88
+      "complete": 755,
+      "numerical_failure": 13
     },
     "official_test_loaded": false,
-    "summary_job": "48572524"
+    "summary_job": "48572524",
+    "summary": "results/ndfa_strengthening_20260925/synthetic_development_v1/round2_gate_summary.json"
   },
   "foof_cifar_development": {
     "verification_job": "48567356",
@@ -122,7 +126,7 @@
     "remaining_job": "48569420",
     "remaining_partition": "kempner_requeue",
     "remaining_hardware": "h100",
-    "remaining_concurrency": 2,
+    "remaining_concurrency": 60,
     "dependency": "afterok:48567356",
     "gate": "Full expected GPU-probe updates, paired seeds, finite endpoint, configuration/source/checkpoint hashes; no performance threshold",
     "status": "submitted",
@@ -131,5 +135,89 @@
     "summary_job": "48572537"
   },
   "next_round_protocol": "docs/research/ndfa_parallel_development_20260925.md",
-  "last_updated_utc": "2026-09-25T19:30:16.022732+00:00"
+  "last_updated_utc": "2026-09-25T20:58:26.886519+00:00",
+  "parallel_development_code_commit": "40206f0",
+  "parallel_development_code_branch": "ndfa-strengthening-20260925",
+  "parallel_development_code_pushed": true,
+  "throttle_history": [
+    {
+      "utc": "2026-09-25T20:28:45.018761+00:00",
+      "authorization": "User requested increased throttle",
+      "verified_limits": {
+        "48569415": 12,
+        "48564083": 12,
+        "48569420": 8
+      }
+    },
+    {
+      "utc": "2026-09-25T20:43:01.493953+00:00",
+      "authorization": "User explicitly requested throttle 60 for requeue jobs",
+      "changes": [
+        {
+          "job": "48564083",
+          "partition": "kempner_requeue",
+          "old": 12,
+          "new": 60,
+          "verified_limits": [
+            "60"
+          ],
+          "scheduler_message": "48564083_[101,104-105]: Job has already finished"
+        },
+        {
+          "job": "48569420",
+          "partition": "kempner_requeue",
+          "old": 8,
+          "new": 60,
+          "verified_limits": [
+            "60"
+          ],
+          "scheduler_message": ""
+        }
+      ]
+    }
+  ],
+  "round2": {
+    "protocol": "docs/research/ndfa_round2_protocol_20260925.md",
+    "training_runs": 540,
+    "studies": {
+      "boundaries": {
+        "job": "48592722",
+        "config_sha256": "32915881bbe9d47840585c60d32cd4b967349c93aa4bbc604084d94db806e926",
+        "cases": 170,
+        "training_runs": 340,
+        "partition": "kempner_eng",
+        "concurrency": 12,
+        "latest_endpoint_counts": {
+          "complete": 198
+        },
+        "summary_job": "48594724"
+      },
+      "horizon": {
+        "job": "48592816",
+        "config_sha256": "e0d1e2244dbf210bb23af3d0a06aba05e2fddc9d5308c53c9691dfadb784641d",
+        "cases": 32,
+        "training_runs": 64,
+        "partition": "kempner_requeue",
+        "concurrency": 60,
+        "latest_endpoint_counts": {
+          "complete": 63
+        },
+        "summary_job": "48594737"
+      },
+      "geometry": {
+        "remaining_job": "48593949",
+        "verification_job": "48593758",
+        "config_sha256": "86f990cbe230004ea8705d19e9c3309acff565e2dad0565801f6bff134536ea5",
+        "cases": 68,
+        "training_runs": 136,
+        "remaining_partition": "kempner_requeue",
+        "concurrency": 60,
+        "remaining_concurrency": 60,
+        "latest_endpoint_counts": {
+          "complete": 24
+        },
+        "summary_job": "48594751"
+      }
+    }
+  }
 }

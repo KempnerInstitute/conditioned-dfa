@@ -22,6 +22,7 @@ from experiments import run_ndfa_submission_benchmark as base
 from experiments.run_dfa_multioutput_synthetic import sample_multioutput_split, corrupt_labels
 from infogeo.dfa import Gradients
 from infogeo.foof import FOOF
+from infogeo.activity_geometry import transform as geometry_transform, describe as describe_geometry
 from infogeo.local_preconditioning import condition_local_update
 from scripts.ndfa_strengthening_20260925.baseline_development import optimizer_for, step_optimizer, learning_rate
 
@@ -99,11 +100,11 @@ def gradient(model,feedback,x,y,args,case,foof):
     activities=model.last_activities[:len(model.weights)]
     if case["operator"]=="foof":return foof.transform(raw,activities)
     if case["operator"]=="none":return raw
-    if case["operator"]!="activity":raise ValueError(case["operator"])
+    if case["operator"] not in {"activity","activity_geometry"}:raise ValueError(case["operator"])
     values=list(raw.weights)
     for layer in range(model.n_hidden_layers):
         try:
-            update=condition_local_update(activities[layer],raw.deltas[layer]*len(x),
+            update=geometry_transform(activities[layer],raw.weights[layer],case["damping"],case["statistic"]) if case["operator"]=="activity_geometry" else condition_local_update(activities[layer],raw.deltas[layer]*len(x),
                     activity_damping=case["damping"],error_damping=1e-6,mode="activity",backend="auto")
         except torch.linalg.LinAlgError as exc:
             raise FloatingPointError("Activity solve failed at declared damping") from exc
@@ -115,6 +116,23 @@ def gradient(model,feedback,x,y,args,case,foof):
         if after>0:update=update*(before/after).to(update.dtype)
         values[layer]=update
     return Gradients(values,raw.biases,raw.deltas,raw.loss,raw.bn_gammas,raw.bn_betas)
+
+
+@torch.no_grad()
+def geometry_probe(model,data,args,seed):
+    """One fixed training-mode minibatch; restore every forward-mutated state."""
+    assert isinstance(data,SyntheticData),"This probe currently supports synthetic data only"
+    rng=torch.Generator().manual_seed(seed+7000)
+    indices=torch.randperm(len(data.train),generator=rng)[:args.batch_size]
+    state=(model.training,list(model.bn_running_mean),list(model.bn_running_var),list(model._bn_cache),getattr(model,"last_activities",None))
+    try:
+        model.training=True
+        model.forward(data.train[indices].to(args.device))
+        values=[describe_geometry(a) for a in model.last_activities[:model.n_hidden_layers]]
+    finally:
+        model.training,model.bn_running_mean,model.bn_running_var,model._bn_cache,model.last_activities=state
+    return dict(indices_sha256=base.tensor_hash(indices),layers=values,
+                scope="fixed training-data minibatch, training-mode BN, statistics restored; descriptive probe, not population covariance")
 
 
 def atomic_save(state,path):
@@ -195,10 +213,12 @@ def train(config,case,seed,output,*,device="cuda",stop_after_epoch=None):
     def record(epoch,training_loss=None):
         nonlocal evaluation_seconds
         base.sync(args);began=time.perf_counter();val=evaluate(model,data,args)
+        geometry=geometry_probe(model,data,args,seed) if config.get("geometry_probe",False) else None
         base.sync(args);evaluation_seconds+=time.perf_counter()-began
         history.append(dict(epoch=epoch,step=step,training_seconds=work,
                             calibration_seconds=calibration_seconds,training_loss=training_loss,
                             validation=val,stream_sha256=trace))
+        if geometry is not None:history[-1]["activity_geometry"]=geometry
         base.write_json(output/"history.json",history)
 
     status,error="complete",None
