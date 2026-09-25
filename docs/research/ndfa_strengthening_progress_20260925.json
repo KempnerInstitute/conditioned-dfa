@@ -1,0 +1,135 @@
+{
+  "status": "in_progress",
+  "authorization": "User approved the integrated strengthening plan on 2026-09-25",
+  "paper_branch": "strengthening-20260925",
+  "paper_base": "6ec78fb",
+  "code_base": "24f5e60",
+  "preserve_existing_dirty_code": true,
+  "work_packages": {
+    "corrections": "completed_and_verified",
+    "baseline_protocol_and_timing": "completed",
+    "stable_baseline_confirmation": "CIFAR stable-baseline, synthetic, and EMA FOOF validation grids submitted; confirmation follows development",
+    "mean_covariance": "pending_baselines",
+    "alignment": "pending_baselines",
+    "error_factor": "pending_mechanism",
+    "application": "pending_gate",
+    "final_rewrite_and_release": "pending_results"
+  },
+  "partition": "kempner_h100_priority",
+  "no_conference_or_arxiv_submission": true,
+  "timing_pilot": {
+    "job_id": "48542880",
+    "status": "complete",
+    "methods": 8,
+    "allocated_seconds": 65,
+    "official_test_loaded": false
+  },
+  "baseline_development": {
+    "verification_job": "48550331_87",
+    "status": "development_array_submitted",
+    "cases": 108,
+    "training_runs": 216,
+    "epochs": 200,
+    "config_sha256": "0fbb4d7c4eedc6f067999814e505e10a9426e69a79b072d849aab4b933ce9489",
+    "official_test_loaded": false,
+    "full_foof_baseline": "separate EMA FOOF grid submitted",
+    "array_job": "48554715",
+    "completed_runs_at_launch": 2,
+    "concurrency_limit": 8,
+    "latest_endpoint_counts": {
+      "complete": 121,
+      "numerical_failure": 2
+    },
+    "migration_job": "48564083",
+    "migration_concurrency": 4,
+    "migration_cases": 32,
+    "summary_job": "48572523"
+  },
+  "correction_evidence": {
+    "synthetic_instability": "verified",
+    "mnist_earlier_test_probe": "confirmed for original seeds 50\u201354; disclosed",
+    "development_failures": "41 confirmed for completed initial rerun + recovery; review counted interrupted earlier attempt",
+    "prior_art": "FOOF, Amari, Heckel\u2013Yilmaz, SKFAC added; alignment and normalization context added",
+    "tables": "BN head-to-head, Adam controls, original/extension/pooled seed separation, Student t intervals"
+  },
+  "tests": {
+    "new_baseline_protocol": 7,
+    "status": "passed",
+    "runner_and_adapter_suite": 69,
+    "foof_and_resumable_training": 12,
+    "synthetic_gpu_verification": "two predefined cases, both seeds, full horizon; source/config/checkpoint gate passed",
+    "development_selection": 2,
+    "public_release_next_round_suite": 14,
+    "partial_development_audit": "Baseline and synthetic source/manifest/checkpoint/completion checks passed"
+  },
+  "paper_build": "drafts/Info-DFA/build/strengthening_20260925/corrections_02",
+  "correction_package": {
+    "path": "results/ndfa_strengthening_20260925/correction_package_v1/iclr_supplement.zip",
+    "bytes": 98361342,
+    "sha256": "f48254b4656342c55da973c2345c76be247a566c9ece2996fce9cc1879501ab9",
+    "verified": true
+  },
+  "paper_commit": "6652e5ccdf7533e3c52f8292cd6babd74dcea7d0",
+  "public_code_commit": "d9ea0b968b16ec1d4239acf89283f031902526ca",
+  "paper_branch_pushed": true,
+  "code_branch_pushed": true,
+  "next_actions": [
+    "Complete all three validation grids and inspect numerical failures, boundary optima, and late learning curves",
+    "Run any necessary validation-only extensions, then freeze separate matched-work confirmation",
+    "Use stable settings for mean/covariance controls and causal alignment studies",
+    "Curate final narrative and supplement around resulting evidence; finish typography pass"
+  ],
+  "authorized_partitions": [
+    "kempner_h100_priority",
+    "kempner_eng",
+    "kempner_requeue"
+  ],
+  "scheduling_change_20260925": {
+    "authorization": "User requested use of kempner_eng and kempner_requeue and parallel next rounds",
+    "current_array_throttle": "4 -> 8; pending reason was our own JobArrayTaskLimit",
+    "scientific_configuration_unchanged": true
+  },
+  "synthetic_development": {
+    "verification_job": "48567324",
+    "verification_indices": [
+      27,
+      376
+    ],
+    "config_sha256": "2183261f9b2196d444a457654b5f75b82f6bc435543acf892be44d5f50898d70",
+    "cases": 384,
+    "training_runs": 768,
+    "remaining_job": "48569415",
+    "remaining_partition": "kempner_eng",
+    "remaining_hardware": "h200",
+    "remaining_concurrency": 4,
+    "dependency": "afterok:48567324",
+    "gate": "Full expected GPU-probe updates, paired seeds, finite endpoint, configuration/source/checkpoint hashes; no performance threshold",
+    "status": "submitted",
+    "latest_endpoint_counts": {
+      "complete": 88
+    },
+    "official_test_loaded": false,
+    "summary_job": "48572524"
+  },
+  "foof_cifar_development": {
+    "verification_job": "48567356",
+    "verification_indices": [
+      16
+    ],
+    "config_sha256": "b719ff2a3317b879ce083411db5df58929b14cfdbd197e8bcc9e116c69bff0b7",
+    "cases": 24,
+    "training_runs": 48,
+    "remaining_job": "48569420",
+    "remaining_partition": "kempner_requeue",
+    "remaining_hardware": "h100",
+    "remaining_concurrency": 2,
+    "dependency": "afterok:48567356",
+    "gate": "Full expected GPU-probe updates, paired seeds, finite endpoint, configuration/source/checkpoint hashes; no performance threshold",
+    "status": "submitted",
+    "latest_endpoint_counts": {},
+    "official_test_loaded": false,
+    "summary_job": "48572537"
+  },
+  "next_round_protocol": "docs/research/ndfa_parallel_development_20260925.md",
+  "last_updated_utc": "2026-09-25T19:30:16.022732+00:00"
+}
