@@ -8,9 +8,9 @@
   "work_packages": {
     "corrections": "completed_and_verified",
     "baseline_protocol_and_timing": "completed",
-    "stable_baseline_confirmation": "Initial synthetic/CIFAR/FOOF development complete; tuning extensions, horizon checks and stronger digit baselines submitted; final confirmation not frozen",
-    "mean_covariance": "Synthetic exploratory controls complete; CIFAR controls submitted behind technical gate",
-    "alignment": "Synthetic and CIFAR early/late/always/never interventions submitted with offline diagnostics",
+    "stable_baseline_confirmation": "All development, boundary and horizon studies complete; held-out and matched-work confirmation not yet frozen",
+    "mean_covariance": "Synthetic and CIFAR controls complete; full/centered covariance beat tested mean-only alternatives; damping boundaries require targeted review",
+    "alignment": "96 runs complete; early-only conditioning retains most benefit, onset not uniformly earlier; equal-rate windows and BP control needed",
     "error_factor": "pending_mechanism",
     "application": "pending_gate",
     "final_rewrite_and_release": "pending_results"
@@ -81,11 +81,11 @@
   "paper_branch_pushed": true,
   "code_branch_pushed": true,
   "next_actions": [
-    "Audit all nine new studies and pooled development choices; classify missing runs separately from numerical failures",
-    "Inspect alignment onset/censoring and negative projections alongside predictive loss and accuracy",
-    "Freeze held-out/matched-work confirmation only after boundary and horizon review",
-    "Decide crossed feedback replications, swap interventions and larger application from the mechanism evidence",
-    "Keep error-factor expansion conditional on a defined anisotropy mechanism; curate manuscript after results"
+    "Freeze a small fresh-seed matched-work comparison including early-only activity DFA+BN, tuned DFA+BN, BP+BN and FOOF-BP",
+    "Resolve relevant geometry damping boundaries and confirm full/centered/mean-preserving comparisons",
+    "Test equal-rate early/late or shared-checkpoint interventions with a matched BP activity control",
+    "Keep digit baseline corrections and error-factor scope narrow; do not claim large generic digit gains",
+    "Decide the larger application from confirmed mechanism and cost results, then revise the manuscript"
   ],
   "authorized_partitions": [
     "kempner_h100_priority",
@@ -144,7 +144,7 @@
     "summary_job": "48572537"
   },
   "next_round_protocol": "docs/research/ndfa_parallel_development_20260925.md",
-  "last_updated_utc": "2026-09-25T21:23:25.338176+00:00",
+  "last_updated_utc": "2026-09-26T00:29:32.915094+00:00",
   "parallel_development_code_commit": "40206f0",
   "parallel_development_code_branch": "ndfa-strengthening-20260925",
   "parallel_development_code_pushed": true,
@@ -253,9 +253,11 @@
         "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/cifar_baseline_boundaries_v1/followup_summary.json",
         "summary_submitted_utc": "2026-09-25T21:19:39.722376+00:00",
         "latest_endpoint_counts": {
-          "complete": 56,
-          "numerical_failure": 2
-        }
+          "complete": 72,
+          "numerical_failure": 4
+        },
+        "status": "complete_and_audited",
+        "summary_status": "completed_and_recomputed"
       },
       "cifar_baseline_horizon_v1": {
         "job": "48598247",
@@ -270,7 +272,11 @@
         "summary_job": "48601530",
         "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/cifar_baseline_horizon_v1/followup_summary.json",
         "summary_submitted_utc": "2026-09-25T21:19:41.453663+00:00",
-        "latest_endpoint_counts": {}
+        "latest_endpoint_counts": {
+          "complete": 18
+        },
+        "status": "complete_and_audited",
+        "summary_status": "completed_and_recomputed"
       },
       "cifar_foof_boundaries_v1": {
         "job": "48598252",
@@ -285,7 +291,12 @@
         "summary_job": "48601532",
         "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/cifar_foof_boundaries_v1/followup_summary.json",
         "summary_submitted_utc": "2026-09-25T21:19:41.913690+00:00",
-        "latest_endpoint_counts": {}
+        "latest_endpoint_counts": {
+          "complete": 25,
+          "numerical_failure": 11
+        },
+        "status": "complete_and_audited",
+        "summary_status": "completed_and_recomputed"
       },
       "cifar_foof_horizon_v1": {
         "job": "48598258",
@@ -300,7 +311,11 @@
         "summary_job": "48601538",
         "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/cifar_foof_horizon_v1/followup_summary.json",
         "summary_submitted_utc": "2026-09-25T21:19:42.343957+00:00",
-        "latest_endpoint_counts": {}
+        "latest_endpoint_counts": {
+          "complete": 4
+        },
+        "status": "complete_and_audited",
+        "summary_status": "completed_and_recomputed"
       },
       "digits_v1": {
         "kind": "digits",
@@ -357,8 +372,10 @@
         "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/digits_v1/followup_summary.json",
         "summary_submitted_utc": "2026-09-25T21:19:43.262133+00:00",
         "latest_endpoint_counts": {
-          "complete": 18
-        }
+          "complete": 144
+        },
+        "status": "complete_and_audited",
+        "summary_status": "completed_and_recomputed"
       },
       "alignment_synthetic_v1": {
         "kind": "alignment_synthetic",
@@ -413,8 +430,10 @@
         "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/alignment_synthetic_v1/followup_summary.json",
         "summary_submitted_utc": "2026-09-25T21:19:43.673010+00:00",
         "latest_endpoint_counts": {
-          "complete": 63
-        }
+          "complete": 64
+        },
+        "status": "complete_and_audited",
+        "summary_status": "completed_and_recomputed"
       },
       "alignment_cifar_v1": {
         "kind": "alignment_cifar",
@@ -442,7 +461,11 @@
         "summary_job": "48601555",
         "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/alignment_cifar_v1/followup_summary.json",
         "summary_submitted_utc": "2026-09-25T21:19:43.855028+00:00",
-        "latest_endpoint_counts": {}
+        "latest_endpoint_counts": {
+          "complete": 32
+        },
+        "status": "complete_and_audited",
+        "summary_status": "completed_and_recomputed"
       },
       "geometry_cifar_v1": {
         "kind": "geometry_cifar",
@@ -471,7 +494,11 @@
         "summary_job": "48601557",
         "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/geometry_cifar_v1/followup_summary.json",
         "summary_submitted_utc": "2026-09-25T21:19:44.364166+00:00",
-        "latest_endpoint_counts": {}
+        "latest_endpoint_counts": {
+          "complete": 68
+        },
+        "status": "complete_and_audited",
+        "summary_status": "completed_and_recomputed"
       },
       "synthetic_boundaries_v2": {
         "job": "48602047",
@@ -487,7 +514,11 @@
         "summary_job": "48602049",
         "summary": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/synthetic_boundaries_v2/followup_summary.json",
         "summary_submitted_utc": "2026-09-25T21:21:02.990586+00:00",
-        "latest_endpoint_counts": {}
+        "latest_endpoint_counts": {
+          "complete": 24
+        },
+        "status": "complete_and_audited",
+        "summary_status": "completed_and_recomputed"
       }
     },
     "partition_migrations": [
@@ -556,6 +587,26 @@
         "message": ""
       }
     ],
-    "code_branch": "ndfa-strengthening-20260925"
+    "code_branch": "ndfa-strengthening-20260925",
+    "code_commit": "1be85a2",
+    "code_pushed": true
+  },
+  "latest_result_audit": {
+    "checked_utc": "2026-09-26T00:29:32.915067+00:00",
+    "studies": 15,
+    "total_runs": 2038,
+    "normal_completions": 1998,
+    "numerical_failures": 40,
+    "missing_runs": 0,
+    "latest_round_runs": 466,
+    "latest_round_normal_completions": 451,
+    "latest_round_numerical_failures": 15,
+    "all_15_summary_outputs_match": true,
+    "paired_groups_verified": 62,
+    "report": "docs/research/ndfa_results_review_20260925.md",
+    "evidence": "results/ndfa_strengthening_20260925/job_results_check_v1",
+    "no_training_resubmitted": true,
+    "no_test_data_loaded": true,
+    "scope": "Saved source/configuration/manifest/checkpoint hashes; endpoint and history reaggregation; pairing; no training or prediction rerun"
   }
 }
