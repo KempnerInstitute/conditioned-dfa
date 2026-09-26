@@ -8,9 +8,9 @@
   "work_packages": {
     "corrections": "completed_and_verified",
     "baseline_protocol_and_timing": "completed",
-    "stable_baseline_confirmation": "All development, boundary and horizon studies complete; held-out and matched-work confirmation not yet frozen",
-    "mean_covariance": "Synthetic and CIFAR controls complete; full/centered covariance beat tested mean-only alternatives; damping boundaries require targeted review",
-    "alignment": "96 runs complete; early-only conditioning retains most benefit, onset not uniformly earlier; equal-rate windows and BP control needed",
+    "stable_baseline_confirmation": "Fixed protocol submitted: 80 fixed-epoch confirmations; 192 matched-work development runs automatically followed by 160 confirmations",
+    "mean_covariance": "40 damping-extension runs submitted, automatically followed by 70 frozen confirmations",
+    "alignment": "128 constant-rate timing controls submitted, including BP interaction",
     "error_factor": "pending_mechanism",
     "application": "pending_gate",
     "final_rewrite_and_release": "pending_results"
@@ -67,7 +67,8 @@
     "parallel_controls_suite": 32,
     "public_release_parallel_controls_suite": 34,
     "digit_gpu_verification": "six full-horizon seed runs passed configuration/source/checkpoint audits",
-    "alignment_gpu_verification": "four full-horizon synthetic seed runs passed configuration/source/checkpoint audits"
+    "alignment_gpu_verification": "four full-horizon synthetic seed runs passed configuration/source/checkpoint audits",
+    "decision_round_suite": "47 passed across runner, geometry, FOOF, selection and resumability; NFS atomic coordination and 60 simultaneous publications verified"
   },
   "paper_build": "drafts/Info-DFA/build/strengthening_20260925/corrections_02",
   "correction_package": {
@@ -81,11 +82,9 @@
   "paper_branch_pushed": true,
   "code_branch_pushed": true,
   "next_actions": [
-    "Freeze a small fresh-seed matched-work comparison including early-only activity DFA+BN, tuned DFA+BN, BP+BN and FOOF-BP",
-    "Resolve relevant geometry damping boundaries and confirm full/centered/mean-preserving comparisons",
-    "Test equal-rate early/late or shared-checkpoint interventions with a matched BP activity control",
-    "Keep digit baseline corrections and error-factor scope narrow; do not claim large generic digit gains",
-    "Decide the larger application from confirmed mechanism and cost results, then revise the manuscript"
+    "Verify six GPU execution checks and scheduler dependencies",
+    "Complete the fixed 670-run scientific allocation; automatically select, confirm, and evaluate",
+    "Read the paired decision report before choosing a larger application or final manuscript direction"
   ],
   "authorized_partitions": [
     "kempner_h100_priority",
@@ -608,5 +607,213 @@
     "no_training_resubmitted": true,
     "no_test_data_loaded": true,
     "scope": "Saved source/configuration/manifest/checkpoint hashes; endpoint and history reaggregation; pairing; no training or prediction rerun"
+  },
+  "decision_round": {
+    "utc": "2026-09-26T01:03:07.573766+00:00",
+    "root": "results/ndfa_strengthening_20260925/decision_round_v4",
+    "scientific_runs_total": 670,
+    "scientific_runs_submitted": 440,
+    "scientific_runs_automatic_after_selection": 230,
+    "technical_runs": 6,
+    "receipts": {
+      "constant_rate:evaluate": {
+        "job": "48647263",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_decision_evaluate",
+          "--partition=kempner_requeue",
+          "--constraint=h200",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--dependency=afterany:48647259:48647244:48647253",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/decision_round_v4/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T01:02:38.128849+00:00"
+      },
+      "constant_rate:train": {
+        "job": "48647259",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_decision_train",
+          "--partition=kempner_requeue",
+          "--constraint=h200",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--dependency=afterany:48647225:48647227",
+          "--array=0-127%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/decision_round_v4/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T01:02:35.766623+00:00"
+      },
+      "epochs:evaluate": {
+        "job": "48647260",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_decision_evaluate",
+          "--partition=kempner_requeue",
+          "--constraint=h100",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--dependency=afterany:48647236:48647244:48647253",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/decision_round_v4/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T01:02:37.175184+00:00"
+      },
+      "epochs:train": {
+        "job": "48647236",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_decision_train",
+          "--partition=kempner_requeue",
+          "--constraint=h100",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--dependency=afterany:48647225:48647227",
+          "--array=0-79%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/decision_round_v4/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T01:02:26.653712+00:00"
+      },
+      "geometry_development:select_geometry": {
+        "job": "48647253",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_decision_select_geometry",
+          "--partition=shared",
+          "--cpus-per-task=1",
+          "--mem=8G",
+          "--time=00:30:00",
+          "--dependency=afterany:48647250",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/decision_round_v4/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T01:02:33.248596+00:00"
+      },
+      "geometry_development:train": {
+        "job": "48647250",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_decision_train",
+          "--partition=kempner_requeue",
+          "--constraint=h100",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--dependency=afterany:48647225:48647227",
+          "--array=0-39%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/decision_round_v4/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T01:02:32.018645+00:00"
+      },
+      "smoke_updates:train": {
+        "job": "48647227",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_decision_train",
+          "--partition=kempner_requeue",
+          "--constraint=h200",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--array=0-1%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/decision_round_v4/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T01:02:22.865388+00:00"
+      },
+      "smoke_work:train": {
+        "job": "48647225",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_decision_train",
+          "--partition=kempner_requeue",
+          "--constraint=h100",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--array=0-3%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/decision_round_v4/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T01:02:22.308753+00:00"
+      },
+      "work_development:select_work": {
+        "job": "48647244",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_decision_select_work",
+          "--partition=shared",
+          "--cpus-per-task=1",
+          "--mem=8G",
+          "--time=00:30:00",
+          "--dependency=afterany:48647239",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/decision_round_v4/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T01:02:28.889489+00:00"
+      },
+      "work_development:train": {
+        "job": "48647239",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_decision_train",
+          "--partition=kempner_requeue",
+          "--constraint=h100",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--dependency=afterany:48647225:48647227",
+          "--array=0-191%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/decision_round_v4/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T01:02:27.441792+00:00"
+      }
+    },
+    "submitted_studies": {
+      "constant_rate": 128,
+      "epochs": 80,
+      "geometry_development": 40,
+      "smoke_updates": 2,
+      "smoke_work": 4,
+      "work_development": 192
+    },
+    "partition_updates": [
+      {
+        "job": "48647225",
+        "partition": "kempner_h100_priority",
+        "qos": "kemp_gpu16_id38",
+        "verified_state": "RUNNING: all four tasks",
+        "reason": "Accelerate H100 technical checks"
+      },
+      {
+        "job": "48647227",
+        "partition": "kempner_requeue",
+        "throttle": 60,
+        "verified_state": "PENDING: Priority",
+        "reason": "Eng blocked by per-user node cap; returned the two checks to requeue"
+      }
+    ],
+    "plan_sha256": "c783287220aad2f5348a62892114460f96076c5b0eedf7efad4a99c818a6b528",
+    "cpu_tests_passed": 47,
+    "status": "four_h100_checks_running_two_h200_checks_pending",
+    "updated_utc": "2026-09-26T01:04:52.580134+00:00"
   }
 }
