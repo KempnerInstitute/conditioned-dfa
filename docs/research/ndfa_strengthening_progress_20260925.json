@@ -68,7 +68,8 @@
     "public_release_parallel_controls_suite": 34,
     "digit_gpu_verification": "six full-horizon seed runs passed configuration/source/checkpoint audits",
     "alignment_gpu_verification": "four full-horizon synthetic seed runs passed configuration/source/checkpoint audits",
-    "decision_round_suite": "47 passed across runner, geometry, FOOF, selection and resumability; NFS atomic coordination and 60 simultaneous publications verified"
+    "decision_round_suite": "47 passed across runner, geometry, FOOF, selection and resumability; NFS atomic coordination and 60 simultaneous publications verified",
+    "decision_gpu_verification": "All six GPU runs passed completion, source, configuration, history and checkpoint audits"
   },
   "paper_build": "drafts/Info-DFA/build/strengthening_20260925/corrections_02",
   "correction_package": {
@@ -809,11 +810,31 @@
         "throttle": 60,
         "verified_state": "PENDING: Priority",
         "reason": "Eng blocked by per-user node cap; returned the two checks to requeue"
+      },
+      {
+        "job": "48647239",
+        "partition": "kempner_h100_priority",
+        "qos": "kemp_gpu16_id38",
+        "reason": "Run matched-work development alongside requeue studies; site QoS governs actual concurrency"
       }
     ],
     "plan_sha256": "c783287220aad2f5348a62892114460f96076c5b0eedf7efad4a99c818a6b528",
     "cpu_tests_passed": 47,
-    "status": "four_h100_checks_running_two_h200_checks_pending",
-    "updated_utc": "2026-09-26T01:04:52.580134+00:00"
+    "status": "gpu_checks_passed_research_arrays_released",
+    "updated_utc": "2026-09-26T01:07:13.223079+00:00",
+    "technical_verification": {
+      "smoke_work": {
+        "successful": 4,
+        "failed": 0,
+        "source_and_checkpoint_audit": "passed"
+      },
+      "smoke_updates": {
+        "successful": 2,
+        "failed": 0,
+        "source_and_checkpoint_audit": "passed"
+      }
+    },
+    "code_commit": "98bff6e",
+    "code_pushed": true
   }
 }
