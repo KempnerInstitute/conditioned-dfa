@@ -83,9 +83,10 @@
   "paper_branch_pushed": true,
   "code_branch_pushed": true,
   "next_actions": [
-    "Verify six GPU execution checks and scheduler dependencies",
-    "Complete the fixed 670-run scientific allocation; automatically select, confirm, and evaluate",
-    "Read the paired decision report before choosing a larger application or final manuscript direction"
+    "Complete five parallel development studies and existing matched-work development",
+    "Run shared-checkpoint branches only if the prespecified constant-rate validation gate passes",
+    "Freeze all selected settings together, run ten fresh seeds, then release one global test-evaluation gate",
+    "Review decision.md for paper scope, error-factor disposition, and venue"
   ],
   "authorized_partitions": [
     "kempner_h100_priority",
@@ -144,7 +145,7 @@
     "summary_job": "48572537"
   },
   "next_round_protocol": "docs/research/ndfa_parallel_development_20260925.md",
-  "last_updated_utc": "2026-09-26T00:29:32.915094+00:00",
+  "last_updated_utc": "2026-09-26T03:10:09.112469+00:00",
   "parallel_development_code_commit": "40206f0",
   "parallel_development_code_branch": "ndfa-strengthening-20260925",
   "parallel_development_code_pushed": true,
@@ -820,7 +821,7 @@
     ],
     "plan_sha256": "c783287220aad2f5348a62892114460f96076c5b0eedf7efad4a99c818a6b528",
     "cpu_tests_passed": 47,
-    "status": "gpu_checks_passed_research_arrays_released",
+    "status": "training_preserved; independent test stages canceled by integrated amendment",
     "updated_utc": "2026-09-26T01:07:13.223079+00:00",
     "technical_verification": {
       "smoke_work": {
@@ -835,6 +836,307 @@
       }
     },
     "code_commit": "98bff6e",
-    "code_pushed": true
+    "code_pushed": true,
+    "superseded_by": "integrated_round_v1"
+  },
+  "integrated_round": {
+    "updated_utc": "2026-09-26T03:10:09.112469+00:00",
+    "root": "results/ndfa_strengthening_20260925/integrated_round_v1",
+    "protocol": "docs/research/ndfa_integrated_protocol_20260926.md",
+    "plan_sha256": "ebcd87727973c8e199f778cf6943a6bceb2d4ec789b99989e3b88582dca3de0e",
+    "prior_amendment": "results/ndfa_strengthening_20260925/decision_round_v4/integrated_revision_amendment.json",
+    "development_training_runs": 882,
+    "study_counts": {
+      "foof_cifar": 102,
+      "foof_nuisance": 156,
+      "error_cifar": 60,
+      "error_mnist": 60,
+      "benchmarks": 504
+    },
+    "technical_runs": 7,
+    "technical_verification": {
+      "passed": true,
+      "checks": {
+        "foof_cifar": {
+          "successful": 1,
+          "failed": 0
+        },
+        "foof_nuisance": {
+          "successful": 1,
+          "failed": 0
+        },
+        "error_cifar": {
+          "successful": 2,
+          "failed": 0
+        },
+        "error_mnist": {
+          "successful": 1,
+          "failed": 0
+        },
+        "benchmarks": {
+          "successful": 2,
+          "failed": 0
+        }
+      }
+    },
+    "cpu_tests_passed": 62,
+    "public_worktree_tests_passed": 62,
+    "conditional_branch_training_runs": 160,
+    "joint_confirmation_maximum_runs": 880,
+    "joint_confirmation_seeds": [
+      940101,
+      940102,
+      940103,
+      940104,
+      940105,
+      940106,
+      940107,
+      940108,
+      940109,
+      940110
+    ],
+    "receipts": {
+      "all:branches": {
+        "job": "48668246",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_branches",
+          "--qos=normal",
+          "--partition=shared",
+          "--cpus-per-task=1",
+          "--mem=12G",
+          "--time=00:45:00",
+          "--dependency=afterok:48668151",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:05:10.202422+00:00"
+      },
+      "all:collect": {
+        "job": "48668280",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_collect",
+          "--qos=normal",
+          "--partition=shared",
+          "--cpus-per-task=1",
+          "--mem=12G",
+          "--time=00:45:00",
+          "--dependency=afterok:48668163:48668175:48668189:48668213:48668235:48647239:48668246",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:05:14.317658+00:00"
+      },
+      "all:verify": {
+        "job": "48668151",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_verify",
+          "--qos=normal",
+          "--partition=shared",
+          "--cpus-per-task=1",
+          "--mem=12G",
+          "--time=00:45:00",
+          "--dependency=afterok:48668110:48668111:48668113:48668127:48668139",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:04:59.985818+00:00"
+      },
+      "benchmarks:train": {
+        "job": "48668235",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_train",
+          "--qos=normal",
+          "--partition=kempner_requeue",
+          "--constraint=h200",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--dependency=afterok:48668151",
+          "--array=0-503%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:05:09.266834+00:00"
+      },
+      "error_cifar:train": {
+        "job": "48668189",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_train",
+          "--qos=normal",
+          "--partition=kempner_requeue",
+          "--constraint=h100",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--dependency=afterok:48668151",
+          "--array=0-59%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:05:05.095342+00:00"
+      },
+      "error_mnist:train": {
+        "job": "48668213",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_train",
+          "--qos=normal",
+          "--partition=kempner_requeue",
+          "--constraint=h200",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--dependency=afterok:48668151",
+          "--array=0-59%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:05:08.360526+00:00"
+      },
+      "foof_cifar:train": {
+        "job": "48668163",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_train",
+          "--qos=normal",
+          "--partition=kempner_requeue",
+          "--constraint=h100",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--dependency=afterok:48668151",
+          "--array=0-101%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:05:00.617256+00:00"
+      },
+      "foof_nuisance:train": {
+        "job": "48668175",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_train",
+          "--qos=normal",
+          "--partition=kempner_requeue",
+          "--constraint=h200",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--dependency=afterok:48668151",
+          "--array=0-155%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:05:03.721834+00:00"
+      },
+      "smoke_benchmarks:train": {
+        "job": "48668139",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_train",
+          "--qos=normal",
+          "--partition=kempner_requeue",
+          "--constraint=h200",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--array=0-1%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:04:55.062904+00:00"
+      },
+      "smoke_error_cifar:train": {
+        "job": "48668111",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_train",
+          "--qos=normal",
+          "--partition=kempner_requeue",
+          "--constraint=h100",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--array=0-1%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:04:48.900124+00:00"
+      },
+      "smoke_error_mnist:train": {
+        "job": "48668127",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_train",
+          "--qos=normal",
+          "--partition=kempner_requeue",
+          "--constraint=h200",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--array=0-0%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:04:54.153992+00:00"
+      },
+      "smoke_foof_cifar:train": {
+        "job": "48668110",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_train",
+          "--qos=normal",
+          "--partition=kempner_requeue",
+          "--constraint=h100",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--array=0-0%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:04:48.716116+00:00"
+      },
+      "smoke_foof_nuisance:train": {
+        "job": "48668113",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_train",
+          "--qos=normal",
+          "--partition=kempner_requeue",
+          "--constraint=h200",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--array=0-0%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:04:51.524754+00:00"
+      }
+    },
+    "requeue_array_throttle": 60,
+    "status": "seven_gpu_checks_audited; development_arrays_released; waiting_for_cluster",
+    "test_policy": "All development and conditional branches precede one joint freeze. All confirmation training precedes any test loading.",
+    "official_test_loaded": false,
+    "dataset_inventory": "data/ndfa_integrated_development_20260926/inventory.json",
+    "dataset_inventory_sha256": "9e3e10b5f84b572c862e84dcee2c7511ae6ac3368b68123c8f3863c791ec1531",
+    "error_gate": "CIFAR primary: early K improves accuracy and loss versus A/scalar and diagonal E; K-versus-A direction change exceeds 0.001; global Holm; no rescue round.",
+    "code_pushed": false
   }
 }
