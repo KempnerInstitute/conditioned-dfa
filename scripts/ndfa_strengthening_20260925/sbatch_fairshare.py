@@ -28,12 +28,30 @@ def choose_account(output):
     return max(ACCOUNTS, key=lambda account: values[account]), values
 
 
+def protect_confirmation(args, root, action, study):
+    """Keep timed confirmation cohorts off preemptible partitions."""
+    config = root / study / "config.json"
+    if action != "train" or not config.exists():
+        return args, False
+    if json.loads(config.read_text()).get("stage") != "joint_confirmation":
+        return args, False
+    hardware = next((a.split("=", 1)[1] for a in args if a.startswith("--constraint=")), "")
+    partition, qos = {"h100": ("kempner_h100_priority", "kemp_gpu16_id38"),
+                      "h200": ("kempner_eng", "normal")}[hardware]
+    args = [a for a in args if not a.startswith(("--partition=", "--qos="))]
+    return ["--partition=" + partition, "--qos=" + qos, *args], True
+
+
 def main():
     args = sys.argv[1:]
     root = Path(os.environ["NDFA_ACCOUNT_ROUTE_ROOT"]).resolve()
     # Scope this wrapper to the exact experiment, not other user submissions.
     if str(root / "run.sbatch") not in args:
         os.execv("/usr/bin/sbatch", ["sbatch", *args])
+    args, protected = protect_confirmation(
+        args, root, os.environ.get("NDFA_INTEGRATED_ACTION"),
+        os.environ.get("NDFA_INTEGRATED_STUDY", "all"),
+    )
     partition = next((a.split("=", 1)[1] for a in args if a.startswith("--partition=")), "")
     account, values, error = "kempner_dev", {}, None
     if partition in GPU_PARTITIONS:
@@ -52,6 +70,7 @@ def main():
     args = [a for a in args if not a.startswith("--account=")]
     result = subprocess.run(["/usr/bin/sbatch", "--account=" + account, *args], capture_output=True, text=True)
     receipt = dict(utc=datetime.now(timezone.utc).isoformat(), account=account,
+                   protected_confirmation=protected,
                    partition=partition, fairshare=values, fairshare_error=error,
                    command=["/usr/bin/sbatch", "--account=" + account, *args],
                    returncode=result.returncode, stdout=result.stdout, stderr=result.stderr)

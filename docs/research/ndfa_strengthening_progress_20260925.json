@@ -146,7 +146,7 @@
     "summary_job": "48572537"
   },
   "next_round_protocol": "docs/research/ndfa_parallel_development_20260925.md",
-  "last_updated_utc": "2026-09-26T03:43:31.665782+00:00",
+  "last_updated_utc": "2026-09-26T04:24:18.899077+00:00",
   "parallel_development_code_commit": "40206f0",
   "parallel_development_code_branch": "ndfa-strengthening-20260925",
   "parallel_development_code_pushed": true,
@@ -897,6 +897,22 @@
       940110
     ],
     "receipts": {
+      "all:branch_dispatch": {
+        "job": "48676223",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_branch_dispatch",
+          "--qos=normal",
+          "--partition=shared",
+          "--cpus-per-task=1",
+          "--mem=12G",
+          "--time=00:45:00",
+          "--dependency=afterok:48676217:48676219",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:55:27.421886+00:00"
+      },
       "all:branches": {
         "job": "48674497",
         "command": [
@@ -912,10 +928,13 @@
         ],
         "submitted_utc": "2026-09-26T03:42:17.899765+00:00",
         "replaces": "48668246",
-        "operational_account_wrapper": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/scheduler/bin/sbatch"
+        "operational_account_wrapper": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/scheduler/bin/sbatch",
+        "execution": "completed_locally",
+        "cancelled_scheduler_job": "48674497",
+        "local_execution_receipt": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/scheduler/recheck_20260926/local_branch_dispatch.json"
       },
       "all:collect": {
-        "job": "48674505",
+        "job": "48676345",
         "command": [
           "sbatch",
           "--parsable",
@@ -925,11 +944,12 @@
           "--cpus-per-task=1",
           "--mem=12G",
           "--time=00:45:00",
-          "--dependency=afterok:48668163:48668175:48668189:48668213:48668235:48647239:48674497",
+          "--dependency=afterok:48668163:48668175:48668189:48668213:48668235:48647239",
           "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
         ],
-        "submitted_utc": "2026-09-26T03:42:22.826557+00:00",
-        "replaces": "48668280",
+        "submitted_utc": "2026-09-26T03:56:27.844100+00:00",
+        "replaces": "48674505",
+        "reason": "Prior pending collector was canceled by Slurm when its old CPU dispatcher was canceled; exact dispatch completed locally; rebuild remaining dependencies",
         "operational_account_wrapper": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/scheduler/bin/sbatch"
       },
       "all:verify": {
@@ -966,6 +986,42 @@
           "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
         ],
         "submitted_utc": "2026-09-26T03:05:09.266834+00:00"
+      },
+      "branch_prefix_cifar:train": {
+        "job": "48676217",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_train",
+          "--qos=normal",
+          "--partition=kempner_requeue",
+          "--constraint=h100",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--array=0-15%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:55:24.097307+00:00"
+      },
+      "branch_prefix_nuisance:train": {
+        "job": "48676219",
+        "command": [
+          "sbatch",
+          "--parsable",
+          "--job-name=ndfa_integrated_train",
+          "--qos=normal",
+          "--partition=kempner_requeue",
+          "--constraint=h200",
+          "--gres=gpu:1",
+          "--cpus-per-task=4",
+          "--mem=24G",
+          "--time=01:00:00",
+          "--array=0-15%60",
+          "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch"
+        ],
+        "submitted_utc": "2026-09-26T03:55:26.209187+00:00"
       },
       "error_cifar:train": {
         "job": "48668189",
@@ -1192,6 +1248,82 @@
       },
       "frozen_source_hashes_verified": true,
       "requeue_array_throttle": 60
+    },
+    "latest_scheduling_review": {
+      "utc": "2026-09-26T04:24:18.899077+00:00",
+      "fairshare": {
+        "kempner_bsabatini_lab": 0.582266,
+        "kempner_dev": 0.0
+      },
+      "studies": {
+        "foof_cifar": {
+          "expected": 102,
+          "complete": 77,
+          "numerical_failure": 4,
+          "interrupted_endpoints": 0
+        },
+        "foof_nuisance": {
+          "expected": 156,
+          "complete": 150,
+          "numerical_failure": 0,
+          "interrupted_endpoints": 0
+        },
+        "error_cifar": {
+          "expected": 60,
+          "complete": 20,
+          "numerical_failure": 0,
+          "interrupted_endpoints": 5
+        },
+        "error_mnist": {
+          "expected": 60,
+          "complete": 60,
+          "numerical_failure": 0,
+          "interrupted_endpoints": 0
+        },
+        "benchmarks": {
+          "expected": 504,
+          "complete": 369,
+          "numerical_failure": 0,
+          "interrupted_endpoints": 0
+        }
+      },
+      "queue": {
+        "kempner_bsabatini_lab|kempner_h100|PENDING": 44,
+        "kempner_bsabatini_lab|kempner_requeue|COMPLETING": 11,
+        "kempner_bsabatini_lab|kempner_requeue|PENDING": 133,
+        "kempner_bsabatini_lab|kempner_requeue|RUNNING": 32,
+        "kempner_dev|kempner_h100_priority|PENDING": 45,
+        "kempner_dev|kempner_h100_priority|RUNNING": 7,
+        "kempner_dev|shared|PENDING": 2
+      },
+      "scientific_sources_verified": true,
+      "changes": "Recovered 37 H100 tasks on priority partition; routed CIFAR branch prefixes to priority and remaining CIFAR E to regular H100. Future joint-confirmation training protected from requeue preemption.",
+      "confirmation_protection": {
+        "utc": "2026-09-26T04:19:49.159215+00:00",
+        "reason": "Requeue preemptions observed. Confirmation primary comparisons require uninterrupted timed runs. Route all confirmation training to non-preemptive authorized partitions with matching GPU type.",
+        "h100": {
+          "partition": "kempner_h100_priority",
+          "account": "kempner_dev",
+          "qos": "kemp_gpu16_id38"
+        },
+        "h200": {
+          "partition": "kempner_eng",
+          "account": "kempner_dev",
+          "qos": "normal"
+        },
+        "before_wrapper_sha256": "10c8978a7a741d0762046fc3ed07f1ee117a2c15493687384c330e57d339bb49",
+        "after_wrapper_sha256": "6f70d627e9d64ff3e2fafd9ccb9f6830425623b1d301c253f33abb664ea6cc53",
+        "route_checks": "H100/H200 confirmation protected; development and evaluation unchanged; hardware, array and settings retained",
+        "scientific_configs_and_sources_unchanged": true
+      },
+      "development_terminal": 680,
+      "development_normal_completions": 676,
+      "development_numerical_failures": 4,
+      "remaining_cifar_E_on_regular_h100": 44,
+      "priority_recovery_tasks": 37,
+      "cifar_branch_prefix_tasks_on_priority": 16,
+      "terminal_scheduler_failures": 0,
+      "dependencies_verified": true
     }
   },
   "authorized_gpu_accounts": [
