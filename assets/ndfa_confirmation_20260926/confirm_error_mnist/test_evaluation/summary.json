@@ -1,0 +1,2087 @@
+{
+  "study": "confirm_error_mnist",
+  "rows": [
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "family": "activity",
+        "id": "case_000",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940101,
+      "status": "complete",
+      "training_seconds": 60.00033024768345,
+      "completed_updates": 17929,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1956472852480.473,
+        "credit": 17612328960.0,
+        "forward_and_weight_products": 2153400754176.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9771,
+          "loss": 0.0799566317439593,
+          "checkpoint_sha256": "01fb66d7f8e7e2e420d1aeb79eac7b5a8c3407be8cd503e4bc8d40d53652c121",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "114ee2a323d89becaa8d6fcec341b7b19b86ea946656a2579a614cdcbce22be0"
+        },
+        "final": {
+          "accuracy": 0.9775,
+          "loss": 0.17686576489468533,
+          "checkpoint_sha256": "248e007b7896242e565727d39d03e42a922426c86d0adbec469694e54de49b7f",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "6958b762825a732b8abcb07a4c957dbabd4faa16680f46b1b37fb762500a5c30"
+        }
+      }
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "family": "activity",
+        "id": "case_000",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940102,
+      "status": "complete",
+      "training_seconds": 60.00062187714502,
+      "completed_updates": 16455,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1795608261973.6868,
+        "credit": 16164249600.0,
+        "forward_and_weight_products": 1976348917760.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9747,
+          "loss": 0.08219303823760203,
+          "checkpoint_sha256": "0e03276fb8e236df6af28f0e80be06552a866f18c678bc9e7c5d2291bdbc2973",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "5c49f0baa2e00419c5ca117088a31bad134d597369f1cd4759d45211ab976d94"
+        },
+        "final": {
+          "accuracy": 0.9767,
+          "loss": 0.16681478542949166,
+          "checkpoint_sha256": "3c2335a42d4819898f51d1daa74f2568f35a798827181fc4d9e69de237d76f26",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "e2f85d4ff7999f2b51cae654d86e46f80b425bea4ce57c4d06001e5661a41be7"
+        }
+      }
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "family": "activity",
+        "id": "case_000",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940103,
+      "status": "complete",
+      "training_seconds": 60.00140626530629,
+      "completed_updates": 18119,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1977180747093.8215,
+        "credit": 17798799360.0,
+        "forward_and_weight_products": 2176199868416.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9744,
+          "loss": 0.08299556944725273,
+          "checkpoint_sha256": "e9de9589807edbaf31785310e7a9362ad1773f7674fa993af19d4380f098b0c0",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "536ceb6df7d40821a9b4a0f84bf61bc4d37f121478efa76c4ca0aa47f60f490b"
+        },
+        "final": {
+          "accuracy": 0.9776,
+          "loss": 0.17899714228253708,
+          "checkpoint_sha256": "559948031507a2d20a474904d006ee273ede60b121d46e87f096aeb4f33194a9",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "30e49fd803ae787dad2eb64834f9bf864d019d5d3bd997bea25df9ae6a4f7493"
+        }
+      }
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "family": "activity",
+        "id": "case_000",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940104,
+      "status": "complete",
+      "training_seconds": 60.00264253746718,
+      "completed_updates": 17554,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1915558024533.776,
+        "credit": 17243996160.0,
+        "forward_and_weight_products": 2108365930496.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9764,
+          "loss": 0.08165017850378492,
+          "checkpoint_sha256": "329ba86391bcdc422b76bca82997ab6ce55b4352567b5025bcf280eca1443a2e",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "cbdf294fd34ded10ab60954d04a6f58023083ab797092153fee6ad57b4118080"
+        },
+        "final": {
+          "accuracy": 0.9779,
+          "loss": 0.16652911488938701,
+          "checkpoint_sha256": "e95bf3b29934c8e545a925430564832d57ed46524af4d91a3472b8ce85de2ed5",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "3af7f4a3adbb9be0f5150cb729c0771ffaa7c6ce54f097f4ba1d6302a0647a30"
+        }
+      }
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "family": "activity",
+        "id": "case_000",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940105,
+      "status": "complete",
+      "training_seconds": 60.00279780279379,
+      "completed_updates": 18248,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1991270987093.832,
+        "credit": 17925611520.0,
+        "forward_and_weight_products": 2191704768512.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9743,
+          "loss": 0.08175262598548257,
+          "checkpoint_sha256": "397b4792554df954d85f675bbeaadf84cefeef49da7661f7c42ccc46ce3d9080",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "a7c04abaec5fe1c11b6f4bc66cb17a3a6fa7cdd273244c5e8f49b10f012f74d9"
+        },
+        "final": {
+          "accuracy": 0.9777,
+          "loss": 0.17377840409834142,
+          "checkpoint_sha256": "3d6d20bef69f26a7d077e0206a77c0af2816dd55dad36ba8414ecf168ea3f296",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "90b634375481ad7faf1c32909071ffae3b717159059ab24a903877fe40062451"
+        }
+      }
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "family": "activity",
+        "id": "case_000",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940106,
+      "status": "complete",
+      "training_seconds": 60.00044971704483,
+      "completed_updates": 17165,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1873114023253.7444,
+        "credit": 16861900800.0,
+        "forward_and_weight_products": 2061648404480.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9766,
+          "loss": 0.08274111201513619,
+          "checkpoint_sha256": "406dc7892adf73c859baeee318871817a2f824641ec31f094000df23b96c24e6",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "78dc489088c1fdbced650a255d9f8df34210f3c44ae1cd3a8141e8d04d4b5b1a"
+        },
+        "final": {
+          "accuracy": 0.9783,
+          "loss": 0.15924534112276675,
+          "checkpoint_sha256": "671bc342691e1f4a232023f41e75d95709c31b276942a1ee8db786ad79028b45",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "c83bd0b43f6f020ce7588efc32221679ef5093d03a95a718109d8e3f70fe7c5a"
+        }
+      }
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "family": "activity",
+        "id": "case_000",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940107,
+      "status": "complete",
+      "training_seconds": 60.00175756518729,
+      "completed_updates": 18210,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1987120373760.4956,
+        "credit": 17888256000.0,
+        "forward_and_weight_products": 2187137433600.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9761,
+          "loss": 0.08082779000794203,
+          "checkpoint_sha256": "c98a59400cd7dda87c0d0277371b62d74b54f079b973152f5732bb49d45a4899",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "356f19b3d116a7c586397d060a0dc876bc7f848d35f9aea63ea944b2fdc40333"
+        },
+        "final": {
+          "accuracy": 0.9758,
+          "loss": 0.18095332457114638,
+          "checkpoint_sha256": "e1817bbf3cee9359d5a8a5321b50d334c099bd992dc22956335f0b6dc47a2035",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "1e8987f1a040cb19ae58d3ff1e48ac58c302f936b418f94ebec8f065e05a74fd"
+        }
+      }
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "family": "activity",
+        "id": "case_000",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940108,
+      "status": "complete",
+      "training_seconds": 60.00180758163333,
+      "completed_updates": 17899,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1953196052480.4705,
+        "credit": 17582837760.0,
+        "forward_and_weight_products": 2149794963456.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9752,
+          "loss": 0.08496216409947976,
+          "checkpoint_sha256": "aa0c8c30bb555e32f8b13352f5918832d26f99caf7b6e68813927a36084202bc",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "9d59845bbe2db7fb8a8280e8b75cec6385d3fa9bab496fb72d3b8d030448c621"
+        },
+        "final": {
+          "accuracy": 0.9764,
+          "loss": 0.18329265466129507,
+          "checkpoint_sha256": "4b7c3502fce7793ad006ced0d91d1b09e7e860967130d0d38acaad27be2b5d90",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "9e994a4ee2baae1f8ff0fcb748e25c0e442e0717febdc5e0aa34cd3469f26462"
+        }
+      }
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "family": "activity",
+        "id": "case_000",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940109,
+      "status": "complete",
+      "training_seconds": 60.00083946529776,
+      "completed_updates": 18328,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 2000009120427.1719,
+        "credit": 18004254720.0,
+        "forward_and_weight_products": 2201320210432.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9741,
+          "loss": 0.0903490018324164,
+          "checkpoint_sha256": "d7353fd05adb2da06ea06335169e7bf2b8d6d58c269139ac57aff8f09be3f890",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "879adda5e068c3591cccaa0a30116568222016362b2e85d4288345dd58853209"
+        },
+        "final": {
+          "accuracy": 0.9766,
+          "loss": 0.1817026373994811,
+          "checkpoint_sha256": "5fdac3f1551059c7ff2d29e3beebc525f88a457f218b189a5b158dabe24d1f9f",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "06047024e52fcd702f35c5c8cc9616096aae211e2b82f19674d57c35341d4af0"
+        }
+      }
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "family": "activity",
+        "id": "case_000",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940110,
+      "status": "complete",
+      "training_seconds": 60.00174175249413,
+      "completed_updates": 18201,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1986137333760.4949,
+        "credit": 17879408640.0,
+        "forward_and_weight_products": 2186055696384.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9752,
+          "loss": 0.08695623777538143,
+          "checkpoint_sha256": "3c01a5f09aa252e5d8aae51b256468b68aac8517813549bb5a334c7a8cdd6a6d",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "4dac93d33332efc8f4bce8e9cd0f222620756835768ba1499c21a14264b1cc92"
+        },
+        "final": {
+          "accuracy": 0.9761,
+          "loss": 0.19621822661100724,
+          "checkpoint_sha256": "7e2d907d6196167226c4d42354a7451e3912581a6e91993b2b83de69ceb29b3f",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "48610f4093d3d0b1ef7a4211ff262ea46d5b5f83ce4e1d70eaa2ee4be95d70e8"
+        }
+      }
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_k",
+        "id": "case_001",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940101,
+      "status": "complete",
+      "training_seconds": 60.001773272641,
+      "completed_updates": 17254,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1993928261632.4485,
+        "credit": 16949084160.0,
+        "forward_and_weight_products": 2072308023296.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9792,
+          "loss": 0.07450255466290126,
+          "checkpoint_sha256": "3144b23e2ade0870f0f4955468e551069b35afe5589a7037f673f9b37cc6d6cd",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "badbcd1c36689d2d475d883966b52855cee8749ad896cf8193382c6d640b0258"
+        },
+        "final": {
+          "accuracy": 0.9801,
+          "loss": 0.13892616252831175,
+          "checkpoint_sha256": "eecce83cca84b751e561347d8507c7697faf01fc50112cde32a3f29d46797d21",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "0489e42762776bad909321e69448f737184357de5993b59b608d575208344c9b"
+        }
+      },
+      "mean_early_direction_change": 0.30822713440807864
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_k",
+        "id": "case_001",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940102,
+      "status": "complete",
+      "training_seconds": 60.00165868806653,
+      "completed_updates": 16821,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1948382572544.412,
+        "credit": 16523735040.0,
+        "forward_and_weight_products": 2020302004224.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9789,
+          "loss": 0.07464454167331652,
+          "checkpoint_sha256": "1f4c3a5371b49352cafe30a406136cd5eb77fa1093c8ac973a2f68c9ab4893c6",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "45e422ca18a414bbbcbe3b08727d6a17e8af80bdf1228f4a1123423cb662abb7"
+        },
+        "final": {
+          "accuracy": 0.9797,
+          "loss": 0.13361086290800572,
+          "checkpoint_sha256": "6d9a8cb733817bc8c78a200b5902e9e12d8347cf9385cae0ae673999874828db",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "f390542bf816abd2ed749eb37536fe5e22222d1b6b34d113472bc407dd6562a1"
+        }
+      },
+      "mean_early_direction_change": 0.18564941712496824
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_k",
+        "id": "case_001",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940103,
+      "status": "complete",
+      "training_seconds": 60.001074915751815,
+      "completed_updates": 16225,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1882795009365.6978,
+        "credit": 15938457600.0,
+        "forward_and_weight_products": 1948742082560.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9761,
+          "loss": 0.07876159711441144,
+          "checkpoint_sha256": "64ac8ebcba1942d76ce7a2af72013a633d5a910e4a0623b2b11fb89411ff4268",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "0db9d121aedb1ef4059d1a735227198de91e15062e1375d89582b446f85c0ae1"
+        },
+        "final": {
+          "accuracy": 0.9786,
+          "loss": 0.14401345760034082,
+          "checkpoint_sha256": "6a6bc280e499ee013b1da1c1775b3498933a0773c74fd3986623ffad984239f6",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "9f4f3a5dece5d68218adb4aaaa38e5cf6ecc866e7bdef1b02721e5c17f7be026"
+        }
+      },
+      "mean_early_direction_change": 0.2236138186906827
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_k",
+        "id": "case_001",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940104,
+      "status": "complete",
+      "training_seconds": 60.000360354664735,
+      "completed_updates": 17290,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1999629019819.1167,
+        "credit": 16984473600.0,
+        "forward_and_weight_products": 2076634972160.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9778,
+          "loss": 0.07462884452007128,
+          "checkpoint_sha256": "4b3b2c42817d358683140c30ba0ad9b728dcbaed3e36c9ee49bd001b5f716eb0",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "dcd95f27b45f34beb3d92f5cef2d65a9a42a0d12223b2ceabdcad626bcf066fc"
+        },
+        "final": {
+          "accuracy": 0.98,
+          "loss": 0.14697484556885068,
+          "checkpoint_sha256": "41c0f73f1be18374b38d6039391df696cf097861d735df183e42e4092788b304",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "25bf651c57ec09d5ffe7549c0f0a4da8e18947f9116e8bd0ae0f433419be976e"
+        }
+      },
+      "mean_early_direction_change": 0.24633736710918586
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_k",
+        "id": "case_001",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940105,
+      "status": "complete",
+      "training_seconds": 60.00002575898543,
+      "completed_updates": 16943,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1961772538539.0886,
+        "credit": 16643665920.0,
+        "forward_and_weight_products": 2034965553152.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9771,
+          "loss": 0.07447126902577639,
+          "checkpoint_sha256": "3a4455f3340817c7ca68bc5fd1691a808d348f65f6d3b29b6cae748b7a02deab",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "9f87bdf29a9a894fe3b04154753cb149b784c59ab301ede7585723f72e9b5faf"
+        },
+        "final": {
+          "accuracy": 0.9776,
+          "loss": 0.13811909167060088,
+          "checkpoint_sha256": "89fe31de8c4bd951b2d80eee8de6d21417676cc971cf72977c2d19c36a4b32ac",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "2c0cd3c9bf1e26a903cabb02c7336a5df17e54d5e1cf93fa365b838fd00842fd"
+        }
+      },
+      "mean_early_direction_change": 0.26037787213202673
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_k",
+        "id": "case_001",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940106,
+      "status": "complete",
+      "training_seconds": 60.002751926193014,
+      "completed_updates": 17383,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 2009562005504.4578,
+        "credit": 17075896320.0,
+        "forward_and_weight_products": 2087812923392.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9795,
+          "loss": 0.07330164722365547,
+          "checkpoint_sha256": "cd6bc31b75978894fcfcfc80c8eef7d172c16bd4327bc263889c3ab92ec9dfb7",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "55f0dd21d75ef4086f663b0a83cff7e6223a0b17a408ce498a15da32cc0b311b"
+        },
+        "final": {
+          "accuracy": 0.9819,
+          "loss": 0.13020647310470634,
+          "checkpoint_sha256": "40ffff1ac936a660acd3d30937f837758550a0def42e039e5dcbb6de2cd7c8ff",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "ca7c3734039bee8777bfd62cbbaa1b883efbf1fd60fe65c3ab931a587a102429"
+        }
+      },
+      "mean_early_direction_change": 0.34121541509012776
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_k",
+        "id": "case_001",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940107,
+      "status": "complete",
+      "training_seconds": 60.00250202452298,
+      "completed_updates": 17479,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 2021237549739.1316,
+        "credit": 17170268160.0,
+        "forward_and_weight_products": 2099351453696.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9785,
+          "loss": 0.07992521704589683,
+          "checkpoint_sha256": "bf4e91d69b854e1aef5de6512435344ce78d6902ac83ce872c2a09ade108814e",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "a398fbefb979cc9a2aa46e25291b81ad1ab75ce271ec714bd973a98863c037ef"
+        },
+        "final": {
+          "accuracy": 0.9776,
+          "loss": 0.15841109644370757,
+          "checkpoint_sha256": "5583074f7636f2c4e5352635f49a5b3c2f87b3bc0db0f054a39327a526012859",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "a45e2862a96243d4bf4e4b6d47cd9633a9035293002038906010b9b7598fde5f"
+        }
+      },
+      "mean_early_direction_change": 0.25072076291962037
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_k",
+        "id": "case_001",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940108,
+      "status": "complete",
+      "training_seconds": 60.00315733579919,
+      "completed_updates": 16984,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1965832799573.759,
+        "credit": 16683970560.0,
+        "forward_and_weight_products": 2039893467136.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9781,
+          "loss": 0.0714677825753993,
+          "checkpoint_sha256": "2162b4642755a9390a32b1ebd3cddfc2e155aa7d955c3bca4785f627f37d8637",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "38b0d56db3361fc9cacb2107f1716e0d10b8128356c443003e029c28a137c0c6"
+        },
+        "final": {
+          "accuracy": 0.9806,
+          "loss": 0.1398816644487057,
+          "checkpoint_sha256": "5a32ac7094abe5783f1ea4d396259f77723f435a5f53117cc17e3c7c5a4970d0",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "54c03ad3ab37adf0b252d7fe8727f3e1c546907c7b6a0e3227395ae87b29aff4"
+        }
+      },
+      "mean_early_direction_change": 0.22536028991854767
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_k",
+        "id": "case_001",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940109,
+      "status": "complete",
+      "training_seconds": 60.00020420574583,
+      "completed_updates": 17470,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 2018614536875.1318,
+        "credit": 17161420800.0,
+        "forward_and_weight_products": 2098269716480.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9749,
+          "loss": 0.08439709619967754,
+          "checkpoint_sha256": "caa101827324f62df019589052414da6cd8d961d82755807189c4ff4674d1c92",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "9307d65b146eeee593afe823a7c661b42cbca9d720edfb9b9aea403e119809b5"
+        },
+        "final": {
+          "accuracy": 0.9801,
+          "loss": 0.15574958936807753,
+          "checkpoint_sha256": "7c72fee3dbce37294b0d0c82392e1979976b1ef29d5f48f7ccf1bdee0cef3156",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "44c8fb1d19648557fe4fa44448cf1cc55be5f131693f2371eb4023b8720fd608"
+        }
+      },
+      "mean_early_direction_change": 0.25183033487860573
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_k",
+        "id": "case_001",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940110,
+      "status": "complete",
+      "training_seconds": 60.000572682358325,
+      "completed_updates": 16971,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1954335117995.0984,
+        "credit": 16671191040.0,
+        "forward_and_weight_products": 2038330957824.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.977,
+          "loss": 0.07810323182006965,
+          "checkpoint_sha256": "92dd2846a1018916b7914a282136be26b4d63f1c04ebf8800b7ea134f148a611",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "8174de84cfba8e73dbc34d17d61d52947d895b5f6e62b6b6c5ec342833794da6"
+        },
+        "final": {
+          "accuracy": 0.9787,
+          "loss": 0.15354640670080894,
+          "checkpoint_sha256": "bd25d5c2438c8dcd8d198dc99f594e3942edc5f0e115efaa5c8bd744410b53d2",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "b0bd6018ddf3faf2f8daab2552328c6519a7cd2f98098ef1cd0698b144091348"
+        }
+      },
+      "mean_early_direction_change": 0.24571956784842908
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "diagonal",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_diagonal",
+        "id": "case_002",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940101,
+      "status": "complete",
+      "training_seconds": 60.00132613768801,
+      "completed_updates": 18232,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1990962961067.165,
+        "credit": 17909882880.0,
+        "forward_and_weight_products": 2189781680128.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9773,
+          "loss": 0.0798328214930585,
+          "checkpoint_sha256": "e293ed13eb6cadd5fdd3bda2bedb34818881a04eebdd09fe82313fa3f00ee208",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "1adf012717fa465d6985b745b2a2d33060d07f23293c26bbb112ab0bea247492"
+        },
+        "final": {
+          "accuracy": 0.9781,
+          "loss": 0.17858600059398366,
+          "checkpoint_sha256": "ebeca57805ba3f23b48d5ddf4e246ebec0a2d9f2df3339240f7f42964aaaf76e",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "8ec7d07d80420bed2711edb26ff420bc2dd1558e7095ad3cdf2af04c9d5f3caf"
+        }
+      },
+      "mean_early_direction_change": 0.012302295494660262
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "diagonal",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_diagonal",
+        "id": "case_002",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940102,
+      "status": "complete",
+      "training_seconds": 60.00150567200035,
+      "completed_updates": 18193,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1986692836011.1619,
+        "credit": 17871544320.0,
+        "forward_and_weight_products": 2185094152192.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9735,
+          "loss": 0.08152602344261156,
+          "checkpoint_sha256": "5f2f73753db06c398a99665fc830c88c1f3d9897e9b48e05e10fb94b95291e48",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "6940123c879c37016e4177060b0b687929b2d78d02cac6db8a49560d3f2fcaf0"
+        },
+        "final": {
+          "accuracy": 0.9773,
+          "loss": 0.17507737178424498,
+          "checkpoint_sha256": "4c2d080ecb74b29005a4a3c95f63b1b7fc2c4542ed63f897d18bd6a9e520d722",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "40f4749c5b40b3f84c1592a125c909ab4993bc26c1824b8621fa6206427e9e91"
+        }
+      },
+      "mean_early_direction_change": 0.00971613274233181
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "diagonal",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_diagonal",
+        "id": "case_002",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940103,
+      "status": "complete",
+      "training_seconds": 60.0026329474058,
+      "completed_updates": 18286,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1996865514155.1694,
+        "credit": 17962967040.0,
+        "forward_and_weight_products": 2196272103424.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9735,
+          "loss": 0.08531862286391889,
+          "checkpoint_sha256": "ad12c22ae8933c5183687cba8aff5efa5fb7ee1f5874c4a6661f12407adc7d23",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "52cfede978bb102b673459b6c2b4958a1191101b37eaf54665736c48be46ac85"
+        },
+        "final": {
+          "accuracy": 0.9779,
+          "loss": 0.18166801456258586,
+          "checkpoint_sha256": "c84daa88a206d380da938ee9fb9dc516f52d0d24003908cd347776429015a9d4",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "eedda77031662a322bb9a86e7727b22ad651cfd90da10270273e3b2d839cb6e9"
+        }
+      },
+      "mean_early_direction_change": 0.005871118777651285
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "diagonal",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_diagonal",
+        "id": "case_002",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940104,
+      "status": "complete",
+      "training_seconds": 60.00021146470681,
+      "completed_updates": 18197,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1987134719317.8289,
+        "credit": 17875476480.0,
+        "forward_and_weight_products": 2185574924288.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9759,
+          "loss": 0.08320960499943769,
+          "checkpoint_sha256": "0548b10961ab3e47b1b93c70550e2665ebdb52bda2545368ebe8633fb647c819",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "d00486a82ce6c9f9f97f0f9e8c6d36558ab5040e1fe824f851ceb68c79175a1a"
+        },
+        "final": {
+          "accuracy": 0.9775,
+          "loss": 0.17125716583638798,
+          "checkpoint_sha256": "aba83a9fc13cfdab84f8eb7b7fb5cf1848cf63ad5af5e79885270356f3c3611e",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "dc5d40c13f662d8a73f05d533c83bbaee1137253620d9f60a59bd4001f76ab4b"
+        }
+      },
+      "mean_early_direction_change": 0.009514803682062603
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "diagonal",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_diagonal",
+        "id": "case_002",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940105,
+      "status": "complete",
+      "training_seconds": 60.00121984106954,
+      "completed_updates": 18163,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1983419685547.1594,
+        "credit": 17842053120.0,
+        "forward_and_weight_products": 2181488361472.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9754,
+          "loss": 0.08701355905622586,
+          "checkpoint_sha256": "61f1513c37b04f531d88df5425f24acdca0bb0ae27ad36dc80a109a8ddf0c894",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "a57ff4bafcd1f04cdf3793de99414c55140e97e6faa089326654a538fc92b355"
+        },
+        "final": {
+          "accuracy": 0.9778,
+          "loss": 0.173684117584546,
+          "checkpoint_sha256": "23b7d31bdd686958065efbed6213ee515facff3d63e25520ef1814a52f5e757a",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "1fb99d8c5a9fd74b7b148123f4d29a3724fcbed7d0cd5ba11a4162f7094c254f"
+        }
+      },
+      "mean_early_direction_change": 0.007287646748440513
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "diagonal",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_diagonal",
+        "id": "case_002",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940106,
+      "status": "complete",
+      "training_seconds": 60.00239410903305,
+      "completed_updates": 18028,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1968703694848.482,
+        "credit": 17709649920.0,
+        "forward_and_weight_products": 2165299863552.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9766,
+          "loss": 0.08466105634744368,
+          "checkpoint_sha256": "2189e9f4054d9ed0131a84be9daf40dd15738318bb8d57f3fe4fc0c6702726e8",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "002d40eaa1a45692795ec926c4eb891fc8e4c7010b87d9717286e776871dcc09"
+        },
+        "final": {
+          "accuracy": 0.9783,
+          "loss": 0.1647836333701425,
+          "checkpoint_sha256": "161672028aede443082c17a3725756b0120304f98a206993a45fefad30ca53ce",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "c7f9ed50437ae435428d301535349b2861533a428f8c3baa057a00cc9c6bb9a6"
+        }
+      },
+      "mean_early_direction_change": 0.006528625969823718
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "diagonal",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_diagonal",
+        "id": "case_002",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940107,
+      "status": "complete",
+      "training_seconds": 60.000981729710475,
+      "completed_updates": 18214,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1988994890411.1636,
+        "credit": 17892188160.0,
+        "forward_and_weight_products": 2187618205696.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.976,
+          "loss": 0.07991613724923659,
+          "checkpoint_sha256": "48aa1587109a08e5b58627a073bba6a492013122f75153c24532db480387e663",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "4a314fd1de1cee885691d5aee6a2af72cd1dc504472826a5468ceffc6cdebdaf"
+        },
+        "final": {
+          "accuracy": 0.9767,
+          "loss": 0.18179516891022082,
+          "checkpoint_sha256": "4cfb7b40d8a7aac070549bb61be19801888ba1f6d1294d65ddcca74a4121d179",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "5daece73bf049e970bcd4040dd389d32216fc7d2475a2923860655c5a2d0b3a1"
+        }
+      },
+      "mean_early_direction_change": 0.012441739429129614
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "diagonal",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_diagonal",
+        "id": "case_002",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940108,
+      "status": "complete",
+      "training_seconds": 60.001435136888176,
+      "completed_updates": 18132,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1980028682240.4902,
+        "credit": 17811578880.0,
+        "forward_and_weight_products": 2177762377728.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9746,
+          "loss": 0.08356022189774576,
+          "checkpoint_sha256": "4e2ee6026fa7713c31b7afebbf444e6091b266517d57cafc44ed15e56a1c429a",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "02bf46a4a29e4e25bf0222394c13b0498de92a67ec7b9c802983e6bb9519974d"
+        },
+        "final": {
+          "accuracy": 0.976,
+          "loss": 0.1860867884163471,
+          "checkpoint_sha256": "7b6829a694aad454f0f2b8ee68286ba20dde6b95f9c7eb1c4d3d821572e221ba",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "b6ce2833ad4f4699b62372424cbbf2cbccaf1cd9a45e8914e8af6f9e4cc4d7dd"
+        }
+      },
+      "mean_early_direction_change": 0.008029186301122176
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "diagonal",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_diagonal",
+        "id": "case_002",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940109,
+      "status": "complete",
+      "training_seconds": 60.00120159389917,
+      "completed_updates": 18039,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1969926059349.8162,
+        "credit": 17720463360.0,
+        "forward_and_weight_products": 2166621986816.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9742,
+          "loss": 0.0899657600095314,
+          "checkpoint_sha256": "cd456b8a91fd13ce8ba2b84db1064b4997b38ada69f68ddeb3f8ef56dd427be7",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "41d24c28e89909dc4297fec009e2b5991cc7fd88174462028a62803958103ec8"
+        },
+        "final": {
+          "accuracy": 0.9769,
+          "loss": 0.17589741424282762,
+          "checkpoint_sha256": "9ee5cc7883423f30434d5620c0a56eb356a388fd1683dc4e543093af4a0f7849",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "d35398c0b604074aadc38064b38dd599a01c0659b7dbfd353650b3134b644bc5"
+        }
+      },
+      "mean_early_direction_change": 0.01294504538251838
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "diagonal",
+        "error_rho": 10.0,
+        "error_schedule": "early",
+        "family": "early_diagonal",
+        "id": "case_002",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940110,
+      "status": "complete",
+      "training_seconds": 60.000280435197055,
+      "completed_updates": 18139,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1980795923115.1575,
+        "credit": 17818460160.0,
+        "forward_and_weight_products": 2178603728896.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9757,
+          "loss": 0.08721062938163773,
+          "checkpoint_sha256": "5351e28fdcf7b002630fa7b9f7f005df919a1815f7fccc06e07f71873c3bc3ca",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "c0aa7e33d3720bfe99eff8c22eccceb163343a3fe3c3690efd13169b3565c6fa"
+        },
+        "final": {
+          "accuracy": 0.9765,
+          "loss": 0.1982449906781531,
+          "checkpoint_sha256": "e77ee652f0eedd774d184eb8278cf14a4119a5944258bbf81fca95e6579a3897",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "88c447fe754ea8826afa6945670d5a8a7743de0e962ed9908412435ba004af96"
+        }
+      },
+      "mean_early_direction_change": 0.00806880534975972
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "always",
+        "family": "persistent_k",
+        "id": "case_003",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940101,
+      "status": "complete",
+      "training_seconds": 60.0032489100704,
+      "completed_updates": 13798,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1948737798143.6392,
+        "credit": 13554155520.0,
+        "forward_and_weight_products": 1657221414912.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9783,
+          "loss": 0.07175928079298437,
+          "checkpoint_sha256": "814abc7505b187767111e3595f23821d3d136c284cf0fc95416d952310cef49b",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "726df8b159e0e33679c0a97b9cc75ab895658ed93da89ae1511626ae0c4b5455"
+        },
+        "final": {
+          "accuracy": 0.9753,
+          "loss": 0.2285217718914047,
+          "checkpoint_sha256": "3f5de1b94fccb62201e4b60f5320da0d943d6739c832e6e005860157b1c8d8bc",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "2572dfe805f95d22d0ef66436044d6dd6dcb237988679dce8053eaa248213c98"
+        }
+      },
+      "mean_early_direction_change": 0.28892867907852937
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "always",
+        "family": "persistent_k",
+        "id": "case_003",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940102,
+      "status": "complete",
+      "training_seconds": 60.004021156579256,
+      "completed_updates": 13364,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1887442102271.6743,
+        "credit": 13127823360.0,
+        "forward_and_weight_products": 1605095202816.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9775,
+          "loss": 0.07808814127727906,
+          "checkpoint_sha256": "6e1b8a13f5a678da1d50f54241b8b4b97f4606fe89268de3cf96d55c927e0531",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "f3fbe5cd13cb670e3289c3bc50a38ef7ced0168055adc076923fa271169f24db"
+        },
+        "final": {
+          "accuracy": 0.9788,
+          "loss": 0.17772710467084768,
+          "checkpoint_sha256": "08cb9a9287349ca819f6d44113c74502e51fdc528574d57969bdb54e20d043ee",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "f0db36153f34cd3af465fae23a4355b2b9ce1b3d7c85713877b212aa535cfb94"
+        }
+      },
+      "mean_early_direction_change": 0.19099243310920205
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "always",
+        "family": "persistent_k",
+        "id": "case_003",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940103,
+      "status": "complete",
+      "training_seconds": 60.00367753603496,
+      "completed_updates": 14161,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 2000059826175.6096,
+        "credit": 13910999040.0,
+        "forward_and_weight_products": 1700851482624.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9759,
+          "loss": 0.07842876676633954,
+          "checkpoint_sha256": "b65b9f6bc73801d33b1e8c712d89f2585791f55eff49a983578651cdd2a71e02",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "3dedb77bce69645f4e0b8ec906439b998b6d49c4b2c9e04080863103874a76c8"
+        },
+        "final": {
+          "accuracy": 0.9737,
+          "loss": 0.23045883850663504,
+          "checkpoint_sha256": "b3964f74a43b82d092a2612bd3b41af63a50e9593096406094424e9d036f6677",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "81baf32727dcf79fa0f70b7347fa67d7bb074c14c3987c0923ccbd6726748507"
+        }
+      },
+      "mean_early_direction_change": 0.2951551675862525
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "always",
+        "family": "persistent_k",
+        "id": "case_003",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940104,
+      "status": "complete",
+      "training_seconds": 60.00143658136949,
+      "completed_updates": 13988,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1975600567636.957,
+        "credit": 13740933120.0,
+        "forward_and_weight_products": 1680058089472.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.978,
+          "loss": 0.07468384787548281,
+          "checkpoint_sha256": "c43dd7b0ac30b543d5f33e954537255c0def75e3eca9afbac6eb3493da1670bf",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "1c9d0605c61518e52e2ff94329228c69c743f5572f6b4af2820e2b1ef1b7881a"
+        },
+        "final": {
+          "accuracy": 0.9765,
+          "loss": 0.19044502150273673,
+          "checkpoint_sha256": "e1cc09867aa22a994266b4d2a66348c0c2a43e9afebf8622de29d9979e1d5194",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "c69ba4d328223a7f90826ef5824147f1aa8c9615dfb4e2029753cbe37682ac2d"
+        }
+      },
+      "mean_early_direction_change": 0.24020761393558854
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "always",
+        "family": "persistent_k",
+        "id": "case_003",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940105,
+      "status": "complete",
+      "training_seconds": 60.000449541257694,
+      "completed_updates": 14110,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1992849293311.6138,
+        "credit": 13860864000.0,
+        "forward_and_weight_products": 1694721638400.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9762,
+          "loss": 0.07585351912540876,
+          "checkpoint_sha256": "f6ab70917702a4657b901e47e77a4d050d812fdd4e2794a4f88b7bb9904bc39a",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "127c1c8a60ef9fb00b79fe146e069d60b7e67aa00972a60c592a79fb0f2385d6"
+        },
+        "final": {
+          "accuracy": 0.9777,
+          "loss": 0.14631565983842382,
+          "checkpoint_sha256": "18fd3fa1219bf9f690506f2f81368953c7b1e54863cc779564425032516f20b0",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "99fd4343fb9afab0df76bf79a98e28d83d593b110a016de2532ae98ddca68145"
+        }
+      },
+      "mean_early_direction_change": 0.2583214251140191
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "always",
+        "family": "persistent_k",
+        "id": "case_003",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940106,
+      "status": "complete",
+      "training_seconds": 60.003691306803375,
+      "completed_updates": 14046,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1983800781482.2856,
+        "credit": 13797949440.0,
+        "forward_and_weight_products": 1687029284864.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9769,
+          "loss": 0.07468038830658891,
+          "checkpoint_sha256": "7c81e05f7abdfc9172266836efd702d925dd96b94267413745c21f55424a16ad",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "512f5ecd28e52c4a0a24ecd79ef7ee45c479b1103ca1a751b290414068b5a9ea"
+        },
+        "final": {
+          "accuracy": 0.9756,
+          "loss": 0.1932322490345572,
+          "checkpoint_sha256": "414c0b3f0e9823fd6d2718ef7f5138303e6a550eaeef4dd5885bdecdf3be8cf8",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "dfd2fbdc45c428a5672a00c385d3152b567e99206e6239862a334573c2221ad4"
+        }
+      },
+      "mean_early_direction_change": 0.321788466123498
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "always",
+        "family": "persistent_k",
+        "id": "case_003",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940107,
+      "status": "complete",
+      "training_seconds": 60.00136167812161,
+      "completed_updates": 14050,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1984366313471.6187,
+        "credit": 13801881600.0,
+        "forward_and_weight_products": 1687510056960.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9782,
+          "loss": 0.07511798612922671,
+          "checkpoint_sha256": "1ad37c19786ebf4e0547d9b482f7fbd5fb75517210561112595ad3ecf7e4b602",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "2c61baad013009ea4407a464134e4e66c951acf3275c2adba5328be80f843caf"
+        },
+        "final": {
+          "accuracy": 0.9743,
+          "loss": 0.2432650388793993,
+          "checkpoint_sha256": "bc449d052e805581c01c095f38fed1c03b9cfe17df3c76ebf8868d5eba9c6efe",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "4447152eaf944153cc940e4d9fa4b8dd227a84b714bca571723c7068bf80e24a"
+        }
+      },
+      "mean_early_direction_change": 0.2238875744406082
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "always",
+        "family": "persistent_k",
+        "id": "case_003",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940108,
+      "status": "complete",
+      "training_seconds": 60.00120083068032,
+      "completed_updates": 14059,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1985638760447.618,
+        "credit": 13810728960.0,
+        "forward_and_weight_products": 1688591794176.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9793,
+          "loss": 0.07163899541919827,
+          "checkpoint_sha256": "7d3172f164bdc308287ff61083cde3701780207775e8981befcea05c0a2b6e81",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "c53af30777a281f9fcfe08c4e352b484b11bb5f4cc7e75318330ce2a298b5005"
+        },
+        "final": {
+          "accuracy": 0.9768,
+          "loss": 0.1900438057868718,
+          "checkpoint_sha256": "32de98b5097bf9da521f3561d2f9ff1b36b375a123198b8e2a00bbf1febeddc8",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "abb901dab3c2a4edfcc71791dc89c6af70ad029722cf30a8975f74a2e986adbd"
+        }
+      },
+      "mean_early_direction_change": 0.23235053345259613
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "always",
+        "family": "persistent_k",
+        "id": "case_003",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940109,
+      "status": "complete",
+      "training_seconds": 60.00356042664498,
+      "completed_updates": 13521,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1909639232852.9949,
+        "credit": 13282160640.0,
+        "forward_and_weight_products": 1623965507584.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9758,
+          "loss": 0.08123499342470496,
+          "checkpoint_sha256": "b9cd1a8e8c5cbc335d34bcd41949e3b3520f14a2949b5d93b128dd7060f28e80",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "7f2a6bdacdf41e58cb779132593ce41a703a216c9d6825abb7359205a31f8df9"
+        },
+        "final": {
+          "accuracy": 0.9783,
+          "loss": 0.15507957570507994,
+          "checkpoint_sha256": "1dec5ed669777d718524994474c1dba049bf01ad984a16fb6fd4df384a0c3924",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "2e6d6ebf7a1f6a7f4fa7bd6f0e87d33456e2415746f3c6c68548295de7bf6ed7"
+        }
+      },
+      "mean_early_direction_change": 0.23305325292130935
+    },
+    {
+      "case": {
+        "cell": "mnist_relu",
+        "credit": "dfa",
+        "damping": 0.3,
+        "dataset": "mnist",
+        "error_operator": "full",
+        "error_rho": 10.0,
+        "error_schedule": "always",
+        "family": "persistent_k",
+        "id": "case_003",
+        "lr": 0.001,
+        "normalization": "none",
+        "operator": "activity",
+        "optimizer": "adamw",
+        "rho": null,
+        "work_budget_seconds": 60.0
+      },
+      "seed": 940110,
+      "status": "complete",
+      "training_seconds": 60.00264163862448,
+      "completed_updates": 14055,
+      "attempts": 1,
+      "flops": {
+        "conditioning": 1985073228458.285,
+        "credit": 13806796800.0,
+        "forward_and_weight_products": 1688111022080.0
+      },
+      "flop_scope": "Estimated leading-order dense linear-algebra FLOPs, FMA=2: forward, credit, weight products, moment products, solves, inverse refresh and calibration. Excludes pointwise activations, BN reductions, optimizer arithmetic, data transforms, diagnostics and exports; not measured hardware FLOPs. FD estimates include its documented matrix products separately. No FLOP-matched claim from time matching.",
+      "metrics": {
+        "best": {
+          "accuracy": 0.9766,
+          "loss": 0.08226686593830765,
+          "checkpoint_sha256": "a7d47415f20e865ceef1e2ccb65632ff4cf5a0915caae0d0d32953d6088a04ff",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "b83943c3a69fea5f80c2f3e9f3257bab9466d1412ab3ad604509d8d6a300ece3"
+        },
+        "final": {
+          "accuracy": 0.9747,
+          "loss": 0.1993222177878105,
+          "checkpoint_sha256": "a6c2285d4985938b5cb920946b3d791a26daa61c31a9ad9fc1baa370b532e27e",
+          "test_data": {
+            "images": "4375534ba93b526401749c5c86b1efa8c4ff99fbcd0f8d5ddecbedf6c6a8f4bc",
+            "labels": "62df8be406b15e1e4097981d72ca2e675eb50daf1b17d8fa2090153221b4fdb0"
+          },
+          "prediction_sha256": "228fa4583ccabef1d7584222042644c11cb09fd7f17fdeb34aefb43734d3da80"
+        }
+      },
+      "mean_early_direction_change": 0.26400768172099287
+    }
+  ],
+  "config_sha256": "b7875aaeeaf1a53ff445734fcfe05f9b0f992e99e811c23ba41c0f14619b66ae",
+  "test_plan_sha256": "7fc3a91427bfd052fe09ddb70629e9b2693f6fe1910126ca12e0ab8e34fee937"
+}

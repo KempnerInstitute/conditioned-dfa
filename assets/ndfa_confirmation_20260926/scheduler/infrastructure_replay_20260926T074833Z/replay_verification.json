@@ -1,0 +1,58 @@
+{
+  "utc": "2026-09-26T07:54:48.386942+00:00",
+  "passed": true,
+  "replayed_runs": 5,
+  "originals_preserved": true,
+  "rows": [
+    {
+      "task_index": 159,
+      "seed": 940110,
+      "manifest_identical": true,
+      "uninterrupted": true,
+      "endpoint_sha256": "d5e75c6c59a101f2f11a81ac835a31a5615b410047e990ade8380144fdca07df",
+      "final_sha256": "0004fba45957c47d0f0d986296d375dd8686ca22f95752523b0d013f891fa665",
+      "best_sha256": "ee0a09b5e1723a580c55dd4b30fda0f518334c0c8a287b21fb785c72a15c3c5e",
+      "job": "48705980"
+    },
+    {
+      "task_index": 175,
+      "seed": 940106,
+      "manifest_identical": true,
+      "uninterrupted": true,
+      "endpoint_sha256": "c00e1237abfd8cd8046111cec86bb8161fafdd2edabb8041b738e5ea53f1fb45",
+      "final_sha256": "391cc18c65a9c8f8a26da2f895bacfc457ed79b7c11702d6f43223628f92335c",
+      "best_sha256": "7b298d591a8d43196d7abac4780b925274d63cfedbff3b4d7e8874bd2b91bc3d",
+      "job": "48705981"
+    },
+    {
+      "task_index": 176,
+      "seed": 940107,
+      "manifest_identical": true,
+      "uninterrupted": true,
+      "endpoint_sha256": "c07f56cf01973e653e3860473bcf9bd9615df6321c261496af9473463ba5b92f",
+      "final_sha256": "719fec4f495f45724923aaf9ea43b3aa89de91d258932b1ff2863fb946c32a37",
+      "best_sha256": "ac24c2d3157f2d3209d158bbdb6aabeb9b7151c1ce3ff0b7a7cba06d2ccd144c",
+      "job": "48705982"
+    },
+    {
+      "task_index": 177,
+      "seed": 940108,
+      "manifest_identical": true,
+      "uninterrupted": true,
+      "endpoint_sha256": "8df36a6be56247575367b7376d034f223d4c066cb3cbd3f8af3e3b2bb7afaac3",
+      "final_sha256": "9366904afa7142ff6f47c2a1d8f42ca66acb29452d8d72fcabd104fd18fee980",
+      "best_sha256": "c07c867b2a30574bd3e7f7af9bfc80bd2a18e35cdd5f023f31ee933186fdf5a4",
+      "job": "48705983"
+    },
+    {
+      "task_index": 178,
+      "seed": 940109,
+      "manifest_identical": true,
+      "uninterrupted": true,
+      "endpoint_sha256": "7cc8ef5899a3b8616ea8458b9d4a0f6ce2014d11d9098de195934a62cc604933",
+      "final_sha256": "2d80995d51b14a637953631bb6386d3d0a66ad96f9762c9701f38c98d97bd18b",
+      "best_sha256": "dc2589eda4d7a30f52e369a656ce03719df0538786517064cdd8712cbfe15594",
+      "job": "48705400"
+    }
+  ]
+}

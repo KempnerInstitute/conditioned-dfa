@@ -1,0 +1,328 @@
+{
+  "scope": "Exact archived source, configurations and seed-level summaries; no checkpoints, logits or datasets. Internal absolute paths are historical provenance, not portable input paths.",
+  "files": {
+    "plan.json": {
+      "sha256": "ebcd87727973c8e199f778cf6943a6bceb2d4ec789b99989e3b88582dca3de0e",
+      "bytes": 6637
+    },
+    "joint_confirmation.json": {
+      "sha256": "9b6880d5412a4681855d3b44742480113e08b29e1af550fa4959c244eb0484ae",
+      "bytes": 3670
+    },
+    "confirmation_training_gate.json": {
+      "sha256": "ea1c45a8cc3ade4f54476054d2d4c7bc0c2084620a13c6554cb0e12cc822c84b",
+      "bytes": 749
+    },
+    "decision.json": {
+      "sha256": "b615c87d2423e23513077a2cd5602952e0c9c0e0fa952812fd7c7254a9b9af36",
+      "bytes": 15256
+    },
+    "decision.md": {
+      "sha256": "549085e3ec50d1e1deed6cc88b80271be29136696d05b4504af0256d8d4cdd29",
+      "bytes": 10577
+    },
+    "designs.json": {
+      "sha256": "4255a923bf00bdc168062853738fe9894e602f8376bf5f384cab80656aad5895",
+      "bytes": 154666
+    },
+    "development_summary.json": {
+      "sha256": "23ba9afb5a301133f2b6486b5b9b1193248b171cbfdd9996cda2776cbb50e13b",
+      "bytes": 323967
+    },
+    "branch_summary.json": {
+      "sha256": "d977ca84112e73b986aa2d3c55c63eb7a1edb1ea9ee4cb7563bf5c63e217d978",
+      "bytes": 54719
+    },
+    "protocol.md": {
+      "sha256": "b565f5490696b0afbd251c344599ee3f463a044298e8a8dbc3ff45464cb713f1",
+      "bytes": 13145
+    },
+    "technical_gate.json": {
+      "sha256": "665c1df9e3c574be5bea8737b97465f5be9fc26ce5a191fe425ea1fec1448280",
+      "bytes": 384
+    },
+    "branch_gate.json": {
+      "sha256": "c7a142389cd257251a8b11df9b49b78626945e45a862fcb75960e152982c20f7",
+      "bytes": 297
+    },
+    "confirm_foof_cifar/config.json": {
+      "sha256": "e500e98b6ea179694fce248c1d1d21312f8e6bd36c94d5af77a3669ac4cf28f6",
+      "bytes": 14865
+    },
+    "confirm_foof_cifar/test_evaluation/summary.json": {
+      "sha256": "2bca92e5099d3a9abb251608359b0ea0396f95fbfdb2e474ffbf028a32b8ccd7",
+      "bytes": 211553
+    },
+    "confirm_foof_nuisance/config.json": {
+      "sha256": "d9b17cf38e2524d464c5625ffcb7bb68f6837d719e33bcf4553cb14b9104b2e9",
+      "bytes": 19954
+    },
+    "confirm_foof_nuisance/test_evaluation/summary.json": {
+      "sha256": "9bf333e5627f022e641c56abff0e720ee82d545131cbe0586711f82a58b7c1cd",
+      "bytes": 296002
+    },
+    "confirm_error_cifar/config.json": {
+      "sha256": "b6dee8190e6a44d5eaf16dcb51f7165e316cddba0017118779b92803ca78a5d9",
+      "bytes": 10189
+    },
+    "confirm_error_cifar/test_evaluation/summary.json": {
+      "sha256": "fb3a86ae50da60567d72eb8b3372ccd201d61e068655b4b9c18a5efc42a35f00",
+      "bytes": 90991
+    },
+    "confirm_error_mnist/config.json": {
+      "sha256": "b7875aaeeaf1a53ff445734fcfe05f9b0f992e99e811c23ba41c0f14619b66ae",
+      "bytes": 10197
+    },
+    "confirm_error_mnist/test_evaluation/summary.json": {
+      "sha256": "ffdf498ac9fa114364a89b6d482a217f8ceffb0201bfc7f6165b52ceb9036cc9",
+      "bytes": 91084
+    },
+    "confirm_benchmarks/config.json": {
+      "sha256": "d6135a619461ea44a513cfff86a39f438e464df6e3fcf7cd1c88b91085d02a58",
+      "bytes": 53495
+    },
+    "confirm_benchmarks/test_evaluation/summary.json": {
+      "sha256": "ab3c8837e1c7a1a645f30b3539c19846db773fb0fc640c62e5282e86e71676d1",
+      "bytes": 898598
+    },
+    "confirm_epochs/config.json": {
+      "sha256": "fe62cea62019ad2fa4da7a6a251673b8e27e781006b3e83f968ac4580b3aea41",
+      "bytes": 9078
+    },
+    "confirm_epochs/test_evaluation/summary.json": {
+      "sha256": "e6f254cae737a6a0cf356b382ac8dcd5851d0a4793601a2af572a5c9df99478c",
+      "bytes": 63223
+    },
+    "confirm_geometry/config.json": {
+      "sha256": "caf6421d8af586f4974812fff77d975b7dd387fa8ce56e9a32a02b8a60c30109",
+      "bytes": 12621
+    },
+    "confirm_geometry/test_evaluation/summary.json": {
+      "sha256": "b8eb6a4ae6cacb10e6079697fcb019c561946219c36a717dd31fe4f30ce09cbd",
+      "bytes": 148856
+    },
+    "confirm_timing/config.json": {
+      "sha256": "a00e6c44532ff0dda70589dfeea39777673c2ba128c257127e916f6e45ad87c2",
+      "bytes": 10038
+    },
+    "confirm_timing/test_evaluation/summary.json": {
+      "sha256": "1c76fc2572be143e843d85efe1002ed2140eecdd4b244deee295a70b46be74d2",
+      "bytes": 85574
+    },
+    "source/infogeo/__init__.py": {
+      "sha256": "78a6c7f72fb955d5a2b63d0212e86f825b995a8b84d79b1fb97c3834464eae88",
+      "bytes": 569
+    },
+    "source/infogeo/adaptive.py": {
+      "sha256": "e074ab29a0a4f6153ab0e567f8e091176d65903701b7300fcc661418a4b977cb",
+      "bytes": 8350
+    },
+    "source/infogeo/analysis.py": {
+      "sha256": "6ea0617e0f06eac086ee181d9b952abb1ef5761ac0497b9cac23204a58445147",
+      "bytes": 3879
+    },
+    "source/infogeo/cifar_n.py": {
+      "sha256": "64787bf1a33d9ad48b5bc3e79d299af34fda7e86aa4b3fab44b71f9b73271ebd",
+      "bytes": 3052
+    },
+    "source/infogeo/conv_dfa.py": {
+      "sha256": "95dc6177854b9aab6c6a935debe6e1335e9f404c42a08ee8f83170fb02264398",
+      "bytes": 38105
+    },
+    "source/infogeo/decorrelated_dfa.py": {
+      "sha256": "3b6c98111783b8ec58d2624512a5fa37200e75e0c2a0a3b22a8185feb67b60f7",
+      "bytes": 10731
+    },
+    "source/infogeo/dfa.py": {
+      "sha256": "1c5b74c7939d073608c32c9c5c98577c40258ca11dc1a321390a4a51d56ba25e",
+      "bytes": 28644
+    },
+    "source/infogeo/foof.py": {
+      "sha256": "d62bc855a15523a8d137d4b3d427406e0782b1322f4e51f4638550746a2505cf",
+      "bytes": 3899
+    },
+    "source/infogeo/forward_decorrelation.py": {
+      "sha256": "a47186588c5d1f82f4f8b792d41f3b724a363d8277fa70e755a677979dd32f1b",
+      "bytes": 8790
+    },
+    "source/infogeo/geometry.py": {
+      "sha256": "4912e94c761ab694c0dd0306b4a83813356e3a41c7988aaa28d47728c84aa237",
+      "bytes": 7063
+    },
+    "source/infogeo/local_preconditioning.py": {
+      "sha256": "9b7f918ee9f1ca1cf5206211f4f6486e589ed1f0a6d5c1be19eaada7bd53dcc6",
+      "bytes": 6379
+    },
+    "source/infogeo/mixer_activity_conditioning.py": {
+      "sha256": "786a05482e426f093cce148f497ade77ae3309d79b82100e6c05138e82948dcc",
+      "bytes": 6110
+    },
+    "source/infogeo/mixer_dfa.py": {
+      "sha256": "497a2a2476d96a40d0673252721e8ea273114c407c170ade9bef6a2e8ae8ce5f",
+      "bytes": 17481
+    },
+    "source/infogeo/neuron_teaching_conditioning.py": {
+      "sha256": "ee8997938d360e5ba9c7459055b97077e3f6f649cdc778001db9624bc35a8276",
+      "bytes": 10669
+    },
+    "source/infogeo/noise_correlation.py": {
+      "sha256": "75889a727cdf9a723c02ab288fd60e199c96a689f8e2ceb02e116b2e998c8179",
+      "bytes": 9026
+    },
+    "source/infogeo/paired_conditioning.py": {
+      "sha256": "0ca562775475ef901794bb428451bc61b25cbdca12504787007f44b91b09670d",
+      "bytes": 6908
+    },
+    "source/infogeo/project_diagnostics.py": {
+      "sha256": "43ed0d276fa27a3e1c59c47376becf10776ec8f6a75bb6780d26958ac7629aaa",
+      "bytes": 10544
+    },
+    "source/infogeo/synthetic.py": {
+      "sha256": "0c95b34ee6ca799e65c051183fe91bc0c17833d8534d1eb794e151861a6c7a68",
+      "bytes": 8482
+    },
+    "source/infogeo/task_conditioning.py": {
+      "sha256": "549f41bbc898ec9b1db86730525f325650642e5936a45db7009f5d380c667415",
+      "bytes": 8950
+    },
+    "source/infogeo/teaching_conditioning.py": {
+      "sha256": "68dd1fb42c8a1e1fc591660c1fb29aeb90eaa341cf0cc86c07cc1985d2d7064b",
+      "bytes": 12933
+    },
+    "source/experiments/run_ndfa_submission_benchmark.py": {
+      "sha256": "5410b2c92f950bee63679720ce75d364eb570efc7434bcd148f65dc82a92c2f2",
+      "bytes": 29853
+    },
+    "source/experiments/run_dfa_multioutput_synthetic.py": {
+      "sha256": "b538c9f3583d67e0192a24b66fc398b50b80c05bc5705259eb2d6a8717f5ae28",
+      "bytes": 30252
+    },
+    "source/experiments/run_dfa_synthetic.py": {
+      "sha256": "8422668a7f6724858ac7d41c3d721b11aa8325ee19f7b9e3cc05d9ff752e22bf",
+      "bytes": 34660
+    },
+    "source/experiments/run_dfa_vision_baselines.py": {
+      "sha256": "31e58bdcc52807ecf1270e14051001bfe3f563c8cc9c318ecbacc3628c3caec5",
+      "bytes": 12931
+    },
+    "source/scripts/ndfa_strengthening_20260925/next_round.py": {
+      "sha256": "9ab5cf0f32630bb1e83c7aacdfe931b7a5d1c593a66555b4821c4fb7d98176a1",
+      "bytes": 19947
+    },
+    "source/scripts/ndfa_strengthening_20260925/baseline_development.py": {
+      "sha256": "0079d5c867748da3f81857128f78741578eaaf2360a087e84a3062cd45010d98",
+      "bytes": 11126
+    },
+    "source/scripts/ndfa_strengthening_20260925/freeze_next.py": {
+      "sha256": "ee255a0db24e9dfdc7804ce4a7d8d59b19302d2ac3d35e8b0b66bd139032c795",
+      "bytes": 6654
+    },
+    "source/tests/test_foof.py": {
+      "sha256": "9d46cd889926b47172babfe003cf38dd7e88bc32af1a327333fcff1a8c49c5e1",
+      "bytes": 2556
+    },
+    "source/tests/test_ndfa_next_round.py": {
+      "sha256": "cbe3eed92a3d9b7b39af77743f85395f602ef13f47305c0f98457aea655836a6",
+      "bytes": 2880
+    },
+    "source/slurm/ndfa_strengthening_next_20260925.sbatch": {
+      "sha256": "3064899be9436941f380ed4bf11c30d208e0c76a17740fcef109661c39c3c585",
+      "bytes": 902
+    },
+    "source/infogeo/activity_geometry.py": {
+      "sha256": "780ee49c90b31c0ca74b8bf6748a83d4ec3bc8a34aac97809e3408a2d302325d",
+      "bytes": 2671
+    },
+    "source/infogeo/tanh_dfa.py": {
+      "sha256": "f0c2ae399bf2a4bef152d649b360fda3e96323491205737583bb02f6cac9f6e2",
+      "bytes": 2247
+    },
+    "source/infogeo/credit_alignment.py": {
+      "sha256": "90a68e16cd656c05492fea94038a9c07df0a24446b1f5d1f96ef0842216937ce",
+      "bytes": 2520
+    },
+    "source/scripts/ndfa_strengthening_20260925/freeze_controls.py": {
+      "sha256": "509b4951420717739b9d85d34246a24cba1c5f98785b1889b88be201b8e1733f",
+      "bytes": 9452
+    },
+    "source/scripts/ndfa_strengthening_20260925/freeze_round2.py": {
+      "sha256": "ba7af71a381aafc4d963468f42b76b1d2e32fa9ba254f405b2765cd02ed32351",
+      "bytes": 6658
+    },
+    "source/tests/test_strengthening_controls.py": {
+      "sha256": "a027ca99c883b33102f0d0532e1395bd720625ac705e24e717c4c30d15b6cbdf",
+      "bytes": 5129
+    },
+    "source/scripts/ndfa_strengthening_20260925/decision_train.py": {
+      "sha256": "6f0a09a485ac55c71c68742416ab0479f39a889d4e0e69169869855b9b6b3a16",
+      "bytes": 14379
+    },
+    "source/scripts/ndfa_strengthening_20260925/freeze_decision.py": {
+      "sha256": "33a4b6de3d623bacbc18b2923768b5915c94949e9ba5e595ffa191d5c0b0404e",
+      "bytes": 12004
+    },
+    "source/scripts/ndfa_strengthening_20260925/decision_control.py": {
+      "sha256": "87a43428126e8c4b9b5c8c8e31235d7dbd4decfcb842e1be310ef34179124b6b",
+      "bytes": 16944
+    },
+    "source/tests/test_decision_round.py": {
+      "sha256": "e1c938617a977adc73ba99161d4114dcedfe245851dbeb00af41ad1089a21d35",
+      "bytes": 5833
+    },
+    "source/scripts/ndfa_strengthening_20260925/integrated_train.py": {
+      "sha256": "e4bb910c50d08ac4c57b1edfa2e47588e0482354cc8ef1085c9fbcfc781a41e7",
+      "bytes": 15629
+    },
+    "source/scripts/ndfa_strengthening_20260925/integrated_components.py": {
+      "sha256": "318acec870033603732a3471bc3ea5f262624ca6f407d268cd1548e70e573e13",
+      "bytes": 9691
+    },
+    "source/scripts/ndfa_strengthening_20260925/integrated_plan.py": {
+      "sha256": "7dd2596bd4badf30a9d6a87098f4b73b764cbfe104a2d7b1fde7e78510622f1f",
+      "bytes": 12666
+    },
+    "source/scripts/ndfa_strengthening_20260925/integrated_control.py": {
+      "sha256": "0a14092f72bf5c983e31bbc7334e6cbbdef7fec5b3b596f08e8a88ba3d7910fb",
+      "bytes": 30573
+    },
+    "source/scripts/ndfa_strengthening_20260925/prepare_integrated_benchmarks.py": {
+      "sha256": "465baac9f46ab0f53635336d4e960e68604c36cb1fda965b99f4f5d451f7f127",
+      "bytes": 4826
+    },
+    "source/tests/test_integrated_round.py": {
+      "sha256": "bbbea299522dd775f586197fd62e893ddfee333c1c207549290322a336ea8ec1",
+      "bytes": 7322
+    },
+    "claims/20260926T074530Z/claim_map.md": {
+      "sha256": "a50fbf7112906b2de58d7f5bd0fcbc0ed0b4e7a4fad91cb6ecaeb3840778d9cb",
+      "bytes": 11692
+    },
+    "claims/20260926T074530Z/freeze_receipt.json": {
+      "sha256": "5dab7bcf4f3ea4bfe92876323a9047547eddcb0381abef9b59026d8bafe2da1a",
+      "bytes": 1030
+    },
+    "reviews/synthetic_secondary_interaction.json": {
+      "sha256": "f0da9fcdbb2066d56c0f35bf3fec216ca9b6b9b6a5cbe8a366c1b8b24ae59468",
+      "bytes": 957
+    },
+    "reviews/review_response_20260926/hardware_deviation_complete.json": {
+      "sha256": "c96e68730e8f3a317fa4e79de1c0924b978319642d1fa6163a4bf075d839b5bb",
+      "bytes": 22083
+    },
+    "scheduler/infrastructure_replay_20260926T074833Z/protocol.json": {
+      "sha256": "d90d3d3d3109ebda4d1e84290eaa7e2345f55f58940305b5c69d9605a0dafb45",
+      "bytes": 20074
+    },
+    "scheduler/infrastructure_replay_20260926T074833Z/replay_verification.json": {
+      "sha256": "6c120e9d11eb948c9f2c2956edc58f881c47a56d9778258dc08319b758246c46",
+      "bytes": 2230
+    },
+    "manuscript_compact_records.json": {
+      "sha256": "824d6b3d800990fffa721d2abb333bd317a7dc713183d3c9298b6d0779a5d5f8",
+      "bytes": 1222442
+    }
+  },
+  "confirmation_training_runs": 880,
+  "primary_tests": 21,
+  "export_transformations": "None: every listed file is byte-identical to its source; the separately labeled manuscript compact records are the existing curated manuscript export."
+}

@@ -1,0 +1,252 @@
+{
+  "dataset": "cifar10",
+  "hidden_dims": [
+    1024,
+    512
+  ],
+  "batch_size": 256,
+  "threads": 4,
+  "feedback_scale": 0.1,
+  "weight_decay": 0.0001,
+  "warmup_epochs": 5,
+  "split_seed": 925005,
+  "data_dir": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/data/torchvision",
+  "foof_inverse_period": 100,
+  "foof_calibration_batches": 50,
+  "validation_examples": 5000,
+  "evaluate_every_epochs": 5,
+  "work_warmup_fraction": 0.025,
+  "budget_kind": "updates",
+  "lr_schedule": "cosine",
+  "epochs": 200,
+  "stage": "joint_confirmation",
+  "selection_metric": "best_validation",
+  "test_checkpoint": "best",
+  "output_root": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/confirm_epochs/runs",
+  "source_root": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/source",
+  "source_sha256": {
+    "infogeo/__init__.py": "78a6c7f72fb955d5a2b63d0212e86f825b995a8b84d79b1fb97c3834464eae88",
+    "infogeo/adaptive.py": "e074ab29a0a4f6153ab0e567f8e091176d65903701b7300fcc661418a4b977cb",
+    "infogeo/analysis.py": "6ea0617e0f06eac086ee181d9b952abb1ef5761ac0497b9cac23204a58445147",
+    "infogeo/cifar_n.py": "64787bf1a33d9ad48b5bc3e79d299af34fda7e86aa4b3fab44b71f9b73271ebd",
+    "infogeo/conv_dfa.py": "95dc6177854b9aab6c6a935debe6e1335e9f404c42a08ee8f83170fb02264398",
+    "infogeo/decorrelated_dfa.py": "3b6c98111783b8ec58d2624512a5fa37200e75e0c2a0a3b22a8185feb67b60f7",
+    "infogeo/dfa.py": "1c5b74c7939d073608c32c9c5c98577c40258ca11dc1a321390a4a51d56ba25e",
+    "infogeo/foof.py": "d62bc855a15523a8d137d4b3d427406e0782b1322f4e51f4638550746a2505cf",
+    "infogeo/forward_decorrelation.py": "a47186588c5d1f82f4f8b792d41f3b724a363d8277fa70e755a677979dd32f1b",
+    "infogeo/geometry.py": "4912e94c761ab694c0dd0306b4a83813356e3a41c7988aaa28d47728c84aa237",
+    "infogeo/local_preconditioning.py": "9b7f918ee9f1ca1cf5206211f4f6486e589ed1f0a6d5c1be19eaada7bd53dcc6",
+    "infogeo/mixer_activity_conditioning.py": "786a05482e426f093cce148f497ade77ae3309d79b82100e6c05138e82948dcc",
+    "infogeo/mixer_dfa.py": "497a2a2476d96a40d0673252721e8ea273114c407c170ade9bef6a2e8ae8ce5f",
+    "infogeo/neuron_teaching_conditioning.py": "ee8997938d360e5ba9c7459055b97077e3f6f649cdc778001db9624bc35a8276",
+    "infogeo/noise_correlation.py": "75889a727cdf9a723c02ab288fd60e199c96a689f8e2ceb02e116b2e998c8179",
+    "infogeo/paired_conditioning.py": "0ca562775475ef901794bb428451bc61b25cbdca12504787007f44b91b09670d",
+    "infogeo/project_diagnostics.py": "43ed0d276fa27a3e1c59c47376becf10776ec8f6a75bb6780d26958ac7629aaa",
+    "infogeo/synthetic.py": "0c95b34ee6ca799e65c051183fe91bc0c17833d8534d1eb794e151861a6c7a68",
+    "infogeo/task_conditioning.py": "549f41bbc898ec9b1db86730525f325650642e5936a45db7009f5d380c667415",
+    "infogeo/teaching_conditioning.py": "68dd1fb42c8a1e1fc591660c1fb29aeb90eaa341cf0cc86c07cc1985d2d7064b",
+    "experiments/run_ndfa_submission_benchmark.py": "5410b2c92f950bee63679720ce75d364eb570efc7434bcd148f65dc82a92c2f2",
+    "experiments/run_dfa_multioutput_synthetic.py": "b538c9f3583d67e0192a24b66fc398b50b80c05bc5705259eb2d6a8717f5ae28",
+    "experiments/run_dfa_synthetic.py": "8422668a7f6724858ac7d41c3d721b11aa8325ee19f7b9e3cc05d9ff752e22bf",
+    "experiments/run_dfa_vision_baselines.py": "31e58bdcc52807ecf1270e14051001bfe3f563c8cc9c318ecbacc3628c3caec5",
+    "scripts/ndfa_strengthening_20260925/next_round.py": "9ab5cf0f32630bb1e83c7aacdfe931b7a5d1c593a66555b4821c4fb7d98176a1",
+    "scripts/ndfa_strengthening_20260925/baseline_development.py": "0079d5c867748da3f81857128f78741578eaaf2360a087e84a3062cd45010d98",
+    "scripts/ndfa_strengthening_20260925/freeze_next.py": "ee255a0db24e9dfdc7804ce4a7d8d59b19302d2ac3d35e8b0b66bd139032c795",
+    "tests/test_foof.py": "9d46cd889926b47172babfe003cf38dd7e88bc32af1a327333fcff1a8c49c5e1",
+    "tests/test_ndfa_next_round.py": "cbe3eed92a3d9b7b39af77743f85395f602ef13f47305c0f98457aea655836a6",
+    "slurm/ndfa_strengthening_next_20260925.sbatch": "3064899be9436941f380ed4bf11c30d208e0c76a17740fcef109661c39c3c585",
+    "infogeo/activity_geometry.py": "780ee49c90b31c0ca74b8bf6748a83d4ec3bc8a34aac97809e3408a2d302325d",
+    "infogeo/tanh_dfa.py": "f0c2ae399bf2a4bef152d649b360fda3e96323491205737583bb02f6cac9f6e2",
+    "infogeo/credit_alignment.py": "90a68e16cd656c05492fea94038a9c07df0a24446b1f5d1f96ef0842216937ce",
+    "scripts/ndfa_strengthening_20260925/freeze_controls.py": "509b4951420717739b9d85d34246a24cba1c5f98785b1889b88be201b8e1733f",
+    "scripts/ndfa_strengthening_20260925/freeze_round2.py": "ba7af71a381aafc4d963468f42b76b1d2e32fa9ba254f405b2765cd02ed32351",
+    "tests/test_strengthening_controls.py": "a027ca99c883b33102f0d0532e1395bd720625ac705e24e717c4c30d15b6cbdf",
+    "scripts/ndfa_strengthening_20260925/decision_train.py": "6f0a09a485ac55c71c68742416ab0479f39a889d4e0e69169869855b9b6b3a16",
+    "scripts/ndfa_strengthening_20260925/freeze_decision.py": "33a4b6de3d623bacbc18b2923768b5915c94949e9ba5e595ffa191d5c0b0404e",
+    "scripts/ndfa_strengthening_20260925/decision_control.py": "87a43428126e8c4b9b5c8c8e31235d7dbd4decfcb842e1be310ef34179124b6b",
+    "tests/test_decision_round.py": "e1c938617a977adc73ba99161d4114dcedfe245851dbeb00af41ad1089a21d35",
+    "scripts/ndfa_strengthening_20260925/integrated_train.py": "e4bb910c50d08ac4c57b1edfa2e47588e0482354cc8ef1085c9fbcfc781a41e7",
+    "scripts/ndfa_strengthening_20260925/integrated_components.py": "318acec870033603732a3471bc3ea5f262624ca6f407d268cd1548e70e573e13",
+    "scripts/ndfa_strengthening_20260925/integrated_plan.py": "7dd2596bd4badf30a9d6a87098f4b73b764cbfe104a2d7b1fde7e78510622f1f",
+    "scripts/ndfa_strengthening_20260925/integrated_control.py": "0a14092f72bf5c983e31bbc7334e6cbbdef7fec5b3b596f08e8a88ba3d7910fb",
+    "scripts/ndfa_strengthening_20260925/prepare_integrated_benchmarks.py": "465baac9f46ab0f53635336d4e960e68604c36cb1fda965b99f4f5d451f7f127",
+    "tests/test_integrated_round.py": "bbbea299522dd775f586197fd62e893ddfee333c1c207549290322a336ea8ec1"
+  },
+  "plan_sha256": "ebcd87727973c8e199f778cf6943a6bceb2d4ec789b99989e3b88582dca3de0e",
+  "frozen_utc": "2026-09-26T05:12:48.526044+00:00",
+  "official_test_loaded": false,
+  "scope": "Prospective fixed-seed decision round; CIFAR test was used historically, but no test outcome selects this round",
+  "cases": [
+    {
+      "id": "case_000",
+      "family": "dfa_bn",
+      "credit": "dfa",
+      "normalization": "bn",
+      "operator": "none",
+      "optimizer": "adamw",
+      "lr": 0.0003,
+      "rho": null,
+      "cell": "cifar10",
+      "damping": null
+    },
+    {
+      "id": "case_001",
+      "family": "activity_bn",
+      "credit": "dfa",
+      "normalization": "bn",
+      "operator": "activity",
+      "optimizer": "adamw",
+      "lr": 0.003,
+      "rho": 0.333333333333,
+      "cell": "cifar10",
+      "damping": null
+    },
+    {
+      "id": "case_002",
+      "family": "early_bn",
+      "credit": "dfa",
+      "normalization": "bn",
+      "operator": "activity",
+      "optimizer": "adamw",
+      "lr": 0.003,
+      "rho": 0.333333333333,
+      "conditioning_schedule": "early",
+      "cell": "cifar10",
+      "damping": null
+    }
+  ],
+  "seeds": [
+    940101,
+    940102,
+    940103,
+    940104,
+    940105,
+    940106,
+    940107,
+    940108,
+    940109,
+    940110
+  ],
+  "tasks": [
+    {
+      "case_index": 0,
+      "seed": 940101
+    },
+    {
+      "case_index": 0,
+      "seed": 940102
+    },
+    {
+      "case_index": 0,
+      "seed": 940103
+    },
+    {
+      "case_index": 0,
+      "seed": 940104
+    },
+    {
+      "case_index": 0,
+      "seed": 940105
+    },
+    {
+      "case_index": 0,
+      "seed": 940106
+    },
+    {
+      "case_index": 0,
+      "seed": 940107
+    },
+    {
+      "case_index": 0,
+      "seed": 940108
+    },
+    {
+      "case_index": 0,
+      "seed": 940109
+    },
+    {
+      "case_index": 0,
+      "seed": 940110
+    },
+    {
+      "case_index": 1,
+      "seed": 940101
+    },
+    {
+      "case_index": 1,
+      "seed": 940102
+    },
+    {
+      "case_index": 1,
+      "seed": 940103
+    },
+    {
+      "case_index": 1,
+      "seed": 940104
+    },
+    {
+      "case_index": 1,
+      "seed": 940105
+    },
+    {
+      "case_index": 1,
+      "seed": 940106
+    },
+    {
+      "case_index": 1,
+      "seed": 940107
+    },
+    {
+      "case_index": 1,
+      "seed": 940108
+    },
+    {
+      "case_index": 1,
+      "seed": 940109
+    },
+    {
+      "case_index": 1,
+      "seed": 940110
+    },
+    {
+      "case_index": 2,
+      "seed": 940101
+    },
+    {
+      "case_index": 2,
+      "seed": 940102
+    },
+    {
+      "case_index": 2,
+      "seed": 940103
+    },
+    {
+      "case_index": 2,
+      "seed": 940104
+    },
+    {
+      "case_index": 2,
+      "seed": 940105
+    },
+    {
+      "case_index": 2,
+      "seed": 940106
+    },
+    {
+      "case_index": 2,
+      "seed": 940107
+    },
+    {
+      "case_index": 2,
+      "seed": 940108
+    },
+    {
+      "case_index": 2,
+      "seed": 940109
+    },
+    {
+      "case_index": 2,
+      "seed": 940110
+    }
+  ]
+}

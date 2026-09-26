@@ -25,4 +25,5 @@ external/DFA-Stall/logs/
 external/DFA-Stall/__pycache__/
 external/DFA-Stall/**/*.pyc
 results/
+build/
 unit_test_opt_results/

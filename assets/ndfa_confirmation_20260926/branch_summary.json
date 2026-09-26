@@ -1,0 +1,1386 @@
+{
+  "skipped": false,
+  "studies": {
+    "cifar": {
+      "dfa_always_t0.25_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.6584,
+              "correct": 3292,
+              "examples": 5000,
+              "loss": 0.9908815478796847
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_000/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.6582,
+              "correct": 3291,
+              "examples": 5000,
+              "loss": 0.9938220835024376
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_000/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.6612,
+              "correct": 3306,
+              "examples": 5000,
+              "loss": 0.9989245136803488
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_000/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.6542,
+              "correct": 3271,
+              "examples": 5000,
+              "loss": 0.9906969700386946
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_000/seed_936104"
+          }
+        ]
+      },
+      "dfa_always_t0.25_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.631,
+              "correct": 3155,
+              "examples": 5000,
+              "loss": 1.0482197607667276
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_001/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.6212,
+              "correct": 3106,
+              "examples": 5000,
+              "loss": 1.043088718851236
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_001/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.6426,
+              "correct": 3213,
+              "examples": 5000,
+              "loss": 1.0378615870126098
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_001/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.637,
+              "correct": 3185,
+              "examples": 5000,
+              "loss": 1.0497219942611136
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_001/seed_936104"
+          }
+        ]
+      },
+      "dfa_always_t0.75_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.6736,
+              "correct": 3368,
+              "examples": 5000,
+              "loss": 0.9715524630264631
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_002/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.6764,
+              "correct": 3382,
+              "examples": 5000,
+              "loss": 0.9707026001531345
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_002/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.6776,
+              "correct": 3388,
+              "examples": 5000,
+              "loss": 0.9636672787923544
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_002/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.6706,
+              "correct": 3353,
+              "examples": 5000,
+              "loss": 0.9656186463874201
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_002/seed_936104"
+          }
+        ]
+      },
+      "dfa_always_t0.75_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.6572,
+              "correct": 3286,
+              "examples": 5000,
+              "loss": 1.0015225412250823
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_003/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.654,
+              "correct": 3270,
+              "examples": 5000,
+              "loss": 0.9905586606801038
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_003/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.6548,
+              "correct": 3274,
+              "examples": 5000,
+              "loss": 0.9936704570977448
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_003/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.6504,
+              "correct": 3252,
+              "examples": 5000,
+              "loss": 0.9937247238825384
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_003/seed_936104"
+          }
+        ]
+      },
+      "dfa_never_t0.25_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.6342,
+              "correct": 3171,
+              "examples": 5000,
+              "loss": 1.059835006742531
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_004/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.6282,
+              "correct": 3141,
+              "examples": 5000,
+              "loss": 1.0689444363116218
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_004/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.6296,
+              "correct": 3148,
+              "examples": 5000,
+              "loss": 1.0567697902784658
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_004/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.6282,
+              "correct": 3141,
+              "examples": 5000,
+              "loss": 1.0714075052756376
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_004/seed_936104"
+          }
+        ]
+      },
+      "dfa_never_t0.25_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.6086,
+              "correct": 3043,
+              "examples": 5000,
+              "loss": 1.092858753720505
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_005/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.6154,
+              "correct": 3077,
+              "examples": 5000,
+              "loss": 1.0998251257187066
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_005/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.6226,
+              "correct": 3113,
+              "examples": 5000,
+              "loss": 1.0764329946355444
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_005/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.6064,
+              "correct": 3032,
+              "examples": 5000,
+              "loss": 1.1098756127803286
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_005/seed_936104"
+          }
+        ]
+      },
+      "dfa_never_t0.75_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.6424,
+              "correct": 3212,
+              "examples": 5000,
+              "loss": 1.0662857324154749
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_006/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.6398,
+              "correct": 3199,
+              "examples": 5000,
+              "loss": 1.0688303309315927
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_006/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.644,
+              "correct": 3220,
+              "examples": 5000,
+              "loss": 1.0508267602927344
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_006/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.6428,
+              "correct": 3214,
+              "examples": 5000,
+              "loss": 1.064953843734816
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_006/seed_936104"
+          }
+        ]
+      },
+      "dfa_never_t0.75_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.6324,
+              "correct": 3162,
+              "examples": 5000,
+              "loss": 1.0734327666211712
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_007/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.6318,
+              "correct": 3159,
+              "examples": 5000,
+              "loss": 1.079829728431209
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_007/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.6326,
+              "correct": 3163,
+              "examples": 5000,
+              "loss": 1.0630371560001581
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_007/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.6256,
+              "correct": 3128,
+              "examples": 5000,
+              "loss": 1.0793521681949838
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_007/seed_936104"
+          }
+        ]
+      },
+      "bp_always_t0.25_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.6642,
+              "correct": 3321,
+              "examples": 5000,
+              "loss": 0.9744900001292577
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_008/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.6798,
+              "correct": 3399,
+              "examples": 5000,
+              "loss": 0.9435651236881949
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_008/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.6734,
+              "correct": 3367,
+              "examples": 5000,
+              "loss": 0.9538892658204042
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_008/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.6676,
+              "correct": 3338,
+              "examples": 5000,
+              "loss": 0.9742267019179551
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_008/seed_936104"
+          }
+        ]
+      },
+      "bp_always_t0.25_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.6494,
+              "correct": 3247,
+              "examples": 5000,
+              "loss": 0.995557511963539
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_009/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.6566,
+              "correct": 3283,
+              "examples": 5000,
+              "loss": 0.9836170955097128
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_009/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.6648,
+              "correct": 3324,
+              "examples": 5000,
+              "loss": 0.983601172472426
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_009/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.6548,
+              "correct": 3274,
+              "examples": 5000,
+              "loss": 1.0090447735939043
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_009/seed_936104"
+          }
+        ]
+      },
+      "bp_always_t0.75_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.6818,
+              "correct": 3409,
+              "examples": 5000,
+              "loss": 1.0076866144159227
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_010/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.691,
+              "correct": 3455,
+              "examples": 5000,
+              "loss": 0.9913692287624515
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_010/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.6872,
+              "correct": 3436,
+              "examples": 5000,
+              "loss": 0.9987418022900649
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_010/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.6852,
+              "correct": 3426,
+              "examples": 5000,
+              "loss": 0.9892304565250637
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_010/seed_936104"
+          }
+        ]
+      },
+      "bp_always_t0.75_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.6738,
+              "correct": 3369,
+              "examples": 5000,
+              "loss": 0.992818421944651
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_011/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.6788,
+              "correct": 3394,
+              "examples": 5000,
+              "loss": 0.9870058871927253
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_011/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.678,
+              "correct": 3390,
+              "examples": 5000,
+              "loss": 0.9849061771423261
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_011/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.6708,
+              "correct": 3354,
+              "examples": 5000,
+              "loss": 0.9888697441058223
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_011/seed_936104"
+          }
+        ]
+      },
+      "bp_never_t0.25_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.649,
+              "correct": 3245,
+              "examples": 5000,
+              "loss": 1.031212859651258
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_012/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.6548,
+              "correct": 3274,
+              "examples": 5000,
+              "loss": 1.0153445209287688
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_012/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.6512,
+              "correct": 3256,
+              "examples": 5000,
+              "loss": 1.036373863168527
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_012/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.6508,
+              "correct": 3254,
+              "examples": 5000,
+              "loss": 1.025856323745392
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_012/seed_936104"
+          }
+        ]
+      },
+      "bp_never_t0.25_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.637,
+              "correct": 3185,
+              "examples": 5000,
+              "loss": 1.03791013696678
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_013/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.6388,
+              "correct": 3194,
+              "examples": 5000,
+              "loss": 1.0373288267146776
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_013/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.646,
+              "correct": 3230,
+              "examples": 5000,
+              "loss": 1.0253071111539922
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_013/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.6426,
+              "correct": 3213,
+              "examples": 5000,
+              "loss": 1.0425339077921219
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_013/seed_936104"
+          }
+        ]
+      },
+      "bp_never_t0.75_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.6608,
+              "correct": 3304,
+              "examples": 5000,
+              "loss": 1.0925440125411834
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_014/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.6574,
+              "correct": 3287,
+              "examples": 5000,
+              "loss": 1.1173379970882813
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_014/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.6542,
+              "correct": 3271,
+              "examples": 5000,
+              "loss": 1.1048119078181893
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_014/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.6682,
+              "correct": 3341,
+              "examples": 5000,
+              "loss": 1.0740155828402502
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_014/seed_936104"
+          }
+        ]
+      },
+      "bp_never_t0.75_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.6546,
+              "correct": 3273,
+              "examples": 5000,
+              "loss": 1.0836686662595407
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_015/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.6518,
+              "correct": 3259,
+              "examples": 5000,
+              "loss": 1.0970194430515718
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_015/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.6542,
+              "correct": 3271,
+              "examples": 5000,
+              "loss": 1.0671656946464378
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_015/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.6518,
+              "correct": 3259,
+              "examples": 5000,
+              "loss": 1.0786978293973946
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_cifar/runs/case_015/seed_936104"
+          }
+        ]
+      }
+    },
+    "nuisance": {
+      "dfa_always_t0.25_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.2392578125,
+              "examples": 4096,
+              "loss": 2.042596970271051
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_000/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.21826171875,
+              "examples": 4096,
+              "loss": 2.098171227188149
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_000/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.214599609375,
+              "examples": 4096,
+              "loss": 2.082057044814995
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_000/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.21826171875,
+              "examples": 4096,
+              "loss": 2.1226818737780984
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_000/seed_936104"
+          }
+        ]
+      },
+      "dfa_always_t0.25_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.22216796875,
+              "examples": 4096,
+              "loss": 2.115778226405652
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_001/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.215576171875,
+              "examples": 4096,
+              "loss": 2.1491686045412557
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_001/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.205322265625,
+              "examples": 4096,
+              "loss": 2.1454331827238087
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_001/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.202880859375,
+              "examples": 4096,
+              "loss": 2.174861355406872
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_001/seed_936104"
+          }
+        ]
+      },
+      "dfa_always_t0.75_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.354248046875,
+              "examples": 4096,
+              "loss": 1.9525224382201585
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_002/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.32421875,
+              "examples": 4096,
+              "loss": 2.045459102211624
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_002/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.326416015625,
+              "examples": 4096,
+              "loss": 2.0276352216562525
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_002/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.319091796875,
+              "examples": 4096,
+              "loss": 2.072467518577706
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_002/seed_936104"
+          }
+        ]
+      },
+      "dfa_always_t0.75_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.3486328125,
+              "examples": 4096,
+              "loss": 1.9745099549346135
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_003/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.320068359375,
+              "examples": 4096,
+              "loss": 2.062666330610214
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_003/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.31787109375,
+              "examples": 4096,
+              "loss": 2.056912741409149
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_003/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.313232421875,
+              "examples": 4096,
+              "loss": 2.094324230282964
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_003/seed_936104"
+          }
+        ]
+      },
+      "dfa_never_t0.25_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.208251953125,
+              "examples": 4096,
+              "loss": 2.147820144668538
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_004/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.208251953125,
+              "examples": 4096,
+              "loss": 2.1682015068034564
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_004/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.2001953125,
+              "examples": 4096,
+              "loss": 2.1765154307359857
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_004/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.18701171875,
+              "examples": 4096,
+              "loss": 2.21933811732696
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_004/seed_936104"
+          }
+        ]
+      },
+      "dfa_never_t0.25_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.19482421875,
+              "examples": 4096,
+              "loss": 2.2064397265653177
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_005/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.19677734375,
+              "examples": 4096,
+              "loss": 2.201987493462018
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_005/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.18359375,
+              "examples": 4096,
+              "loss": 2.224894080236435
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_005/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.177734375,
+              "examples": 4096,
+              "loss": 2.2544511210175915
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_005/seed_936104"
+          }
+        ]
+      },
+      "dfa_never_t0.75_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.29443359375,
+              "examples": 4096,
+              "loss": 2.1938816656516478
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_006/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.277587890625,
+              "examples": 4096,
+              "loss": 2.2310062759421463
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_006/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.2578125,
+              "examples": 4096,
+              "loss": 2.2937842617350643
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_006/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.25830078125,
+              "examples": 4096,
+              "loss": 2.3230611839854705
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_006/seed_936104"
+          }
+        ]
+      },
+      "dfa_never_t0.75_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.281494140625,
+              "examples": 4096,
+              "loss": 2.231165907229812
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_007/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.264892578125,
+              "examples": 4096,
+              "loss": 2.26310960926165
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_007/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.249267578125,
+              "examples": 4096,
+              "loss": 2.3250076832323208
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_007/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.250732421875,
+              "examples": 4096,
+              "loss": 2.349524370774394
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_007/seed_936104"
+          }
+        ]
+      },
+      "bp_always_t0.25_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.29443359375,
+              "examples": 4096,
+              "loss": 2.0366011243076327
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_008/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.263916015625,
+              "examples": 4096,
+              "loss": 2.171324164045086
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_008/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.258544921875,
+              "examples": 4096,
+              "loss": 2.12255265401223
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_008/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.279541015625,
+              "examples": 4096,
+              "loss": 2.111361606312834
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_008/seed_936104"
+          }
+        ]
+      },
+      "bp_always_t0.25_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.27685546875,
+              "examples": 4096,
+              "loss": 2.139108133407979
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_009/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.245361328125,
+              "examples": 4096,
+              "loss": 2.2571315355462938
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_009/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.236572265625,
+              "examples": 4096,
+              "loss": 2.218541101734842
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_009/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.2646484375,
+              "examples": 4096,
+              "loss": 2.207171868441524
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_009/seed_936104"
+          }
+        ]
+      },
+      "bp_always_t0.75_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.33837890625,
+              "examples": 4096,
+              "loss": 2.1120516800281433
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_010/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.310546875,
+              "examples": 4096,
+              "loss": 2.303020909889427
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_010/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.296875,
+              "examples": 4096,
+              "loss": 2.237927853180564
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_010/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.323974609375,
+              "examples": 4096,
+              "loss": 2.2674231050694567
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_010/seed_936104"
+          }
+        ]
+      },
+      "bp_always_t0.75_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.331787109375,
+              "examples": 4096,
+              "loss": 2.141391756507815
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_011/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.3046875,
+              "examples": 4096,
+              "loss": 2.3337029855714504
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_011/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.291748046875,
+              "examples": 4096,
+              "loss": 2.266532541880175
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_011/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.317138671875,
+              "examples": 4096,
+              "loss": 2.2977071828704014
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_011/seed_936104"
+          }
+        ]
+      },
+      "bp_never_t0.25_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.264404296875,
+              "examples": 4096,
+              "loss": 2.183838220551298
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_012/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.23681640625,
+              "examples": 4096,
+              "loss": 2.2787305135809723
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_012/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.225341796875,
+              "examples": 4096,
+              "loss": 2.2561454731726607
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_012/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.25048828125,
+              "examples": 4096,
+              "loss": 2.244814310423168
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_012/seed_936104"
+          }
+        ]
+      },
+      "bp_never_t0.25_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.2392578125,
+              "examples": 4096,
+              "loss": 2.2982466935453387
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_013/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.21337890625,
+              "examples": 4096,
+              "loss": 2.37509255512714
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_013/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.202880859375,
+              "examples": 4096,
+              "loss": 2.354591163429702
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_013/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.22998046875,
+              "examples": 4096,
+              "loss": 2.346068776851419
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_013/seed_936104"
+          }
+        ]
+      },
+      "bp_never_t0.75_always": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.28173828125,
+              "examples": 4096,
+              "loss": 2.4122526518955594
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_014/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.2626953125,
+              "examples": 4096,
+              "loss": 2.5533038512292237
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_014/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.24609375,
+              "examples": 4096,
+              "loss": 2.5306531243583237
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_014/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.267333984375,
+              "examples": 4096,
+              "loss": 2.548714713334234
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_014/seed_936104"
+          }
+        ]
+      },
+      "bp_never_t0.75_never": {
+        "successful": 4,
+        "rows": [
+          {
+            "seed": 936101,
+            "final_validation": {
+              "accuracy": 0.271484375,
+              "examples": 4096,
+              "loss": 2.4592965068380965
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_015/seed_936101"
+          },
+          {
+            "seed": 936102,
+            "final_validation": {
+              "accuracy": 0.254150390625,
+              "examples": 4096,
+              "loss": 2.5899324159954373
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_015/seed_936102"
+          },
+          {
+            "seed": 936103,
+            "final_validation": {
+              "accuracy": 0.241943359375,
+              "examples": 4096,
+              "loss": 2.5630860010345575
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_015/seed_936103"
+          },
+          {
+            "seed": 936104,
+            "final_validation": {
+              "accuracy": 0.261962890625,
+              "examples": 4096,
+              "loss": 2.584835471539009
+            },
+            "folder": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/branches_nuisance/runs/case_015/seed_936104"
+          }
+        ]
+      }
+    }
+  },
+  "scope": "Equal 50-epoch continuations from identical full training states at epochs 50 and 150; validation-only, not a proof of nuisance capture"
+}

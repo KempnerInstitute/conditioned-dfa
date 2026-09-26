@@ -1,0 +1,2495 @@
+{
+  "dataset": "benchmark",
+  "hidden_dims": [
+    256,
+    128
+  ],
+  "batch_size": 128,
+  "threads": 4,
+  "feedback_scale": 1.0,
+  "weight_decay": 0.0,
+  "warmup_epochs": 5,
+  "split_seed": 925005,
+  "data_dir": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/data/torchvision",
+  "foof_inverse_period": 100,
+  "foof_calibration_batches": 50,
+  "validation_examples": 5000,
+  "evaluate_every_epochs": 5,
+  "work_warmup_fraction": 0.025,
+  "budget_kind": "work",
+  "lr_schedule": "cosine",
+  "epochs": 200,
+  "benchmark_root": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/data/ndfa_integrated_development_20260926",
+  "benchmark_inventory": {
+    "mnist_clean": {
+      "file": "mnist_clean.pt",
+      "sha256": "1d6fc1a0c6a0656834d2e1ab6240d387505e784f365a86adb4940b2149a70af4",
+      "provenance": {
+        "dataset": "mnist",
+        "condition": "clean",
+        "training_identity_sha256": "58b1570a3aec894e9456c9d407b211eccd64cd0d7af7e8c82c24c53cf468f5ec",
+        "validation_identity_sha256": "3b4aef0b1a2464faabc718e43de971e2060b8e0335a31175b2a255ae58c7e7e9",
+        "source_images_sha256": "ee8b7c97a0b1963cd4c0a9aeaef50d1202cbaa8a16c67e334598e7e419b7166f",
+        "source_labels_sha256": "4b4aa127a508076709dbef00afe037c41bcbf1980d3321a3966bbbcf29fc86ba",
+        "recipe": "pixel / 255; matched 10k/2k training-only foreground identities",
+        "official_test_loaded": false,
+        "training_examples": 10000,
+        "validation_examples": 2000,
+        "split_seed": 934005,
+        "hashes": {
+          "train": "8aa79e793e25b6eca5547ab0043626130a5f410ba90f566a0b15041fd909c6ec",
+          "labels": "9e56bdbcc4cb5d428d9042a3c57624167afb8ad537d6a79c008cec7e5723932e",
+          "validation": "97813d75e86d8051ecb687872bed4d82652a9993304a878dfe5cdfafbff28676",
+          "validation_labels": "6bddbe038b909a32bc1a08ac0037e8c29e45faf02a6ea679c1971e48d2860dc4"
+        }
+      }
+    },
+    "mnist_label_noise": {
+      "file": "mnist_label_noise.pt",
+      "sha256": "88692ef6654132e5004fb9f4567750d7501f8b8f2cef9179d701e870481dc6e9",
+      "provenance": {
+        "dataset": "mnist",
+        "condition": "label_noise",
+        "training_identity_sha256": "58b1570a3aec894e9456c9d407b211eccd64cd0d7af7e8c82c24c53cf468f5ec",
+        "validation_identity_sha256": "3b4aef0b1a2464faabc718e43de971e2060b8e0335a31175b2a255ae58c7e7e9",
+        "source_images_sha256": "ee8b7c97a0b1963cd4c0a9aeaef50d1202cbaa8a16c67e334598e7e419b7166f",
+        "source_labels_sha256": "4b4aa127a508076709dbef00afe037c41bcbf1980d3321a3966bbbcf29fc86ba",
+        "recipe": "pixel / 255; matched 10k/2k training-only foreground identities",
+        "training_label_corruption": 0.2,
+        "realized_corruptions": 2041,
+        "validation_labels": "clean",
+        "label_noise_seed": 934006,
+        "official_test_loaded": false,
+        "training_examples": 10000,
+        "validation_examples": 2000,
+        "split_seed": 934005,
+        "hashes": {
+          "train": "8aa79e793e25b6eca5547ab0043626130a5f410ba90f566a0b15041fd909c6ec",
+          "labels": "91bc4d831e5469327e275f3766bd505747876dd1763a5a7bcec7af224cb2d147",
+          "validation": "97813d75e86d8051ecb687872bed4d82652a9993304a878dfe5cdfafbff28676",
+          "validation_labels": "6bddbe038b909a32bc1a08ac0037e8c29e45faf02a6ea679c1971e48d2860dc4"
+        }
+      }
+    },
+    "mnist_input_nuisance": {
+      "file": "mnist_input_nuisance.pt",
+      "sha256": "828dbca291d6d0ffdbf9aea46c28cd4ba069d53a2972d968daa4ad1939e3c8c0",
+      "provenance": {
+        "dataset": "mnist",
+        "condition": "input_nuisance",
+        "training_identity_sha256": "58b1570a3aec894e9456c9d407b211eccd64cd0d7af7e8c82c24c53cf468f5ec",
+        "validation_identity_sha256": "3b4aef0b1a2464faabc718e43de971e2060b8e0335a31175b2a255ae58c7e7e9",
+        "source_images_sha256": "ee8b7c97a0b1963cd4c0a9aeaef50d1202cbaa8a16c67e334598e7e419b7166f",
+        "source_labels_sha256": "4b4aa127a508076709dbef00afe037c41bcbf1980d3321a3966bbbcf29fc86ba",
+        "recipe": "0.35 foreground + 0.65 independent grayscale 28x28 CIFAR-training background; no class-dependent assignment",
+        "background_identity_split_sha256": "1dac299ee5d9739ec58f31ef11471d30f165b4aff769c6278feb94035a499359",
+        "background_source_sha256": "0f652bc11c0e9fc402eafbd6a1a48f52e00f61a0444bf9ad0ac6e8c90849a1bb",
+        "background_train_pool": 40000,
+        "background_validation_pool": 5000,
+        "background_reserved_test_pool": 5000,
+        "standard_benchmark": false,
+        "official_test_loaded": false,
+        "training_examples": 10000,
+        "validation_examples": 2000,
+        "split_seed": 934005,
+        "hashes": {
+          "train": "c5f9ebe5aa86680537f0e2ebc0fabcf1358c24931a58fb9892fa0f1ce0cf8f48",
+          "labels": "9e56bdbcc4cb5d428d9042a3c57624167afb8ad537d6a79c008cec7e5723932e",
+          "validation": "fa9a1b8f2ee9869e7b04105cc2ada3daeaecc6ec3d2c33bec5a7f7a9a8b39c09",
+          "validation_labels": "6bddbe038b909a32bc1a08ac0037e8c29e45faf02a6ea679c1971e48d2860dc4"
+        }
+      }
+    },
+    "fashion_clean": {
+      "file": "fashion_clean.pt",
+      "sha256": "88a9679ef4da99b3d4580f4954bac1ffa0bd8d1cc847841ccef5775d76aa7bf0",
+      "provenance": {
+        "dataset": "fashion",
+        "condition": "clean",
+        "training_identity_sha256": "58b1570a3aec894e9456c9d407b211eccd64cd0d7af7e8c82c24c53cf468f5ec",
+        "validation_identity_sha256": "3b4aef0b1a2464faabc718e43de971e2060b8e0335a31175b2a255ae58c7e7e9",
+        "source_images_sha256": "9cdd3ecedeb0f973af98fd1625f61739fc03a58872f5e9281062633e05d56e08",
+        "source_labels_sha256": "c9521d7fe41c0761d5ef80d7f87a7c964468d76820bd3a39f511cf871a278af7",
+        "recipe": "pixel / 255; matched 10k/2k training-only foreground identities",
+        "official_test_loaded": false,
+        "training_examples": 10000,
+        "validation_examples": 2000,
+        "split_seed": 934005,
+        "hashes": {
+          "train": "639b784099ef310d320b0c269aa3912011a0662c76403a338012d47f98bbcc8f",
+          "labels": "93b00f3a4965cc8dda7559a26edf99958aa05e0861f02ad73b66082a0fde2721",
+          "validation": "1744505782598bb7a6c49d2119114d53027106e13f4685e1317343c16af21686",
+          "validation_labels": "7bcd517379d3d8a859628534790706c47c6e6b24a43f77fbe2fcc14c2bab401d"
+        }
+      }
+    },
+    "fashion_label_noise": {
+      "file": "fashion_label_noise.pt",
+      "sha256": "ab9bb6fd25437dadac409bc93e25fa35e52728fdb569bbfa65aca6c95af09d6a",
+      "provenance": {
+        "dataset": "fashion",
+        "condition": "label_noise",
+        "training_identity_sha256": "58b1570a3aec894e9456c9d407b211eccd64cd0d7af7e8c82c24c53cf468f5ec",
+        "validation_identity_sha256": "3b4aef0b1a2464faabc718e43de971e2060b8e0335a31175b2a255ae58c7e7e9",
+        "source_images_sha256": "9cdd3ecedeb0f973af98fd1625f61739fc03a58872f5e9281062633e05d56e08",
+        "source_labels_sha256": "c9521d7fe41c0761d5ef80d7f87a7c964468d76820bd3a39f511cf871a278af7",
+        "recipe": "pixel / 255; matched 10k/2k training-only foreground identities",
+        "training_label_corruption": 0.2,
+        "realized_corruptions": 2041,
+        "validation_labels": "clean",
+        "label_noise_seed": 934006,
+        "official_test_loaded": false,
+        "training_examples": 10000,
+        "validation_examples": 2000,
+        "split_seed": 934005,
+        "hashes": {
+          "train": "639b784099ef310d320b0c269aa3912011a0662c76403a338012d47f98bbcc8f",
+          "labels": "b735d869a0594b280c73a353df0980417f64285cfa4339587f7327a49531d31b",
+          "validation": "1744505782598bb7a6c49d2119114d53027106e13f4685e1317343c16af21686",
+          "validation_labels": "7bcd517379d3d8a859628534790706c47c6e6b24a43f77fbe2fcc14c2bab401d"
+        }
+      }
+    },
+    "fashion_input_nuisance": {
+      "file": "fashion_input_nuisance.pt",
+      "sha256": "940b05a9ab0f295651725ccc416c7619a43cfa8dcafca50e51ef0500b737cb2e",
+      "provenance": {
+        "dataset": "fashion",
+        "condition": "input_nuisance",
+        "training_identity_sha256": "58b1570a3aec894e9456c9d407b211eccd64cd0d7af7e8c82c24c53cf468f5ec",
+        "validation_identity_sha256": "3b4aef0b1a2464faabc718e43de971e2060b8e0335a31175b2a255ae58c7e7e9",
+        "source_images_sha256": "9cdd3ecedeb0f973af98fd1625f61739fc03a58872f5e9281062633e05d56e08",
+        "source_labels_sha256": "c9521d7fe41c0761d5ef80d7f87a7c964468d76820bd3a39f511cf871a278af7",
+        "recipe": "0.35 foreground + 0.65 independent grayscale 28x28 CIFAR-training background; no class-dependent assignment",
+        "background_identity_split_sha256": "1dac299ee5d9739ec58f31ef11471d30f165b4aff769c6278feb94035a499359",
+        "background_source_sha256": "0f652bc11c0e9fc402eafbd6a1a48f52e00f61a0444bf9ad0ac6e8c90849a1bb",
+        "background_train_pool": 40000,
+        "background_validation_pool": 5000,
+        "background_reserved_test_pool": 5000,
+        "standard_benchmark": false,
+        "official_test_loaded": false,
+        "training_examples": 10000,
+        "validation_examples": 2000,
+        "split_seed": 934005,
+        "hashes": {
+          "train": "4aa4c330faa22d239d327eded0f1cff34421e7a7b76b794bc7b37ebc767caf96",
+          "labels": "93b00f3a4965cc8dda7559a26edf99958aa05e0861f02ad73b66082a0fde2721",
+          "validation": "727062f070ecf0c3ac75a24f018d130ac73669691131839e02af01e96b14425b",
+          "validation_labels": "7bcd517379d3d8a859628534790706c47c6e6b24a43f77fbe2fcc14c2bab401d"
+        }
+      }
+    },
+    "mnist_background_standard": {
+      "file": "mnist_background_standard.pt",
+      "sha256": "bfd8d9ff7155f847e4c37c55c3568d8e31bfd1bb8a7448ec773a70184f8d4c08",
+      "provenance": {
+        "dataset": "Larochelle MNIST-background-images",
+        "condition": "native_input_nuisance",
+        "standard_benchmark": true,
+        "archive_sha256": "1b6318b8774bf1a96480c32afb68147b6b9d529c3b646a0a739d9f0e11b580c3",
+        "train_member": "mnist_background_images_train.amat",
+        "test_member_read": false,
+        "recipe": "Publisher 12k development member: first 10k training, last 2k validation; original floating pixels; no additional augmentation",
+        "official_test_loaded": false,
+        "training_examples": 10000,
+        "validation_examples": 2000,
+        "split_seed": 934005,
+        "hashes": {
+          "train": "614f7fe530d1c2869dab6024aab0dd25d218d0e5e6a34a68b289fa5374b83c30",
+          "labels": "0bc792f736648ed93e42e5cc1b397a1f10e59c33049e52d2dea86c39964d89b2",
+          "validation": "ca342cf8a497843f0f79334fd77b76b0114e47ca0c22211511b53eb836061c22",
+          "validation_labels": "d232e521dd8d17757844913dd29f45a3dac8df72c2c9bd070698ca727f0dacff"
+        }
+      }
+    }
+  },
+  "cases": [
+    {
+      "family": "dfa_bn",
+      "credit": "dfa",
+      "operator": "none",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.001,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "mnist_clean",
+      "work_budget_seconds": 60.0,
+      "id": "case_000"
+    },
+    {
+      "family": "bp_bn",
+      "credit": "bp",
+      "operator": "none",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.001,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "mnist_clean",
+      "work_budget_seconds": 60.0,
+      "id": "case_001"
+    },
+    {
+      "family": "fd_dfa",
+      "credit": "dfa",
+      "operator": "none",
+      "normalization": "fd",
+      "optimizer": "adamw",
+      "lr": 0.0003,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "mnist_clean",
+      "work_budget_seconds": 60.0,
+      "id": "case_002"
+    },
+    {
+      "family": "activity",
+      "credit": "dfa",
+      "operator": "activity",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.001,
+      "damping": null,
+      "rho": 3.0,
+      "statistic": "centered",
+      "cell": "mnist_clean",
+      "work_budget_seconds": 60.0,
+      "id": "case_003"
+    },
+    {
+      "family": "foof_bp",
+      "credit": "bp",
+      "operator": "foof",
+      "normalization": "bn",
+      "optimizer": "sgd",
+      "lr": 3.0,
+      "damping": 3.0,
+      "cell": "mnist_clean",
+      "work_budget_seconds": 60.0,
+      "id": "case_004"
+    },
+    {
+      "family": "foof_dfa",
+      "credit": "dfa",
+      "operator": "foof",
+      "normalization": "bn",
+      "optimizer": "sgd",
+      "lr": 0.3,
+      "damping": 3.0,
+      "cell": "mnist_clean",
+      "work_budget_seconds": 60.0,
+      "id": "case_005"
+    },
+    {
+      "family": "dfa_bn",
+      "credit": "dfa",
+      "operator": "none",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0001,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "mnist_label_noise",
+      "work_budget_seconds": 60.0,
+      "id": "case_006"
+    },
+    {
+      "family": "bp_bn",
+      "credit": "bp",
+      "operator": "none",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0003,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "mnist_label_noise",
+      "work_budget_seconds": 60.0,
+      "id": "case_007"
+    },
+    {
+      "family": "fd_dfa",
+      "credit": "dfa",
+      "operator": "none",
+      "normalization": "fd",
+      "optimizer": "adamw",
+      "lr": 0.0003,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "mnist_label_noise",
+      "work_budget_seconds": 60.0,
+      "id": "case_008"
+    },
+    {
+      "family": "activity",
+      "credit": "dfa",
+      "operator": "activity",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0003,
+      "damping": null,
+      "rho": 3.0,
+      "statistic": "centered",
+      "cell": "mnist_label_noise",
+      "work_budget_seconds": 60.0,
+      "id": "case_009"
+    },
+    {
+      "family": "foof_bp",
+      "credit": "bp",
+      "operator": "foof",
+      "normalization": "bn",
+      "optimizer": "sgd",
+      "lr": 0.03,
+      "damping": 3.0,
+      "cell": "mnist_label_noise",
+      "work_budget_seconds": 60.0,
+      "id": "case_010"
+    },
+    {
+      "family": "foof_dfa",
+      "credit": "dfa",
+      "operator": "foof",
+      "normalization": "bn",
+      "optimizer": "sgd",
+      "lr": 3.0,
+      "damping": 3.0,
+      "cell": "mnist_label_noise",
+      "work_budget_seconds": 60.0,
+      "id": "case_011"
+    },
+    {
+      "family": "dfa_bn",
+      "credit": "dfa",
+      "operator": "none",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0001,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "mnist_input_nuisance",
+      "work_budget_seconds": 60.0,
+      "id": "case_012"
+    },
+    {
+      "family": "bp_bn",
+      "credit": "bp",
+      "operator": "none",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0001,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "mnist_input_nuisance",
+      "work_budget_seconds": 60.0,
+      "id": "case_013"
+    },
+    {
+      "family": "fd_dfa",
+      "credit": "dfa",
+      "operator": "none",
+      "normalization": "fd",
+      "optimizer": "adamw",
+      "lr": 0.0001,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "mnist_input_nuisance",
+      "work_budget_seconds": 60.0,
+      "id": "case_014"
+    },
+    {
+      "family": "activity",
+      "credit": "dfa",
+      "operator": "activity",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.001,
+      "damping": null,
+      "rho": 3.0,
+      "statistic": "centered",
+      "cell": "mnist_input_nuisance",
+      "work_budget_seconds": 60.0,
+      "id": "case_015"
+    },
+    {
+      "family": "foof_bp",
+      "credit": "bp",
+      "operator": "foof",
+      "normalization": "bn",
+      "optimizer": "sgd",
+      "lr": 0.3,
+      "damping": 0.3,
+      "cell": "mnist_input_nuisance",
+      "work_budget_seconds": 60.0,
+      "id": "case_016"
+    },
+    {
+      "family": "foof_dfa",
+      "credit": "dfa",
+      "operator": "foof",
+      "normalization": "bn",
+      "optimizer": "sgd",
+      "lr": 0.03,
+      "damping": 0.3,
+      "cell": "mnist_input_nuisance",
+      "work_budget_seconds": 60.0,
+      "id": "case_017"
+    },
+    {
+      "family": "dfa_bn",
+      "credit": "dfa",
+      "operator": "none",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0001,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "fashion_clean",
+      "work_budget_seconds": 60.0,
+      "id": "case_018"
+    },
+    {
+      "family": "bp_bn",
+      "credit": "bp",
+      "operator": "none",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0001,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "fashion_clean",
+      "work_budget_seconds": 60.0,
+      "id": "case_019"
+    },
+    {
+      "family": "fd_dfa",
+      "credit": "dfa",
+      "operator": "none",
+      "normalization": "fd",
+      "optimizer": "adamw",
+      "lr": 0.0003,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "fashion_clean",
+      "work_budget_seconds": 60.0,
+      "id": "case_020"
+    },
+    {
+      "family": "activity",
+      "credit": "dfa",
+      "operator": "activity",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.001,
+      "damping": null,
+      "rho": 3.0,
+      "statistic": "centered",
+      "cell": "fashion_clean",
+      "work_budget_seconds": 60.0,
+      "id": "case_021"
+    },
+    {
+      "family": "foof_bp",
+      "credit": "bp",
+      "operator": "foof",
+      "normalization": "bn",
+      "optimizer": "sgd",
+      "lr": 0.03,
+      "damping": 3.0,
+      "cell": "fashion_clean",
+      "work_budget_seconds": 60.0,
+      "id": "case_022"
+    },
+    {
+      "family": "foof_dfa",
+      "credit": "dfa",
+      "operator": "foof",
+      "normalization": "bn",
+      "optimizer": "sgd",
+      "lr": 0.03,
+      "damping": 0.3,
+      "cell": "fashion_clean",
+      "work_budget_seconds": 60.0,
+      "id": "case_023"
+    },
+    {
+      "family": "dfa_bn",
+      "credit": "dfa",
+      "operator": "none",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0001,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "fashion_label_noise",
+      "work_budget_seconds": 60.0,
+      "id": "case_024"
+    },
+    {
+      "family": "bp_bn",
+      "credit": "bp",
+      "operator": "none",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0001,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "fashion_label_noise",
+      "work_budget_seconds": 60.0,
+      "id": "case_025"
+    },
+    {
+      "family": "fd_dfa",
+      "credit": "dfa",
+      "operator": "none",
+      "normalization": "fd",
+      "optimizer": "adamw",
+      "lr": 0.0003,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "fashion_label_noise",
+      "work_budget_seconds": 60.0,
+      "id": "case_026"
+    },
+    {
+      "family": "activity",
+      "credit": "dfa",
+      "operator": "activity",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0001,
+      "damping": null,
+      "rho": 0.3,
+      "statistic": "centered",
+      "cell": "fashion_label_noise",
+      "work_budget_seconds": 60.0,
+      "id": "case_027"
+    },
+    {
+      "family": "foof_bp",
+      "credit": "bp",
+      "operator": "foof",
+      "normalization": "bn",
+      "optimizer": "sgd",
+      "lr": 0.03,
+      "damping": 3.0,
+      "cell": "fashion_label_noise",
+      "work_budget_seconds": 60.0,
+      "id": "case_028"
+    },
+    {
+      "family": "foof_dfa",
+      "credit": "dfa",
+      "operator": "foof",
+      "normalization": "bn",
+      "optimizer": "sgd",
+      "lr": 0.03,
+      "damping": 0.3,
+      "cell": "fashion_label_noise",
+      "work_budget_seconds": 60.0,
+      "id": "case_029"
+    },
+    {
+      "family": "dfa_bn",
+      "credit": "dfa",
+      "operator": "none",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0001,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "fashion_input_nuisance",
+      "work_budget_seconds": 60.0,
+      "id": "case_030"
+    },
+    {
+      "family": "bp_bn",
+      "credit": "bp",
+      "operator": "none",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0001,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "fashion_input_nuisance",
+      "work_budget_seconds": 60.0,
+      "id": "case_031"
+    },
+    {
+      "family": "fd_dfa",
+      "credit": "dfa",
+      "operator": "none",
+      "normalization": "fd",
+      "optimizer": "adamw",
+      "lr": 0.0003,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "fashion_input_nuisance",
+      "work_budget_seconds": 60.0,
+      "id": "case_032"
+    },
+    {
+      "family": "activity",
+      "credit": "dfa",
+      "operator": "activity",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0003,
+      "damping": null,
+      "rho": 3.0,
+      "statistic": "centered",
+      "cell": "fashion_input_nuisance",
+      "work_budget_seconds": 60.0,
+      "id": "case_033"
+    },
+    {
+      "family": "foof_bp",
+      "credit": "bp",
+      "operator": "foof",
+      "normalization": "bn",
+      "optimizer": "sgd",
+      "lr": 0.03,
+      "damping": 0.3,
+      "cell": "fashion_input_nuisance",
+      "work_budget_seconds": 60.0,
+      "id": "case_034"
+    },
+    {
+      "family": "foof_dfa",
+      "credit": "dfa",
+      "operator": "foof",
+      "normalization": "bn",
+      "optimizer": "sgd",
+      "lr": 0.03,
+      "damping": 0.3,
+      "cell": "fashion_input_nuisance",
+      "work_budget_seconds": 60.0,
+      "id": "case_035"
+    },
+    {
+      "family": "dfa_bn",
+      "credit": "dfa",
+      "operator": "none",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0001,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "mnist_background_standard",
+      "work_budget_seconds": 60.0,
+      "id": "case_036"
+    },
+    {
+      "family": "bp_bn",
+      "credit": "bp",
+      "operator": "none",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0001,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "mnist_background_standard",
+      "work_budget_seconds": 60.0,
+      "id": "case_037"
+    },
+    {
+      "family": "fd_dfa",
+      "credit": "dfa",
+      "operator": "none",
+      "normalization": "fd",
+      "optimizer": "adamw",
+      "lr": 0.0003,
+      "damping": null,
+      "decor_lr": 1e-05,
+      "cell": "mnist_background_standard",
+      "work_budget_seconds": 60.0,
+      "id": "case_038"
+    },
+    {
+      "family": "activity",
+      "credit": "dfa",
+      "operator": "activity",
+      "normalization": "bn",
+      "optimizer": "adamw",
+      "lr": 0.0001,
+      "damping": null,
+      "rho": 3.0,
+      "statistic": "centered",
+      "cell": "mnist_background_standard",
+      "work_budget_seconds": 60.0,
+      "id": "case_039"
+    },
+    {
+      "family": "foof_bp",
+      "credit": "bp",
+      "operator": "foof",
+      "normalization": "bn",
+      "optimizer": "sgd",
+      "lr": 0.03,
+      "damping": 3.0,
+      "cell": "mnist_background_standard",
+      "work_budget_seconds": 60.0,
+      "id": "case_040"
+    },
+    {
+      "family": "foof_dfa",
+      "credit": "dfa",
+      "operator": "foof",
+      "normalization": "bn",
+      "optimizer": "sgd",
+      "lr": 0.03,
+      "damping": 0.3,
+      "cell": "mnist_background_standard",
+      "work_budget_seconds": 60.0,
+      "id": "case_041"
+    }
+  ],
+  "seeds": [
+    940101,
+    940102,
+    940103,
+    940104,
+    940105,
+    940106,
+    940107,
+    940108,
+    940109,
+    940110
+  ],
+  "tasks": [
+    {
+      "case_index": 0,
+      "seed": 940101
+    },
+    {
+      "case_index": 0,
+      "seed": 940102
+    },
+    {
+      "case_index": 0,
+      "seed": 940103
+    },
+    {
+      "case_index": 0,
+      "seed": 940104
+    },
+    {
+      "case_index": 0,
+      "seed": 940105
+    },
+    {
+      "case_index": 0,
+      "seed": 940106
+    },
+    {
+      "case_index": 0,
+      "seed": 940107
+    },
+    {
+      "case_index": 0,
+      "seed": 940108
+    },
+    {
+      "case_index": 0,
+      "seed": 940109
+    },
+    {
+      "case_index": 0,
+      "seed": 940110
+    },
+    {
+      "case_index": 1,
+      "seed": 940101
+    },
+    {
+      "case_index": 1,
+      "seed": 940102
+    },
+    {
+      "case_index": 1,
+      "seed": 940103
+    },
+    {
+      "case_index": 1,
+      "seed": 940104
+    },
+    {
+      "case_index": 1,
+      "seed": 940105
+    },
+    {
+      "case_index": 1,
+      "seed": 940106
+    },
+    {
+      "case_index": 1,
+      "seed": 940107
+    },
+    {
+      "case_index": 1,
+      "seed": 940108
+    },
+    {
+      "case_index": 1,
+      "seed": 940109
+    },
+    {
+      "case_index": 1,
+      "seed": 940110
+    },
+    {
+      "case_index": 2,
+      "seed": 940101
+    },
+    {
+      "case_index": 2,
+      "seed": 940102
+    },
+    {
+      "case_index": 2,
+      "seed": 940103
+    },
+    {
+      "case_index": 2,
+      "seed": 940104
+    },
+    {
+      "case_index": 2,
+      "seed": 940105
+    },
+    {
+      "case_index": 2,
+      "seed": 940106
+    },
+    {
+      "case_index": 2,
+      "seed": 940107
+    },
+    {
+      "case_index": 2,
+      "seed": 940108
+    },
+    {
+      "case_index": 2,
+      "seed": 940109
+    },
+    {
+      "case_index": 2,
+      "seed": 940110
+    },
+    {
+      "case_index": 3,
+      "seed": 940101
+    },
+    {
+      "case_index": 3,
+      "seed": 940102
+    },
+    {
+      "case_index": 3,
+      "seed": 940103
+    },
+    {
+      "case_index": 3,
+      "seed": 940104
+    },
+    {
+      "case_index": 3,
+      "seed": 940105
+    },
+    {
+      "case_index": 3,
+      "seed": 940106
+    },
+    {
+      "case_index": 3,
+      "seed": 940107
+    },
+    {
+      "case_index": 3,
+      "seed": 940108
+    },
+    {
+      "case_index": 3,
+      "seed": 940109
+    },
+    {
+      "case_index": 3,
+      "seed": 940110
+    },
+    {
+      "case_index": 4,
+      "seed": 940101
+    },
+    {
+      "case_index": 4,
+      "seed": 940102
+    },
+    {
+      "case_index": 4,
+      "seed": 940103
+    },
+    {
+      "case_index": 4,
+      "seed": 940104
+    },
+    {
+      "case_index": 4,
+      "seed": 940105
+    },
+    {
+      "case_index": 4,
+      "seed": 940106
+    },
+    {
+      "case_index": 4,
+      "seed": 940107
+    },
+    {
+      "case_index": 4,
+      "seed": 940108
+    },
+    {
+      "case_index": 4,
+      "seed": 940109
+    },
+    {
+      "case_index": 4,
+      "seed": 940110
+    },
+    {
+      "case_index": 5,
+      "seed": 940101
+    },
+    {
+      "case_index": 5,
+      "seed": 940102
+    },
+    {
+      "case_index": 5,
+      "seed": 940103
+    },
+    {
+      "case_index": 5,
+      "seed": 940104
+    },
+    {
+      "case_index": 5,
+      "seed": 940105
+    },
+    {
+      "case_index": 5,
+      "seed": 940106
+    },
+    {
+      "case_index": 5,
+      "seed": 940107
+    },
+    {
+      "case_index": 5,
+      "seed": 940108
+    },
+    {
+      "case_index": 5,
+      "seed": 940109
+    },
+    {
+      "case_index": 5,
+      "seed": 940110
+    },
+    {
+      "case_index": 6,
+      "seed": 940101
+    },
+    {
+      "case_index": 6,
+      "seed": 940102
+    },
+    {
+      "case_index": 6,
+      "seed": 940103
+    },
+    {
+      "case_index": 6,
+      "seed": 940104
+    },
+    {
+      "case_index": 6,
+      "seed": 940105
+    },
+    {
+      "case_index": 6,
+      "seed": 940106
+    },
+    {
+      "case_index": 6,
+      "seed": 940107
+    },
+    {
+      "case_index": 6,
+      "seed": 940108
+    },
+    {
+      "case_index": 6,
+      "seed": 940109
+    },
+    {
+      "case_index": 6,
+      "seed": 940110
+    },
+    {
+      "case_index": 7,
+      "seed": 940101
+    },
+    {
+      "case_index": 7,
+      "seed": 940102
+    },
+    {
+      "case_index": 7,
+      "seed": 940103
+    },
+    {
+      "case_index": 7,
+      "seed": 940104
+    },
+    {
+      "case_index": 7,
+      "seed": 940105
+    },
+    {
+      "case_index": 7,
+      "seed": 940106
+    },
+    {
+      "case_index": 7,
+      "seed": 940107
+    },
+    {
+      "case_index": 7,
+      "seed": 940108
+    },
+    {
+      "case_index": 7,
+      "seed": 940109
+    },
+    {
+      "case_index": 7,
+      "seed": 940110
+    },
+    {
+      "case_index": 8,
+      "seed": 940101
+    },
+    {
+      "case_index": 8,
+      "seed": 940102
+    },
+    {
+      "case_index": 8,
+      "seed": 940103
+    },
+    {
+      "case_index": 8,
+      "seed": 940104
+    },
+    {
+      "case_index": 8,
+      "seed": 940105
+    },
+    {
+      "case_index": 8,
+      "seed": 940106
+    },
+    {
+      "case_index": 8,
+      "seed": 940107
+    },
+    {
+      "case_index": 8,
+      "seed": 940108
+    },
+    {
+      "case_index": 8,
+      "seed": 940109
+    },
+    {
+      "case_index": 8,
+      "seed": 940110
+    },
+    {
+      "case_index": 9,
+      "seed": 940101
+    },
+    {
+      "case_index": 9,
+      "seed": 940102
+    },
+    {
+      "case_index": 9,
+      "seed": 940103
+    },
+    {
+      "case_index": 9,
+      "seed": 940104
+    },
+    {
+      "case_index": 9,
+      "seed": 940105
+    },
+    {
+      "case_index": 9,
+      "seed": 940106
+    },
+    {
+      "case_index": 9,
+      "seed": 940107
+    },
+    {
+      "case_index": 9,
+      "seed": 940108
+    },
+    {
+      "case_index": 9,
+      "seed": 940109
+    },
+    {
+      "case_index": 9,
+      "seed": 940110
+    },
+    {
+      "case_index": 10,
+      "seed": 940101
+    },
+    {
+      "case_index": 10,
+      "seed": 940102
+    },
+    {
+      "case_index": 10,
+      "seed": 940103
+    },
+    {
+      "case_index": 10,
+      "seed": 940104
+    },
+    {
+      "case_index": 10,
+      "seed": 940105
+    },
+    {
+      "case_index": 10,
+      "seed": 940106
+    },
+    {
+      "case_index": 10,
+      "seed": 940107
+    },
+    {
+      "case_index": 10,
+      "seed": 940108
+    },
+    {
+      "case_index": 10,
+      "seed": 940109
+    },
+    {
+      "case_index": 10,
+      "seed": 940110
+    },
+    {
+      "case_index": 11,
+      "seed": 940101
+    },
+    {
+      "case_index": 11,
+      "seed": 940102
+    },
+    {
+      "case_index": 11,
+      "seed": 940103
+    },
+    {
+      "case_index": 11,
+      "seed": 940104
+    },
+    {
+      "case_index": 11,
+      "seed": 940105
+    },
+    {
+      "case_index": 11,
+      "seed": 940106
+    },
+    {
+      "case_index": 11,
+      "seed": 940107
+    },
+    {
+      "case_index": 11,
+      "seed": 940108
+    },
+    {
+      "case_index": 11,
+      "seed": 940109
+    },
+    {
+      "case_index": 11,
+      "seed": 940110
+    },
+    {
+      "case_index": 12,
+      "seed": 940101
+    },
+    {
+      "case_index": 12,
+      "seed": 940102
+    },
+    {
+      "case_index": 12,
+      "seed": 940103
+    },
+    {
+      "case_index": 12,
+      "seed": 940104
+    },
+    {
+      "case_index": 12,
+      "seed": 940105
+    },
+    {
+      "case_index": 12,
+      "seed": 940106
+    },
+    {
+      "case_index": 12,
+      "seed": 940107
+    },
+    {
+      "case_index": 12,
+      "seed": 940108
+    },
+    {
+      "case_index": 12,
+      "seed": 940109
+    },
+    {
+      "case_index": 12,
+      "seed": 940110
+    },
+    {
+      "case_index": 13,
+      "seed": 940101
+    },
+    {
+      "case_index": 13,
+      "seed": 940102
+    },
+    {
+      "case_index": 13,
+      "seed": 940103
+    },
+    {
+      "case_index": 13,
+      "seed": 940104
+    },
+    {
+      "case_index": 13,
+      "seed": 940105
+    },
+    {
+      "case_index": 13,
+      "seed": 940106
+    },
+    {
+      "case_index": 13,
+      "seed": 940107
+    },
+    {
+      "case_index": 13,
+      "seed": 940108
+    },
+    {
+      "case_index": 13,
+      "seed": 940109
+    },
+    {
+      "case_index": 13,
+      "seed": 940110
+    },
+    {
+      "case_index": 14,
+      "seed": 940101
+    },
+    {
+      "case_index": 14,
+      "seed": 940102
+    },
+    {
+      "case_index": 14,
+      "seed": 940103
+    },
+    {
+      "case_index": 14,
+      "seed": 940104
+    },
+    {
+      "case_index": 14,
+      "seed": 940105
+    },
+    {
+      "case_index": 14,
+      "seed": 940106
+    },
+    {
+      "case_index": 14,
+      "seed": 940107
+    },
+    {
+      "case_index": 14,
+      "seed": 940108
+    },
+    {
+      "case_index": 14,
+      "seed": 940109
+    },
+    {
+      "case_index": 14,
+      "seed": 940110
+    },
+    {
+      "case_index": 15,
+      "seed": 940101
+    },
+    {
+      "case_index": 15,
+      "seed": 940102
+    },
+    {
+      "case_index": 15,
+      "seed": 940103
+    },
+    {
+      "case_index": 15,
+      "seed": 940104
+    },
+    {
+      "case_index": 15,
+      "seed": 940105
+    },
+    {
+      "case_index": 15,
+      "seed": 940106
+    },
+    {
+      "case_index": 15,
+      "seed": 940107
+    },
+    {
+      "case_index": 15,
+      "seed": 940108
+    },
+    {
+      "case_index": 15,
+      "seed": 940109
+    },
+    {
+      "case_index": 15,
+      "seed": 940110
+    },
+    {
+      "case_index": 16,
+      "seed": 940101
+    },
+    {
+      "case_index": 16,
+      "seed": 940102
+    },
+    {
+      "case_index": 16,
+      "seed": 940103
+    },
+    {
+      "case_index": 16,
+      "seed": 940104
+    },
+    {
+      "case_index": 16,
+      "seed": 940105
+    },
+    {
+      "case_index": 16,
+      "seed": 940106
+    },
+    {
+      "case_index": 16,
+      "seed": 940107
+    },
+    {
+      "case_index": 16,
+      "seed": 940108
+    },
+    {
+      "case_index": 16,
+      "seed": 940109
+    },
+    {
+      "case_index": 16,
+      "seed": 940110
+    },
+    {
+      "case_index": 17,
+      "seed": 940101
+    },
+    {
+      "case_index": 17,
+      "seed": 940102
+    },
+    {
+      "case_index": 17,
+      "seed": 940103
+    },
+    {
+      "case_index": 17,
+      "seed": 940104
+    },
+    {
+      "case_index": 17,
+      "seed": 940105
+    },
+    {
+      "case_index": 17,
+      "seed": 940106
+    },
+    {
+      "case_index": 17,
+      "seed": 940107
+    },
+    {
+      "case_index": 17,
+      "seed": 940108
+    },
+    {
+      "case_index": 17,
+      "seed": 940109
+    },
+    {
+      "case_index": 17,
+      "seed": 940110
+    },
+    {
+      "case_index": 18,
+      "seed": 940101
+    },
+    {
+      "case_index": 18,
+      "seed": 940102
+    },
+    {
+      "case_index": 18,
+      "seed": 940103
+    },
+    {
+      "case_index": 18,
+      "seed": 940104
+    },
+    {
+      "case_index": 18,
+      "seed": 940105
+    },
+    {
+      "case_index": 18,
+      "seed": 940106
+    },
+    {
+      "case_index": 18,
+      "seed": 940107
+    },
+    {
+      "case_index": 18,
+      "seed": 940108
+    },
+    {
+      "case_index": 18,
+      "seed": 940109
+    },
+    {
+      "case_index": 18,
+      "seed": 940110
+    },
+    {
+      "case_index": 19,
+      "seed": 940101
+    },
+    {
+      "case_index": 19,
+      "seed": 940102
+    },
+    {
+      "case_index": 19,
+      "seed": 940103
+    },
+    {
+      "case_index": 19,
+      "seed": 940104
+    },
+    {
+      "case_index": 19,
+      "seed": 940105
+    },
+    {
+      "case_index": 19,
+      "seed": 940106
+    },
+    {
+      "case_index": 19,
+      "seed": 940107
+    },
+    {
+      "case_index": 19,
+      "seed": 940108
+    },
+    {
+      "case_index": 19,
+      "seed": 940109
+    },
+    {
+      "case_index": 19,
+      "seed": 940110
+    },
+    {
+      "case_index": 20,
+      "seed": 940101
+    },
+    {
+      "case_index": 20,
+      "seed": 940102
+    },
+    {
+      "case_index": 20,
+      "seed": 940103
+    },
+    {
+      "case_index": 20,
+      "seed": 940104
+    },
+    {
+      "case_index": 20,
+      "seed": 940105
+    },
+    {
+      "case_index": 20,
+      "seed": 940106
+    },
+    {
+      "case_index": 20,
+      "seed": 940107
+    },
+    {
+      "case_index": 20,
+      "seed": 940108
+    },
+    {
+      "case_index": 20,
+      "seed": 940109
+    },
+    {
+      "case_index": 20,
+      "seed": 940110
+    },
+    {
+      "case_index": 21,
+      "seed": 940101
+    },
+    {
+      "case_index": 21,
+      "seed": 940102
+    },
+    {
+      "case_index": 21,
+      "seed": 940103
+    },
+    {
+      "case_index": 21,
+      "seed": 940104
+    },
+    {
+      "case_index": 21,
+      "seed": 940105
+    },
+    {
+      "case_index": 21,
+      "seed": 940106
+    },
+    {
+      "case_index": 21,
+      "seed": 940107
+    },
+    {
+      "case_index": 21,
+      "seed": 940108
+    },
+    {
+      "case_index": 21,
+      "seed": 940109
+    },
+    {
+      "case_index": 21,
+      "seed": 940110
+    },
+    {
+      "case_index": 22,
+      "seed": 940101
+    },
+    {
+      "case_index": 22,
+      "seed": 940102
+    },
+    {
+      "case_index": 22,
+      "seed": 940103
+    },
+    {
+      "case_index": 22,
+      "seed": 940104
+    },
+    {
+      "case_index": 22,
+      "seed": 940105
+    },
+    {
+      "case_index": 22,
+      "seed": 940106
+    },
+    {
+      "case_index": 22,
+      "seed": 940107
+    },
+    {
+      "case_index": 22,
+      "seed": 940108
+    },
+    {
+      "case_index": 22,
+      "seed": 940109
+    },
+    {
+      "case_index": 22,
+      "seed": 940110
+    },
+    {
+      "case_index": 23,
+      "seed": 940101
+    },
+    {
+      "case_index": 23,
+      "seed": 940102
+    },
+    {
+      "case_index": 23,
+      "seed": 940103
+    },
+    {
+      "case_index": 23,
+      "seed": 940104
+    },
+    {
+      "case_index": 23,
+      "seed": 940105
+    },
+    {
+      "case_index": 23,
+      "seed": 940106
+    },
+    {
+      "case_index": 23,
+      "seed": 940107
+    },
+    {
+      "case_index": 23,
+      "seed": 940108
+    },
+    {
+      "case_index": 23,
+      "seed": 940109
+    },
+    {
+      "case_index": 23,
+      "seed": 940110
+    },
+    {
+      "case_index": 24,
+      "seed": 940101
+    },
+    {
+      "case_index": 24,
+      "seed": 940102
+    },
+    {
+      "case_index": 24,
+      "seed": 940103
+    },
+    {
+      "case_index": 24,
+      "seed": 940104
+    },
+    {
+      "case_index": 24,
+      "seed": 940105
+    },
+    {
+      "case_index": 24,
+      "seed": 940106
+    },
+    {
+      "case_index": 24,
+      "seed": 940107
+    },
+    {
+      "case_index": 24,
+      "seed": 940108
+    },
+    {
+      "case_index": 24,
+      "seed": 940109
+    },
+    {
+      "case_index": 24,
+      "seed": 940110
+    },
+    {
+      "case_index": 25,
+      "seed": 940101
+    },
+    {
+      "case_index": 25,
+      "seed": 940102
+    },
+    {
+      "case_index": 25,
+      "seed": 940103
+    },
+    {
+      "case_index": 25,
+      "seed": 940104
+    },
+    {
+      "case_index": 25,
+      "seed": 940105
+    },
+    {
+      "case_index": 25,
+      "seed": 940106
+    },
+    {
+      "case_index": 25,
+      "seed": 940107
+    },
+    {
+      "case_index": 25,
+      "seed": 940108
+    },
+    {
+      "case_index": 25,
+      "seed": 940109
+    },
+    {
+      "case_index": 25,
+      "seed": 940110
+    },
+    {
+      "case_index": 26,
+      "seed": 940101
+    },
+    {
+      "case_index": 26,
+      "seed": 940102
+    },
+    {
+      "case_index": 26,
+      "seed": 940103
+    },
+    {
+      "case_index": 26,
+      "seed": 940104
+    },
+    {
+      "case_index": 26,
+      "seed": 940105
+    },
+    {
+      "case_index": 26,
+      "seed": 940106
+    },
+    {
+      "case_index": 26,
+      "seed": 940107
+    },
+    {
+      "case_index": 26,
+      "seed": 940108
+    },
+    {
+      "case_index": 26,
+      "seed": 940109
+    },
+    {
+      "case_index": 26,
+      "seed": 940110
+    },
+    {
+      "case_index": 27,
+      "seed": 940101
+    },
+    {
+      "case_index": 27,
+      "seed": 940102
+    },
+    {
+      "case_index": 27,
+      "seed": 940103
+    },
+    {
+      "case_index": 27,
+      "seed": 940104
+    },
+    {
+      "case_index": 27,
+      "seed": 940105
+    },
+    {
+      "case_index": 27,
+      "seed": 940106
+    },
+    {
+      "case_index": 27,
+      "seed": 940107
+    },
+    {
+      "case_index": 27,
+      "seed": 940108
+    },
+    {
+      "case_index": 27,
+      "seed": 940109
+    },
+    {
+      "case_index": 27,
+      "seed": 940110
+    },
+    {
+      "case_index": 28,
+      "seed": 940101
+    },
+    {
+      "case_index": 28,
+      "seed": 940102
+    },
+    {
+      "case_index": 28,
+      "seed": 940103
+    },
+    {
+      "case_index": 28,
+      "seed": 940104
+    },
+    {
+      "case_index": 28,
+      "seed": 940105
+    },
+    {
+      "case_index": 28,
+      "seed": 940106
+    },
+    {
+      "case_index": 28,
+      "seed": 940107
+    },
+    {
+      "case_index": 28,
+      "seed": 940108
+    },
+    {
+      "case_index": 28,
+      "seed": 940109
+    },
+    {
+      "case_index": 28,
+      "seed": 940110
+    },
+    {
+      "case_index": 29,
+      "seed": 940101
+    },
+    {
+      "case_index": 29,
+      "seed": 940102
+    },
+    {
+      "case_index": 29,
+      "seed": 940103
+    },
+    {
+      "case_index": 29,
+      "seed": 940104
+    },
+    {
+      "case_index": 29,
+      "seed": 940105
+    },
+    {
+      "case_index": 29,
+      "seed": 940106
+    },
+    {
+      "case_index": 29,
+      "seed": 940107
+    },
+    {
+      "case_index": 29,
+      "seed": 940108
+    },
+    {
+      "case_index": 29,
+      "seed": 940109
+    },
+    {
+      "case_index": 29,
+      "seed": 940110
+    },
+    {
+      "case_index": 30,
+      "seed": 940101
+    },
+    {
+      "case_index": 30,
+      "seed": 940102
+    },
+    {
+      "case_index": 30,
+      "seed": 940103
+    },
+    {
+      "case_index": 30,
+      "seed": 940104
+    },
+    {
+      "case_index": 30,
+      "seed": 940105
+    },
+    {
+      "case_index": 30,
+      "seed": 940106
+    },
+    {
+      "case_index": 30,
+      "seed": 940107
+    },
+    {
+      "case_index": 30,
+      "seed": 940108
+    },
+    {
+      "case_index": 30,
+      "seed": 940109
+    },
+    {
+      "case_index": 30,
+      "seed": 940110
+    },
+    {
+      "case_index": 31,
+      "seed": 940101
+    },
+    {
+      "case_index": 31,
+      "seed": 940102
+    },
+    {
+      "case_index": 31,
+      "seed": 940103
+    },
+    {
+      "case_index": 31,
+      "seed": 940104
+    },
+    {
+      "case_index": 31,
+      "seed": 940105
+    },
+    {
+      "case_index": 31,
+      "seed": 940106
+    },
+    {
+      "case_index": 31,
+      "seed": 940107
+    },
+    {
+      "case_index": 31,
+      "seed": 940108
+    },
+    {
+      "case_index": 31,
+      "seed": 940109
+    },
+    {
+      "case_index": 31,
+      "seed": 940110
+    },
+    {
+      "case_index": 32,
+      "seed": 940101
+    },
+    {
+      "case_index": 32,
+      "seed": 940102
+    },
+    {
+      "case_index": 32,
+      "seed": 940103
+    },
+    {
+      "case_index": 32,
+      "seed": 940104
+    },
+    {
+      "case_index": 32,
+      "seed": 940105
+    },
+    {
+      "case_index": 32,
+      "seed": 940106
+    },
+    {
+      "case_index": 32,
+      "seed": 940107
+    },
+    {
+      "case_index": 32,
+      "seed": 940108
+    },
+    {
+      "case_index": 32,
+      "seed": 940109
+    },
+    {
+      "case_index": 32,
+      "seed": 940110
+    },
+    {
+      "case_index": 33,
+      "seed": 940101
+    },
+    {
+      "case_index": 33,
+      "seed": 940102
+    },
+    {
+      "case_index": 33,
+      "seed": 940103
+    },
+    {
+      "case_index": 33,
+      "seed": 940104
+    },
+    {
+      "case_index": 33,
+      "seed": 940105
+    },
+    {
+      "case_index": 33,
+      "seed": 940106
+    },
+    {
+      "case_index": 33,
+      "seed": 940107
+    },
+    {
+      "case_index": 33,
+      "seed": 940108
+    },
+    {
+      "case_index": 33,
+      "seed": 940109
+    },
+    {
+      "case_index": 33,
+      "seed": 940110
+    },
+    {
+      "case_index": 34,
+      "seed": 940101
+    },
+    {
+      "case_index": 34,
+      "seed": 940102
+    },
+    {
+      "case_index": 34,
+      "seed": 940103
+    },
+    {
+      "case_index": 34,
+      "seed": 940104
+    },
+    {
+      "case_index": 34,
+      "seed": 940105
+    },
+    {
+      "case_index": 34,
+      "seed": 940106
+    },
+    {
+      "case_index": 34,
+      "seed": 940107
+    },
+    {
+      "case_index": 34,
+      "seed": 940108
+    },
+    {
+      "case_index": 34,
+      "seed": 940109
+    },
+    {
+      "case_index": 34,
+      "seed": 940110
+    },
+    {
+      "case_index": 35,
+      "seed": 940101
+    },
+    {
+      "case_index": 35,
+      "seed": 940102
+    },
+    {
+      "case_index": 35,
+      "seed": 940103
+    },
+    {
+      "case_index": 35,
+      "seed": 940104
+    },
+    {
+      "case_index": 35,
+      "seed": 940105
+    },
+    {
+      "case_index": 35,
+      "seed": 940106
+    },
+    {
+      "case_index": 35,
+      "seed": 940107
+    },
+    {
+      "case_index": 35,
+      "seed": 940108
+    },
+    {
+      "case_index": 35,
+      "seed": 940109
+    },
+    {
+      "case_index": 35,
+      "seed": 940110
+    },
+    {
+      "case_index": 36,
+      "seed": 940101
+    },
+    {
+      "case_index": 36,
+      "seed": 940102
+    },
+    {
+      "case_index": 36,
+      "seed": 940103
+    },
+    {
+      "case_index": 36,
+      "seed": 940104
+    },
+    {
+      "case_index": 36,
+      "seed": 940105
+    },
+    {
+      "case_index": 36,
+      "seed": 940106
+    },
+    {
+      "case_index": 36,
+      "seed": 940107
+    },
+    {
+      "case_index": 36,
+      "seed": 940108
+    },
+    {
+      "case_index": 36,
+      "seed": 940109
+    },
+    {
+      "case_index": 36,
+      "seed": 940110
+    },
+    {
+      "case_index": 37,
+      "seed": 940101
+    },
+    {
+      "case_index": 37,
+      "seed": 940102
+    },
+    {
+      "case_index": 37,
+      "seed": 940103
+    },
+    {
+      "case_index": 37,
+      "seed": 940104
+    },
+    {
+      "case_index": 37,
+      "seed": 940105
+    },
+    {
+      "case_index": 37,
+      "seed": 940106
+    },
+    {
+      "case_index": 37,
+      "seed": 940107
+    },
+    {
+      "case_index": 37,
+      "seed": 940108
+    },
+    {
+      "case_index": 37,
+      "seed": 940109
+    },
+    {
+      "case_index": 37,
+      "seed": 940110
+    },
+    {
+      "case_index": 38,
+      "seed": 940101
+    },
+    {
+      "case_index": 38,
+      "seed": 940102
+    },
+    {
+      "case_index": 38,
+      "seed": 940103
+    },
+    {
+      "case_index": 38,
+      "seed": 940104
+    },
+    {
+      "case_index": 38,
+      "seed": 940105
+    },
+    {
+      "case_index": 38,
+      "seed": 940106
+    },
+    {
+      "case_index": 38,
+      "seed": 940107
+    },
+    {
+      "case_index": 38,
+      "seed": 940108
+    },
+    {
+      "case_index": 38,
+      "seed": 940109
+    },
+    {
+      "case_index": 38,
+      "seed": 940110
+    },
+    {
+      "case_index": 39,
+      "seed": 940101
+    },
+    {
+      "case_index": 39,
+      "seed": 940102
+    },
+    {
+      "case_index": 39,
+      "seed": 940103
+    },
+    {
+      "case_index": 39,
+      "seed": 940104
+    },
+    {
+      "case_index": 39,
+      "seed": 940105
+    },
+    {
+      "case_index": 39,
+      "seed": 940106
+    },
+    {
+      "case_index": 39,
+      "seed": 940107
+    },
+    {
+      "case_index": 39,
+      "seed": 940108
+    },
+    {
+      "case_index": 39,
+      "seed": 940109
+    },
+    {
+      "case_index": 39,
+      "seed": 940110
+    },
+    {
+      "case_index": 40,
+      "seed": 940101
+    },
+    {
+      "case_index": 40,
+      "seed": 940102
+    },
+    {
+      "case_index": 40,
+      "seed": 940103
+    },
+    {
+      "case_index": 40,
+      "seed": 940104
+    },
+    {
+      "case_index": 40,
+      "seed": 940105
+    },
+    {
+      "case_index": 40,
+      "seed": 940106
+    },
+    {
+      "case_index": 40,
+      "seed": 940107
+    },
+    {
+      "case_index": 40,
+      "seed": 940108
+    },
+    {
+      "case_index": 40,
+      "seed": 940109
+    },
+    {
+      "case_index": 40,
+      "seed": 940110
+    },
+    {
+      "case_index": 41,
+      "seed": 940101
+    },
+    {
+      "case_index": 41,
+      "seed": 940102
+    },
+    {
+      "case_index": 41,
+      "seed": 940103
+    },
+    {
+      "case_index": 41,
+      "seed": 940104
+    },
+    {
+      "case_index": 41,
+      "seed": 940105
+    },
+    {
+      "case_index": 41,
+      "seed": 940106
+    },
+    {
+      "case_index": 41,
+      "seed": 940107
+    },
+    {
+      "case_index": 41,
+      "seed": 940108
+    },
+    {
+      "case_index": 41,
+      "seed": 940109
+    },
+    {
+      "case_index": 41,
+      "seed": 940110
+    }
+  ],
+  "stage": "joint_confirmation",
+  "source_root": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/source",
+  "source_sha256": {
+    "infogeo/__init__.py": "78a6c7f72fb955d5a2b63d0212e86f825b995a8b84d79b1fb97c3834464eae88",
+    "infogeo/adaptive.py": "e074ab29a0a4f6153ab0e567f8e091176d65903701b7300fcc661418a4b977cb",
+    "infogeo/analysis.py": "6ea0617e0f06eac086ee181d9b952abb1ef5761ac0497b9cac23204a58445147",
+    "infogeo/cifar_n.py": "64787bf1a33d9ad48b5bc3e79d299af34fda7e86aa4b3fab44b71f9b73271ebd",
+    "infogeo/conv_dfa.py": "95dc6177854b9aab6c6a935debe6e1335e9f404c42a08ee8f83170fb02264398",
+    "infogeo/decorrelated_dfa.py": "3b6c98111783b8ec58d2624512a5fa37200e75e0c2a0a3b22a8185feb67b60f7",
+    "infogeo/dfa.py": "1c5b74c7939d073608c32c9c5c98577c40258ca11dc1a321390a4a51d56ba25e",
+    "infogeo/foof.py": "d62bc855a15523a8d137d4b3d427406e0782b1322f4e51f4638550746a2505cf",
+    "infogeo/forward_decorrelation.py": "a47186588c5d1f82f4f8b792d41f3b724a363d8277fa70e755a677979dd32f1b",
+    "infogeo/geometry.py": "4912e94c761ab694c0dd0306b4a83813356e3a41c7988aaa28d47728c84aa237",
+    "infogeo/local_preconditioning.py": "9b7f918ee9f1ca1cf5206211f4f6486e589ed1f0a6d5c1be19eaada7bd53dcc6",
+    "infogeo/mixer_activity_conditioning.py": "786a05482e426f093cce148f497ade77ae3309d79b82100e6c05138e82948dcc",
+    "infogeo/mixer_dfa.py": "497a2a2476d96a40d0673252721e8ea273114c407c170ade9bef6a2e8ae8ce5f",
+    "infogeo/neuron_teaching_conditioning.py": "ee8997938d360e5ba9c7459055b97077e3f6f649cdc778001db9624bc35a8276",
+    "infogeo/noise_correlation.py": "75889a727cdf9a723c02ab288fd60e199c96a689f8e2ceb02e116b2e998c8179",
+    "infogeo/paired_conditioning.py": "0ca562775475ef901794bb428451bc61b25cbdca12504787007f44b91b09670d",
+    "infogeo/project_diagnostics.py": "43ed0d276fa27a3e1c59c47376becf10776ec8f6a75bb6780d26958ac7629aaa",
+    "infogeo/synthetic.py": "0c95b34ee6ca799e65c051183fe91bc0c17833d8534d1eb794e151861a6c7a68",
+    "infogeo/task_conditioning.py": "549f41bbc898ec9b1db86730525f325650642e5936a45db7009f5d380c667415",
+    "infogeo/teaching_conditioning.py": "68dd1fb42c8a1e1fc591660c1fb29aeb90eaa341cf0cc86c07cc1985d2d7064b",
+    "experiments/run_ndfa_submission_benchmark.py": "5410b2c92f950bee63679720ce75d364eb570efc7434bcd148f65dc82a92c2f2",
+    "experiments/run_dfa_multioutput_synthetic.py": "b538c9f3583d67e0192a24b66fc398b50b80c05bc5705259eb2d6a8717f5ae28",
+    "experiments/run_dfa_synthetic.py": "8422668a7f6724858ac7d41c3d721b11aa8325ee19f7b9e3cc05d9ff752e22bf",
+    "experiments/run_dfa_vision_baselines.py": "31e58bdcc52807ecf1270e14051001bfe3f563c8cc9c318ecbacc3628c3caec5",
+    "scripts/ndfa_strengthening_20260925/next_round.py": "9ab5cf0f32630bb1e83c7aacdfe931b7a5d1c593a66555b4821c4fb7d98176a1",
+    "scripts/ndfa_strengthening_20260925/baseline_development.py": "0079d5c867748da3f81857128f78741578eaaf2360a087e84a3062cd45010d98",
+    "scripts/ndfa_strengthening_20260925/freeze_next.py": "ee255a0db24e9dfdc7804ce4a7d8d59b19302d2ac3d35e8b0b66bd139032c795",
+    "tests/test_foof.py": "9d46cd889926b47172babfe003cf38dd7e88bc32af1a327333fcff1a8c49c5e1",
+    "tests/test_ndfa_next_round.py": "cbe3eed92a3d9b7b39af77743f85395f602ef13f47305c0f98457aea655836a6",
+    "slurm/ndfa_strengthening_next_20260925.sbatch": "3064899be9436941f380ed4bf11c30d208e0c76a17740fcef109661c39c3c585",
+    "infogeo/activity_geometry.py": "780ee49c90b31c0ca74b8bf6748a83d4ec3bc8a34aac97809e3408a2d302325d",
+    "infogeo/tanh_dfa.py": "f0c2ae399bf2a4bef152d649b360fda3e96323491205737583bb02f6cac9f6e2",
+    "infogeo/credit_alignment.py": "90a68e16cd656c05492fea94038a9c07df0a24446b1f5d1f96ef0842216937ce",
+    "scripts/ndfa_strengthening_20260925/freeze_controls.py": "509b4951420717739b9d85d34246a24cba1c5f98785b1889b88be201b8e1733f",
+    "scripts/ndfa_strengthening_20260925/freeze_round2.py": "ba7af71a381aafc4d963468f42b76b1d2e32fa9ba254f405b2765cd02ed32351",
+    "tests/test_strengthening_controls.py": "a027ca99c883b33102f0d0532e1395bd720625ac705e24e717c4c30d15b6cbdf",
+    "scripts/ndfa_strengthening_20260925/decision_train.py": "6f0a09a485ac55c71c68742416ab0479f39a889d4e0e69169869855b9b6b3a16",
+    "scripts/ndfa_strengthening_20260925/freeze_decision.py": "33a4b6de3d623bacbc18b2923768b5915c94949e9ba5e595ffa191d5c0b0404e",
+    "scripts/ndfa_strengthening_20260925/decision_control.py": "87a43428126e8c4b9b5c8c8e31235d7dbd4decfcb842e1be310ef34179124b6b",
+    "tests/test_decision_round.py": "e1c938617a977adc73ba99161d4114dcedfe245851dbeb00af41ad1089a21d35",
+    "scripts/ndfa_strengthening_20260925/integrated_train.py": "e4bb910c50d08ac4c57b1edfa2e47588e0482354cc8ef1085c9fbcfc781a41e7",
+    "scripts/ndfa_strengthening_20260925/integrated_components.py": "318acec870033603732a3471bc3ea5f262624ca6f407d268cd1548e70e573e13",
+    "scripts/ndfa_strengthening_20260925/integrated_plan.py": "7dd2596bd4badf30a9d6a87098f4b73b764cbfe104a2d7b1fde7e78510622f1f",
+    "scripts/ndfa_strengthening_20260925/integrated_control.py": "0a14092f72bf5c983e31bbc7334e6cbbdef7fec5b3b596f08e8a88ba3d7910fb",
+    "scripts/ndfa_strengthening_20260925/prepare_integrated_benchmarks.py": "465baac9f46ab0f53635336d4e960e68604c36cb1fda965b99f4f5d451f7f127",
+    "tests/test_integrated_round.py": "bbbea299522dd775f586197fd62e893ddfee333c1c207549290322a336ea8ec1"
+  },
+  "plan_sha256": "ebcd87727973c8e199f778cf6943a6bceb2d4ec789b99989e3b88582dca3de0e",
+  "output_root": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/confirm_benchmarks/runs",
+  "frozen_utc": "2026-09-26T05:12:48.509775+00:00",
+  "official_test_loaded": false
+}

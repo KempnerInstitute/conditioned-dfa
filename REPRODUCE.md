@@ -1,126 +1,105 @@
-# Reproducing the second-review revision
+# Reproducing the September 26 confirmation revision
 
-The [artifact map](docs/research/ndfa_expanded_figures_artifact_map_20260919.json) binds
-this revision to exact source and evidence hashes. The manuscript and code
-repositories share the tag `ndfa-expanded-figures-2026-09-19`. The main ICLR text,
-including every main figure and table, fits within nine pages in the official
-style. The full documents have 51 pages (ICLR) and 49 pages (author preprint),
-with 14 active figures and 49 references.
+Use the current `main` branch or the matching `ndfa-confirmation-2026-09-26`
+tag in the code and manuscript repositories. Earlier reproduction instructions
+are preserved in [the historical guide](docs/research/reproduction_before_confirmation_20260926.md).
 
-## Build the paper
-
-From this code repository, obtain the separate manuscript sources:
+## Recompute reported statistics without training
 
 ```bash
-git clone --branch ndfa-expanded-figures-2026-09-19 https://github.com/houman1359/Info-DFA-draft.git drafts/Info-DFA
 python -m pip install -r requirements.txt
+python scripts/ndfa_strengthening_20260925/audit_joint_decision.py \
+  --root assets/ndfa_confirmation_20260926 \
+  --output build/confirmation_verification.json
+```
+
+The audit checks all exported SHA256 values and reconstructs all 21 primary
+contrasts from the eight original test-summary files. It verifies every
+declared case/seed, paired means, individual 95% t intervals, p values, global
+Holm adjustment, the five-part error gate, and the final-checkpoint efficiency
+criterion. It uses final checkpoints for the geometry, constant-rate timing,
+and fixed-epoch efficiency cohorts, and validation-CE-selected checkpoints for
+work-budget cohorts. The original generated `decision.md` used best checkpoints
+in its fixed-epoch overview; the audit and current manuscript use final ones.
+
+This is an audit of saved seed-level metrics, not new checkpoint inference or
+an independent measurement of hardware time. The endpoint records retain
+checkpoint and prediction hashes; the large tensors are not included in Git.
+
+## CPU implementation checks
+
+```bash
+OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 python -m pytest -q \
+  tests/test_integrated_round.py tests/test_foof.py \
+  tests/test_local_preconditioning.py tests/test_activity_geometry.py \
+  tests/test_decorrelated_dfa.py tests/test_decision_round.py \
+  tests/test_ndfa_next_round.py tests/test_development_selection.py \
+  tests/test_strengthening_controls.py tests/test_round2_design.py
+```
+
+These cover dense/sample-space operators, FOOF, forward decorrelation, frozen
+selection, resumption, shared-checkpoint branches, error direction probes,
+test-access gates, and bounded study designs. They do not launch GPU jobs.
+
+## Build the manuscript and arXiv source bundle
+
+```bash
+git clone --branch ndfa-confirmation-2026-09-26 \
+  https://github.com/houman1359/Info-DFA-draft.git drafts/Info-DFA
 python drafts/Info-DFA/scripts/build_manuscript.py
-python drafts/Info-DFA/scripts/build_arxiv_package.py --output-dir drafts/Info-DFA/build/arxiv_upload --reference-pdf drafts/Info-DFA/build/checked/conditioned_dfa_arxiv.pdf
+python drafts/Info-DFA/scripts/build_arxiv_package.py \
+  --output-dir drafts/Info-DFA/build/arxiv_upload \
+  --reference-pdf drafts/Info-DFA/build/checked/conditioned_dfa_arxiv.pdf
 ```
 
-The build requires pdfLaTeX and the packages in `paper_preamble.tex`. The checker
-verifies reviewed source/style hashes, both three-pass builds, references, figure
-positions, anonymity, author order and the complete main-text page limit.
-The arXiv builder compiles an independent extraction and compares its full text
-and rendered pages with the reference PDF. It creates upload files without
-submitting them. Use a new output directory for each package.
+pdfLaTeX and the LaTeX packages in the manuscript preamble are required. The
+checked build verifies source/style pins, references, figure placement, author
+order, and the nine-page ICLR main-text limit. The source bundle is rebuilt
+after extraction outside the workspace and compared with the reviewed PDF.
+The arXiv build omits the AI statement at the authors' request; the ICLR build
+retains it. No upload is performed by these commands.
 
-## Verify the evidence archive
+To regenerate the main confirmation table, appendix, and Figure 5, run
+`python drafts/Info-DFA/scripts/confirmation_material.py`. That renderer uses
+the manuscript's curated compact records. The independent audit above instead
+uses the original test summaries, including the raw direction diagnostic.
 
-Obtain the separately prepared `iclr_supplement.zip`, check its SHA256 against
-the artifact map, extract it into a new directory and enter `review_package`:
+## Prepare a training rerun
+
+Obtain the relevant datasets in torchvision format. The original runs used
+PyTorch 2.9, float32 training, float64 evaluation loss, and disabled TF32.
+The paper records hardware separately: H100 for the main practical cohort,
+H200 for several interventions, and RTX PRO 6000 Blackwell for the amended
+background cohort. A different accelerator can change the number of updates
+within a time budget, so wall-clock values are hardware dependent.
+
+The helper copies the exact 46-file frozen source snapshot, preserves the
+scientific settings and seeds, and rebases data/source/output paths:
 
 ```bash
-python -B reproduce.py --checks integrity,statistics,legacy,focused,paper,smoke
-python -B verify_revision.py
-python -B scripts/ndfa_revision_20260919/verify.py
-python -B -m pytest -q -p no:cacheprovider tests/test_ndfa_revision_math.py
+python scripts/ndfa_confirmation_20260926/prepare_rerun.py \
+  --study confirm_foof_cifar --destination /path/to/new_rerun \
+  --data-dir /path/to/torchvision
 ```
 
-The first command checks retained evidence and runs 143 CPU tests. The second
-checks all 202 new cases (32 validation-only, 170 final-test models), whole-seed
-intervals, the additional eight-seed diagonal contrast, loss tails and the
-complete-risk counterexample. Three mathematical tests additionally check the
-corrected calculation. The second-review verifier checks the remaining BN and
-CIFAR-100 seed-level summaries, the common 128-cell nuisance correlation,
-paired follow-up intervals, and the theoretical qualifications. The archive retains every planned case; large finite
-losses are not silently dropped.
-
-The original independent audit recomputed all new metrics directly from saved
-logits in float64 and verified checkpoint hashes. To keep the review archive
-below 100 MB, its new prediction exports contain per-example cross-entropy
-rounded to float32, plus exact predicted and true classes. Source and export
-hashes are distinct. Replaying these summaries is not a fresh inference audit.
-Raw logits and model/optimizer states remain in the research workspace.
-
-For the smaller mathematical/cohort checks in this repository:
+It prints the relocated configuration path, hash, and training script. On an
+allocated GPU, pass them to the runner:
 
 ```bash
-python -m pytest -q tests/test_ndfa_revision_math.py tests/test_covariance_power_cohorts.py tests/test_replication_figure_cohorts.py
+python /path/to/new_rerun/source/scripts/ndfa_strengthening_20260925/integrated_train.py \
+  --config /path/to/new_rerun/config.json \
+  --config-sha256 HASH_FROM_RELOCATION_RECEIPT --task-index 0
 ```
 
-## Verify the second-review compact summaries
+Each task index identifies a frozen method/seed combination. Training accesses
+only training/validation data and writes best/final checkpoints. This helper
+does not schedule jobs, alter the original confirmation, or invoke official
+test evaluation. The original full-study controller and gate are preserved in
+the source snapshot for inspecting the complete experiment protocol.
 
-The new compact CSVs in `assets/ndfa_revision_20260919/` are available in this
-source repository as well as the review archive:
-
-```bash
-python scripts/ndfa_revision_20260919/verify.py
-python scripts/ndfa_revision_20260919/linear_simulation.py
-```
-
-The second command reruns only the small CPU population illustration for
-Figure 1D and records its selected rates. `prepare_evidence.py` exports the
-summaries from original raw archives; it requires those preserved inputs.
-Seed-level SEMs are conditional on the designed cells and fixed feedback set.
-See the study ledger for the distinct CIFAR-10 development/final cohorts.
-
-## Regenerate figures and numerical analyses
-
-Use the supplied evidence archive for the saved-data inputs; a source-only clone
-cannot reconstruct measurements that are absent from Git. From its root:
-
-```bash
-NDFA_FIGURE_CACHE=revision/figure_cache.pkl NDFA_FIGURE_OUTPUT=/tmp/ndfa_figure_previews NDFA_PAPER_FIGURES=/tmp/ndfa_figure_pdfs python scripts/ndfa_revision_20260919/redraw.py
-NDFA_FIGURE_CACHE=revision/figure_cache.pkl python scripts/ndfa_figure_layout_20260919/redraw.py --output /tmp/ndfa_compact_previews --paper-figures /tmp/ndfa_figure_pdfs
-python analysis/validate_mode_timing.py
-```
-
-The first command produces 13 revised plots; the second applies the final
-layouts to all five main figures and the supplementary normalization figure.
-It checks retained measurements and all 21 Figure 5 paired contrasts against
-the preceding generator and source summaries. The third command produces
-the corrected mode-timing figure and numerical comparisons. The cache contains locally
-constructed Matplotlib figures, with obsolete panels replaced from audited
-measurements by the generator. Its hash is recorded; use only the supplied
-artifact. Full-workspace audits are `audit_saved.py` and `audit_followups.py`
-in `scripts/ndfa_revision_20260918/`. They require preserved original inputs,
-including checkpoints, beyond the compact export.
-
-## Reproduce the targeted GPU studies
-
-The [frozen protocol](docs/research/ndfa_revision_followups_protocol_20260918.md)
-specifies the complete inventory, validation-only selection, independent seeds,
-work budgets and fixed-recipe interventions. Training source hashes and historical
-paths are immutable provenance. Prepare a new relocated copy rather than editing
-the original plan:
-
-```bash
-python scripts/ndfa_revision_20260918/prepare_rerun.py --data-dir /path/to/cifar10 --destination /path/to/new_ndfa_rerun
-cd /path/to/new_ndfa_rerun
-python scripts/ndfa_revision_20260918/runner.py --plan configs/reproduction_plan.json --phase work
-python scripts/ndfa_revision_20260918/runner.py --plan configs/reproduction_plan.json --phase width
-python scripts/ndfa_revision_20260918/runner.py --plan configs/reproduction_plan.json --phase stability
-```
-
-Run those commands on an allocated GPU, not a login node. The recorded jobs used
-`kempner_h100_priority`; the [Slurm template](slurm/ndfa_revision_20260918.sbatch)
-shows their resource settings. Data and software versions must be recorded for
-any new execution. Wall-clock results depend on the hardware; the transferred
-60/120-second settings were not retuned separately for each budget.
-
-The earlier matched-work and moment-orientation studies have distinct protocols.
-Their scripts are mapped in the README and retained review archive; do not pool
-those cohorts with the new studies. Packaging scripts consume the preserved
-base evidence archive and audits and are release-maintenance tools, not a
-source-only download of all experimental data.
+For the seven background conditions, build the training-only cache with
+`scripts/ndfa_strengthening_20260925/prepare_integrated_benchmarks.py` using
+`--root`, `--data-dir`, and `--archive` (the original Larochelle
+MNIST-background-images ZIP). Then supply `--benchmark-root` to the rerun
+helper. It requires the original tensor/provenance hashes and pins the new
+serialized cache bytes. Dataset archives and caches are not redistributed.

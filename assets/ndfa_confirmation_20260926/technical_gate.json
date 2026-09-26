@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "checks": {
+    "foof_cifar": {
+      "successful": 1,
+      "failed": 0
+    },
+    "foof_nuisance": {
+      "successful": 1,
+      "failed": 0
+    },
+    "error_cifar": {
+      "successful": 2,
+      "failed": 0
+    },
+    "error_mnist": {
+      "successful": 1,
+      "failed": 0
+    },
+    "benchmarks": {
+      "successful": 2,
+      "failed": 0
+    }
+  }
+}

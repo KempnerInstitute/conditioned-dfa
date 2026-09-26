@@ -1,0 +1,42 @@
+{
+  "none": {
+    "mean_pp": 11.03759765625,
+    "individual_95_ci": [
+      9.83794194942389,
+      12.23725336307611
+    ],
+    "values": [
+      10.400390625,
+      12.6953125,
+      12.1337890625,
+      7.666015625,
+      9.7900390625,
+      11.6455078125,
+      10.44921875,
+      13.0126953125,
+      12.5732421875,
+      10.009765625
+    ],
+    "scope": "Declared secondary synthetic factorial; not part of the 21 primary tests or a newly confirmatory mechanism claim"
+  },
+  "bn": {
+    "mean_pp": 3.83544921875,
+    "individual_95_ci": [
+      -0.06230770295688881,
+      7.733206140456889
+    ],
+    "values": [
+      7.1533203125,
+      10.3515625,
+      10.3271484375,
+      -5.908203125,
+      4.345703125,
+      -3.3203125,
+      0.4150390625,
+      2.490234375,
+      6.3232421875,
+      6.1767578125
+    ],
+    "scope": "Declared secondary synthetic factorial; not part of the 21 primary tests or a newly confirmatory mechanism claim"
+  }
+}

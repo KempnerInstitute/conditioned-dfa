@@ -1,0 +1,8 @@
+{
+  "run": true,
+  "rule": "Positive mean DFA early-minus-late final validation accuracy and lower CE at the declared constant 0.0003 rate; no significance selection",
+  "early_accuracy": 0.6564,
+  "late_accuracy": 0.643475,
+  "early_loss": 1.0015235910524065,
+  "late_loss": 1.0648228631551007
+}

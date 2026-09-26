@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "joint_freeze_sha256": "9b6880d5412a4681855d3b44742480113e08b29e1af550fa4959c244eb0484ae",
+  "inventory": {
+    "confirm_foof_cifar": {
+      "successful": 100,
+      "failed": 0
+    },
+    "confirm_foof_nuisance": {
+      "successful": 140,
+      "failed": 0
+    },
+    "confirm_error_cifar": {
+      "successful": 40,
+      "failed": 0
+    },
+    "confirm_error_mnist": {
+      "successful": 40,
+      "failed": 0
+    },
+    "confirm_benchmarks": {
+      "successful": 420,
+      "failed": 0
+    },
+    "confirm_epochs": {
+      "successful": 30,
+      "failed": 0
+    },
+    "confirm_geometry": {
+      "successful": 70,
+      "failed": 0
+    },
+    "confirm_timing": {
+      "successful": 40,
+      "failed": 0
+    }
+  }
+}

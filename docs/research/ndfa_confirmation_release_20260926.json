@@ -1,0 +1,14 @@
+{
+  "clean_staged_export": true,
+  "workspace_pythonpath_removed": true,
+  "all_21_contrasts_recomputed": true,
+  "all_880_cases_verified": true,
+  "known_credential_patterns_absent": true,
+  "implementation_tests_passed": 179,
+  "release_tag": "ndfa-confirmation-2026-09-26",
+  "evidence_files": 80,
+  "evidence_manifest_sha256": "0f3a41c196460d35db45ddd9e674542d36aa45896c4e51ac7fa364f07daa6040",
+  "frozen_source_files": 46,
+  "archived_source_bytes_unchanged": true,
+  "scope": "Source and seed-level evidence release; no new training, checkpoint inference, test selection, or public arXiv upload."
+}

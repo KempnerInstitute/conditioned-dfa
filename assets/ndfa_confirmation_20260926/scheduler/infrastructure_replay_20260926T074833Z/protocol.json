@@ -1,0 +1,186 @@
+{
+  "created_utc": "2026-09-26T07:48:40.003882+00:00",
+  "reason": "Replay every interrupted timed run once from initialization on the same RTX hardware before joint test evaluation, independent of accuracy or loss. Preserve all original attempts and checkpoints. No seed, setting, source, budget or endpoint change.",
+  "rule": "One cold infrastructure replay for all five affected tasks. A second interruption stops the audit again; no outcome-based retries.",
+  "config_sha256": "d6135a619461ea44a513cfff86a39f438e464df6e3fcf7cd1c88b91085d02a58",
+  "joint_manifest_sha256": "9b6880d5412a4681855d3b44742480113e08b29e1af550fa4959c244eb0484ae",
+  "claim_map_receipt": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/claims/20260926T074530Z",
+  "tasks": [
+    {
+      "task_index": 159,
+      "case": "case_015",
+      "seed": 940110,
+      "original_path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/confirm_benchmarks/runs/case_015/seed_940110",
+      "archive_path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/scheduler/infrastructure_replay_20260926T074833Z/archived_runs/case_015/seed_940110",
+      "original_attempts": 2,
+      "original_endpoint_sha256": "ece0be81dad2f06aa2884bc71827a7e360e95358cc9e23ebd7a8adce3682615a",
+      "original_final_sha256": "70991117055d43b497df034775ab3477ca116036824c8e8d4d73f58fc2f9a0d3",
+      "original_best_sha256": "24aca6d94d1e62fc3f3a817f5bd2a033ae52a03f8401e361799c01a7aa4c8ab7",
+      "selection_reason": "Scheduler restart and saved-state resumption; endpoint attempts != 1",
+      "attempt_records": [
+        {
+          "cuda_version": "12.8",
+          "device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+          "job": "48700902",
+          "partition": "kempner_requeue",
+          "precision": "float32 training; float64 evaluation loss; TF32 disabled",
+          "resumed": false,
+          "torch_version": "2.9.1+cu128",
+          "utc": "2026-09-26T07:07:36.923691+00:00"
+        },
+        {
+          "cuda_version": "12.8",
+          "device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+          "job": "48700902",
+          "partition": "kempner_requeue",
+          "precision": "float32 training; float64 evaluation loss; TF32 disabled",
+          "resumed": true,
+          "torch_version": "2.9.1+cu128",
+          "utc": "2026-09-26T07:39:37.025058+00:00"
+        }
+      ],
+      "slurm": "JobId=48700902 ArrayJobId=48687393 ArrayTaskId=159 ArrayTaskThrottle=60 JobName=ndfa_integrated_train UserId=hsafaai(65717) GroupId=bsabatini_lab(10328) MCS_label=N/A Priority=5773102 Nice=0 Account=kempner_bsabatini_lab QOS=normal JobState=COMPLETED Reason=None Dependency=(null) Requeue=1 Restarts=1 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:01:09 TimeLimit=01:00:00 TimeMin=N/A SubmitTime=2026-09-26T03:07:56 EligibleTime=2026-09-26T03:09:57 AccrueTime=2026-09-26T03:09:57 StartTime=2026-09-26T03:39:17 EndTime=2026-09-26T03:40:26 Deadline=N/A PreemptEligibleTime=2026-09-26T03:39:17 PreemptTime=None SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-26T03:39:17 Scheduler=Backfill Partition=kempner_requeue AllocNode:Sid=holy7c24604:1006039 ReqNodeList=(null) ExcNodeList=(null) NodeList=holygpu7c2131 BatchHost=holygpu7c2131 StepMgrEnabled=Yes NumNodes=1 NumCPUs=4 NumTasks=1 CPUs/Task=4 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=4,mem=24G,node=1,gres/gpu=1 AllocTRES=cpu=4,mem=24G,node=1,billing=423,gres/gpu=1,gres/gpu:nvidia_rtx_pro_6000_blackwell_server_edition=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=4 MinMemoryNode=24G MinTmpDiskNode=0 Features=rtx6000pro DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch SubmitLine=/usr/bin/sbatch --account=kempner_dev --partition=kempner_eng --qos=normal --parsable --job-name=ndfa_integrated_train --constraint=h200 --gres=gpu:1 --cpus-per-task=4 --mem=24G --time=01:00:00 --array=0-419%60 /n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch WorkDir=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA StdErr=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/logs/ndfa_integrated_48687393_159.err StdIn=/dev/null StdOut=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/logs/ndfa_integrated_48687393_159.out TresPerNode=gres/gpu:1 TresPerTask=cpu=4\n"
+    },
+    {
+      "task_index": 175,
+      "case": "case_017",
+      "seed": 940106,
+      "original_path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/confirm_benchmarks/runs/case_017/seed_940106",
+      "archive_path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/scheduler/infrastructure_replay_20260926T074833Z/archived_runs/case_017/seed_940106",
+      "original_attempts": 2,
+      "original_endpoint_sha256": "7a650bb4ad967ea77bba6aaa8f4077156f439d3e027e2672fdafd78b4c147dd0",
+      "original_final_sha256": "00f35398f49a290a1549c4642baf590560074b73659ddf710111bc037459e6be",
+      "original_best_sha256": "0007d89fc794d432314f60a3ad406df57a112638d9cfd4684b2d648391494fcf",
+      "selection_reason": "Scheduler restart and saved-state resumption; endpoint attempts != 1",
+      "attempt_records": [
+        {
+          "cuda_version": "12.8",
+          "device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+          "job": "48701043",
+          "partition": "kempner_requeue",
+          "precision": "float32 training; float64 evaluation loss; TF32 disabled",
+          "resumed": false,
+          "torch_version": "2.9.1+cu128",
+          "utc": "2026-09-26T07:09:00.163693+00:00"
+        },
+        {
+          "cuda_version": "12.8",
+          "device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+          "job": "48701043",
+          "partition": "kempner_requeue",
+          "precision": "float32 training; float64 evaluation loss; TF32 disabled",
+          "resumed": true,
+          "torch_version": "2.9.1+cu128",
+          "utc": "2026-09-26T07:40:31.355494+00:00"
+        }
+      ],
+      "slurm": "JobId=48701043 ArrayJobId=48687393 ArrayTaskId=175 ArrayTaskThrottle=60 JobName=ndfa_integrated_train UserId=hsafaai(65717) GroupId=bsabatini_lab(10328) MCS_label=N/A Priority=5772845 Nice=0 Account=kempner_bsabatini_lab QOS=normal JobState=COMPLETED Reason=None Dependency=(null) Requeue=1 Restarts=1 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:01:21 TimeLimit=01:00:00 TimeMin=N/A SubmitTime=2026-09-26T03:09:09 EligibleTime=2026-09-26T03:11:10 AccrueTime=2026-09-26T03:11:10 StartTime=2026-09-26T03:40:12 EndTime=2026-09-26T03:41:33 Deadline=N/A PreemptEligibleTime=2026-09-26T03:40:12 PreemptTime=None SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-26T03:40:12 Scheduler=Backfill Partition=kempner_requeue AllocNode:Sid=holy7c24604:1006039 ReqNodeList=(null) ExcNodeList=(null) NodeList=holygpu7c1728 BatchHost=holygpu7c1728 StepMgrEnabled=Yes NumNodes=1 NumCPUs=4 NumTasks=1 CPUs/Task=4 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=4,mem=24G,node=1,gres/gpu=1 AllocTRES=cpu=4,mem=24G,node=1,billing=423,gres/gpu=1,gres/gpu:nvidia_rtx_pro_6000_blackwell_server_edition=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=4 MinMemoryNode=24G MinTmpDiskNode=0 Features=rtx6000pro DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch SubmitLine=/usr/bin/sbatch --account=kempner_dev --partition=kempner_eng --qos=normal --parsable --job-name=ndfa_integrated_train --constraint=h200 --gres=gpu:1 --cpus-per-task=4 --mem=24G --time=01:00:00 --array=0-419%60 /n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch WorkDir=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA StdErr=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/logs/ndfa_integrated_48687393_175.err StdIn=/dev/null StdOut=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/logs/ndfa_integrated_48687393_175.out TresPerNode=gres/gpu:1 TresPerTask=cpu=4\n"
+    },
+    {
+      "task_index": 176,
+      "case": "case_017",
+      "seed": 940107,
+      "original_path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/confirm_benchmarks/runs/case_017/seed_940107",
+      "archive_path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/scheduler/infrastructure_replay_20260926T074833Z/archived_runs/case_017/seed_940107",
+      "original_attempts": 2,
+      "original_endpoint_sha256": "9721d008ede66c4f2fdd505682a21f891ed2b21da6350879448491eb86e466f5",
+      "original_final_sha256": "c5016566e26715d8d1be23223f44c9248643cfa21bd55862eb80a73e5b2ccb37",
+      "original_best_sha256": "eb82f38514d1ff7b47907a9377bbf7e967e9eab21051e58dd489e8a2434c827e",
+      "selection_reason": "Scheduler restart and saved-state resumption; endpoint attempts != 1",
+      "attempt_records": [
+        {
+          "cuda_version": "12.8",
+          "device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+          "job": "48701044",
+          "partition": "kempner_requeue",
+          "precision": "float32 training; float64 evaluation loss; TF32 disabled",
+          "resumed": false,
+          "torch_version": "2.9.1+cu128",
+          "utc": "2026-09-26T07:09:08.742409+00:00"
+        },
+        {
+          "cuda_version": "12.8",
+          "device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+          "job": "48701044",
+          "partition": "kempner_requeue",
+          "precision": "float32 training; float64 evaluation loss; TF32 disabled",
+          "resumed": true,
+          "torch_version": "2.9.1+cu128",
+          "utc": "2026-09-26T07:40:31.333188+00:00"
+        }
+      ],
+      "slurm": "JobId=48701044 ArrayJobId=48687393 ArrayTaskId=176 ArrayTaskThrottle=60 JobName=ndfa_integrated_train UserId=hsafaai(65717) GroupId=bsabatini_lab(10328) MCS_label=N/A Priority=5772814 Nice=0 Account=kempner_bsabatini_lab QOS=normal JobState=COMPLETED Reason=None Dependency=(null) Requeue=1 Restarts=1 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:01:18 TimeLimit=01:00:00 TimeMin=N/A SubmitTime=2026-09-26T03:09:17 EligibleTime=2026-09-26T03:11:18 AccrueTime=2026-09-26T03:11:18 StartTime=2026-09-26T03:40:12 EndTime=2026-09-26T03:41:30 Deadline=N/A PreemptEligibleTime=2026-09-26T03:40:12 PreemptTime=None SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-26T03:40:12 Scheduler=Backfill Partition=kempner_requeue AllocNode:Sid=holy7c24604:1006039 ReqNodeList=(null) ExcNodeList=(null) NodeList=holygpu7c1728 BatchHost=holygpu7c1728 StepMgrEnabled=Yes NumNodes=1 NumCPUs=4 NumTasks=1 CPUs/Task=4 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=4,mem=24G,node=1,gres/gpu=1 AllocTRES=cpu=4,mem=24G,node=1,billing=423,gres/gpu=1,gres/gpu:nvidia_rtx_pro_6000_blackwell_server_edition=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=4 MinMemoryNode=24G MinTmpDiskNode=0 Features=rtx6000pro DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch SubmitLine=/usr/bin/sbatch --account=kempner_dev --partition=kempner_eng --qos=normal --parsable --job-name=ndfa_integrated_train --constraint=h200 --gres=gpu:1 --cpus-per-task=4 --mem=24G --time=01:00:00 --array=0-419%60 /n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch WorkDir=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA StdErr=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/logs/ndfa_integrated_48687393_176.err StdIn=/dev/null StdOut=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/logs/ndfa_integrated_48687393_176.out TresPerNode=gres/gpu:1 TresPerTask=cpu=4\n"
+    },
+    {
+      "task_index": 177,
+      "case": "case_017",
+      "seed": 940108,
+      "original_path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/confirm_benchmarks/runs/case_017/seed_940108",
+      "archive_path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/scheduler/infrastructure_replay_20260926T074833Z/archived_runs/case_017/seed_940108",
+      "original_attempts": 2,
+      "original_endpoint_sha256": "5a36c071d33d835cb66e3888e2dc582a9cd6b6d50f168243b93f27a8e54b25c4",
+      "original_final_sha256": "542657c04873fc39ff9b13aac72b01193ec0bdcdb1fb66894e2077f9fb25a892",
+      "original_best_sha256": "9b44a07092216e8670e18181a8a2c0a432f24b5bf51a2986e75d9c66899289c5",
+      "selection_reason": "Scheduler restart and saved-state resumption; endpoint attempts != 1",
+      "attempt_records": [
+        {
+          "cuda_version": "12.8",
+          "device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+          "job": "48701045",
+          "partition": "kempner_requeue",
+          "precision": "float32 training; float64 evaluation loss; TF32 disabled",
+          "resumed": false,
+          "torch_version": "2.9.1+cu128",
+          "utc": "2026-09-26T07:09:08.762989+00:00"
+        },
+        {
+          "cuda_version": "12.8",
+          "device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+          "job": "48701045",
+          "partition": "kempner_requeue",
+          "precision": "float32 training; float64 evaluation loss; TF32 disabled",
+          "resumed": true,
+          "torch_version": "2.9.1+cu128",
+          "utc": "2026-09-26T07:40:32.177679+00:00"
+        }
+      ],
+      "slurm": "JobId=48701045 ArrayJobId=48687393 ArrayTaskId=177 ArrayTaskThrottle=60 JobName=ndfa_integrated_train UserId=hsafaai(65717) GroupId=bsabatini_lab(10328) MCS_label=N/A Priority=5772791 Nice=0 Account=kempner_bsabatini_lab QOS=normal JobState=COMPLETED Reason=None Dependency=(null) Requeue=1 Restarts=1 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:01:12 TimeLimit=01:00:00 TimeMin=N/A SubmitTime=2026-09-26T03:09:23 EligibleTime=2026-09-26T03:11:24 AccrueTime=2026-09-26T03:11:24 StartTime=2026-09-26T03:40:12 EndTime=2026-09-26T03:41:24 Deadline=N/A PreemptEligibleTime=2026-09-26T03:40:12 PreemptTime=None SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-26T03:40:12 Scheduler=Backfill Partition=kempner_requeue AllocNode:Sid=holy7c24604:1006039 ReqNodeList=(null) ExcNodeList=(null) NodeList=holygpu7c1731 BatchHost=holygpu7c1731 StepMgrEnabled=Yes NumNodes=1 NumCPUs=4 NumTasks=1 CPUs/Task=4 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=4,mem=24G,node=1,gres/gpu=1 AllocTRES=cpu=4,mem=24G,node=1,billing=423,gres/gpu=1,gres/gpu:nvidia_rtx_pro_6000_blackwell_server_edition=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=4 MinMemoryNode=24G MinTmpDiskNode=0 Features=rtx6000pro DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch SubmitLine=/usr/bin/sbatch --account=kempner_dev --partition=kempner_eng --qos=normal --parsable --job-name=ndfa_integrated_train --constraint=h200 --gres=gpu:1 --cpus-per-task=4 --mem=24G --time=01:00:00 --array=0-419%60 /n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch WorkDir=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA StdErr=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/logs/ndfa_integrated_48687393_177.err StdIn=/dev/null StdOut=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/logs/ndfa_integrated_48687393_177.out TresPerNode=gres/gpu:1 TresPerTask=cpu=4\n"
+    },
+    {
+      "task_index": 178,
+      "case": "case_017",
+      "seed": 940109,
+      "original_path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/confirm_benchmarks/runs/case_017/seed_940109",
+      "archive_path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/scheduler/infrastructure_replay_20260926T074833Z/archived_runs/case_017/seed_940109",
+      "original_attempts": 2,
+      "original_endpoint_sha256": "596ee5ed44fbf30367f46ee9d18661bf19d87ec19909ea62dd2d4bedf8b07579",
+      "original_final_sha256": "ad0d1451bc3062dcef10f4830902d02d15e6fab4133914f17067b15460f56c01",
+      "original_best_sha256": "fba27a6da441cf0bbf1ea9497ec0bc24fa4213b25a2b377badd489b2915bec10",
+      "selection_reason": "Scheduler restart and saved-state resumption; endpoint attempts != 1",
+      "attempt_records": [
+        {
+          "cuda_version": "12.8",
+          "device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+          "job": "48701046",
+          "partition": "kempner_requeue",
+          "precision": "float32 training; float64 evaluation loss; TF32 disabled",
+          "resumed": false,
+          "torch_version": "2.9.1+cu128",
+          "utc": "2026-09-26T07:09:08.743652+00:00"
+        },
+        {
+          "cuda_version": "12.8",
+          "device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+          "job": "48701046",
+          "partition": "kempner_requeue",
+          "precision": "float32 training; float64 evaluation loss; TF32 disabled",
+          "resumed": true,
+          "torch_version": "2.9.1+cu128",
+          "utc": "2026-09-26T07:40:32.170444+00:00"
+        }
+      ],
+      "slurm": "JobId=48701046 ArrayJobId=48687393 ArrayTaskId=178 ArrayTaskThrottle=60 JobName=ndfa_integrated_train UserId=hsafaai(65717) GroupId=bsabatini_lab(10328) MCS_label=N/A Priority=5772776 Nice=0 Account=kempner_bsabatini_lab QOS=normal JobState=COMPLETED Reason=None Dependency=(null) Requeue=1 Restarts=1 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:01:08 TimeLimit=01:00:00 TimeMin=N/A SubmitTime=2026-09-26T03:09:27 EligibleTime=2026-09-26T03:11:28 AccrueTime=2026-09-26T03:11:28 StartTime=2026-09-26T03:40:12 EndTime=2026-09-26T03:41:20 Deadline=N/A PreemptEligibleTime=2026-09-26T03:40:12 PreemptTime=None SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-26T03:40:12 Scheduler=Backfill Partition=kempner_requeue AllocNode:Sid=holy7c24604:1006039 ReqNodeList=(null) ExcNodeList=(null) NodeList=holygpu7c1731 BatchHost=holygpu7c1731 StepMgrEnabled=Yes NumNodes=1 NumCPUs=4 NumTasks=1 CPUs/Task=4 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=4,mem=24G,node=1,gres/gpu=1 AllocTRES=cpu=4,mem=24G,node=1,billing=423,gres/gpu=1,gres/gpu:nvidia_rtx_pro_6000_blackwell_server_edition=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=4 MinMemoryNode=24G MinTmpDiskNode=0 Features=rtx6000pro DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch SubmitLine=/usr/bin/sbatch --account=kempner_dev --partition=kempner_eng --qos=normal --parsable --job-name=ndfa_integrated_train --constraint=h200 --gres=gpu:1 --cpus-per-task=4 --mem=24G --time=01:00:00 --array=0-419%60 /n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/run.sbatch WorkDir=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA StdErr=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/logs/ndfa_integrated_48687393_178.err StdIn=/dev/null StdOut=/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/logs/ndfa_integrated_48687393_178.out TresPerNode=gres/gpu:1 TresPerTask=cpu=4\n"
+    }
+  ],
+  "confirmation_test_gate_existed": false
+}

@@ -1,0 +1,77 @@
+{
+  "created_utc": "2026-09-26T05:12:48.556997+00:00",
+  "development_sha256": "23ba9afb5a301133f2b6486b5b9b1193248b171cbfdd9996cda2776cbb50e13b",
+  "branch_sha256": "d977ca84112e73b986aa2d3c55c63eb7a1edb1ea9ee4cb7563bf5c63e217d978",
+  "configs": {
+    "confirm_foof_cifar": {
+      "path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/confirm_foof_cifar/config.json",
+      "sha256": "e500e98b6ea179694fce248c1d1d21312f8e6bd36c94d5af77a3669ac4cf28f6",
+      "runs": 100,
+      "hardware": "h100"
+    },
+    "confirm_foof_nuisance": {
+      "path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/confirm_foof_nuisance/config.json",
+      "sha256": "d9b17cf38e2524d464c5625ffcb7bb68f6837d719e33bcf4553cb14b9104b2e9",
+      "runs": 140,
+      "hardware": "h200"
+    },
+    "confirm_error_cifar": {
+      "path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/confirm_error_cifar/config.json",
+      "sha256": "b6dee8190e6a44d5eaf16dcb51f7165e316cddba0017118779b92803ca78a5d9",
+      "runs": 40,
+      "hardware": "h100"
+    },
+    "confirm_error_mnist": {
+      "path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/confirm_error_mnist/config.json",
+      "sha256": "b7875aaeeaf1a53ff445734fcfe05f9b0f992e99e811c23ba41c0f14619b66ae",
+      "runs": 40,
+      "hardware": "h200"
+    },
+    "confirm_benchmarks": {
+      "path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/confirm_benchmarks/config.json",
+      "sha256": "d6135a619461ea44a513cfff86a39f438e464df6e3fcf7cd1c88b91085d02a58",
+      "runs": 420,
+      "hardware": "rtx6000pro"
+    },
+    "confirm_epochs": {
+      "path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/confirm_epochs/config.json",
+      "sha256": "fe62cea62019ad2fa4da7a6a251673b8e27e781006b3e83f968ac4580b3aea41",
+      "runs": 30,
+      "hardware": "h100"
+    },
+    "confirm_geometry": {
+      "path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/confirm_geometry/config.json",
+      "sha256": "caf6421d8af586f4974812fff77d975b7dd387fa8ce56e9a32a02b8a60c30109",
+      "runs": 70,
+      "hardware": "h100"
+    },
+    "confirm_timing": {
+      "path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/confirm_timing/config.json",
+      "sha256": "a00e6c44532ff0dda70589dfeea39777673c2ba128c257127e916f6e45ad87c2",
+      "runs": 40,
+      "hardware": "h200"
+    }
+  },
+  "confirmation_seeds": [
+    940101,
+    940102,
+    940103,
+    940104,
+    940105,
+    940106,
+    940107,
+    940108,
+    940109,
+    940110
+  ],
+  "test_checkpoint": "best_validation_CE; final secondary, except final primary for fixed-epoch geometry and timing",
+  "official_test_loaded": false,
+  "primary_family": "All declared primary contrasts in report(); Holm across all, with unavailable tests assigned p=1; no optional seed extension",
+  "hardware_amendments": [
+    {
+      "path": "/n/holylabs/kempner_dev/Users/hsafaai/Code/Info-DFA/results/ndfa_strengthening_20260925/integrated_round_v1/scheduler/rtx_benchmark_amendment_20260926T063130Z/amendment.json",
+      "sha256": "b170d001dcf5904925ceb1e8f08b126f882a7c9eb6a4cab6b7732456c1ba5b53",
+      "original_joint_freeze_sha256": "68b8b36f258f351a053b0add9514230af8a3510364b96ae65f81485b036eb541"
+    }
+  ]
+}
