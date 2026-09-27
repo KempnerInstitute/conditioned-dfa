@@ -1,10 +1,27 @@
 # Focused arXiv correction pass, September 26, 2026
 
-Release tag in both repositories: `ndfa-arxiv-review-2026-09-26`.
+Current release tag in both repositories: `ndfa-arxiv-review-2026-09-26-v2`.
 This follows `ndfa-confirmation-2026-09-26`; it does not change the 880 training
 runs, selected settings, 21 primary contrasts, claim gates, title, or abstract.
 The manuscript repository is [Info-DFA-draft](https://github.com/houman1359/Info-DFA-draft).
 Preparing this release does not update arXiv or the OpenReview submission.
+
+## Second manuscript correction pass
+
+The `-v2` tag incorporates the follow-up review of `Info_DFA_draft (9).pdf`.
+Figure 5 now separates Holm-adjusted superiority tests from the independently
+prespecified noninferiority/work criterion. The Fisher summary is restricted
+to the stated regression model and distinguishes DFA pseudo-errors from a
+Fisher factor. The manuscript also fixes the activity-moment alias, plain-SGD
+scope, BN derivative in Algorithm 1, damping scope, and stale related-work
+reference. Three local prose/float interruptions are repaired; the normalization
+figure is placed with its intervention. Table 1 is larger in the preprint and
+several compact tables have wider column spacing.
+
+All figure PDF bytes, numerical data, training code, scientific settings and
+primary statistical decisions are unchanged from `ndfa-arxiv-review-2026-09-26`.
+That earlier tag and its source bundle remain intact. This code commit updates
+only release/reproduction documentation to identify the current manuscript.
 
 ## Implementation clarified
 

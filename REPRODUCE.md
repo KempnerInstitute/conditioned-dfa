@@ -1,6 +1,6 @@
 # Reproducing the September 26 arXiv correction revision
 
-Use the current `main` branch or the matching `ndfa-arxiv-review-2026-09-26`
+Use the current `main` branch or the matching `ndfa-arxiv-review-2026-09-26-v2`
 tag in the code and manuscript repositories. Earlier reproduction instructions
 are preserved in [the historical guide](docs/research/reproduction_before_confirmation_20260926.md).
 
@@ -48,7 +48,7 @@ test-access gates, and bounded study designs. They do not launch GPU jobs.
 ## Build the manuscript and arXiv source bundle
 
 ```bash
-git clone --branch ndfa-arxiv-review-2026-09-26 \
+git clone --branch ndfa-arxiv-review-2026-09-26-v2 \
   https://github.com/houman1359/Info-DFA-draft.git drafts/Info-DFA
 python drafts/Info-DFA/scripts/build_manuscript.py
 python drafts/Info-DFA/scripts/build_arxiv_package.py \
