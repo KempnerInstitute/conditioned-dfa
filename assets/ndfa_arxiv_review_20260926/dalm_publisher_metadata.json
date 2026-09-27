@@ -1,0 +1,83 @@
+{
+  "retrieved_utc": "2026-09-27T00:00:37.505315+00:00",
+  "source": "https://api.crossref.org/works/10.1088/2634-4386/ae9be4",
+  "metadata": {
+    "title": [
+      "Node perturbation can effectively train multi-layer neural networks"
+    ],
+    "author": [
+      {
+        "ORCID": "https://orcid.org/0009-0009-0535-6069",
+        "authenticated-orcid": true,
+        "given": "Sander",
+        "family": "Dalm",
+        "sequence": "first",
+        "affiliation": [
+          {
+            "name": "Radboud University"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-2206-9098",
+        "authenticated-orcid": true,
+        "given": "Marcel",
+        "family": "van Gerven",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Radboud University"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-7969-7450",
+        "authenticated-orcid": true,
+        "given": "Nasir",
+        "family": "Ahmad",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Radboud University"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2026,
+          9,
+          1
+        ]
+      ]
+    },
+    "volume": "6",
+    "issue": "3",
+    "page": "034020",
+    "container-title": [
+      "Neuromorphic Computing and Engineering"
+    ],
+    "DOI": "10.1088/2634-4386/ae9be4",
+    "publisher": "IOP Publishing",
+    "URL": "https://doi.org/10.1088/2634-4386/ae9be4"
+  }
+}

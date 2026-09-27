@@ -1,0 +1,41 @@
+{
+  "purpose": "Historical figure inputs for the focused arXiv review; no new training or statistical selection.",
+  "files": {
+    "feedback_variance_cells.csv": {
+      "sha256": "665d55e558053f5cfc6321a5bebadc3bde2f30fcfc69811c6f1360400bd0db69",
+      "source": "results/infodfa_feedback_variance_v1/feedback_variance_cells.csv"
+    },
+    "damping_selection.csv": {
+      "sha256": "48be08c6bb1e10b80cd49ea82732e398a2d47567d44f1da7364dc56e5b746621",
+      "source": "results/dfa_stall_threefactor_analysis_v1/damping_selection.csv"
+    },
+    "summary.json": {
+      "sha256": "842689930c553c29b62eb8d9f8ba9d9b478fa85e2b3cf8bf5551ce9080b09020",
+      "source": "docs/research/ndfa_final_test_20260915/summary.json"
+    },
+    "mode_timing_permode.csv": {
+      "sha256": "d4968497feeedb00025ba071d2e8cbc59c761025def85a8fffef03927479d5ad",
+      "source": "results/infodfa_mode_timing_corrected_20260918/mode_timing_permode.csv"
+    },
+    "mode_timing_sgd.csv": {
+      "sha256": "c355d636e81e75c987ded11438d2988eace32888fce4f9a9e52b012f652be525",
+      "source": "results/infodfa_mode_timing_corrected_20260918/mode_timing_sgd.csv"
+    },
+    "mode_timing_sweep.csv": {
+      "sha256": "db0dc1e6c248b98d15f381fdaeb1508c34c35a9004f1207ac66044aa04a78691",
+      "source": "results/infodfa_mode_timing_corrected_20260918/mode_timing_sweep.csv"
+    },
+    "mode_timing_trajectories.csv": {
+      "sha256": "4bfda48d32f0a8398e01190dfa9edb2e8cc9dbf81d2cc88ed3c0b12927e45e56",
+      "source": "results/infodfa_mode_timing_corrected_20260918/mode_timing_trajectories.csv"
+    },
+    "mode_timing_twoblock_check.csv": {
+      "sha256": "ff9520c96abbbec0678b2928e577a93d75227cd6d9ada8421d0b3f6bbb863b36",
+      "source": "results/infodfa_mode_timing_corrected_20260918/mode_timing_twoblock_check.csv"
+    },
+    "dalm_publisher_metadata.json": {
+      "sha256": "5fd66f47f4625e2689af20fc17a966b6c546d66b7f7c3a6e6e5420999a30f0da",
+      "source": "https://api.crossref.org/works/10.1088/2634-4386/ae9be4"
+    }
+  }
+}

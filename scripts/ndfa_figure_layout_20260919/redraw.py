@@ -243,9 +243,9 @@ def compact_replication(fig):
     return fig
 
 
-def practical_results():
+def practical_results(source=None):
     """Four questions, with all original comparisons and two existing follow-ups."""
-    source = ROOT / "docs/research/ndfa_final_test_20260915/summary.json"
+    source = Path(source) if source is not None else ROOT / "docs/research/ndfa_final_test_20260915/summary.json"
     summary = json.loads(source.read_text())
     assert summary["accepted"] and len(summary["contrasts"]) == 45
     endpoints = pd.read_csv(previous.DATA / "followup_endpoints.csv")

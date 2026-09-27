@@ -18,6 +18,12 @@ current manuscript, figures, and checked ICLR/arXiv build commands. The
 [arXiv record](https://arxiv.org/abs/2607.18574) is updated separately; preparing
 a source bundle does not replace that public record.
 
+The focused arXiv correction release is tagged **`ndfa-arxiv-review-2026-09-26`**
+in both repositories. Its [revision guide](docs/ARXIV_REVIEW_20260926.md) maps
+the frozen protocol, recorded timestamps and hashes, current figure inputs,
+and publicly available evidence. It clarifies conditioning before AdamW and
+corrects presentation without changing the results.
+
 ## Verify the current results
 
 ```bash

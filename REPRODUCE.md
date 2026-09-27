@@ -1,8 +1,12 @@
-# Reproducing the September 26 confirmation revision
+# Reproducing the September 26 arXiv correction revision
 
-Use the current `main` branch or the matching `ndfa-confirmation-2026-09-26`
+Use the current `main` branch or the matching `ndfa-arxiv-review-2026-09-26`
 tag in the code and manuscript repositories. Earlier reproduction instructions
 are preserved in [the historical guide](docs/research/reproduction_before_confirmation_20260926.md).
+
+The [revision and artifact guide](docs/ARXIV_REVIEW_20260926.md) gives direct
+links to the frozen protocol, joint specification, interpretation map, and
+their recorded timestamps and SHA256 values.
 
 ## Recompute reported statistics without training
 
@@ -44,7 +48,7 @@ test-access gates, and bounded study designs. They do not launch GPU jobs.
 ## Build the manuscript and arXiv source bundle
 
 ```bash
-git clone --branch ndfa-confirmation-2026-09-26 \
+git clone --branch ndfa-arxiv-review-2026-09-26 \
   https://github.com/houman1359/Info-DFA-draft.git drafts/Info-DFA
 python drafts/Info-DFA/scripts/build_manuscript.py
 python drafts/Info-DFA/scripts/build_arxiv_package.py \
@@ -58,6 +62,16 @@ order, and the nine-page ICLR main-text limit. The source bundle is rebuilt
 after extraction outside the workspace and compared with the reviewed PDF.
 The arXiv build omits the AI statement at the authors' request; the ICLR build
 retains it. No upload is performed by these commands.
+
+To reproduce the seven historical figure label/readability corrections without
+training or access to private results folders:
+
+```bash
+python scripts/ndfa_arxiv_review_20260926/redraw.py --paper drafts/Info-DFA
+```
+
+This verifies the new input manifest and uses the released September 18/19/25
+assets. Figure 4 and Figures 10–11 remain unchanged.
 
 To regenerate the main confirmation table, appendix, and Figure 5, run
 `python drafts/Info-DFA/scripts/confirmation_material.py`. That renderer uses
